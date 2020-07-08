@@ -2,7 +2,7 @@
 cd /var/www/vhosts/rindula.de/hirsch.rindula.de/ || exit
 
 # Composer Update
-/opt/plesk/php/7.2/bin/php /usr/lib/plesk-9.0/composer.phar install --dev --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-scripts --no-suggest
+/opt/plesk/php/7.2/bin/php /usr/lib/plesk-9.0/composer.phar install --dev --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
 
 # Cake
 ## Datenbank Migration
