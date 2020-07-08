@@ -34,12 +34,12 @@ $i = 0;
                                 class="material-icons right">more_vert</i></span>
                         <ul class="collection">
                             <?php foreach ($htg as $h): ?>
-                                <li class="collection-item"><?= $this->Form->postLink($h, ['controller' => 'hirsch', 'action' => 'order', $h], ['class' => 'waves-purple waves-effect', 'title' => $h . ' bestellen']) ?></li>
+                                <li class="collection-item"><?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postLink($h, ['controller' => 'hirsch', 'action' => 'order', $h], ['class' => 'waves-purple waves-effect', 'title' => $h . ' bestellen']) : h($h) ?></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind zu geschlossen" ?>
+                        <?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind geschlossen" ?>
                     </div>
                 <?php endif; ?>
             </div>

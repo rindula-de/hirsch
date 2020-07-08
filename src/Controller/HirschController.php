@@ -165,7 +165,7 @@ class HirschController extends AppController
 
     public function order($meal = '')
     {
-        if ($this->request->is('post') && !empty($meal)) {
+        if ($this->request->is('post') && !empty($meal) && ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45))) {
             /** @var OrdersTable $orders */
             $orders = $this->getTableLocator()->get('Orders');
             $paypalmes = $this->getTableLocator()->get('Paypalmes')->find('list', [
