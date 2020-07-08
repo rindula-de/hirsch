@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\I18n\Number;
+use App\Model\Table\OrdersTable;
 use Cake\I18n\Time;
 use Exception;
 use Smalot\PdfParser\Parser;
@@ -77,7 +77,20 @@ class HirschController extends AppController
                     } // for($i = 0; $i < count($structure->parts); $i++)
                 } // if(isset($structure->parts) && count($structure->parts))
 
-                $htg = [];
+                $htg = [
+                    'Schweizer Wurstsalat mit Pommes',
+                    'Bunte Blattsalate mit Hühnerbrust',
+                    'Bunte Blattsalate mit gegrillten Garnelen',
+                    'Gebackener Camembert, Preiselbeeren und Salat',
+                    'Paniertes Schweineschnitzel, Pommes und Salat ',
+                    'Jägerschnitzel, Spätzle und Salat',
+                    'Zigeunerschnitzel mit Kroketten und Salat',
+                    'Cordon Bleu mit Pommes und Salat',
+                    'Schweinefilet in Pilzrahmsauce, Spätzle und Salat',
+                    'Schweinesteak mit Kräuterbutter, Pommes kleiner Salat',
+                    'Käsespätzle mit buntem Salat',
+                    'Salbeignocchi mit Grillgemüse, Parmesan und Ruccola',
+                ];
                 if (count($attachments) != 0) {
                     foreach ($attachments as $at) {
                         if ($at['is_attachment'] == 1) {
@@ -86,27 +99,6 @@ class HirschController extends AppController
                             $parser = new Parser();
                             $pdf = $parser->parseFile($filename);
                             $text = str_replace("\t", '', $pdf->getText());
-                            if (strtolower($at['name']) == 'hirsch to go.pdf') {
-                                $lines = explode("\n", $pdf->getText());
-                                $meals = [];
-                                $i = 0;
-                                foreach ($lines as $line) {
-                                    if (empty(trim($line))) $i++;
-                                    else {
-                                        if ($i > 0 && empty($meals[$i - 1])) break;
-                                        if (empty($meals[$i])) $meals[$i] = "";
-                                        $meals[$i] .= $line;
-                                    }
-                                }
-                                unset($meals[0]);
-                                $meals = join("", $meals);
-                                $meals = explode('Euro', $meals);
-//                                debug($meals);
-                                foreach ($meals as $meal) {
-                                    preg_match("/([^,\d]*)[,\s]([\d]{1,2}[\.,][\d]{1,2})/", $meal, $matches);
-                                    debug($matches);
-                                }
-                            }
                             if (strtolower($at['name']) == 'mittagstisch.pdf') {
                                 $now = new Time();
                                 $dow = $now->dayOfWeek;
@@ -120,7 +112,8 @@ class HirschController extends AppController
                                         if ($dow == 1) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];                                        $dow++;
+                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $dow++;
                                     case 3:
                                         preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -170,12 +163,27 @@ class HirschController extends AppController
         $this->set(compact('displayData', 'htg'));
     }
 
-    public function order($meal = '', $redirect = '') {
+    public function order($meal = '')
+    {
         if ($this->request->is('post') && !empty($meal)) {
-            $this->set(compact('meal'));
-            if (!empty($redirect)) {
-                $link = "https://paypal.me/$redirect/4";
-                return $this->redirect($link);
+            /** @var OrdersTable $orders */
+            $orders = $this->getTableLocator()->get('Orders');
+            $paypalmes = $this->getTableLocator()->get('Paypalmes')->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name'
+            ])->toArray();
+            $data = $this->request->getData();
+            $order = $orders->newEntity($data);
+            $this->set(compact('meal', 'order', 'paypalmes'));
+            if (!empty($data)) {
+                if ($orders->save($order)) {
+                    $link = $this->getTableLocator()->get('Paypalmes')->get($order->paypalme)->get('link');
+                    $this->Flash->success("Bestellung aufgegeben (".(new Time())->nice().")");
+                    return $this->redirect($link . "4");
+                } else {
+                    $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
+                    return;
+                }
             }
             return;
         }

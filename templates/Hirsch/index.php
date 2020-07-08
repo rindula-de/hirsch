@@ -34,7 +34,7 @@ $i = 0;
                                 class="material-icons right">more_vert</i></span>
                         <ul class="collection">
                             <?php foreach ($htg as $h): ?>
-                                <li class="collection-item"><?= $this->Html->link($h['gericht'], ['controller' => 'order', 'action' => 'add', $h['gericht']], ['class' => 'waves-purple waves-effect', 'title' => $h['gericht'] . ' bestellen']) ?></li>
+                                <li class="collection-item"><?= $this->Form->postLink($h, ['controller' => 'hirsch', 'action' => 'order', $h], ['class' => 'waves-purple waves-effect', 'title' => $h . ' bestellen']) ?></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>

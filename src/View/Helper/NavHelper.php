@@ -14,10 +14,6 @@ class NavHelper extends Helper
 
     private $navItems = array(
         [
-            'title' => 'Startseite',
-            'url' => ['controller' => 'pages', 'action' => 'display', 'home']
-        ],
-        [
             'title' => 'Hirsch',
             'url' => ['controller' => 'hirsch', 'action' => 'index']
         ],
