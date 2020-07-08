@@ -18,30 +18,14 @@ class NavHelper extends Helper
             'url' => ['controller' => 'pages', 'action' => 'display', 'home']
         ],
         [
-            'title' => 'Hydra',
-            'url' => ['controller' => 'hydra', 'action' => 'index']
+            'title' => 'Hirsch',
+            'url' => ['controller' => 'hirsch', 'action' => 'index']
         ],
-        [
-            'title' => 'NMap',
-            'url' => ['controller' => 'nmap', 'action' => 'index']
-        ],
-        [
-            'title' => 'E-Bon',
-            'url' => ['controller' => 'email', 'action' => 'ebon']
-        ],
-        [
-            'title' => 'Stundenplan',
-            'url' => ['controller' => 'stundenplan', 'action' => 'index']
-        ],
-        [
-            'title' => 'Einstellungen',
-            'url' => ['controller' => 'settings', 'action' => 'index']
-        ]
     );
 
     public function main()
     {
-        return '<nav id="navbar"><div class="nav-wrapper"><a href="#!" class="brand-logo right"><div class="glitch-wrapper"><div class="glitch" data-text="Interface&nbsp;&nbsp;Rindula">Interface&nbsp;&nbsp;<small>by Rindula</small></div></div></a><ul id="nav-mobile" class="left hide-on-med-and-down">' . $this->nav($this->navItems) . '</ul></div></nav>';
+        return '<nav id="navbar"><div class="nav-wrapper"><ul id="nav-mobile" class="left hide-on-med-and-down">' . $this->nav($this->navItems) . '</ul></div></nav>';
     }
 
     private function nav(array $items)
