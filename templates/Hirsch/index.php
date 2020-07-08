@@ -39,7 +39,7 @@ $i = 0;
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?= ((new Time())->hour < 15 || ((new Time())->hour == 15 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind zu geschlossen" ?>
+                        <?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind zu geschlossen" ?>
                     </div>
                 <?php endif; ?>
             </div>
