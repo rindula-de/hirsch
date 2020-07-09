@@ -25,7 +25,7 @@ $i = 0;
                     <span
                         class="card-title <?= ($i < 1) ? "activator" : "" ?> direction-left">Tagesessen <?= $data['date']->format('d.m.Y') ?><?= ($i < 1) ? '<i class="material-icons right">more_vert</i>' : "" ?></span>
                     <p><?= $data['gericht'] ?></p><br>
-                    <p class="chip"><span class="teal-text"><?= $this->Number->currency(4); ?></span></p>
+                    <p class="chip"><span class="teal-text"><?= $this->Number->currency(3.5); ?></span></p>
 
                 </div>
                 <?php if ($i < 1): ?>
