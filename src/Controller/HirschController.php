@@ -187,6 +187,7 @@ class HirschController extends AppController
             }
             return;
         }
+        $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
         return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
     }
 
