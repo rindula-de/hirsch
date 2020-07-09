@@ -179,7 +179,7 @@ class HirschController extends AppController
                 if ($orders->save($order)) {
                     $link = $this->getTableLocator()->get('Paypalmes')->get($order->paypalme)->get('link');
                     $this->Flash->success("Bestellung aufgegeben (".(new Time())->nice().")");
-                    return $this->redirect($link . "4");
+                    return $this->redirect($link . "3.5");
                 } else {
                     $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
                     return;
