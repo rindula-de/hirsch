@@ -14,7 +14,7 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Hirsch Bestellungen';
 ?>
 <!DOCTYPE html>
 <html>

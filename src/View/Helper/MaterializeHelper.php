@@ -22,7 +22,7 @@ class MaterializeHelper extends Helper
     {
         $html = "
     <div class=\"col s6\">
-      <div class=\"card blue-grey darken-1\">
+      <div class=\"card blue accent-2\">
         <div class=\"card-content white-text\">
           <span class=\"card-title\">$title</span>
           " . $this->Text->autoParagraph($body) . "

@@ -190,6 +190,15 @@ class HirschController extends AppController
         return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
     }
 
+    public function orders() {
+        $orders = $this->getTableLocator()->get('Orders');
+        $time = (new Time());
+        $o = $orders->find()->where([
+            'created >' => (new Time(($time->timestamp + $time->secondsUntilEndOfDay()) - 86399))->toIso8601String()
+        ]);
+        $this->set(['orders' => $o]);
+    }
+
     private function read_docx($filename)
     {
         $content = '';

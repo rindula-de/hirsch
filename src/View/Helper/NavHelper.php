@@ -14,8 +14,12 @@ class NavHelper extends Helper
 
     private $navItems = array(
         [
-            'title' => 'Hirsch',
+            'title' => 'Bestellen',
             'url' => ['controller' => 'hirsch', 'action' => 'index']
+        ],
+        [
+            'title' => 'Bestellungen',
+            'url' => ['controller' => 'hirsch', 'action' => 'orders']
         ],
     );
 
@@ -48,7 +52,7 @@ class NavHelper extends Helper
     private function isActive($item)
     {
         $url = $this->Url->build($this->getUrl($item));
-        if ($this->getView()->getRequest()->getRequestTarget() == $url || ($url != '/' && strlen($this->getView()->getRequest()->getRequestTarget()) > strlen($url) && substr($this->getView()->getRequest()->getRequestTarget(), 0, strlen($url)) == $url)) {
+        if ($this->getView()->getRequest()->getRequestTarget() == $url) {
             return true;
         }
         return false;
