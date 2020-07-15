@@ -105,17 +105,17 @@ class HirschController extends AppController
                                 $daysAdd = 0;
                                 switch ($dow) {
                                     case 1:
-                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
+                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
                                         $displayData[] = ['gericht' => $matches[1], 'date' => (new Time())];
                                     case 2:
-                                        preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
+                                        preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 1;
                                         }
                                         $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
                                         $dow++;
                                     case 3:
-                                        preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
+                                        preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 2;
                                         }
@@ -124,7 +124,7 @@ class HirschController extends AppController
                                         }
                                         $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
                                     case 4:
-                                        preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
+                                        preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 3;
                                         }
@@ -136,7 +136,7 @@ class HirschController extends AppController
                                         }
                                         $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
                                     case 5:
-                                        preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n]*)/', $text, $matches);
+                                        preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 4;
                                         }
