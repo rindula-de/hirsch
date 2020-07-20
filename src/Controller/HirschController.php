@@ -29,7 +29,7 @@ class HirschController extends AppController
         $password = 'foodwars';
         $mbox = imap_open($server, $adresse, $password) or die("Error: " . imap_last_error());
 
-        $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-1 weeks'))->format('d F Y') . '"');
+        $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
 
         $displayData = [];
 
