@@ -197,7 +197,10 @@ class HirschController extends AppController
         $o = $orders->find()->where([
             'created >' => (new Time(($time->timestamp + $time->secondsUntilEndOfDay()) - 86399))->toIso8601String()
         ]);
-        $this->set(['orders' => $o]);
+        $oG = $orders->find()->where([
+            'created >' => (new Time(($time->timestamp + $time->secondsUntilEndOfDay()) - 86399))->toIso8601String()
+        ])->group(['name', 'note'])->select(['name', 'note', 'cnt' => 'count(name)']);
+        $this->set(['orders' => $o, 'ordersGrouped' => $oG]);
     }
 
     private function read_docx($filename)
