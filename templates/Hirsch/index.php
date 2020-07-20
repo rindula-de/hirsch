@@ -16,7 +16,7 @@ $i = 0;
              as $data):
         ?>
         <?php if ($i == 1): ?>
-        <hr><h2>Kommende Tagesessen</h2>
+</div><div class="row"><h2>Kommende Tagesessen</h2>
     <?php endif; ?>
         <div class='col <?= ($i < 1 || $this->request->is('mobile')) ? 's12' : 's4' ?>'>
             <div class="card <?= ($i < 1) ? "light-green" : "light-blue" ?> lighten-4">
