@@ -39,7 +39,9 @@ $i = 0;
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind geschlossen" ?>
+                        <?php if (strpos(strtolower($data['gericht']), 'ruhetag') !== false): ?>
+                            <?= ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45)) ? $this->Form->postButton("Tagesessen bestellen", ['controller' => 'hirsch', 'action' => 'order', $data['gericht']], ['class' => 'btn center-align waves-purple waves-effect']) : "Die heutigen Bestellungen sind geschlossen" ?>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
