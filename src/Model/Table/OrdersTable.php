@@ -74,6 +74,11 @@ class OrdersTable extends Table
             ->requirePresence('paypalme', 'create')
             ->notEmptyString('paypalme');
 
+        $validator
+            ->date('for')
+            ->requirePresence('for', 'create')
+            ->notEmptyDate('for');
+
         return $validator;
     }
 }

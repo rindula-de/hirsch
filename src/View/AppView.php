@@ -15,6 +15,7 @@ declare(strict_types=1);
  */
 namespace App\View;
 
+use App\View\Helper\MaterializeHelper;
 use Cake\View\View;
 
 /**
@@ -22,6 +23,7 @@ use Cake\View\View;
  *
  * Your application's default view class
  *
+ * @property MaterializeHelper Materialize
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  */
 class AppView extends View

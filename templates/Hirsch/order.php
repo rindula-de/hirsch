@@ -10,6 +10,7 @@
 <?= $this->Form->create($order) ?>
 
 <h2><?= $meal ?></h2>
+<p>Bestellung für: <?= $order->for ?></p>
 <?= $this->Form->control('name', ['value' => $meal, 'type' => 'hidden']) ?>
 <?= $this->Form->control('note') ?>
 <?= $this->Form->control('paypalme', ['options' => $paypalmes]) ?>

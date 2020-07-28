@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Table\OrdersTable;
+use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Exception;
 use Smalot\PdfParser\Parser;
@@ -106,14 +107,13 @@ class HirschController extends AppController
                                 switch ($dow) {
                                     case 1:
                                         preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time())];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time())];
                                     case 2:
                                         preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
-                                        $dow++;
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
                                     case 3:
                                         preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -122,7 +122,7 @@ class HirschController extends AppController
                                         if ($dow == 2) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
                                     case 4:
                                         preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -134,7 +134,7 @@ class HirschController extends AppController
                                         if ($dow == 3) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
                                     case 5:
                                         preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -149,7 +149,7 @@ class HirschController extends AppController
                                         if ($dow == 4) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => $matches[1], 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                 }
                             }
                             unlink($filename);
@@ -163,9 +163,9 @@ class HirschController extends AppController
         $this->set(compact('displayData', 'htg'));
     }
 
-    public function order($meal = '')
+    public function order($future = 0, $meal = '')
     {
-        if ($this->request->is('post') && !empty($meal) && ((new Time())->hour < 10 || ((new Time())->hour == 10 && (new Time())->minute <= 45))) {
+        if ($this->request->is('post') && !empty($meal)) {
             /** @var OrdersTable $orders */
             $orders = $this->getTableLocator()->get('Orders');
             $paypalmes = $this->getTableLocator()->get('Paypalmes')->find('list', [
@@ -173,12 +173,13 @@ class HirschController extends AppController
                 'valueField' => 'name'
             ])->toArray();
             $data = $this->request->getData();
+            $data['for'] = new Date('+' . $future . ' days');
             $order = $orders->newEntity($data);
             $this->set(compact('meal', 'order', 'paypalmes'));
-            if (!empty($data)) {
+            if (!empty($data) && isset($data['paypalme'])) {
                 if ($orders->save($order)) {
                     $link = $this->getTableLocator()->get('Paypalmes')->get($order->paypalme)->get('link');
-                    $this->Flash->success("Bestellung aufgegeben (".(new Time())->nice().")");
+                    $this->Flash->success("Bestellung aufgegeben (".$data['for']->nice().")");
                     return $this->redirect($link . "3.5");
                 } else {
                     $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
@@ -193,13 +194,13 @@ class HirschController extends AppController
 
     public function orders() {
         $orders = $this->getTableLocator()->get('Orders');
-        $time = (new Time());
+        $botd = new Date();
         $o = $orders->find()->where([
-            'created >' => (new Time(($time->timestamp + $time->secondsUntilEndOfDay()) - 86399))->toIso8601String()
+            'for' => $botd->toIso8601String()
         ]);
         $oG = $orders->find()->where([
-            'created >' => (new Time(($time->timestamp + $time->secondsUntilEndOfDay()) - 86399))->toIso8601String()
-        ])->group(['name', 'note'])->select(['name', 'note', 'cnt' => 'count(name)']);
+            'for' => $botd->toIso8601String()
+        ])->group(['name', 'note'])->select(['name', 'for', 'note', 'cnt' => 'count(name)']);
         $this->set(['orders' => $o, 'ordersGrouped' => $oG]);
     }
 

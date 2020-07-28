@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property string $note
  * @property int $paypalme
+ * @property \Cake\I18n\Date $for
  * @property \Cake\I18n\FrozenTime $created
  */
 class Order extends Entity
@@ -29,6 +30,7 @@ class Order extends Entity
         'name' => true,
         'note' => true,
         'paypalme' => true,
+        'for' => true,
         'created' => true,
     ];
 }

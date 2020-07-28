@@ -21,13 +21,14 @@ class OrdersFixture extends TestFixture
         'name' => ['type' => 'string', 'length' => 500, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'note' => ['type' => 'string', 'length' => 1000, 'null' => false, 'default' => '', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'paypalme' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'for' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => ''],
         '_indexes' => [
             'FK_orders_paypalmes' => ['type' => 'index', 'columns' => ['paypalme'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'FK_orders_paypalmes' => ['type' => 'foreign', 'columns' => ['paypalme'], 'references' => ['paypalmes', 'id'], 'update' => 'cascade', 'delete' => 'restrict', 'length' => []],
+            'FK_orders_paypalmes' => ['type' => 'foreign', 'columns' => ['paypalme'], 'references' => ['paypalmes', 'id'], 'update' => 'cascade', 'delete' => 'noAction', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -44,11 +45,11 @@ class OrdersFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
-                'name' => 'Lorem ipsum dolor sit amet',
-                'note' => 'Lorem ipsum dolor sit amet',
+                'name' => 'Schweine Kottlett, Rindersauce und Hänchenschenkel mit Pommes',
+                'note' => 'Extra Mayonese',
                 'paypalme' => 1,
-                'created' => '2020-07-08 14:06:20',
+                'for' => '2020-07-27',
+                'created' => '2020-07-27 15:46:44',
             ],
         ];
         parent::init();

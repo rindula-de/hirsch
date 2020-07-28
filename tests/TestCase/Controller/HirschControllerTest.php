@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\HirschController;
+use App\Model\Table\OrdersTable;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -17,12 +18,26 @@ class HirschControllerTest extends TestCase
     use IntegrationTestTrait;
 
     /**
+     * @var OrdersTable $Orders
+     */
+    private $Orders;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->Orders = $this->getTableLocator()->get('orders', ['contains' => [
+            'paypalmes'
+        ]]);
+    }
+
+    /**
      * Fixtures
      *
      * @var array
      */
     protected $fixtures = [
-        'app.Hirsch',
+        'app.Paypalmes',
+        'app.Orders',
     ];
 
     /**
@@ -32,46 +47,45 @@ class HirschControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get(['controller' => 'hirsch', 'action' => 'index']);
+        $this->assertResponseOk();
     }
 
     /**
-     * Test view method
+     * Test order method
      *
      * @return void
      */
-    public function testView(): void
+    public function testOrder(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        debug($this->Orders);
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $order = $this->Orders->get(1);
+        $this->assertTextEquals('Extra Mayonese', $order->note);
+        $this->get(['controller' => 'hirsch', 'action' => 'order']);
+        $this->assertRedirect(['action' => 'index']);
+        $this->post(['controller' => 'hirsch', 'action' => 'order']);
+        $this->assertRedirect(['action' => 'index']);
+        $this->post(['controller' => 'hirsch', 'action' => 'order', 0, 'Cordonblöh'], []);
+        $this->assertNoRedirect();
+        $this->assertResponseOk();
+        $this->post(['controller' => 'hirsch', 'action' => 'order', 0, 'Cordonblöh'], ['name' => 'Cordonblöh', 'paypalme' => 1, 'note' => 'Mit Pommäs']);
+        $this->assertRedirect("https://paypal.me/rindulalp/3.5");
+        $this->post(['controller' => 'hirsch', 'action' => 'order', 2, 'Pizza'], ['name' => 'Pizza', 'paypalme' => 1, 'note' => 'Hawaii']);
+        $this->assertRedirect("https://paypal.me/rindulalp/3.5");
+        $this->post(['controller' => 'hirsch', 'action' => 'order', 1, 'Pizza'], ['name' => 'Pizza', 'paypalme' => 1]);
+        $this->assertRedirect("https://paypal.me/rindulalp/3.5");
     }
 
     /**
-     * Test add method
+     * Test orders method
      *
      * @return void
      */
-    public function testAdd(): void
+    public function testOrders(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get(['controller' => 'hirsch', 'action' => 'orders']);
+        $this->assertResponseOk();
     }
 }

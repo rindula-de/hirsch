@@ -14,8 +14,10 @@ foreach ($ordersGrouped as $order) {
     }
     $first = false;
 }
+if ($first) echo "--- Keine Bestellungen ---";
 echo "</textarea>";
 
 foreach ($orders as $order) {
+    if (!$order->for->isToday()) continue;
     echo $this->Materialize->basicCard($order->name, $order->note);
 }

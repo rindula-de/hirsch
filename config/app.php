@@ -313,7 +313,7 @@ return [
              * decreases performance because each query needs to be traversed and
              * manipulated before being executed.
              */
-            'quoteIdentifiers' => false,
+            'quoteIdentifiers' => true,
 
             /*
              * During development, if using MySQL < 5.6, uncommenting the
@@ -336,7 +336,7 @@ return [
             //'encoding' => 'utf8mb4',
             'flags' => [],
             'cacheMetadata' => true,
-            'quoteIdentifiers' => false,
+            'quoteIdentifiers' => true,
             'log' => false,
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
         ],

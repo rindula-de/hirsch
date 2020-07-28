@@ -38,9 +38,8 @@ class PaypalmesFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
-                'link' => 'Lorem ipsum dolor sit amet',
-                'name' => 'Lorem ipsum dolor sit amet',
+                'link' => 'https://paypal.me/rindulalp/',
+                'name' => 'Sven Nolting',
             ],
         ];
         parent::init();
