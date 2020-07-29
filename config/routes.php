@@ -59,7 +59,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/bestellen/*', ['controller' => 'Hirsch', 'action' => 'order']);
     $builder->connect('/bestellungen/*', ['controller' => 'Hirsch', 'action' => 'orders']);
     $builder->connect('/übersicht/*', ['controller' => 'Hirsch', 'action' => 'index']);
-    $builder->connect('/zahlen bitte/*', ['controller' => 'Paypalmes', 'action' => 'index']);
+    $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index']);
 
     /*
      * Connect catchall routes for all controllers.
