@@ -41,14 +41,13 @@ $cakeDescription = 'Hirsch Bestellungen';
 <body>
     <?= $this->Nav->main() ?>
     <main class="main">
-        <div class="container">
+        <div class="content">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>
     </main>
     <footer>
     </footer>
-    <?= $this->Html->script('materialize.min.js') ?>
     <?= $this->Html->script('pageEnd.js') ?>
 </body>
 </html>

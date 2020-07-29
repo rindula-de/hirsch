@@ -70,11 +70,6 @@ class OrdersTable extends Table
             ->allowEmptyString('note');
 
         $validator
-            ->integer('paypalme')
-            ->requirePresence('paypalme', 'create')
-            ->notEmptyString('paypalme');
-
-        $validator
             ->date('for')
             ->requirePresence('for', 'create')
             ->notEmptyDate('for');

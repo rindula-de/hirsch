@@ -14,18 +14,22 @@ class NavHelper extends Helper
 
     private $navItems = array(
         [
-            'title' => 'Bestellen',
+            'title' => 'Übersicht',
             'url' => ['controller' => 'hirsch', 'action' => 'index']
         ],
         [
             'title' => 'Bestellungen',
             'url' => ['controller' => 'hirsch', 'action' => 'orders']
         ],
+        [
+            'title' => 'Bezahlen',
+            'url' => ['controller' => 'paypalmes', 'action' => 'index']
+        ],
     );
 
     public function main()
     {
-        return '<nav id="navbar"><div class="nav-wrapper"><ul id="nav-mobile" class="left hide-on-med-and-down">' . $this->nav($this->navItems) . '</ul></div></nav>';
+        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
     }
 
     private function nav(array $items)
@@ -41,9 +45,10 @@ class NavHelper extends Helper
 
             $url = $this->getUrl($item);
 
-            $content .= '<li class="' . implode(' ', $class) . '">' . $this->Html->link($item['title'], $url, array(
-                    'escape' => false
-                )) . '</li>';
+            $content .= $this->Html->link($item['title'], $url, [
+                    'escape' => false,
+                    'class' => join(' ', $class)
+            ]);
         }
 
         return $content;

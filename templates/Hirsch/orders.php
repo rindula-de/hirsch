@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Order[] $orders
  * @var \App\Model\Entity\Order[] $ordersGrouped
  */
-echo "<textarea readonly class=\"materialize-textarea\" onclick=\"this.select()\">";
+echo "<textarea readonly onclick='this.focus();this.select()'>";
 $first = true;
 foreach ($ordersGrouped as $order) {
     if (!$first) echo PHP_EOL . PHP_EOL;

@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $note
- * @property int $paypalme
  * @property \Cake\I18n\Date $for
  * @property \Cake\I18n\FrozenTime $created
  */
@@ -29,7 +28,6 @@ class Order extends Entity
     protected $_accessible = [
         'name' => true,
         'note' => true,
-        'paypalme' => true,
         'for' => true,
         'created' => true,
     ];

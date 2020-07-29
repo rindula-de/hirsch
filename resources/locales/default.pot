@@ -1,0 +1,40 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-07-29 11:47+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Paypalmes/index.php:21
+msgid "first"
+msgstr ""
+
+#: Paypalmes/index.php:22
+msgid "previous"
+msgstr ""
+
+#: Paypalmes/index.php:24
+msgid "next"
+msgstr ""
+
+#: Paypalmes/index.php:25
+msgid "last"
+msgstr ""
+
+#: Paypalmes/index.php:27
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
+#: layout/error.php:38
+msgid "Back"
+msgstr ""
+

@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"X-Generator: Poedit 2.4\n"
+
+#: Paypalmes/index.php:21
+msgid "first"
+msgstr "erste"
+
+#: Paypalmes/index.php:22
+msgid "previous"
+msgstr "vorherige"
+
+#: Paypalmes/index.php:24
+msgid "next"
+msgstr "nächste"
+
+#: Paypalmes/index.php:25
+msgid "last"
+msgstr "letzte"
+
+#: Paypalmes/index.php:27
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr "Seite {{page}} von {{pages}}, {{current}} Einträge von {{count}}"
+
+#: layout/error.php:38
+msgid "Back"
+msgstr "Zurück"

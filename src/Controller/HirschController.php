@@ -106,14 +106,14 @@ class HirschController extends AppController
                                 $daysAdd = 0;
                                 switch ($dow) {
                                     case 1:
-                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\n\d]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time())];
+                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date())];
                                     case 2:
                                         preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 3:
                                         preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -122,7 +122,7 @@ class HirschController extends AppController
                                         if ($dow == 2) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 4:
                                         preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -134,7 +134,7 @@ class HirschController extends AppController
                                         if ($dow == 3) {
                                             $daysAdd = 1;
                                         }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Time("+" . $daysAdd . " days"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 5:
                                         preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
                                         if ($dow == 1) {
@@ -165,34 +165,33 @@ class HirschController extends AppController
 
     public function order($future = 0, $meal = '')
     {
+        $now = new Time();
+        /** @var OrdersTable $orders */
+        $orders = $this->getTableLocator()->get('Orders');
+        $data = $this->request->getData();
+        $data['for'] = new Date('+' . $future . ' days');
+        $order = $orders->newEntity($data);
+        $this->set(compact('meal', 'order'));
+
         if ($this->request->is('post') && !empty($meal)) {
-            /** @var OrdersTable $orders */
-            $orders = $this->getTableLocator()->get('Orders');
-            $paypalmes = $this->getTableLocator()->get('Paypalmes')->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'name'
-            ])->toArray();
-            $data = $this->request->getData();
-            $data['for'] = new Date('+' . $future . ' days');
-            $order = $orders->newEntity($data);
-            $this->set(compact('meal', 'order', 'paypalmes'));
-            if (!empty($data) && isset($data['paypalme'])) {
+            if (!empty($data)) {
                 if ($orders->save($order)) {
-                    $link = $this->getTableLocator()->get('Paypalmes')->get($order->paypalme)->get('link');
-                    $this->Flash->success("Bestellung aufgegeben (".$data['for']->nice().")");
-                    return $this->redirect($link . "3.5");
+                    $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
+                    return $this->redirect(['controller' => 'paypalmes', 'action' => 'index']);
                 } else {
                     $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
                     return;
                 }
             }
             return;
+        } elseif ($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 45))) {
+            $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
+            return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
         }
-        $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
-        return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
     }
 
-    public function orders() {
+    public function orders()
+    {
         $orders = $this->getTableLocator()->get('Orders');
         $botd = new Date();
         $o = $orders->find()->where([
