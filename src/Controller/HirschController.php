@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Table\OrdersTable;
+use Cake\Core\Configure;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Exception;
@@ -25,9 +26,9 @@ class HirschController extends AppController
      */
     public function index()
     {
-        $server = '{rindula.de/imap/novalidate-cert}INBOX.Essen';
-        $adresse = 'essen@rindula.de';
-        $password = 'foodwars';
+        $server = '{'.Configure::readOrFail("MailAccess.host").'/imap/novalidate-cert}INBOX.Essen';
+        $adresse = Configure::readOrFail("MailAccess.username");
+        $password = Configure::readOrFail("MailAccess.password");
         $mbox = imap_open($server, $adresse, $password) or die("Error: " . imap_last_error());
 
         $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');

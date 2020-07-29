@@ -56,7 +56,7 @@ class NavHelper extends Helper
 
     private function isActive($item)
     {
-        $url = $this->Url->build($this->getUrl($item));
+        $url = str_replace([" "], ["%20"], $this->Url->build($this->getUrl($item)));
         if ($this->getView()->getRequest()->getRequestTarget() == $url) {
             return true;
         }

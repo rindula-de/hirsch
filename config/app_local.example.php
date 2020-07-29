@@ -91,4 +91,10 @@ return [
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
+
+    'MailAccess' => [
+        'host' => 'rindula.de',
+        'username' => 'essen@rindula.de',
+        'password' => 'foodwars',
+    ],
 ];
