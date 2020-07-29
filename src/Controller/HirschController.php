@@ -26,7 +26,7 @@ class HirschController extends AppController
      */
     public function index()
     {
-        $server = '{'.Configure::readOrFail("MailAccess.host").'/imap/novalidate-cert}INBOX.Essen';
+        $server = '{'.Configure::readOrFail("MailAccess.host").'/imap/novalidate-cert/notls}INBOX.Essen';
         $adresse = Configure::readOrFail("MailAccess.username");
         $password = Configure::readOrFail("MailAccess.password");
         $mbox = imap_open($server, $adresse, $password) or die("Error: " . imap_last_error());
