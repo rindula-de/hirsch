@@ -60,7 +60,7 @@ class PagesController extends AppController
             $subpage = $path[1];
         }
         $this->set(compact('page', 'subpage'));
-        if ($page == 'home' && !Configure::read('debug')) return $this->redirect('/hirsch');
+        if ($page == 'home' && !Configure::read('debug')) return $this->redirect(['controller' => 'Hirsch', 'action' => 'index']);
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {

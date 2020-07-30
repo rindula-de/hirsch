@@ -16,6 +16,7 @@ else
     git pull
     composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
     chmod +x bin/cake
+    chmod +x gogogo.sh
     bin/cake migrations migrate
     bin/cake cache clear_all
 fi

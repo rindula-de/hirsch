@@ -31,6 +31,7 @@ class HirschController extends AppController
         $password = Configure::readOrFail("MailAccess.password");
         $mbox = imap_open($server, $adresse, $password) or die("Error: " . imap_last_error());
 
+        $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
         $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
 
         $displayData = [];
@@ -49,6 +50,18 @@ class HirschController extends AppController
             'Käsespätzle mit buntem Salat',
             'Salbeignocchi mit Grillgemüse, Parmesan und Ruccola',
         ];
+
+        if ($emailsToDelete) {
+            foreach ($emailsToDelete as $emailId) {
+                // Markiert die E-Mails zum löschen
+                imap_delete($mbox, $emailId);
+            }
+            // Löscht die markierten Mails endgültig
+            imap_expunge($mbox);
+            imap_close($mbox);
+            // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
+            $this->redirect([]);
+        }
 
         if ($emails) {
             foreach ($emails as $emailId) {
