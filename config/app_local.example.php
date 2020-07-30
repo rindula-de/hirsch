@@ -15,7 +15,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', !true), FILTER_VALIDATE_BOOLEAN),
 
     /*
      * Security and encryption configuration
@@ -93,7 +93,7 @@ return [
     ],
 
     'MailAccess' => [
-        'host' => 'rindula.de',
+        'host' => '{rindula.de/imap/novalidate-cert}INBOX',
         'username' => 'essen@rindula.de',
         'password' => 'foodwars',
     ],
