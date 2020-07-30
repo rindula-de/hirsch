@@ -35,6 +35,21 @@ class HirschController extends AppController
 
         $displayData = [];
 
+        $htg = [
+            'Schweizer Wurstsalat mit Pommes',
+            'Bunte Blattsalate mit Hühnerbrust',
+            'Bunte Blattsalate mit gegrillten Garnelen',
+            'Gebackener Camembert, Preiselbeeren und Salat',
+            'Paniertes Schweineschnitzel, Pommes und Salat ',
+            'Jägerschnitzel, Spätzle und Salat',
+            'Zigeunerschnitzel mit Kroketten und Salat',
+            'Cordon Bleu mit Pommes und Salat',
+            'Schweinefilet in Pilzrahmsauce, Spätzle und Salat',
+            'Schweinesteak mit Kräuterbutter, Pommes kleiner Salat',
+            'Käsespätzle mit buntem Salat',
+            'Salbeignocchi mit Grillgemüse, Parmesan und Ruccola',
+        ];
+
         if ($emails) {
             foreach ($emails as $emailId) {
                 $structure = imap_fetchstructure($mbox, $emailId);
@@ -79,20 +94,6 @@ class HirschController extends AppController
                     } // for($i = 0; $i < count($structure->parts); $i++)
                 } // if(isset($structure->parts) && count($structure->parts))
 
-                $htg = [
-                    'Schweizer Wurstsalat mit Pommes',
-                    'Bunte Blattsalate mit Hühnerbrust',
-                    'Bunte Blattsalate mit gegrillten Garnelen',
-                    'Gebackener Camembert, Preiselbeeren und Salat',
-                    'Paniertes Schweineschnitzel, Pommes und Salat ',
-                    'Jägerschnitzel, Spätzle und Salat',
-                    'Zigeunerschnitzel mit Kroketten und Salat',
-                    'Cordon Bleu mit Pommes und Salat',
-                    'Schweinefilet in Pilzrahmsauce, Spätzle und Salat',
-                    'Schweinesteak mit Kräuterbutter, Pommes kleiner Salat',
-                    'Käsespätzle mit buntem Salat',
-                    'Salbeignocchi mit Grillgemüse, Parmesan und Ruccola',
-                ];
                 if (count($attachments) != 0) {
                     foreach ($attachments as $at) {
                         if ($at['is_attachment'] == 1) {
