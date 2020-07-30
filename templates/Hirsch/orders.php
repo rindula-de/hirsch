@@ -9,7 +9,7 @@ echo "<textarea readonly onclick='this.focus();this.select()'>";
 $first = true;
 foreach ($ordersGrouped as $order) {
     if (!$first) echo PHP_EOL . PHP_EOL;
-    echo $order->cnt . "x " . $order->name;
+    echo $order->cnt . "x " . $order->hirsch->name;
     if (!empty($order->note)) {
         echo PHP_EOL . "Sonderwunsch: " . $order->note;
     }

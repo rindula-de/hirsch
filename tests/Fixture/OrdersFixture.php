@@ -18,17 +18,16 @@ class OrdersFixture extends TestFixture
     // phpcs:disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'name' => ['type' => 'string', 'length' => 500, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
+        'name' => ['type' => 'string', 'length' => 191, 'null' => false, 'default' => '0', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'note' => ['type' => 'string', 'length' => 1000, 'null' => false, 'default' => '', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-        'paypalme' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'for' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => ''],
         '_indexes' => [
-            'FK_orders_paypalmes' => ['type' => 'index', 'columns' => ['paypalme'], 'length' => []],
+            'FK_orders_hirsch' => ['type' => 'index', 'columns' => ['name'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'FK_orders_paypalmes' => ['type' => 'foreign', 'columns' => ['paypalme'], 'references' => ['paypalmes', 'id'], 'update' => 'cascade', 'delete' => 'noAction', 'length' => []],
+            'FK_orders_hirsch' => ['type' => 'foreign', 'columns' => ['name'], 'references' => ['hirsch', 'slug'], 'update' => 'cascade', 'delete' => 'restrict', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -45,11 +44,11 @@ class OrdersFixture extends TestFixture
     {
         $this->records = [
             [
-                'name' => 'Schweine Kottlett, Rindersauce und Hänchenschenkel mit Pommes',
-                'note' => 'Extra Mayonese',
-                'paypalme' => 1,
-                'for' => '2020-07-27',
-                'created' => '2020-07-27 15:46:44',
+                'id' => 1,
+                'name' => 'Lorem ipsum dolor sit amet',
+                'note' => 'Lorem ipsum dolor sit amet',
+                'for' => '2020-07-30',
+                'created' => '2020-07-30 11:41:47',
             ],
         ];
         parent::init();

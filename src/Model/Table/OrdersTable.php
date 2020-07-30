@@ -44,6 +44,10 @@ class OrdersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->hasOne('Hirsch', [
+            'foreignKey' => 'slug',
+            'bindingKey' => 'name'
+        ]);
     }
 
     /**
@@ -60,8 +64,7 @@ class OrdersTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 500)
-            ->requirePresence('name', 'create')
+            ->maxLength('name', 191)
             ->notEmptyString('name');
 
         $validator

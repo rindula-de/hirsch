@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use App\Model\Entity\Hirsch;
 use Cake\I18n\Date;
 use Cake\View\Helper;
 
@@ -27,6 +28,7 @@ class FooddisplayHelper extends Helper
     /**
      * @param Date $date
      * @param string $gericht
+     * @return string
      */
     public function displayDaily($date, $gericht)
     {
@@ -39,9 +41,9 @@ class FooddisplayHelper extends Helper
         if (!$isRuhetag) {
             $html .= "<div class='actionbar'>";
             if ($date->isFuture()) {
-                $html .= $this->Html->link("Vorbestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'Tagesessen'], ['class' => 'btn']);
+                $html .= $this->Html->link("Vorbestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
             } else {
-                $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'Tagesessen'], ['class' => 'btn']);
+                $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
             }
             $html .= "</div>";
         }
@@ -50,19 +52,20 @@ class FooddisplayHelper extends Helper
     }
 
     /**
-     * @param string $gericht
+     * @param Hirsch $gericht
+     * @return string
      */
     public function displayHtg($gericht)
     {
-        $isRuhetag = strpos(strtolower($gericht), 'ruhetag') !== false;
+        $isRuhetag = strpos(strtolower($gericht->name), 'ruhetag') !== false;
         $date = new Date();
         $html = "";
         $dateNice = $date->nice();
         $html .= "<div class='foodcard'>";
-        $html .= "<h2>$gericht</h2>";
+        $html .= "<h2>$gericht->name</h2>";
         if (!$isRuhetag) {
             $html .= "<div class='actionbar'>";
-            $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'Tagesessen'], ['class' => 'btn']);
+            $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), $gericht->slug], ['class' => 'btn']);
             $html .= "</div>";
         }
         $html .= "</div>";

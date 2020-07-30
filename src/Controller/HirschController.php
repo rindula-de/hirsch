@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Table\HirschTable;
 use App\Model\Table\OrdersTable;
 use Cake\Core\Configure;
 use Cake\I18n\Date;
@@ -14,6 +15,7 @@ use Smalot\PdfParser\Parser;
  * Hirsch Controller
  *
  * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property HirschTable Hirsch
  */
 class HirschController extends AppController
 {
@@ -36,20 +38,7 @@ class HirschController extends AppController
 
         $displayData = [];
 
-        $htg = [
-            'Schweizer Wurstsalat mit Pommes',
-            'Bunte Blattsalate mit Hühnerbrust',
-            'Bunte Blattsalate mit gegrillten Garnelen',
-            'Gebackener Camembert, Preiselbeeren und Salat',
-            'Paniertes Schweineschnitzel, Pommes und Salat ',
-            'Jägerschnitzel, Spätzle und Salat',
-            'Zigeunerschnitzel mit Kroketten und Salat',
-            'Cordon Bleu mit Pommes und Salat',
-            'Schweinefilet in Pilzrahmsauce, Spätzle und Salat',
-            'Schweinesteak mit Kräuterbutter, Pommes kleiner Salat',
-            'Käsespätzle mit buntem Salat',
-            'Salbeignocchi mit Grillgemüse, Parmesan und Ruccola',
-        ];
+        $htg = $this->Hirsch->find()->where(['slug !=' => 'tagesessen']);
 
         if ($emailsToDelete) {
             foreach ($emailsToDelete as $emailId) {
@@ -178,7 +167,7 @@ class HirschController extends AppController
         $this->set(compact('displayData', 'htg'));
     }
 
-    public function order($future = 0, $meal = '')
+    public function order($future = 0, $mealSlug = null)
     {
         $now = new Time();
         /** @var OrdersTable $orders */
@@ -186,9 +175,10 @@ class HirschController extends AppController
         $data = $this->request->getData();
         $data['for'] = new Date('+' . $future . ' days');
         $order = $orders->newEntity($data);
+        $meal = $this->Hirsch->findBySlug($mealSlug)->first();
         $this->set(compact('meal', 'order'));
 
-        if ($this->request->is('post') && !empty($meal)) {
+        if ($this->request->is('post')) {
             if (!empty($data)) {
                 if ($orders->save($order)) {
                     $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
@@ -199,7 +189,7 @@ class HirschController extends AppController
                 }
             }
             return;
-        } elseif ($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 45))) {
+        } elseif (!Configure::read('debug') && $future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 45))) {
             $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
             return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
         }
@@ -211,10 +201,10 @@ class HirschController extends AppController
         $botd = new Date();
         $o = $orders->find()->where([
             'for' => $botd->toIso8601String()
-        ]);
+        ])->contain(['Hirsch']);
         $oG = $orders->find()->where([
             'for' => $botd->toIso8601String()
-        ])->group(['name', 'note'])->select(['name', 'for', 'note', 'cnt' => 'count(name)']);
+        ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
         $this->set(['orders' => $o, 'ordersGrouped' => $oG]);
     }
 

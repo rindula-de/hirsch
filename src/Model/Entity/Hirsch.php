@@ -6,15 +6,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Order Entity
+ * Hirsch Entity
  *
  * @property int $id
+ * @property string $slug
  * @property string $name
- * @property string $note
- * @property \Cake\I18n\FrozenDate $for
- * @property \Cake\I18n\FrozenTime $created
  */
-class Order extends Entity
+class Hirsch extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -26,9 +24,7 @@ class Order extends Entity
      * @var array
      */
     protected $_accessible = [
+        'slug' => true,
         'name' => true,
-        'note' => true,
-        'for' => true,
-        'created' => true,
     ];
 }
