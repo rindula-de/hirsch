@@ -110,7 +110,7 @@ class HirschController extends AppController
                                 $daysAdd = 0;
                                 switch ($dow) {
                                     case 1:
-                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
+                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d\n]*)/', $text, $matches);
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date())];
                                     case 2:
                                         preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
