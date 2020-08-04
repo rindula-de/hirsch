@@ -17,3 +17,9 @@ foreach ($ordersGrouped as $order) {
 }
 if ($first) echo "--- Keine Bestellungen ---";
 echo "</textarea>";
+?>
+
+<h2>Personen die bestellt haben</h2>
+<?php foreach ($orders as $order): ?>
+<div><?= $order->orderedby ?></div>
+<?php endforeach; ?>

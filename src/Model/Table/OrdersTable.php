@@ -68,6 +68,11 @@ class OrdersTable extends Table
             ->notEmptyString('name');
 
         $validator
+            ->scalar('orderedby')
+            ->maxLength('orderedby', 255)
+            ->notEmptyString('orderedby');
+
+        $validator
             ->scalar('note')
             ->maxLength('note', 1000)
             ->allowEmptyString('note');

@@ -16,6 +16,7 @@ use Smalot\PdfParser\Parser;
  *
  * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  * @property HirschTable Hirsch
+ * @property \Cake\Http\Cookie\Cookie Cookie
  */
 class HirschController extends AppController
 {
@@ -176,10 +177,17 @@ class HirschController extends AppController
         $data['for'] = new Date('+' . $future . ' days');
         $order = $orders->newEntity($data);
         $meal = $this->Hirsch->findBySlug($mealSlug)->first();
-        $this->set(compact('meal', 'order'));
+
+        $cookiedName = '';
+        if (!empty($_COOKIE['lastOrderedName'])) {
+            $cookiedName = $_COOKIE['lastOrderedName'];
+        }
+
+        $this->set(compact('meal', 'order', 'cookiedName'));
 
         if ($this->request->is('post')) {
             if (!empty($data)) {
+                setcookie('lastOrderedName', $data['orderedby']);
                 if ($orders->save($order)) {
                     $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
                     return $this->redirect(['controller' => 'paypalmes', 'action' => 'index']);

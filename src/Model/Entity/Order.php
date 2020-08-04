@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $note
+ * @property string $orderedby
  * @property \Cake\I18n\FrozenDate $for
  * @property \Cake\I18n\FrozenTime $created
  */
@@ -30,5 +31,6 @@ class Order extends Entity
         'note' => true,
         'for' => true,
         'created' => true,
+        'orderedby' => true,
     ];
 }
