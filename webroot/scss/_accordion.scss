@@ -8,12 +8,17 @@
     border: none;
     outline: none;
     transition: 0.4s;
+    border-radius: 6px;
+    font-size: 120%;
+
     &:hover, &.active {
         background-color: #ccc;
     }
+
     &.active {
         margin-bottom: 10px;
     }
+
     &:after {
         content: '\02795'; /* Unicode character for "plus" sign (+) */
         font-size: 13px;
@@ -21,6 +26,7 @@
         float: right;
         margin-left: 5px;
     }
+
     &.active:after {
         content: "\2796"; /* Unicode character for "minus" sign (-) */
     }

@@ -187,7 +187,7 @@ class HirschController extends AppController
 
         if ($this->request->is('post')) {
             if (!empty($data)) {
-                setcookie('lastOrderedName', $data['orderedby']);
+                setcookie('lastOrderedName', $data['orderedby'], time()+(60*60*24*30), '/');
                 if ($orders->save($order)) {
                     $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
                     return $this->redirect(['controller' => 'paypalmes', 'action' => 'index']);
@@ -210,10 +210,16 @@ class HirschController extends AppController
         $o = $orders->find()->where([
             'for' => $botd->toIso8601String()
         ])->contain(['Hirsch']);
+
+        $preorders = $orders->find()->where([
+            'for >' => $botd->toIso8601String()
+        ])->group(['Hirsch.name', 'note', 'for'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
+
         $oG = $orders->find()->where([
             'for' => $botd->toIso8601String()
         ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
         $this->set(['orders' => $o, 'ordersGrouped' => $oG]);
+        $this->set(compact('preorders'));
     }
 
     private function read_docx($filename)

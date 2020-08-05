@@ -40,21 +40,18 @@ body {
 textarea {
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid transparent;
   border-radius: 0;
   outline: none;
-  height: 3rem;
   width: 100%;
   font-size: 16px;
   margin: 0 0 8px 0;
-  padding: 0;
+  padding: 5px;
   -webkit-box-shadow: none;
   box-shadow: none;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   -webkit-transition: border .3s, -webkit-box-shadow .3s;
-  transition: border .3s, -webkit-box-shadow .3s;
-  transition: box-shadow .3s, border .3s;
   transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
   resize: none; }
   textarea:focus {
@@ -187,9 +184,7 @@ textarea {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   -webkit-transition: border .3s, -webkit-box-shadow .3s;
-  transition: border .3s, -webkit-box-shadow .3s;
-  transition: box-shadow .3s, border .3s;
-  transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s; }
+  transition: border .3s, -webkit-box-shadow .3s; }
   .input.text input:focus {
     border-bottom: 1px solid #ffa303; }
 .input.select {
@@ -221,7 +216,9 @@ textarea {
   text-align: left;
   border: none;
   outline: none;
-  transition: 0.4s; }
+  transition: 0.4s;
+  border-radius: 6px;
+  font-size: 120%; }
   .accordion:hover, .accordion.active {
     background-color: #ccc; }
   .accordion.active {

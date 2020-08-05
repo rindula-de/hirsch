@@ -20,8 +20,6 @@
             box-sizing: content-box;
             -webkit-transition: border .3s, -webkit-box-shadow .3s;
             transition: border .3s, -webkit-box-shadow .3s;
-            transition: box-shadow .3s, border .3s;
-            transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
 
             &:focus {
                 border-bottom: 1px solid $accentcolor;
