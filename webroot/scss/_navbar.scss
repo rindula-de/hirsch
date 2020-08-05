@@ -3,6 +3,12 @@
     background-color: #333;
     margin: 0;
 
+    span {
+        color: $accentcolor;
+        padding: 14px 16px;
+        float: left;
+    }
+
     a {
         transition: background-color .1s linear;
         float: left;
@@ -35,6 +41,11 @@
             display: none;
         }
 
+        span {
+            display: none;
+            float: none;
+        }
+
         a.icon {
             float: right;
             display: block;
@@ -50,7 +61,7 @@
                 top: 0;
             }
 
-            a {
+            a, span {
                 float: none;
                 display: block;
                 text-align: left;

@@ -197,7 +197,7 @@ class HirschController extends AppController
                 }
             }
             return;
-        } elseif (!Configure::read('debug') && $future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 45))) {
+        } elseif (!Configure::read('debug') && (($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0)) {
             $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
             return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
         }

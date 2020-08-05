@@ -82,6 +82,10 @@ textarea {
   overflow: hidden;
   background-color: #333;
   margin: 0; }
+  #navbar span {
+    color: #ffa303;
+    padding: 14px 16px;
+    float: left; }
   #navbar a {
     transition: background-color .1s linear;
     float: left;
@@ -103,6 +107,9 @@ textarea {
 @media screen and (max-width: 600px) {
   #navbar a:not(:first-child) {
     display: none; }
+  #navbar span {
+    display: none;
+    float: none; }
   #navbar a.icon {
     float: right;
     display: block;
@@ -113,7 +120,7 @@ textarea {
       position: absolute;
       right: 0;
       top: 0; }
-    #navbar.responsive a {
+    #navbar.responsive a, #navbar.responsive span {
       float: none;
       display: block;
       text-align: left; } }
