@@ -78,6 +78,14 @@ textarea {
     color: #cc1f1a;
     border-color: #ef5753; }
 
+.displayName {
+  margin-bottom: 15px; }
+  .displayName .btn {
+    color: black;
+    text-decoration: none; }
+    .displayName .btn i {
+      font-size: initial !important; }
+
 #navbar {
   overflow: hidden;
   background-color: #333;

@@ -29,7 +29,7 @@ $cakeDescription = 'Hirsch Bestellungen';
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
-    <?= $this->Html->css(['style']) ?>
+    <?= $this->Html->css(['style.css?' . round(time() / 1000)]) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>
 
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>

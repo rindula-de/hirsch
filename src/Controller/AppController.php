@@ -50,4 +50,8 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+
+    public function e404() {
+        return $this->redirect(['controller' => 'Hirsch', 'action' => 'index']);
+    }
 }

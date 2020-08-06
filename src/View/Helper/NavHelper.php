@@ -15,15 +15,15 @@ class NavHelper extends Helper
     private $navItems = array(
         [
             'title' => 'Übersicht',
-            'url' => ['controller' => 'hirsch', 'action' => 'index']
+            'url' => ['_name' => 'karte']
         ],
         [
             'title' => 'Bestellungen',
-            'url' => ['controller' => 'hirsch', 'action' => 'orders']
+            'url' => ['_name' => 'bestellungen']
         ],
         [
             'title' => 'Bezahlen',
-            'url' => ['controller' => 'paypalmes', 'action' => 'index']
+            'url' => ['_name' => 'bezahlen']
         ],
     );
 

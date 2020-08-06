@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-07-29 11:47+0200\n"
+"POT-Creation-Date: 2020-08-06 11:12+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -13,6 +13,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/OrdersController.php:87
+msgid "The order has been deleted."
+msgstr ""
+
+#: Controller/OrdersController.php:89
+msgid "The order could not be deleted. Please, try again."
+msgstr ""
 
 #: Paypalmes/index.php:21
 msgid "first"
@@ -36,5 +44,9 @@ msgstr ""
 
 #: layout/error.php:38
 msgid "Back"
+msgstr ""
+
+#: View/Helper/PaginatorHelper.php:1268
+msgid "View"
 msgstr ""
 

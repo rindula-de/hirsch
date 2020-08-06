@@ -99,3 +99,16 @@ textarea {
         border-color: #ef5753;
     }
 }
+
+.displayName {
+    margin-bottom: 15px;
+
+    .btn {
+        color: black;
+        text-decoration: none;
+
+        i {
+            font-size: initial !important;
+        }
+    }
+}

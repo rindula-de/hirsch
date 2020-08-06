@@ -40,11 +40,7 @@ class FooddisplayHelper extends Helper
         $html .= "<span>$gericht</span>";
         if (!$isRuhetag) {
             $html .= "<div class='actionbar'>";
-            if ($date->isFuture()) {
-                $html .= $this->Html->link("Vorbestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
-            } else {
-                $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
-            }
+            $html .= $this->Html->link(($date->isFuture()) ? "Vorbestellen" : 'Bestellen', ['_name' => 'bestellen', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
             $html .= "</div>";
         }
         $html .= "</div>";
@@ -65,7 +61,7 @@ class FooddisplayHelper extends Helper
         $html .= "<h2>$gericht->name</h2>";
         if (!$isRuhetag) {
             $html .= "<div class='actionbar'>";
-            $html .= $this->Html->link("Bestellen", ['controller' => 'hirsch', 'action' => 'order', $date->diffInDays(new Date()), $gericht->slug], ['class' => 'btn']);
+            $html .= $this->Html->link("Bestellen", ['_name' => 'bestellen', $date->diffInDays(new Date()), $gericht->slug], ['class' => 'btn']);
             $html .= "</div>";
         }
         $html .= "</div>";

@@ -1,15 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2020-08-06 11:12+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "X-Generator: Poedit 2.4\n"
+
+#: Controller/OrdersController.php:87
+msgid "The order has been deleted."
+msgstr "Die Bestellung wurde gelöscht."
+
+#: Controller/OrdersController.php:89
+msgid "The order could not be deleted. Please, try again."
+msgstr ""
+"Die Bestellung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
 
 #: Paypalmes/index.php:21
 msgid "first"
@@ -28,9 +37,15 @@ msgid "last"
 msgstr "letzte"
 
 #: Paypalmes/index.php:27
-msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgid ""
+"Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} "
+"total"
 msgstr "Seite {{page}} von {{pages}}, {{current}} Einträge von {{count}}"
 
 #: layout/error.php:38
 msgid "Back"
 msgstr "Zurück"
+
+#: View/Helper/PaginatorHelper.php:1268
+msgid "View"
+msgstr "Ansehen"

@@ -34,10 +34,11 @@ else echo $out;
 <button class="accordion">Personen die heute bestellt haben</button>
 <div class="panel">
     <?php foreach ($orders as $order): ?>
-        <p><?= $order->orderedby ?></p>
+        <div class="displayName"><span><?= $order->orderedby ?></span> <?= (isset($_COOKIE['lastOrderedName']) && $order->orderedby == $_COOKIE['lastOrderedName']) ? $this->Form->postLink('<i class="material-icons">delete_forever</i>', ['controller' => 'orders', 'action' => 'delete', base64_encode($order->id)], ['confirm' => 'Bist du sicher, dass du diese Bestellung löschen willst?', 'class' => 'btn', 'escape' => false]) : "" ?></div>
     <?php endforeach; ?>
 </div>
 
+<?php if (count($preorders->toArray()) > 0): ?>
 <button class="accordion">Vorbestellungen</button>
 <div class="panel">
     <?php
@@ -52,3 +53,4 @@ else echo $out;
         $first = false;
     endforeach; ?>
 </div>
+<?php endif; ?>

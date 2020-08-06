@@ -21,6 +21,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
+use Cake\Core\Configure;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
@@ -51,15 +52,17 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * to use (in this case, templates/Pages/home.php)...
      */
     $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    if (!Configure::read('debug'))
+        $builder->connect('/*', ['controller' => 'app', 'action' => 'e404']);
 
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-    $builder->connect('/bestellen/*', ['controller' => 'Hirsch', 'action' => 'order']);
-    $builder->connect('/bestellungen/*', ['controller' => 'Hirsch', 'action' => 'orders']);
-    $builder->connect('/übersicht/*', ['controller' => 'Hirsch', 'action' => 'index']);
-    $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index']);
+    $builder->connect('/bestellen/*', ['controller' => 'Orders', 'action' => 'order'], ['_name' => 'bestellen']);
+    $builder->connect('/bestellungen/*', ['controller' => 'Orders', 'action' => 'list'], ['_name' => 'bestellungen']);
+    $builder->connect('/karte/*', ['controller' => 'Hirsch', 'action' => 'index'], ['_name' => 'karte']);
+    $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);
 
     /*
      * Connect catchall routes for all controllers.
