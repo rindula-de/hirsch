@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-08-06 11:12+0200\n"
+"POT-Creation-Date: 2020-08-06 15:52+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,11 +11,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4\n"
 
-#: Controller/OrdersController.php:87
+#: Controller/OrdersController.php:99
+msgid "It's too late to revoke your order!"
+msgstr "Es ist zu spät, um Ihre Bestellung zu widerrufen!"
+
+#: Controller/OrdersController.php:105
 msgid "The order has been deleted."
 msgstr "Die Bestellung wurde gelöscht."
 
-#: Controller/OrdersController.php:89
+#: Controller/OrdersController.php:107
 msgid "The order could not be deleted. Please, try again."
 msgstr ""
 "Die Bestellung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."

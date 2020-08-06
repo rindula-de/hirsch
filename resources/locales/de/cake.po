@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-08-06 11:12+0200\n"
+"POT-Creation-Date: 2020-08-06 15:52+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -36,15 +36,15 @@ msgstr "Nicht gefunden"
 msgid "An Internal Error Has Occurred."
 msgstr "Interner Fehler."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:277
+#: Http/Middleware/CsrfProtectionMiddleware.php:286
 msgid "Missing or incorrect CSRF cookie type."
 msgstr "Fehlender oder falscher CSRF-Cookietyp."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:281
+#: Http/Middleware/CsrfProtectionMiddleware.php:290
 msgid "Missing or invalid CSRF cookie."
 msgstr "Fehlendes CSRF-Token-Cookie."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:302
+#: Http/Middleware/CsrfProtectionMiddleware.php:311
 msgid ""
 "CSRF token from either the request body or request headers did not match or "
 "is missing."
@@ -227,8 +227,8 @@ msgstr "Dieser Wert existiert nicht"
 #: ORM/RulesChecker.php:224
 msgid "Cannot modify row: a constraint for the `{0}` association fails."
 msgstr ""
-"Zeile nicht editierbar: eine Einschränkung für die Zuordnung \"{0}\" "
-"schlägt fehl."
+"Zeile nicht editierbar: eine Einschränkung für die Zuordnung \"{0}\" schlägt "
+"fehl."
 
 #: ORM/RulesChecker.php:262
 msgid "The count does not match {0}{1}"

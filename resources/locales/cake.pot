@@ -4,8 +4,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: CakePHP 4.1.0\n"
-"POT-Creation-Date: 2020-08-06 11:12+0200\n"
+"Project-Id-Version: CakePHP 4.1.1\n"
+"POT-Creation-Date: 2020-08-06 15:52+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -39,15 +39,15 @@ msgstr ""
 msgid "An Internal Error Has Occurred."
 msgstr ""
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:277
+#: Http/Middleware/CsrfProtectionMiddleware.php:286
 msgid "Missing or incorrect CSRF cookie type."
 msgstr ""
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:281
+#: Http/Middleware/CsrfProtectionMiddleware.php:290
 msgid "Missing or invalid CSRF cookie."
 msgstr ""
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:302
+#: Http/Middleware/CsrfProtectionMiddleware.php:311
 msgid "CSRF token from either the request body or request headers did not match or is missing."
 msgstr ""
 

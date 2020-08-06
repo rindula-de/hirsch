@@ -76,7 +76,7 @@ class OrdersController extends AppController
                 'orderedby' => $_COOKIE['lastOrderedName']
             ])->contain(['Hirsch'])->order(['for'])->first();
             if ($lastOrder) {
-                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name);
+                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . (!empty($lastOrder->note)) ? " ({$lastOrder->note})" : "");
             }
         }
 
@@ -95,6 +95,10 @@ class OrdersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
+        if ((new Time())->hour >= 11) {
+            $this->Flash->error(__('It\'s too late to revoke your order!'));
+            return $this->redirect(['action' => 'list']);
+        }
         $id = base64_decode($id);
         $order = $this->Orders->get($id);
         if ($this->Orders->delete($order)) {

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-08-06 11:12+0200\n"
+"POT-Creation-Date: 2020-08-06 15:52+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,11 +14,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/OrdersController.php:87
+#: Controller/OrdersController.php:99
+msgid "It's too late to revoke your order!"
+msgstr ""
+
+#: Controller/OrdersController.php:105
 msgid "The order has been deleted."
 msgstr ""
 
-#: Controller/OrdersController.php:89
+#: Controller/OrdersController.php:107
 msgid "The order could not be deleted. Please, try again."
 msgstr ""
 
