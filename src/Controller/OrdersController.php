@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Holiday;
 use App\Model\Entity\Order;
 use App\Model\Table\OrdersTable;
 use Cake\Core\Configure;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
+use Cake\Utility\Security;
 
 /**
  * Orders Controller
@@ -28,16 +30,32 @@ class OrdersController extends AppController
         $order = $orders->newEntity($data);
         $meal = $this->Orders->Hirsch->findBySlug($mealSlug)->first();
 
+        $holidaysTable = $this->getTableLocator()->get('holidays');
+
+        /** @var Holiday $holiday */
+        $holiday = $holidaysTable->find()->where(['end >=' => new Date()])->order(['start', 'end'])->first();
+
         $cookiedName = '';
         if (!empty($_COOKIE['lastOrderedName'])) {
-            $cookiedName = $_COOKIE['lastOrderedName'];
+            $cookiedName = Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion');
         }
 
         $this->set(compact('meal', 'order', 'cookiedName'));
 
+        if (!Configure::read('debug') && (($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0)) {
+            $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
+            return $this->redirect(['_name' => 'karte']);
+        } elseif ($data['for']->isWeekend()) {
+            $this->Flash->error("Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!");
+            return $this->redirect(['_name' => 'karte']);
+        } elseif ($data['for']->between($holiday->start, $holiday->end)) {
+            $this->Flash->error("An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!");
+            return $this->redirect(['_name' => 'karte']);
+        }
+
         if ($this->request->is('post')) {
             if (!empty($data)) {
-                setcookie('lastOrderedName', $data['orderedby'], time() + (60 * 60 * 24 * 30), '/');
+                setcookie('lastOrderedName', Security::encrypt($data['orderedby'], 'ordererNameDecryptionKeyLongVersion'), time() + (60 * 60 * 24 * 30), '/');
                 if ($orders->save($order)) {
                     $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
                     return $this->redirect(['controller' => 'paypalmes', 'action' => 'index']);
@@ -47,9 +65,6 @@ class OrdersController extends AppController
                 }
             }
             return;
-        } elseif (!Configure::read('debug') && (($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0)) {
-            $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
-            return $this->redirect(['controller' => 'hirsch', 'action' => 'index']);
         }
     }
 

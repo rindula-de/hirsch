@@ -40,7 +40,7 @@ $.ajax({
     context: document.body,
     success: function(result){
         if (result) {
-            $("#informationModalText").html(result);
+            $("#informationModalText").html(result.trim());
             $("#informationModal").addClass("active");
         }
     }
