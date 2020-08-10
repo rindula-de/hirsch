@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Table\HirschTable;
 use App\Model\Table\OrdersTable;
 use Cake\Core\Configure;
+use Cake\Http\Exception\InternalErrorException;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Exception;
@@ -32,7 +33,8 @@ class HirschController extends AppController
         $server = Configure::readOrFail("MailAccess.host");
         $adresse = Configure::readOrFail("MailAccess.username");
         $password = Configure::readOrFail("MailAccess.password");
-        $mbox = imap_open($server, $adresse, $password) or die("Error: " . imap_last_error());
+        $mbox = @imap_open($server, $adresse, $password);
+        if (!$mbox) throw new InternalErrorException(imap_last_error());
 
         $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
         $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
@@ -50,7 +52,7 @@ class HirschController extends AppController
             imap_expunge($mbox);
             imap_close($mbox);
             // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-            $this->redirect([]);
+            return $this->redirect(['_name' => 'karte']);
         }
 
         if ($emails) {
@@ -166,6 +168,21 @@ class HirschController extends AppController
         imap_close($mbox);
 
         $this->set(compact('displayData', 'htg'));
+    }
+
+    public function modalText() {
+        $this->viewBuilder()->setLayout('ajax');
+        $lastShowed = $this->request->getSession()->read('lastShowed');
+        if (!$lastShowed) {
+            $lastShowed = new Time(0);
+            $this->request->getSession()->write('lastShowed', $lastShowed);
+        }
+
+        $holidaysTable = $this->getTableLocator()->get('holidays');
+
+        $holiday = $holidaysTable->find()->where(['end >=' => new Date()])->order(['start', 'end'])->first();
+
+        $this->set(compact('lastShowed', 'holiday'));
     }
 
     private function read_docx($filename)

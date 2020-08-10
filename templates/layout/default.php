@@ -17,7 +17,7 @@
 $cakeDescription = 'Hirsch Bestellungen';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,6 +46,13 @@ $cakeDescription = 'Hirsch Bestellungen';
             <?= $this->fetch('content') ?>
         </div>
     </main>
+    <div id="informationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="informationModalText">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
+
+    </div>
     <footer>
     </footer>
     <?= $this->Html->script('pageEnd.js') ?>

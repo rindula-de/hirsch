@@ -62,6 +62,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/bestellen/*', ['controller' => 'Orders', 'action' => 'order'], ['_name' => 'bestellen']);
     $builder->connect('/bestellungen/*', ['controller' => 'Orders', 'action' => 'list'], ['_name' => 'bestellungen']);
     $builder->connect('/karte/*', ['controller' => 'Hirsch', 'action' => 'index'], ['_name' => 'karte']);
+    $builder->connect('/ngvkjdrfnknvgimhcsllfkhxmujgjcsrj/*', ['controller' => 'Hirsch', 'action' => 'modalText'], ['_name' => 'modalText']);
     $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);
 
     /*

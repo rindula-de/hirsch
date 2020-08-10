@@ -86,6 +86,55 @@ textarea {
     .displayName .btn i {
       font-size: initial !important; }
 
+.modal {
+  visibility: hidden;
+  /* Hidden by default */
+  display: block;
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+  backdrop-filter: blur(2px);
+  transition: all .5s ease;
+  opacity: 0; }
+  .modal.active {
+    visibility: visible;
+    opacity: 1; }
+  .modal .modal-content {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    /* Could be more or less, depending on screen size */
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2); }
+  .modal .close {
+    color: #000000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold; }
+    .modal .close:hover, .modal .close:focus {
+      color: #ff4400;
+      text-decoration: none;
+      cursor: pointer; }
+
+@media screen and (max-width: 740px) {
+  .modal .modal-content {
+    width: 80%; } }
 #navbar {
   overflow: hidden;
   background-color: #333;
@@ -112,7 +161,7 @@ textarea {
   #navbar .icon {
     display: none; }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 740px) {
   #navbar a:not(:first-child) {
     display: none; }
   #navbar span {

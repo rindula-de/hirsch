@@ -1,9 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Order[] $orders
- * @var \App\Model\Entity\Order[] $preorders
- * @var \App\Model\Entity\Order[] $ordersGrouped
+ * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $orders
+ * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $preorders
+ * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $ordersGrouped
  * @var int $rowCount
  */
 
@@ -32,7 +32,7 @@ else echo $out;
 </textarea>
 </label>
 
-<button class="accordion">Personen die heute bestellt haben</button>
+<button class="accordion">Personen die heute bestellt haben (<?= count($orders->toArray()) ?>)</button>
 <div class="panel">
     <?php foreach ($orders as $order): ?>
         <div class="displayName"><span><?= $order->orderedby ?></span> <?= (isset($_COOKIE['lastOrderedName']) && $order->orderedby == $_COOKIE['lastOrderedName']) ? $this->Form->postLink('<i class="material-icons">delete_forever</i>', ['controller' => 'orders', 'action' => 'delete', base64_encode($order->id)], ['confirm' => 'Bist du sicher, dass du diese Bestellung löschen willst?', 'class' => 'btn', 'escape' => false, 'disabled' =>  (new Time())->hour >= 11]) : "" ?></div>
