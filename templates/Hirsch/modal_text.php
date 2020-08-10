@@ -8,7 +8,7 @@
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 
-if ($lastShowed->diffInMinutes(new Time(), true) >= 1):
+if ($lastShowed->diffInMinutes(new Time(), true) >= 5):
     $this->request->getSession()->write('lastShowed', new Time());
     if ($holiday && (new Time())->between($holiday->start, $holiday->end, true)): ?>
         Aktuell sind Betriebsferien beim Hirsch! Nach dem <?= $holiday->end ?> können wieder Bestellungen aufgenommen werden!

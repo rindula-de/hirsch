@@ -55,6 +55,6 @@ $cakeDescription = 'Hirsch Bestellungen';
     </div>
     <footer>
     </footer>
-    <?= $this->Html->script('pageEnd.js') ?>
+    <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 </body>
 </html>
