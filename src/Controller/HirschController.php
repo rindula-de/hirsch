@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Hirsch;
 use App\Model\Table\HirschTable;
-use App\Model\Table\OrdersTable;
 use Cake\Core\Configure;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\InternalErrorException;
+use Cake\Http\Response;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Exception;
@@ -15,9 +18,9 @@ use Smalot\PdfParser\Parser;
 /**
  * Hirsch Controller
  *
- * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method Hirsch[]|ResultSetInterface paginate($object = null, array $settings = [])
  * @property HirschTable Hirsch
- * @property \Cake\Http\Cookie\Cookie Cookie
+ * @property Cookie Cookie
  */
 class HirschController extends AppController
 {
@@ -25,11 +28,14 @@ class HirschController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      * @throws Exception
      */
     public function index()
     {
+        $holidays = $this->getTableLocator()->get('Holidays')->find()->where(['end >=' => new Date()])->select(['from' => 'start', 'to' => 'end']);
+        $this->set(compact('holidays'));
+
         $server = Configure::readOrFail("MailAccess.host");
         $adresse = Configure::readOrFail("MailAccess.username");
         $password = Configure::readOrFail("MailAccess.password");

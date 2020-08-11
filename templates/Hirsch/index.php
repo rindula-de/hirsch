@@ -1,9 +1,12 @@
 <?php
 /**
- * @var \App\View\AppView $this
+ * @var AppView $this
  * @var array $displayData Tagesessensdaten
  * @var array $htg Hirsch to Go Gerichte
  */
+
+use App\View\AppView;
+
 ?>
 <button class="accordion">Hirsch to Go</button>
 <div class="panel">
@@ -21,3 +24,8 @@
     }
     ?>
 </div>
+
+
+<script>
+    let holidays = JSON.parse('<?= json_encode($holidays) ?>')
+</script>

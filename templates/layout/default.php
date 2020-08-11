@@ -11,8 +11,10 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
+ * @var AppView $this
  */
+
+use App\View\AppView;
 
 $cakeDescription = 'Hirsch Bestellungen';
 ?>
@@ -31,41 +33,41 @@ $cakeDescription = 'Hirsch Bestellungen';
 
     <?= $this->Html->css(['style.css?' . round(time() / 1000)]) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>
-    <?= $this->Html->css('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css') ?>
+    <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
-    <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js') ?>
+    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/flatpickr') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <?= $this->Nav->main() ?>
-    <main class="main">
-        <div class="content">
-            <?= $this->Flash->render() ?>
+<?= $this->Nav->main() ?>
+<main class="main">
+    <div class="content">
+        <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <div id="preorderModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Vorbestellen</h2>
-            <input readonly type="text" id="datepickerPreorder" placeholder="Datum auswählen">
-            <br>
-            <br>
-            <a href="#" id="preorderLink" class="btn">Datum auswählen</a>
-            <span style="display: none" id="preorderSlug"></span>
-        </div>
     </div>
-    <div id="informationModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="informationModalText">Lorem Schwippsum</p>
-        </div>
+</main>
+<div id="preorderModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Vorbestellen</h2>
+        <input readonly type="text" class="datepicker flatpickr flatpickr-input" placeholder="Datum auswählen">
+        <br>
+        <br>
+        <a href="#" id="preorderLink" class="btn">Datum wählen</a>
+        <span style="display: none" id="preorderSlug"></span>
     </div>
-    <footer>
+</div>
+<div id="informationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="informationModalText">Lorem Schwippsum</p>
+    </div>
+</div>
+<footer>
     </footer>
     <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 </body>

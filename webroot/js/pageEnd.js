@@ -38,7 +38,7 @@ $.ajax({
             $("#informationModal").addClass("active");
         }
     }
-})
+});
 
 // When the user clicks on <span> (x), close the modal
 $('.close').click(function () {
@@ -51,36 +51,42 @@ $(".preorderBtn").click(function (event) {
     $('#preorderLink').removeAttr('href');
     $('#preorderSlug').html(slug);
     $('#preorderModal').addClass('active')
-})
+});
 
-$('#datepickerPreorder').datepicker({
-    onSelect: function (dateText, inst) {
-        dateText = dateText.split(".").reverse().join('-')
+$(".datepicker").flatpickr({
+    altInput: true,
+    altFormat: "j F, Y",
+    dateFormat: "Y-m-d",
+    minDate: new Date().fp_incr(1),
+    maxDate: new Date().fp_incr(14),
+    disable: [
+        function (date) {
+
+            var holidayDate = false;
+            var today = new Date(date);
+            for (let j = 0; j < holidays.length; j++) {
+                var start = new Date(holidays[j]['from']).setHours(0);
+                var end = new Date(holidays[j]['to']).setHours(0);
+
+                if (today >= start && today <= end) {
+                    holidayDate = true;
+                    break;
+                }
+            }
+            // return true to disable
+            return (date.getDay() === 0 || date.getDay() === 6) || holidayDate;
+
+        }
+    ],
+    locale: {
+        "firstDayOfWeek": 1 // start week on Monday
+    },
+    weekNumbers: true,
+    onChange: function (selectedDates, dateStr, instance) {
         var today = new Date()
-        var picked = new Date(dateText)
+        var picked = new Date(dateStr)
         const diffTime = Math.abs(picked - today);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         $('#preorderLink').attr('href', '/bestellen/' + diffDays + '/' + $('#preorderSlug').html())
-    },
-    minDate: new Date((new Date()).getTime() + (24 * 60 * 60 * 1000)),
-    prevText: '&#x3c;zurück', prevStatus: '',
-    prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
-    nextText: 'Vor&#x3e;', nextStatus: '',
-    nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
-    currentText: 'heute', currentStatus: '',
-    todayText: 'heute', todayStatus: '',
-    clearText: '-', clearStatus: '',
-    closeText: 'x', closeStatus: '',
-    monthNames: ['Januar','Februar','März','April','Mai','Juni',
-        'Juli','August','September','Oktober','November','Dezember'],
-    monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
-        'Jul','Aug','Sep','Okt','Nov','Dez'],
-    dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
-    dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-    dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-    showMonthAfterYear: false,
-    dateFormat: 'dd.mm.yy',
-    firstDay: 1,
-    beforeShowDay: $.datepicker.noWeekends
+    }
 });
-$('#datepickerPreorder').setDefaults($.datepicker.regional['de']);

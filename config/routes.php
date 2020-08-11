@@ -42,7 +42,7 @@ use Cake\Routing\RouteBuilder;
  * inconsistently cased URLs when used with `:plugin`, `:controller` and
  * `:action` markers.
  */
-/** @var \Cake\Routing\RouteBuilder $routes */
+/** @var RouteBuilder $routes */
 $routes->setRouteClass(DashedRoute::class);
 
 $routes->scope('/', function (RouteBuilder $builder) {
@@ -66,6 +66,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);
     $builder->connect('/ich-will-auch-mal-zahlen/*', ['controller' => 'Paypalmes', 'action' => 'add'], ['_name' => 'selberZahlen']);
     $builder->connect('/pp/:action/*', ['controller' => 'Paypalmes']);
+    $builder->connect('/holy/:action/*', ['controller' => 'Holidays']);
 
     /*
      * Connect catchall routes for all controllers.
@@ -80,7 +81,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-    $builder->fallbacks();
+//    $builder->fallbacks();
 });
 
 /*
