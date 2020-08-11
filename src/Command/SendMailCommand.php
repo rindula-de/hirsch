@@ -67,8 +67,7 @@ class SendMailCommand extends Command
             $mailer->viewBuilder()->setTemplate('orders');
             $mailer->setDomain('hochwarth-e.com');
             $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
-                // TODO: Change Mail
-                ->setTo('nolting@hochwarth-it.de')
+                ->setTo('m.bloss@hochwarth-it.de')
                 ->setSubject("🦌 Hirsch Bestellungen vom " . new Date())
                 ->setEmailFormat('both')
                 ->deliver($out);
