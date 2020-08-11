@@ -55,7 +55,7 @@ $cakeDescription = 'Hirsch Bestellungen';
             <input readonly type="text" id="datepickerPreorder" placeholder="Datum auswählen">
             <br>
             <br>
-            <a href="#" id="preorderLink" class="btn">Bestellen</a>
+            <a href="#" id="preorderLink" class="btn">Datum auswählen</a>
             <span style="display: none" id="preorderSlug"></span>
         </div>
     </div>
