@@ -62,7 +62,7 @@ class PaypalmesTable extends Table
         $validator
             ->scalar('name')
             ->maxLength('name', 100)
-            ->allowEmptyString('name');
+            ->notEmptyString('name');
 
         return $validator;
     }

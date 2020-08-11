@@ -31,8 +31,10 @@ $cakeDescription = 'Hirsch Bestellungen';
 
     <?= $this->Html->css(['style.css?' . round(time() / 1000)]) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>
+    <?= $this->Html->css('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css') ?>
 
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
+    <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -46,12 +48,22 @@ $cakeDescription = 'Hirsch Bestellungen';
             <?= $this->fetch('content') ?>
         </div>
     </main>
+    <div id="preorderModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Vorbestellen</h2>
+            <input readonly type="text" id="datepickerPreorder" placeholder="Datum auswählen">
+            <br>
+            <br>
+            <a href="#" id="preorderLink" class="btn">Bestellen</a>
+            <span style="display: none" id="preorderSlug"></span>
+        </div>
+    </div>
     <div id="informationModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p id="informationModalText">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            <p id="informationModalText">Lorem Schwippsum</p>
         </div>
-
     </div>
     <footer>
     </footer>

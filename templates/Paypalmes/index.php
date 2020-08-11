@@ -11,7 +11,7 @@
     </div>
     <h3>Paypalierer</h3>
         <?php foreach ($paypalmes as $paypalme): ?>
-            <div class="paypalmeslistitem">
+            <div class="paypalmeslistitem" data-database-id="<?= $paypalme->id ?>">
                 <?= $this->Html->link($paypalme->name, $paypalme->link . '3.5') ?>
             </div>
         <?php endforeach; ?>
@@ -25,5 +25,8 @@
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+    </div>
+    <div>
+        <p>Du willst auch in der Liste stehen? <?= $this->Html->link('Hier', ['_name' => 'selberZahlen']) ?> kannst du dich eintragen</p>
     </div>
 </div>

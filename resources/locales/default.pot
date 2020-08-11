@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-08-06 15:52+0200\n"
+"POT-Creation-Date: 2020-08-11 13:41+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,16 +14,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/OrdersController.php:99
+#: Controller/OrdersController.php:114
 msgid "It's too late to revoke your order!"
 msgstr ""
 
-#: Controller/OrdersController.php:105
+#: Controller/OrdersController.php:120
 msgid "The order has been deleted."
 msgstr ""
 
-#: Controller/OrdersController.php:107
+#: Controller/OrdersController.php:122
 msgid "The order could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/PaypalmesController.php:48
+#: Controller/PaypalmesController.php:75
+msgid "The paypalme has been saved."
+msgstr ""
+
+#: Controller/PaypalmesController.php:52
+#: Controller/PaypalmesController.php:79
+msgid "The paypalme could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/PaypalmesController.php:54
+msgid "You have entered the Linkname in a wrong format. If your link is for example \"https://paypal.me/rindulalp/\" you have to enter \"rindulalp\""
+msgstr ""
+
+#: Paypalmes/add.php:13
+#: Paypalmes/edit.php:15
+msgid "Submit"
 msgstr ""
 
 #: Paypalmes/index.php:21

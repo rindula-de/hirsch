@@ -62,6 +62,7 @@ class FooddisplayHelper extends Helper
         if (!$isRuhetag) {
             $html .= "<div class='actionbar'>";
             $html .= $this->Html->link("Bestellen", ['_name' => 'bestellen', $date->diffInDays(new Date()), $gericht->slug], ['class' => 'btn']);
+            $html .= "&nbsp;" . $this->Html->link("Vorbestellen", ['_name' => 'bestellen', $date->diffInDays(new Date('+1 days')), $gericht->slug], ['class' => 'btn preorderBtn', 'data-slug' => $gericht->slug]);
             $html .= "</div>";
         }
         $html .= "</div>";

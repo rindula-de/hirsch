@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-08-06 15:52+0200\n"
+"POT-Creation-Date: 2020-08-11 13:41+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -9,20 +9,41 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4\n"
+"X-Generator: Poedit 2.4.1\n"
 
-#: Controller/OrdersController.php:99
+#: Controller/OrdersController.php:114
 msgid "It's too late to revoke your order!"
 msgstr "Es ist zu spät, um Ihre Bestellung zu widerrufen!"
 
-#: Controller/OrdersController.php:105
+#: Controller/OrdersController.php:120
 msgid "The order has been deleted."
 msgstr "Die Bestellung wurde gelöscht."
 
-#: Controller/OrdersController.php:107
+#: Controller/OrdersController.php:122
 msgid "The order could not be deleted. Please, try again."
 msgstr ""
 "Die Bestellung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
+
+#: Controller/PaypalmesController.php:48 Controller/PaypalmesController.php:75
+msgid "The paypalme has been saved."
+msgstr "Der PayPal Link wurde gespeichert."
+
+#: Controller/PaypalmesController.php:52 Controller/PaypalmesController.php:79
+msgid "The paypalme could not be saved. Please, try again."
+msgstr ""
+"Der PayPal Link konnte nicht gespeichert werden. Bitte versuche es erneut!"
+
+#: Controller/PaypalmesController.php:54
+msgid ""
+"You have entered the Linkname in a wrong format. If your link is for example "
+"\"https://paypal.me/rindulalp/\" you have to enter \"rindulalp\""
+msgstr ""
+"Sie haben den Linknamen in einem falschen Format eingegeben. Wenn Ihr Link z."
+"B. \"https://paypal.me/rindulalp/\" ist, müssen Sie \"rindulalp\" eingeben"
+
+#: Paypalmes/add.php:13 Paypalmes/edit.php:15
+msgid "Submit"
+msgstr "Einreichen"
 
 #: Paypalmes/index.php:21
 msgid "first"
