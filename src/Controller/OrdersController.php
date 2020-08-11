@@ -7,6 +7,9 @@ use App\Model\Entity\Holiday;
 use App\Model\Entity\Order;
 use App\Model\Table\OrdersTable;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Response;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Cake\Utility\Security;
@@ -14,8 +17,8 @@ use Cake\Utility\Security;
 /**
  * Orders Controller
  *
- * @property \App\Model\Table\OrdersTable $Orders
- * @method \App\Model\Entity\Order[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property OrdersTable $Orders
+ * @method Order[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class OrdersController extends AppController
 {
@@ -91,7 +94,7 @@ class OrdersController extends AppController
                 'orderedby' => Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion')
             ])->contain(['Hirsch'])->order(['for'])->first();
             if ($lastOrder) {
-                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . (!empty($lastOrder->note)) ? " ({$lastOrder->note})" : "");
+                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . ((!empty($lastOrder->note)) ? " ({$lastOrder->note})" : ""));
             }
         }
 
@@ -104,13 +107,13 @@ class OrdersController extends AppController
      * Delete method
      *
      * @param string|null $id Order id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        if ((new Time())->hour >= 11) {
+        if ((new Time())->hour >= 11 && !Configure::read('debug')) {
             $this->Flash->error(__('It\'s too late to revoke your order!'));
             return $this->redirect(['action' => 'list']);
         }

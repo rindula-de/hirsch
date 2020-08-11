@@ -1,14 +1,17 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $orders
- * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $preorders
- * @var \Cake\ORM\Query|\App\Model\Entity\Order[] $ordersGrouped
+ * @var AppView $this
+ * @var Query|Order[] $orders
+ * @var Query|Order[] $preorders
+ * @var Query|Order[] $ordersGrouped
  * @var int $rowCount
  */
 
+use App\Model\Entity\Order;
+use App\View\AppView;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
+use Cake\ORM\Query;
 
 $first = true;
 $out = '';
@@ -35,7 +38,9 @@ else echo $out;
 <button class="accordion">Personen die heute bestellt haben (<?= count($orders->toArray()) ?>)</button>
 <div class="panel">
     <?php foreach ($orders as $order): ?>
-        <div class="displayName"><span><?= $order->orderedby ?></span> <?= (isset($_COOKIE['lastOrderedName']) && $order->orderedby == $_COOKIE['lastOrderedName']) ? $this->Form->postLink('<i class="material-icons">delete_forever</i>', ['controller' => 'orders', 'action' => 'delete', base64_encode($order->id)], ['confirm' => 'Bist du sicher, dass du diese Bestellung löschen willst?', 'class' => 'btn', 'escape' => false, 'disabled' =>  (new Time())->hour >= 11]) : "" ?></div>
+        <div class="displayName">
+            <span><?= $order->orderedby ?></span> <?= (isset($_COOKIE['lastOrderedName']) && $order->orderedby == \Cake\Utility\Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion')) ? $this->Form->postLink('<i class="material-icons">delete_forever</i>', ['controller' => 'orders', 'action' => 'delete', base64_encode($order->id)], ['confirm' => 'Bist du sicher, dass du diese Bestellung löschen willst?', 'class' => 'btn', 'escape' => false, 'disabled' => (new Time())->hour >= 11]) : "" ?>
+        </div>
     <?php endforeach; ?>
 </div>
 
