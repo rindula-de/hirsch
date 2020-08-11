@@ -1,0 +1,3 @@
+Heutige Bestellungen:
+
+<?= $content ?>
