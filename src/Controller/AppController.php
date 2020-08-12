@@ -52,6 +52,6 @@ class AppController extends Controller
     }
 
     public function e404() {
-        return $this->redirect(['controller' => 'Hirsch', 'action' => 'index']);
+        return $this->redirect(['_name' => 'karte']);
     }
 }
