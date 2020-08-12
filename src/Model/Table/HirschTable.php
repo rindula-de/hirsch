@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\Hirsch;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -11,19 +13,19 @@ use Cake\Validation\Validator;
 /**
  * Hirsch Model
  *
- * @method \App\Model\Entity\Hirsch newEmptyEntity()
- * @method \App\Model\Entity\Hirsch newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Hirsch[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Hirsch get($primaryKey, $options = [])
- * @method \App\Model\Entity\Hirsch findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Hirsch patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Hirsch[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Hirsch|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Hirsch saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Hirsch[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Hirsch newEmptyEntity()
+ * @method Hirsch newEntity(array $data, array $options = [])
+ * @method Hirsch[] newEntities(array $data, array $options = [])
+ * @method Hirsch get($primaryKey, $options = [])
+ * @method Hirsch findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Hirsch patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Hirsch[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Hirsch|false save(EntityInterface $entity, $options = [])
+ * @method Hirsch saveOrFail(EntityInterface $entity, $options = [])
+ * @method Hirsch[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Hirsch[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Hirsch[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Hirsch[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class HirschTable extends Table
 {
@@ -45,8 +47,8 @@ class HirschTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -67,6 +69,10 @@ class HirschTable extends Table
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
+        $validator
+            ->boolean('display')
+            ->allowEmptyString('display');
+
         return $validator;
     }
 
@@ -74,8 +80,8 @@ class HirschTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {

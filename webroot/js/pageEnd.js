@@ -74,7 +74,7 @@ $(".datepicker").flatpickr({
                 }
             }
             // return true to disable
-            return (date.getDay() === 0 || date.getDay() === 6) || holidayDate;
+            return (date.getDay() === 0 || date.getDay() === 1 || date.getDay() === 6) || holidayDate;
 
         }
     ],

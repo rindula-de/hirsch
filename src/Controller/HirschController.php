@@ -47,7 +47,7 @@ class HirschController extends AppController
 
         $displayData = [];
 
-        $htg = $this->Hirsch->find()->where(['slug !=' => 'tagesessen']);
+        $htg = $this->Hirsch->find()->where(['slug !=' => 'tagesessen', 'display' => 1]);
 
         if ($emailsToDelete) {
             foreach ($emailsToDelete as $emailId) {

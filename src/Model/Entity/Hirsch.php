@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $slug
  * @property string $name
+ * @property boolean $display
  */
 class Hirsch extends Entity
 {
@@ -26,5 +27,6 @@ class Hirsch extends Entity
     protected $_accessible = [
         'slug' => true,
         'name' => true,
+        'display' => true,
     ];
 }
