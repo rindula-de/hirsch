@@ -67,6 +67,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/ich-will-auch-mal-zahlen/*', ['controller' => 'Paypalmes', 'action' => 'add'], ['_name' => 'selberZahlen']);
     $builder->connect('/pp/:action/*', ['controller' => 'Paypalmes']);
     $builder->connect('/holy/:action/*', ['controller' => 'Holidays']);
+    $builder->connect('/holy/*', ['controller' => 'Holidays', 'action' => 'index']);
 
     /*
      * Connect catchall routes for all controllers.
@@ -81,7 +82,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-//    $builder->fallbacks();
+    $builder->fallbacks();
 });
 
 /*

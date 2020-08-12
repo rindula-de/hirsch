@@ -64,9 +64,6 @@ class HirschController extends AppController
         if ($emails) {
             foreach ($emails as $emailId) {
                 $structure = imap_fetchstructure($mbox, $emailId);
-                $overview = imap_fetch_overview($mbox, "" . $emailId)[0];
-                $body = utf8_encode(quoted_printable_decode(imap_fetchbody($mbox, $emailId, '1.1')));
-
 
                 if (isset($structure->parts) && count($structure->parts)) {
                     for ($i = 0; $i < count($structure->parts); $i++) {
@@ -102,8 +99,8 @@ class HirschController extends AppController
                                 $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
                             }
                         }
-                    } // for($i = 0; $i < count($structure->parts); $i++)
-                } // if(isset($structure->parts) && count($structure->parts))
+                    }
+                }
 
                 if (count($attachments) != 0) {
                     foreach ($attachments as $at) {
@@ -123,44 +120,26 @@ class HirschController extends AppController
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date())];
                                     case 2:
                                         preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
-                                        if ($dow == 1) {
-                                            $daysAdd = 1;
+                                        if ($dow < 2) {
+                                            $daysAdd++;
                                         }
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 3:
                                         preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
-                                        if ($dow == 1) {
-                                            $daysAdd = 2;
-                                        }
-                                        if ($dow == 2) {
-                                            $daysAdd = 1;
+                                        if ($dow < 3) {
+                                            $daysAdd++;
                                         }
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 4:
                                         preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
-                                        if ($dow == 1) {
-                                            $daysAdd = 3;
-                                        }
-                                        if ($dow == 2) {
-                                            $daysAdd = 2;
-                                        }
-                                        if ($dow == 3) {
-                                            $daysAdd = 1;
+                                        if ($dow < 4) {
+                                            $daysAdd++;
                                         }
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                     case 5:
                                         preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([^\d]*)/', $text, $matches);
-                                        if ($dow == 1) {
-                                            $daysAdd = 4;
-                                        }
-                                        if ($dow == 2) {
-                                            $daysAdd = 3;
-                                        }
-                                        if ($dow == 3) {
-                                            $daysAdd = 2;
-                                        }
-                                        if ($dow == 4) {
-                                            $daysAdd = 1;
+                                        if ($dow < 5) {
+                                            $daysAdd++;
                                         }
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
                                 }
@@ -176,7 +155,8 @@ class HirschController extends AppController
         $this->set(compact('displayData', 'htg'));
     }
 
-    public function modalText() {
+    public function modalText()
+    {
         $this->viewBuilder()->setLayout('ajax');
         $lastShowed = $this->request->getSession()->read('lastShowed');
         if (!$lastShowed) {
@@ -211,8 +191,6 @@ class HirschController extends AppController
         zip_close($zip);
         $content = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $content);
         $content = str_replace('</w:r></w:p>', "\r\n", $content);
-        $striped_content = strip_tags($content);
-
-        return $striped_content;
+        return strip_tags($content);
     }
 }
