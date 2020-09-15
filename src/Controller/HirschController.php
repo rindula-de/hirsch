@@ -110,7 +110,7 @@ class HirschController extends AppController
                             $parser = new Parser();
                             $pdf = $parser->parseFile($filename);
                             $text = str_replace("\t", '', $pdf->getText());
-                            if (strtolower($at['name']) == 'mittagstisch.pdf') {
+                            if (strtolower($at['filename']) == 'mittagstisch.pdf') {
                                 $now = new Time();
                                 $dow = $now->dayOfWeek;
                                 $daysAdd = 0;
