@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\PaypalmesTable;
+use App\Model\Table\PayhistoryTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\PaypalmesTable Test Case
+ * App\Model\Table\PayhistoryTable Test Case
  */
-class PaypalmesTableTest extends TestCase
+class PayhistoryTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var PaypalmesTable
+     * @var PayhistoryTable
      */
-    protected $Paypalmes;
+    protected $Payhistory;
 
     /**
      * Fixtures
@@ -24,6 +24,7 @@ class PaypalmesTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
+        'app.Payhistory',
         'app.Paypalmes',
     ];
 
@@ -35,8 +36,8 @@ class PaypalmesTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Paypalmes') ? [] : ['className' => PaypalmesTable::class];
-        $this->Paypalmes = $this->getTableLocator()->get('Paypalmes', $config);
+        $config = $this->getTableLocator()->exists('Payhistory') ? [] : ['className' => PayhistoryTable::class];
+        $this->Payhistory = $this->getTableLocator()->get('Payhistory', $config);
     }
 
     /**
@@ -46,7 +47,7 @@ class PaypalmesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->Paypalmes);
+        unset($this->Payhistory);
 
         parent::tearDown();
     }
@@ -57,6 +58,16 @@ class PaypalmesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

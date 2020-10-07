@@ -3,30 +3,38 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Paypalme;
+use App\Model\Table\PaypalmesTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Response;
+
 /**
  * Paypalmes Controller
  *
- * @property \App\Model\Table\PaypalmesTable $Paypalmes
- * @method \App\Model\Entity\Paypalme[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property PaypalmesTable $Paypalmes
+ * @method Paypalme[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class PaypalmesController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
         $paypalmes = $this->paginate($this->Paypalmes);
 
-        $this->set(compact('paypalmes'));
+        $active = $this->Paypalmes->findActivePayer();
+
+        $this->set(compact('paypalmes', 'active'));
     }
 
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -61,8 +69,8 @@ class PaypalmesController extends AppController
      * Edit method
      *
      * @param string|null $id Paypalme id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -79,6 +87,26 @@ class PaypalmesController extends AppController
             $this->Flash->error(__('The paypalme could not be saved. Please, try again.'));
         }
         $this->set(compact('paypalme'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Paypalme id.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
+     */
+    public function pay()
+    {
+        $id = base64_decode($this->request->getData()['id']);
+        $ppm = $this->Paypalmes->get($id);
+        if ($ppm) {
+            $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([
+                "paypalme_id" => $id
+            ]));
+            return $this->redirect($ppm->link . "3.5");
+        }
+        return $this->redirect(['action' => 'index']);
     }
 
 }

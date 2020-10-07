@@ -3,20 +3,19 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
- * Paypalme Entity
+ * Payhistory Entity
  *
  * @property int $id
- * @property string $link
- * @property string $name
- * @property string|null $email
- * @property Paypalme $activePayer
+ * @property int $paypalme_id
+ * @property FrozenTime $created
  *
- * @property Payhistory $Payhistory
+ * @property Paypalme $paypalme
  */
-class Paypalme extends Entity
+class Payhistory extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,8 +27,8 @@ class Paypalme extends Entity
      * @var array
      */
     protected $_accessible = [
-        'link' => true,
-        'name' => true,
-        'email' => true,
+        'paypalme_id' => true,
+        'created' => true,
+        'paypalme' => true,
     ];
 }

@@ -2,8 +2,6 @@
 git reset --hard
 git pull
 composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
-chmod +x bin/cake
-chmod +x gogogo.sh
 
 echo '' >> webroot/.htaccess
 echo 'AuthType Basic' >> webroot/.htaccess

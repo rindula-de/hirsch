@@ -1,8 +1,14 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Paypalme[]|\Cake\Collection\CollectionInterface $paypalmes
+ * @var AppView $this
+ * @var Paypalme[]|CollectionInterface $paypalmes
+ * @var Paypalme|null $active
  */
+
+use App\Model\Entity\Paypalme;
+use App\View\AppView;
+use Cake\Collection\CollectionInterface;
+
 ?>
 <div class="paypalmes index content">
     <div class="info">
@@ -10,11 +16,14 @@
         Wähle einfach denjenigen aus, der heute für das Essen zuständig ist!
     </div>
     <h3>Paypalierer</h3>
-        <?php foreach ($paypalmes as $paypalme): ?>
-            <div class="paypalmeslistitem" data-database-id="<?= $paypalme->id ?>">
-                <?= $this->Html->link($paypalme->name, $paypalme->link . '3.5') ?>
-            </div>
-        <?php endforeach; ?>
+    <?= $this->Form->create(null, ['url' => ['action' => 'pay']]) ?>
+    <?php foreach ($paypalmes as $paypalme): ?>
+        <div class="paypalmeslistitem<?= (!empty($active->id) && $active->id == $paypalme->id) ? " active" : "" ?>"
+             data-database-id="<?= $paypalme->id ?>">
+            <?= $this->Form->button($paypalme->name, ['name' => 'id', 'value' => base64_encode($paypalme->id)]) ?>
+        </div>
+    <?php endforeach; ?>
+    <?= $this->Form->end() ?>
     <hr>
     <div class="paginator">
         <ul class="pagination">

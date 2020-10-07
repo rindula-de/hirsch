@@ -3,27 +3,29 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
+use App\Model\Entity\Paypalme;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
+use Cake\I18n\Time;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Paypalmes Model
  *
- * @method \App\Model\Entity\Paypalme newEmptyEntity()
- * @method \App\Model\Entity\Paypalme newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Paypalme[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Paypalme get($primaryKey, $options = [])
- * @method \App\Model\Entity\Paypalme findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Paypalme patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Paypalme[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Paypalme|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Paypalme saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Paypalme[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Paypalme[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Paypalme[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Paypalme[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Paypalme newEmptyEntity()
+ * @method Paypalme newEntity(array $data, array $options = [])
+ * @method Paypalme[] newEntities(array $data, array $options = [])
+ * @method Paypalme get($primaryKey, $options = [])
+ * @method Paypalme findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Paypalme patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Paypalme[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Paypalme|false save(EntityInterface $entity, $options = [])
+ * @method Paypalme saveOrFail(EntityInterface $entity, $options = [])
+ * @method Paypalme[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Paypalme[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Paypalme[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Paypalme[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class PaypalmesTable extends Table
 {
@@ -40,13 +42,17 @@ class PaypalmesTable extends Table
         $this->setTable('paypalmes');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Payhistory', [
+            'foreignKey' => 'paypalme_id',
+        ]);
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -64,6 +70,23 @@ class PaypalmesTable extends Table
             ->maxLength('name', 100)
             ->notEmptyString('name');
 
+        $validator
+            ->email('email')
+            ->allowEmptyString('email');
+
         return $validator;
+    }
+
+
+    /**
+     * @return null|Paypalme
+     */
+    public function findActivePayer()
+    {
+        $active = $this->Payhistory->find()->where(['created >' => (new Time())->startOfDay()])->last();
+        if ($active) {
+            return $this->get($active->paypalme_id);
+        }
+        return null;
     }
 }
