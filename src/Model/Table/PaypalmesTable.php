@@ -83,7 +83,14 @@ class PaypalmesTable extends Table
      */
     public function findActivePayer()
     {
-        $active = $this->Payhistory->find()->where(['created >' => (new Time())->startOfDay()])->last();
+
+        $active = $this->Payhistory->find()->select([
+            'cnt' => 'COUNT(*)',
+            'paypalme_id'
+        ])->where([
+            'created >' => (new Time())->startOfDay()
+        ])->group(['paypalme_id'])->max('cnt');
+
         if ($active) {
             return $this->get($active->paypalme_id);
         }

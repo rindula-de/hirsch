@@ -56,7 +56,10 @@ class SendMailCommand extends Command
             $first = false;
         }
 
-        if (!empty($out)) {
+
+        $currentReceiver = $this->getTableLocator()->get('PaypalMes')->findActivePayer();
+
+        if (!empty($out) && !empty($currentReceiver)) {
 
             $out .= PHP_EOL . PHP_EOL . PHP_EOL . "Besteller:" . PHP_EOL . PHP_EOL;
             foreach ($orderer as $item) {
@@ -67,7 +70,7 @@ class SendMailCommand extends Command
             $mailer->viewBuilder()->setTemplate('orders');
             $mailer->setDomain('hochwarth-e.com');
             $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
-                ->setTo('m.bloss@hochwarth-it.de')
+                ->setTo($currentReceiver->email)
                 ->setSubject("🦌 Hirsch Bestellungen vom " . new Date())
                 ->setEmailFormat('both')
                 ->deliver($out);
