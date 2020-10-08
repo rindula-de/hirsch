@@ -1,8 +1,12 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Paypalme $paypalme
+ * @var AppView $this
+ * @var Paypalme $paypalme
  */
+
+use App\Model\Entity\Paypalme;
+use App\View\AppView;
+
 ?>
 <div class="row">
     <div class="column-responsive column-80">
@@ -11,6 +15,7 @@
             <?php
             echo $this->Form->control('link');
             echo $this->Form->control('name');
+            echo $this->Form->control('email');
             ?>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>

@@ -1,8 +1,12 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Paypalme $paypalme
+ * @var AppView $this
+ * @var Paypalme $paypalme
  */
+
+use App\Model\Entity\Paypalme;
+use App\View\AppView;
+
 ?>
 <div class="row">
     <div class="column-responsive column-80">
@@ -10,6 +14,7 @@
             <?= $this->Form->create($paypalme) ?>
             <?= $this->Form->control('link', ['placeholder' => 'https://paypal.me/<name>/', 'label' => 'PaypalMe Name']); ?>
             <?= $this->Form->control('name', ['placeholder' => 'Anzeigename', 'label' => 'Anzeigename']); ?>
+            <?= $this->Form->control('email', ['placeholder' => 'E-Mail', 'label' => 'E-Mail (für die Bestellzusammenfassung)']); ?>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
         </div>
