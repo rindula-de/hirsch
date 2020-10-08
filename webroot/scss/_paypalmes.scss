@@ -8,10 +8,6 @@
     &.active {
         box-shadow: 0 0 40px invert($accentcolor, 100%), inset 0 0 50px invert($accentcolor, 100%);
         animation: active 3s linear infinite;
-
-        &:hover {
-            background-color: #0D47A1;
-        }
     }
 
     button {
