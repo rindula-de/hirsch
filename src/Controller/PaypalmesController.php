@@ -24,11 +24,13 @@ class PaypalmesController extends AppController
      */
     public function index()
     {
+        $this->viewBuilder()->setLayout('vue');
+        $layoutName = "bezahlen"; // wie der ordner in /webroot/vue-apps/
         $paypalmes = $this->paginate($this->Paypalmes);
 
         $active = $this->Paypalmes->findActivePayer();
 
-        $this->set(compact('paypalmes', 'active'));
+        $this->set(compact('paypalmes', 'active', 'layoutName'));
     }
 
     /**
@@ -98,13 +100,13 @@ class PaypalmesController extends AppController
      */
     public function pay()
     {
-        $id = base64_decode($this->request->getData()['id']);
+        $id = $this->request->getData()['id'];
         $ppm = $this->Paypalmes->get($id);
         if ($ppm) {
             $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([
                 "paypalme_id" => $id
             ]));
-            return $this->redirect($ppm->link . "3.5");
+            return $this->redirect($ppm->link . (3.5 + $this->request->getData()['tip']));
         }
         return $this->redirect(['action' => 'index']);
     }

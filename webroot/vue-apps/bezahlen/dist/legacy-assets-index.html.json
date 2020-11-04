@@ -1,0 +1,18 @@
+[
+    {
+        "tagName": "script",
+        "closeTag": true,
+        "attributes": {
+            "type": "text/javascript",
+            "src": "/vue-apps/bezahlen/dist/js/chunk-vendors-legacy.js"
+        }
+    },
+    {
+        "tagName": "script",
+        "closeTag": true,
+        "attributes": {
+            "type": "text/javascript",
+            "src": "/vue-apps/bezahlen/dist/js/app-legacy.js"
+        }
+    }
+]
