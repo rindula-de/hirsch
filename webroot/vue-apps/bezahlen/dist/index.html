@@ -1,1 +1,33 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta content="width=device-width,initial-scale=1" name="viewport"><link href="/vue-apps/bezahlen/dist/favicon.ico" rel="icon"><title>bezahlen</title><link href="/vue-apps/bezahlen/dist/css/app.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but bezahlen doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/vue-apps/bezahlen/dist/js/chunk-vendors-legacy.js"></script><script src="/vue-apps/bezahlen/dist/js/app-legacy.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <link href="/vue-apps/bezahlen/dist/favicon.ico" rel="icon">
+    <title>bezahlen</title>
+    <link as="style" href="/vue-apps/bezahlen/dist/css/app.css" rel="preload">
+    <link as="script" href="/vue-apps/bezahlen/dist/js/app.js" rel="modulepreload">
+    <link as="script" href="/vue-apps/bezahlen/dist/js/chunk-vendors.js" rel="modulepreload">
+    <link href="/vue-apps/bezahlen/dist/css/app.css" rel="stylesheet">
+</head>
+<body>
+<noscript><strong>We're sorry but bezahlen doesn't work properly without JavaScript enabled. Please enable it to
+    continue.</strong></noscript>
+<div id="app"></div>
+<script src="/vue-apps/bezahlen/dist/js/chunk-vendors.js" type="module"></script>
+<script src="/vue-apps/bezahlen/dist/js/app.js" type="module"></script>
+<script>!function () {
+    var e = document, t = e.createElement("script");
+    if (!("noModule" in t) && "onbeforeload" in t) {
+        var n = !1;
+        e.addEventListener("beforeload", function (e) {
+            if (e.target === t) n = !0; else if (!e.target.hasAttribute("nomodule") || !n) return;
+            e.preventDefault()
+        }, !0), t.type = "module", t.src = ".", e.head.appendChild(t), t.remove()
+    }
+}();</script>
+<script nomodule src="/vue-apps/bezahlen/dist/js/chunk-vendors-legacy.js"></script>
+<script nomodule src="/vue-apps/bezahlen/dist/js/app-legacy.js"></script>
+</body>
+</html>
