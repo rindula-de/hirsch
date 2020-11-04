@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Entity\Holiday;
 use App\Model\Entity\Order;
 use App\Model\Table\OrdersTable;
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
@@ -33,6 +34,8 @@ class OrdersController extends AppController
         $order = $orders->newEntity($data);
         $meal = $this->Orders->Hirsch->findBySlug($mealSlug)->first();
 
+        $extended = Cache::read("settings.extended", 'extended') ?? false;
+
         $holidaysTable = $this->getTableLocator()->get('holidays');
 
         /** @var Holiday $holiday */
@@ -45,7 +48,7 @@ class OrdersController extends AppController
 
         $this->set(compact('meal', 'order', 'cookiedName'));
 
-        if (!Configure::read('debug') && (($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0)) {
+        if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
             $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
             return $this->redirect(['_name' => 'karte']);
         } elseif ($data['for']->isWeekend()) {
@@ -126,5 +129,19 @@ class OrdersController extends AppController
         }
 
         return $this->redirect(['action' => 'list']);
+    }
+
+
+    public function extend()
+    {
+        if ((new Time())->hour >= 12 && !Configure::read('debug')) {
+            $this->Flash->error("Die Bestellungen sind bereits aufgegeben!");
+            return $this->redirect($this->referer());
+        }
+
+        Cache::write("settings.extended", true, 'extended');
+        $this->Flash->success("Die Bestellzeit wurde auf 11:20 Uhr verlängert");
+
+        return $this->redirect($this->referer());
     }
 }

@@ -4,6 +4,7 @@
 namespace App\View\Helper;
 
 
+use Cake\Cache\Cache;
 use Cake\View\Helper;
 
 class NavHelper extends Helper
@@ -29,7 +30,8 @@ class NavHelper extends Helper
 
     public function main()
     {
-        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . '<span>Bestellungen am selben Tag bis 10:55 Uhr möglich</span><a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
+        $extended = Cache::read("settings.extended", 'extended') ?? false;
+        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . (($extended) ? '<span>Bestellungen heute bis 11:20 Uhr möglich!</span>' : '<span>Bestellungen am selben Tag bis 10:55 Uhr möglich</span>') . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
     }
 
     private function nav(array $items)
@@ -46,8 +48,8 @@ class NavHelper extends Helper
             $url = $this->getUrl($item);
 
             $content .= $this->Html->link($item['title'], $url, [
-                    'escape' => false,
-                    'class' => join(' ', $class)
+                'escape' => false,
+                'class' => join(' ', $class)
             ]);
         }
 

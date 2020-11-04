@@ -61,7 +61,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
     $builder->connect('/bestellen/*', ['controller' => 'Orders', 'action' => 'order'], ['_name' => 'bestellen']);
     $builder->connect('/bestellungen/*', ['controller' => 'Orders', 'action' => 'list'], ['_name' => 'bestellungen']);
-    $builder->connect('/karte/*', ['controller' => 'Hirsch', 'action' => 'index'], ['_name' => 'karte']);
+    $builder->connect('/karte', ['controller' => 'Hirsch', 'action' => 'index'], ['_name' => 'karte']);
     $builder->connect('/ngvkjdrfnknvgimhcsllfkhxmujgjcsrj/*', ['controller' => 'Hirsch', 'action' => 'modalText'], ['_name' => 'modalText']);
     $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);
     $builder->connect('/jetzt-zahlen/*', ['controller' => 'Paypalmes', 'action' => 'pay'], ['_name' => 'paypal_weiterleitung']);
@@ -69,6 +69,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/pp/:action/*', ['controller' => 'Paypalmes']);
     $builder->connect('/holy/:action/*', ['controller' => 'Holidays']);
     $builder->connect('/holy/*', ['controller' => 'Holidays', 'action' => 'index']);
+    $builder->connect('/heute-laenger', ['controller' => 'Orders', 'action' => 'extend']);
 
     /*
      * Connect catchall routes for all controllers.

@@ -101,6 +101,12 @@ return [
             'path' => CACHE,
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
+        'extended' => [
+            'className' => FileEngine::class,
+            'prefix' => 'cache_extended_',
+            'serialize' => true,
+            'duration' => '+6 hours',
+        ],
 
         /*
          * Configure the cache used for general framework caching.
