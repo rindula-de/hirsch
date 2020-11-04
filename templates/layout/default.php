@@ -30,6 +30,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     <?= $this->Html->meta('icon') ?>
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link as="image" href="/img/essen.jpg" rel="preload">
 
     <?= $this->Html->css(['style.css?' . round(time() / 1000)]) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>

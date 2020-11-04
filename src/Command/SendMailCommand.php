@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Cake\Cache\Cache;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
@@ -38,6 +39,16 @@ class SendMailCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
+        $extended = Cache::read("settings.extended", 'extended') ?? false;
+
+        /*
+         * Der Cronjob läuft um 11:00 Uhr. Wenn die Zeit verlängert wurde,
+         * warte 20 Minuten (+10 sekunden delay), da der nächste
+         * Bestellschluss um 11:20 Uhr ist.
+         */
+        if ($extended)
+            sleep(1210);
+
         $ordersTable = $this->loadModel('Orders');
         $orders = $ordersTable->find()->where([
             'for' => (new Date())->toIso8601String()
