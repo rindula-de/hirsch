@@ -11,3 +11,9 @@ echo 'Require valid-user' >> webroot/.htaccess
 
 bin/cake migrations migrate
 bin/cake cache clear_all
+
+$PWD=$(pwd)
+
+cd webroot/vue-apps/bezahlen
+npm install
+cd $PWD
