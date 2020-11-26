@@ -9,6 +9,7 @@ use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\I18n\Date;
+use Cake\I18n\Time;
 use Cake\Mailer\Mailer;
 
 /**
@@ -41,51 +42,47 @@ class SendMailCommand extends Command
     {
         $extended = Cache::read("settings.extended", 'extended') ?? false;
 
-        /*
-         * Der Cronjob läuft um 11:00 Uhr. Wenn die Zeit verlängert wurde,
-         * warte 20 Minuten (+10 sekunden delay), da der nächste
-         * Bestellschluss um 11:20 Uhr ist.
-         */
-        if ($extended)
-            sleep(1210);
 
-        $ordersTable = $this->loadModel('Orders');
-        $orders = $ordersTable->find()->where([
-            'for' => (new Date())->toIso8601String()
-        ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
+        if ((!$extended && Time::now()->minute < 10) || ($extended && Time::now()->minute > 10)) {
 
-        $orderer = $ordersTable->find()->where(['for' => (new Date())->toIso8601String()])->select('orderedby');
+            $ordersTable = $this->loadModel('Orders');
+            $orders = $ordersTable->find()->where([
+                'for' => (new Date())->toIso8601String()
+            ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
-        $first = true;
-        $out = '';
-        foreach ($orders as $order) {
-            if (!$first) $out .= PHP_EOL . PHP_EOL;
-            $out .= $order->cnt . "x " . $order->hirsch->name;
-            if (!empty($order->note)) {
-                $out .= PHP_EOL . "Sonderwunsch: " . $order->note;
-            }
-            $first = false;
-        }
+            $orderer = $ordersTable->find()->where(['for' => (new Date())->toIso8601String()])->select('orderedby');
 
-
-        $currentReceiver = $this->getTableLocator()->get('PaypalMes')->findActivePayer();
-
-        if (!empty($out) && !empty($currentReceiver)) {
-
-            $out .= PHP_EOL . PHP_EOL . PHP_EOL . "Besteller:" . PHP_EOL . PHP_EOL;
-            foreach ($orderer as $item) {
-                $out .= $item->orderedby . PHP_EOL;
+            $first = true;
+            $out = '';
+            foreach ($orders as $order) {
+                if (!$first) $out .= PHP_EOL . PHP_EOL;
+                $out .= $order->cnt . "x " . $order->hirsch->name;
+                if (!empty($order->note)) {
+                    $out .= PHP_EOL . "Sonderwunsch: " . $order->note;
+                }
+                $first = false;
             }
 
-            $mailer = new Mailer('default');
-            $mailer->viewBuilder()->setTemplate('orders');
-            $mailer->setDomain('hochwarth-e.com');
-            $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
-                ->setTo($currentReceiver->email)
-                ->setSubject("🦌 Hirsch Bestellungen vom " . new Date())
-                ->setEmailFormat('both')
-                ->deliver($out);
 
+            $currentReceiver = $this->getTableLocator()->get('PaypalMes')->findActivePayer();
+
+            if (!empty($out) && !empty($currentReceiver)) {
+
+                $out .= PHP_EOL . PHP_EOL . PHP_EOL . "Besteller:" . PHP_EOL . PHP_EOL;
+                foreach ($orderer as $item) {
+                    $out .= $item->orderedby . PHP_EOL;
+                }
+
+                $mailer = new Mailer('default');
+                $mailer->viewBuilder()->setTemplate('orders');
+                $mailer->setDomain('hochwarth-e.com');
+                $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
+                    ->setTo($currentReceiver->email)
+                    ->setSubject("🦌 Hirsch Bestellungen vom " . new Date())
+                    ->setEmailFormat('both')
+                    ->deliver($out);
+
+            }
         }
     }
 }
