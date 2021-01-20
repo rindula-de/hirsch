@@ -6,6 +6,7 @@
  */
 
 use App\View\AppView;
+use Cake\I18n\Date;
 
 ?>
 <button class="accordion">Hirsch to Go</button>
@@ -24,7 +25,7 @@ use App\View\AppView;
             echo $this->Fooddisplay->displayDaily($data['date'], $data['gericht']);
         }
     } else {
-        echo $this->Fooddisplay->displayDaily(date('d.m.Y, H:i'), "Die Tagesessen konnten nicht geladen werden!", false);
+        echo $this->Fooddisplay->displayDaily(new Date(), "Die Tagesessen konnten nicht geladen werden!", false);
     }
     ?>
 </div>
