@@ -19,8 +19,12 @@ use App\View\AppView;
 <button class="accordion">Tagesessen</button>
 <div class="panel">
     <?php
-    foreach ($displayData as $data) {
-        echo $this->Fooddisplay->displayDaily($data['date'], $data['gericht']);
+    if ($displayData) {
+        foreach ($displayData as $data) {
+            echo $this->Fooddisplay->displayDaily($data['date'], $data['gericht']);
+        }
+    } else {
+        echo $this->Fooddisplay->displayDaily(date('d.m.Y, H:i'), "Die Tagesessen konnten nicht geladen werden!", false);
     }
     ?>
 </div>

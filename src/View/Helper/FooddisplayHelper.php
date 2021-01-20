@@ -30,7 +30,7 @@ class FooddisplayHelper extends Helper
      * @param string $gericht
      * @return string
      */
-    public function displayDaily($date, $gericht)
+    public function displayDaily($date, $gericht, $showOrder = true)
     {
         $isRuhetag = strpos(strtolower($gericht), 'ruhetag') !== false;
         $html = "";
@@ -38,7 +38,7 @@ class FooddisplayHelper extends Helper
         $html .= "<div class='foodcard'>";
         $html .= "<h2>Tagesessen am $dateNice</h2>";
         $html .= "<span>$gericht</span>";
-        if (!$isRuhetag) {
+        if (!$isRuhetag && $showOrder) {
             $html .= "<div class='actionbar'>";
             $html .= $this->Html->link(($date->isFuture()) ? "Vorbestellen" : 'Bestellen', ['_name' => 'bestellen', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
             $html .= "</div>";

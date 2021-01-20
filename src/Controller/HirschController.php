@@ -36,122 +36,127 @@ class HirschController extends AppController
         $holidays = $this->getTableLocator()->get('Holidays')->find()->where(['end >=' => new Date()])->select(['from' => 'start', 'to' => 'end']);
         $this->set(compact('holidays'));
 
-        $server = Configure::readOrFail("MailAccess.host");
-        $adresse = Configure::readOrFail("MailAccess.username");
-        $password = Configure::readOrFail("MailAccess.password");
-        $mbox = @imap_open($server, $adresse, $password);
-        if (!$mbox) throw new InternalErrorException(imap_last_error());
-
-        $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
-        $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
-
-        $displayData = [];
-
         $htg = $this->Hirsch->find()->where(['slug !=' => 'tagesessen', 'display' => 1]);
 
-        if ($emailsToDelete) {
-            foreach ($emailsToDelete as $emailId) {
-                // Markiert die E-Mails zum löschen
-                imap_delete($mbox, $emailId);
+        try {
+            $server = Configure::readOrFail("MailAccess.host");
+            $adresse = Configure::readOrFail("MailAccess.username");
+            $password = Configure::readOrFail("MailAccess.password");
+            $mbox = @imap_open($server, $adresse, $password);
+            if (!$mbox) throw new InternalErrorException(imap_last_error());
+
+            $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
+            $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
+
+            $displayData = [];
+
+            if ($emailsToDelete) {
+                foreach ($emailsToDelete as $emailId) {
+                    // Markiert die E-Mails zum löschen
+                    imap_delete($mbox, $emailId);
+                }
+                // Löscht die markierten Mails endgültig
+                imap_expunge($mbox);
+                imap_close($mbox);
+                // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
+                return $this->redirect(['_name' => 'karte']);
             }
-            // Löscht die markierten Mails endgültig
-            imap_expunge($mbox);
+
+            if ($emails) {
+                foreach ($emails as $emailId) {
+                    $structure = imap_fetchstructure($mbox, $emailId);
+
+                    if (isset($structure->parts) && count($structure->parts)) {
+                        for ($i = 0; $i < count($structure->parts); $i++) {
+                            $attachments[$i] = array(
+                                'is_attachment' => false,
+                                'filename' => '',
+                                'name' => '',
+                                'attachment' => '');
+
+                            if ($structure->parts[$i]->ifdparameters) {
+                                foreach ($structure->parts[$i]->dparameters as $object) {
+                                    if (strtolower($object->attribute) == 'filename') {
+                                        $attachments[$i]['is_attachment'] = true;
+                                        $attachments[$i]['filename'] = $object->value;
+                                    }
+                                }
+                            }
+
+                            if ($structure->parts[$i]->ifparameters) {
+                                foreach ($structure->parts[$i]->parameters as $object) {
+                                    if (strtolower($object->attribute) == 'name') {
+                                        $attachments[$i]['is_attachment'] = true;
+                                        $attachments[$i]['name'] = $object->value;
+                                    }
+                                }
+                            }
+
+                            if ($attachments[$i]['is_attachment']) {
+                                $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . "");
+                                if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
+                                    $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
+                                } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
+                                    $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
+                                }
+                            }
+                        }
+                    }
+
+                    if (count($attachments) != 0) {
+                        foreach ($attachments as $at) {
+                            if ($at['is_attachment'] == 1) {
+                                $filename = tempnam(ROOT . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
+                                file_put_contents($filename, $at['attachment']);
+                                $parser = new Parser();
+                                $pdf = $parser->parseFile($filename);
+                                $text = str_replace("\t", '', $pdf->getText());
+                                if (strtolower($at['filename']) == 'mittagstisch.pdf') {
+                                    $now = new Time();
+                                    $dow = $now->dayOfWeek;
+                                    $daysAdd = 0;
+                                    switch ($dow) {
+                                        case 1:
+                                            preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date())];
+                                        case 2:
+                                            preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
+                                            if ($dow < 2) {
+                                                $daysAdd++;
+                                            }
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                        case 3:
+                                            preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
+                                            if ($dow < 3) {
+                                                $daysAdd++;
+                                            }
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                        case 4:
+                                            preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
+                                            if ($dow < 4) {
+                                                $daysAdd++;
+                                            }
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                        case 5:
+                                            preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
+                                            if ($dow < 5) {
+                                                $daysAdd++;
+                                            }
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                    }
+                                }
+                                unlink($filename);
+                            }
+                        }
+                    }
+                }
+            }
             imap_close($mbox);
-            // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-            return $this->redirect(['_name' => 'karte']);
+
+        } catch (Exception $e) {
+            $displayData = false;
         }
-
-        if ($emails) {
-            foreach ($emails as $emailId) {
-                $structure = imap_fetchstructure($mbox, $emailId);
-
-                if (isset($structure->parts) && count($structure->parts)) {
-                    for ($i = 0; $i < count($structure->parts); $i++) {
-                        $attachments[$i] = array(
-                            'is_attachment' => false,
-                            'filename' => '',
-                            'name' => '',
-                            'attachment' => '');
-
-                        if ($structure->parts[$i]->ifdparameters) {
-                            foreach ($structure->parts[$i]->dparameters as $object) {
-                                if (strtolower($object->attribute) == 'filename') {
-                                    $attachments[$i]['is_attachment'] = true;
-                                    $attachments[$i]['filename'] = $object->value;
-                                }
-                            }
-                        }
-
-                        if ($structure->parts[$i]->ifparameters) {
-                            foreach ($structure->parts[$i]->parameters as $object) {
-                                if (strtolower($object->attribute) == 'name') {
-                                    $attachments[$i]['is_attachment'] = true;
-                                    $attachments[$i]['name'] = $object->value;
-                                }
-                            }
-                        }
-
-                        if ($attachments[$i]['is_attachment']) {
-                            $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . "");
-                            if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
-                                $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
-                            } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
-                                $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
-                            }
-                        }
-                    }
-                }
-
-                if (count($attachments) != 0) {
-                    foreach ($attachments as $at) {
-                        if ($at['is_attachment'] == 1) {
-                            $filename = tempnam(ROOT . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
-                            file_put_contents($filename, $at['attachment']);
-                            $parser = new Parser();
-                            $pdf = $parser->parseFile($filename);
-                            $text = str_replace("\t", '', $pdf->getText());
-                            if (strtolower($at['filename']) == 'mittagstisch.pdf') {
-                                $now = new Time();
-                                $dow = $now->dayOfWeek;
-                                $daysAdd = 0;
-                                switch ($dow) {
-                                    case 1:
-                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date())];
-                                    case 2:
-                                        preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
-                                        if ($dow < 2) {
-                                            $daysAdd++;
-                                        }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
-                                    case 3:
-                                        preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
-                                        if ($dow < 3) {
-                                            $daysAdd++;
-                                        }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
-                                    case 4:
-                                        preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
-                                        if ($dow < 4) {
-                                            $daysAdd++;
-                                        }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
-                                    case 5:
-                                        preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
-                                        if ($dow < 5) {
-                                            $daysAdd++;
-                                        }
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
-                                }
-                            }
-                            unlink($filename);
-                        }
-                    }
-                }
-            }
-        }
-        imap_close($mbox);
-
+            
         $this->set(compact('displayData', 'htg'));
     }
 
