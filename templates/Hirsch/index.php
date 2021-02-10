@@ -25,7 +25,7 @@ use Cake\I18n\Date;
             echo $this->Fooddisplay->displayDaily($data['date'], $data['gericht']);
         }
     } else {
-        echo $this->Fooddisplay->displayDaily(new Date(), "Die Tagesessen konnten nicht geladen werden!", false);
+        echo $this->Fooddisplay->displayDaily(new Date(), "Die Tagesessen konnten nicht geladen werden! Wenn du trotzdem bestellen möchtest, findest du die karte unter https://www.hirsch-restaurant.de/speisekarte/", true);
     }
     ?>
 </div>
