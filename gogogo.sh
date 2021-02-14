@@ -16,4 +16,5 @@ $PWD=$(pwd)
 
 cd webroot/vue-apps/bezahlen
 npm install
+npm run build --modern
 cd $PWD
