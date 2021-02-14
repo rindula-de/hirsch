@@ -1,7 +1,7 @@
 #!/bin/bash
 /usr/bin/git reset --hard
 /usr/bin/git pull
-/usr/home/hochwa/.linuxbrew/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
+/usr/home/hochwa/.linuxbrew/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress
 
 echo '' >> webroot/.htaccess
 echo 'AuthType Basic' >> webroot/.htaccess
@@ -16,5 +16,5 @@ WD=$(pwd)
 
 cd webroot/vue-apps/bezahlen
 /usr/home/hochwa/.linuxbrew/bin/npm install
-/usr/home/hochwa/.linuxbrew/bin/npm run build --modern
+/usr/home/hochwa/.linuxbrew/bin/npm run build
 cd $WD
