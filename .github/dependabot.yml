@@ -9,3 +9,12 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    assignee:
+      - "Rindula"
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/webroot/vue-apps/bezahlen" # Location of package manifests
+    schedule:
+      interval: "daily"
+    assignee:
+      - "Rindula"
+
