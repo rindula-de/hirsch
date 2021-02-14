@@ -1,9 +1,11 @@
 vue:
-  - /webroot/vue-apps/
+  - /webroot/vue-apps/**/*
 
 cake:
-  - /src
-  - /templates
-  - /tests
-  - /resources
-  - /plugins
+  - /src/**/*
+  - /templates/**/*
+  - /resources/**/*
+  - /plugins/**/*
+
+tests:
+  - /tests/**/*
