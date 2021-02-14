@@ -17,6 +17,6 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          export PATH=/usr/home/hochwa/.linuxbrew/bin
+          export PATH=$PATH:/usr/home/hochwa/.linuxbrew/bin
           cd /usr/home/hochwa/public_html/hirsch
           ./gogogo.sh
