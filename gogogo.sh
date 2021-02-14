@@ -1,7 +1,7 @@
 #!/bin/bash
-git reset --hard
-git pull
-composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
+/usr/bin/git reset --hard
+/usr/bin/git pull
+/usr/home/hochwa/.linuxbrew/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress --no-suggest
 
 echo '' >> webroot/.htaccess
 echo 'AuthType Basic' >> webroot/.htaccess
@@ -12,9 +12,9 @@ echo 'Require valid-user' >> webroot/.htaccess
 bin/cake migrations migrate
 bin/cake cache clear_all
 
-$PWD=$(pwd)
+WD=$(pwd)
 
 cd webroot/vue-apps/bezahlen
-npm install
-npm run build --modern
-cd $PWD
+/usr/home/hochwa/.linuxbrew/bin/npm install
+/usr/home/hochwa/.linuxbrew/bin/npm run build --modern
+cd $WD
