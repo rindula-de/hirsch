@@ -1,0 +1,9 @@
+vue:
+  - /webroot/vue-apps/
+
+cake:
+  - /src
+  - /templates
+  - /tests
+  - /resources
+  - /plugins
