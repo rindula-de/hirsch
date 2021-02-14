@@ -66,9 +66,9 @@ return [
         'test' => [
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'test_myapp',
+            'username' => 'hirsch',
+            'password' => 'testing',
+            'database' => 'hirsch_test',
             //'schema' => 'myapp',
             'url' => env('DATABASE_TEST_URL', null),
         ],
