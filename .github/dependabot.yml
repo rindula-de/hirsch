@@ -9,14 +9,14 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    assignee:
+    assignees:
       - "Rindula"
     open-pull-requests-limit: 100
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/webroot/vue-apps/bezahlen" # Location of package manifests
     schedule:
       interval: "daily"
-    assignee:
+    assignees:
       - "Rindula"
     open-pull-requests-limit: 100
 
