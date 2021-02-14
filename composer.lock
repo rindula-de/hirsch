@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf7e190b796eb5d4ab239c65c7024bab",
+    "content-hash": "39f925116fa38d1305bbd71969f8355a",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -1224,26 +1224,26 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "0.16.1",
+            "version": "v0.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "bc4ebf86269811b775c211e3850ae77fbda21fa6"
+                "reference": "b47f26425e32a814dc1ee55e3ce669b9e73b8458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/bc4ebf86269811b775c211e3850ae77fbda21fa6",
-                "reference": "bc4ebf86269811b775c211e3850ae77fbda21fa6",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/b47f26425e32a814dc1ee55e3ce669b9e73b8458",
+                "reference": "b47f26425e32a814dc1ee55e3ce669b9e73b8458",
                 "shasum": ""
             },
             "require": {
-                "ext-mbstring": "*",
                 "ext-zlib": "*",
-                "php": ">=5.6"
+                "php": ">=5.6",
+                "symfony/polyfill-mbstring": "^1.18"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16.3",
-                "symfony/phpunit-bridge": "^4.2.3"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "symfony/phpunit-bridge": "^5.2"
             },
             "type": "library",
             "autoload": {
@@ -1262,7 +1262,7 @@
                 }
             ],
             "description": "Pdf parser library. Can read and extract information from pdf file.",
-            "homepage": "http://www.pdfparser.org",
+            "homepage": "https://www.pdfparser.org",
             "keywords": [
                 "extract",
                 "parse",
@@ -1270,7 +1270,11 @@
                 "pdf",
                 "text"
             ],
-            "time": "2020-06-26T07:35:27+00:00"
+            "support": {
+                "issues": "https://github.com/smalot/pdfparser/issues",
+                "source": "https://github.com/smalot/pdfparser/tree/v0.18.1"
+            },
+            "time": "2021-01-05T08:52:07+00:00"
         },
         {
             "name": "symfony/config",
@@ -5147,7 +5151,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "psy/psysh": 0
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
