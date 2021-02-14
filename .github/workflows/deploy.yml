@@ -1,0 +1,21 @@
+name: Run deployscript
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Execute gogogo.sh on Live system
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /usr/home/hochwa/public_html/hirsch
+          ./gogogo.sh
