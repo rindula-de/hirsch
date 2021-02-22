@@ -12,3 +12,6 @@ tests:
   
 workflow:
   - /.github/workflows/*
+  
+deployscript:
+  - /gogogo.sh
