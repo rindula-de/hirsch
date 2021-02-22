@@ -15,3 +15,6 @@ workflow:
   
 deployscript:
   - gogogo.sh
+
+docs:
+  - README.md
