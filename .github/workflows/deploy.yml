@@ -24,6 +24,14 @@ jobs:
           sed -i 's/foodwars/Foodwars#1/' config/app_local.php
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
           sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap}INBOX/' config/app_local.php
+      - name: Passwortschutz erstellen
+        run: |
+          echo '' >> webroot/.htaccess
+          echo 'AuthType Basic' >> webroot/.htaccess
+          echo 'AuthName "Bestellungen"' >> webroot/.htaccess
+          echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
+          echo 'Require valid-user' >> webroot/.htaccess
+          echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
   deploy:
     name: Deploy
     runs-on: self-hosted
