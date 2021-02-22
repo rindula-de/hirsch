@@ -1,17 +1,17 @@
 vue:
-  - /webroot/vue-apps/**/*
+  - webroot/vue-apps/**/*
 
 cake:
-  - /src/**/*
-  - /templates/**/*
-  - /resources/**/*
-  - /plugins/**/*
+  - src/**/*
+  - templates/**/*
+  - resources/**/*
+  - plugins/**/*
 
 tests:
-  - /tests/**/*
+  - tests/**/*
   
 workflow:
-  - /.github/workflows/*
+  - .github/workflows/*
   
 deployscript:
-  - /gogogo.sh
+  - gogogo.sh
