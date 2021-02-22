@@ -14,8 +14,8 @@ jobs:
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue Bezahlen Build
         run: |
-          /usr/bin/npm ci
-          /usr/bin/npm run build --if-present
+          /usr/local/bin/npm ci
+          /usr/local/bin/npm run build --if-present
   deploy:
     name: Deploy
     runs-on: self-hosted
