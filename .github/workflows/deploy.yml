@@ -1,4 +1,4 @@
-name: Run deployscript
+name: Build & Deploy
 on:
   push:
     branches:
