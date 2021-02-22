@@ -94,7 +94,7 @@ class OrdersController extends AppController
             /** @var Order $lastOrder */
             $lastOrder = $this->Orders->find()->where([
                 'for' => $botd->toIso8601String(),
-                'orderedby' => Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion')
+                'orderedby' => Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion') ?? ''
             ])->contain(['Hirsch'])->order(['for'])->first();
             if ($lastOrder) {
                 $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . ((!empty($lastOrder->note)) ? " ({$lastOrder->note})" : ""));
