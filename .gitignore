@@ -41,4 +41,4 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
-/config/Migrations/schema-dump-default.lock
+/config/Migrations/schema-dump-*.lock
