@@ -22,4 +22,5 @@ docs:
   
 wontfix:
   - bin/*
-  - **/.htaccess
+  - .htaccess
+  - */**/.htaccess
