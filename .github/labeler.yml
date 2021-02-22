@@ -3,6 +3,7 @@ vue:
 
 cake:
   - src/**/*
+  - config/**/*
   - templates/**/*
   - resources/**/*
   - plugins/**/*
@@ -18,3 +19,7 @@ deployscript:
 
 docs:
   - README.md
+  
+wontfix:
+  - bin/*
+  - **/.htaccess
