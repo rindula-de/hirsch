@@ -4,19 +4,24 @@ on:
     branches:
       - master
 jobs:
-
   build:
-    name: Deploy
-    runs-on: ubuntu-latest
+    name: Build
+    runs-on: self-hosted
     steps:
-    - name: Execute gogogo.sh on Live system
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-          export PATH=$PATH:/usr/home/hochwa/.linuxbrew/bin
-          cd /usr/home/hochwa/public_html/hirsch
-          ./gogogo.sh
+      - uses: actions/checkout@v2
+      - run: /usr/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress
+        name: Composer install
+      - working-directory: webroot/vue-apps/bezahlen
+        name: Vue Bezahlen Build
+        run: |
+          /usr/bin/npm ci
+          /usr/bin/npm run build --if-present
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
+        id: upload
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -f "cd /usr/home/hochwa/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
+        id: preperations
