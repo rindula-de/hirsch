@@ -9,3 +9,6 @@ cake:
 
 tests:
   - /tests/**/*
+  
+workflow:
+  - /.github/workflows/*
