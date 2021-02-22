@@ -21,7 +21,7 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync -e "ssh -o StrictHostKeyChecking=no" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
         id: upload
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -f "cd /usr/home/hochwa/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -f "cd /usr/home/hochwa/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
         id: preperations
