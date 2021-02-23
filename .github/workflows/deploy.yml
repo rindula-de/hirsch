@@ -9,8 +9,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      - run: /usr/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress
-        name: Composer install
+      - name: Install Composer dependencies
+        uses: php-actions/composer@v5
+        with:
+          php_version: 7.2
       - uses: actions/setup-node@v2
         with:
           node-version: '15'
@@ -36,11 +38,11 @@ jobs:
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
           echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
-  deploy:
-    name: Deploy
+  deploy_hetzner:
+    name: Deploy (Hetzner)
     runs-on: self-hosted
     needs: build
-    environment: production
+    environment: hetzner
     steps:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
         id: upload
