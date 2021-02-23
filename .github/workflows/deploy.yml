@@ -1,4 +1,4 @@
-name: Build, Test & Deploy
+name: Deployment
 on:
   push:
     branches:
@@ -36,19 +36,10 @@ jobs:
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
           echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
-  test:
-    name: Unit Test
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - run: composer run-script test
-        name: Test
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: self-hosted
-    needs:
-      - build
-      - test
+    needs: build
     environment: hetzner
     steps:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch

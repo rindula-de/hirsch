@@ -12,6 +12,7 @@ class HirschFixture extends TestFixture
 {
     public $table = "hirsch";
 
+
     /**
      * Fields
      *

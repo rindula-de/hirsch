@@ -42,7 +42,6 @@ class HolidaysFixture extends TestFixture
                 'end' => date("Y-m-d", time() + (86400 * 7)),
             ],
         ];
-        debug($this->records);
         parent::init();
     }
 }
