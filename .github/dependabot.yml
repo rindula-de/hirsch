@@ -9,6 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+      time: "02:00"
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
@@ -16,7 +17,12 @@ updates:
     directory: "/webroot/vue-apps/bezahlen" # Location of package manifests
     schedule:
       interval: "daily"
+      time: "02:00"
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
-
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    open-pull-requests-limit: 100
+    schedule:
+      interval: "daily"
