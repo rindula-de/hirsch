@@ -38,11 +38,11 @@ class HolidaysFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'start' => date("Y-m-d", time() + 86500),
                 'end' => date("Y-m-d", time() + (86400 * 7)),
             ],
         ];
+        debug($this->records);
         parent::init();
     }
 }
