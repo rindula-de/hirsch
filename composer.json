@@ -12,7 +12,8 @@
         "cakephp/migrations": "^3.0",
         "cakephp/plugin-installer": "^1.2",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "smalot/pdfparser": "^0.18.1"
+        "smalot/pdfparser": "^0.18.1",
+        "ext-json": "*"
     },
     "require-dev": {
         "cakephp/bake": "^2.0.3",

@@ -11,12 +11,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 class HirschFixture extends TestFixture
 {
     /**
-     * Table name
-     *
-     * @var string
-     */
-    public $table = 'hirsch';
-    /**
      * Fields
      *
      * @var array
@@ -26,6 +20,7 @@ class HirschFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'slug' => ['type' => 'string', 'length' => 191, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
+        'display' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
             'slug' => ['type' => 'unique', 'columns' => ['slug'], 'length' => []],
@@ -46,8 +41,15 @@ class HirschFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'slug' => 'Lorem ipsum dolor sit amet',
-                'name' => 'Lorem ipsum dolor sit amet',
+                'slug' => 'tagesessen',
+                'name' => 'Tagesessen',
+                'display' => 1,
+            ],
+            [
+                'id' => 2,
+                'slug' => 'kindertuete',
+                'name' => 'Kindertüte',
+                'display' => 1,
             ],
         ];
         parent::init();
