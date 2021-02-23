@@ -9,6 +9,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+      - name: Add HTTP basic auth credentials
+        run: |
+          echo '{"http-basic": {"github.com": {"username": "Rindula", "password": "${{ secrets.mytoken }}"}}}' > $GITHUB_WORKSPACE/auth.json
       - name: Install Composer dependencies
         uses: php-actions/composer@v5
         env:
@@ -40,6 +43,7 @@ jobs:
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
           echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
+          rm $GITHUB_WORKSPACE/auth.json
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: self-hosted
