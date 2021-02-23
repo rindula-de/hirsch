@@ -11,7 +11,7 @@ cake:
 tests:
   - tests/**/*
   
-workflow:
+github_actions:
   - .github/workflows/*
   
 workflow-config:
