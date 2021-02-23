@@ -29,7 +29,6 @@ class AppControllerTest extends TestCase
      */
     public function testE404(): void
     {
-        $this->markTestSkipped("Because of them Fixtures not loading in ...");
         $this->get("/aaaa");
         $this->assertRedirect("/karte");
         $this->get("/gswsg");

@@ -30,8 +30,8 @@ class PagesControllerTest extends TestCase
     use IntegrationTestTrait;
 
     protected $fixtures = [
-        "app.hirsch",
-        "app.holidays",
+        "app.Hirsch",
+        "app.Holidays",
     ];
 
     /**
@@ -109,7 +109,8 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedError()
     {
-        $this->post('/pages/home', ['hello' => 'world']);
+        Configure::write("debug", true);
+        $this->post('/', ['hello' => 'world']);
 
         $this->assertResponseCode(403);
         $this->assertResponseContains('CSRF');
@@ -122,9 +123,9 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedOk()
     {
-        $this->markTestSkipped("Not finished yet");
+        Configure::write("debug", true);
         $this->enableCsrfToken();
-        $this->post('/karte');
+        $this->post('/');
         $this->assertResponseCode(200);
     }
 }

@@ -10,6 +10,9 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class HirschFixture extends TestFixture
 {
+    public $table = "hirsch";
+
+
     /**
      * Fields
      *
@@ -40,13 +43,11 @@ class HirschFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'slug' => 'tagesessen',
                 'name' => 'Tagesessen',
                 'display' => 1,
             ],
             [
-                'id' => 2,
                 'slug' => 'kindertuete',
                 'name' => 'Kindertüte',
                 'display' => 1,
