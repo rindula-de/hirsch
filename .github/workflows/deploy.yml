@@ -9,13 +9,20 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      - run: /usr/bin/composer install --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress
+      - uses: php-actions/composer@v5
+        with: 
+          args: --no-ansi --optimize-autoloader --no-interaction --no-plugins --no-progress
+          php-version: 7.2
         name: Composer install
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '15'
       - working-directory: webroot/vue-apps/bezahlen
-        name: Vue Bezahlen Build
-        run: |
-          /usr/local/bin/npm ci
-          /usr/local/bin/npm run build --if-present
+        name: Vue - Bezahlen - Abhängigkeiten installieren
+        run: npm ci
+      - working-directory: webroot/vue-apps/bezahlen
+        name: Vue - Bezahlen - Bauen
+        run: npm run build
       - name: Config anpassen
         run: |
           sed -i 's/db\_user/hirsch/' config/app_local.php
