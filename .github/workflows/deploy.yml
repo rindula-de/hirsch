@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: Build, Test & Deploy
 on:
   push:
     branches:
@@ -35,13 +35,13 @@ jobs:
           echo 'AuthName "Bestellungen"' >> webroot/.htaccess
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
-          echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd  
+          echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
   test:
     name: Unit Test
     runs-on: self-hosted
     needs: build
     steps:
-      - run: composer run-script check
+      - run: composer run-script test
         name: Test
   deploy_hetzner:
     name: Deploy (Hetzner)
