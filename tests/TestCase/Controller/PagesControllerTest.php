@@ -41,7 +41,6 @@ class PagesControllerTest extends TestCase
      */
     public function testMultipleGet()
     {
-        $this->markTestSkipped("Because of them Fixtures not loading in ...");
         $this->get('/');
         $this->assertResponseCode(302);
         $this->assertRedirect("/karte");
