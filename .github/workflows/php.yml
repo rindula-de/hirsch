@@ -5,8 +5,8 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  test:
+    name: Unittest
     runs-on: self-hosted
 
     steps:
@@ -16,11 +16,10 @@ jobs:
       run: composer validate
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run test suite
+    - name: Run Unittests
       run: composer run-script test
