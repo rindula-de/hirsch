@@ -17,8 +17,8 @@ class AppControllerTest extends TestCase
 
 
     protected $fixtures = [
-        "app.hirsch",
-        "app.holidays",
+        "app.Hirsch",
+        "app.Holidays",
     ];
 
 
