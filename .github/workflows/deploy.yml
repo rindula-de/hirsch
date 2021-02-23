@@ -40,6 +40,7 @@ jobs:
     name: Deploy
     runs-on: self-hosted
     needs: build
+    environment: production
     steps:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
         id: upload
