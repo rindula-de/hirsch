@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ahmadnassri/action-dependabot-auto-merge@v2.3.1
-        if: github.event.pusher.name == "dependabot[bot]"
+        if: github.event.pusher.name == 'dependabot[bot]'
         with:
           github-token: ${{ github.token }}
