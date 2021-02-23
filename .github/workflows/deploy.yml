@@ -9,12 +9,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.2
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, intl, imap
-          coverage: none
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
       - uses: actions/setup-node@v2
