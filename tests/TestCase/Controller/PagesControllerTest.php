@@ -32,6 +32,9 @@ class PagesControllerTest extends TestCase
     protected $fixtures = [
         "app.Hirsch",
         "app.Holidays",
+        "app.Orders",
+        "app.Paypalmes",
+        "app.Payhistory",
     ];
 
     /**
