@@ -35,7 +35,7 @@ jobs:
           sed -i 's/db\_user/hirsch/' config/app_local.php
           sed -i 's/db\_pass/${{ secrets.DBPASS }}/' config/app_local.php
           sed -i 's/db\_name/hirsch/' config/app_local.php
-          current_timestamp=`date +%H:%M\ %d.%m.%Y` sed -i "s/last\_update\_timestamp/${current_timestamp}/" config/app_local.php
+          current_timestamp=`date +%H:%M\ %d.%m.%Y`; sed -i "s/last\_update\_timestamp/${current_timestamp}/" config/app_local.php
           sed -i 's/foodwars/${{ secrets.EMAILPASS }}/' config/app_local.php
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
           sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap}INBOX/' config/app_local.php
