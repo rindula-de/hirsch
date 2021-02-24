@@ -5,22 +5,31 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  test:
+    name: Unittest
     runs-on: self-hosted
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.2, 7.3, 7.4]
 
     steps:
     - uses: actions/checkout@v2
+
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        tools: composer:v2
+        extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
     - name: Validate composer.json and composer.lock
       run: composer validate
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run test suite
+    - name: Run Unittests
       run: composer run-script test

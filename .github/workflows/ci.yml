@@ -9,6 +9,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
       - uses: actions/setup-node@v2
@@ -42,7 +47,7 @@ jobs:
     needs: build
     environment: hetzner
     steps:
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
         id: upload
       - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/hochwa/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
         id: preperations
