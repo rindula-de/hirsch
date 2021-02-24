@@ -8,6 +8,8 @@ jobs:
   test:
     name: Unittest
     runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     strategy:
       fail-fast: false
       matrix:
