@@ -20,6 +20,8 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
+        tools: composer:v2
+        extensions: intl, mbstring, imap, zip, dom
     
     - uses: "ramsey/composer-install@v1"
 
