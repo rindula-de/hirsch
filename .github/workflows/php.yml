@@ -8,15 +8,12 @@ jobs:
   test:
     name: Unittest
     runs-on: self-hosted
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     strategy:
       fail-fast: false
       matrix:
         php: [7.2, 7.3, 7.4]
 
     steps:
-    - run: echo ::set-env name=HOME::$HOME
     - uses: actions/checkout@v2
 
     - uses: shivammathur/setup-php@v2
@@ -24,8 +21,6 @@ jobs:
         php-version: ${{ matrix.php }}
         tools: composer:v2
         extensions: intl, mbstring, imap, zip, dom
-    
-    - uses: "ramsey/composer-install@v1"
 
     - name: Validate composer.json and composer.lock
       run: composer validate
