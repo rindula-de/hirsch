@@ -25,10 +25,11 @@ jobs:
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
         run: npm run build
-      - name: CSS Bauen
-        run: |
-          - npm i -g sass
-          - sass --style compressed webroot/scss/style.scss:webroot/css/style.css
+      - name: Compile CSS from SCSS files
+        uses: gha-utilities/sass-build@v0.3.7
+        with:
+          source: webroot/scss/style.scss
+          destination: webroot/css/style.css
       - name: Config anpassen
         run: |
           sed -i 's/db\_user/hirsch/' config/app_local.php
