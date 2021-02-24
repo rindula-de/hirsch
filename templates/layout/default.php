@@ -69,7 +69,8 @@ $cakeDescription = 'Hirsch Bestellungen';
     </div>
 </div>
 <footer>
-    </footer>
-    <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
+    Letzes Update: <?= Cake\Core\Configure::read("App.last_update") ?>
+</footer>
+<?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 </body>
 </html>

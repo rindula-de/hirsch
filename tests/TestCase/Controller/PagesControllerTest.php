@@ -32,6 +32,9 @@ class PagesControllerTest extends TestCase
     protected $fixtures = [
         "app.Hirsch",
         "app.Holidays",
+        "app.Orders",
+        "app.Paypalmes",
+        "app.Payhistory",
     ];
 
     /**
@@ -41,10 +44,20 @@ class PagesControllerTest extends TestCase
      */
     public function testMultipleGet()
     {
+        Configure::write("debug", false);
         $this->get('/');
         $this->assertResponseCode(302);
         $this->assertRedirect("/karte");
         $this->get('/karte');
+        $this->assertResponseOk();
+        $this->get('/bestellungen/');
+        $this->assertResponseOk();
+        $this->get('/zahlen-bitte/');
+        $this->assertResponseOk();
+        $this->get('/bestellen/0/tagesessen');
+        $this->assertResponseSuccess();
+        Configure::write("debug", true);
+        $this->get('/bestellen/0/tagesessen');
         $this->assertResponseOk();
     }
 
