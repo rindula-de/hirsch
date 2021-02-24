@@ -13,6 +13,7 @@ jobs:
         php: [7.2, 7.3, 7.4]
 
     steps:
+    - run: export HOME=$PWD
     - uses: actions/checkout@v2
 
     - uses: shivammathur/setup-php@v2
