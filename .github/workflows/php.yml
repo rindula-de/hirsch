@@ -20,7 +20,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         tools: composer:v2
-        extensions: intl, mbstring, imap, zip, dom
+        extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
     - name: Validate composer.json and composer.lock
       run: composer validate
