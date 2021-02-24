@@ -9,6 +9,7 @@ jobs:
     name: Unittest
     runs-on: self-hosted
     strategy:
+      fail-fast: false
       matrix:
         php: [7.2, 7.3, 7.4]
 
