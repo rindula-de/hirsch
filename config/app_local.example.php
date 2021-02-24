@@ -17,6 +17,9 @@ return [
      */
     'debug' => filter_var(env('DEBUG', !true), FILTER_VALIDATE_BOOLEAN),
 
+    'App' => [
+        'last_update' => 'last_update_timestamp'
+    ],
     /*
      * Security and encryption configuration
      *

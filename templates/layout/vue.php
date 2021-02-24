@@ -72,6 +72,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     </div>
 </div>
 <footer>
+    Letzes Update: <?= Cake\Core\Configure::read("App.last_update") ?>
 </footer>
 <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js"></script>
