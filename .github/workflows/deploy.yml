@@ -9,6 +9,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
       - uses: actions/setup-node@v2
