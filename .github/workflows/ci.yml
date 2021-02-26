@@ -46,14 +46,14 @@ jobs:
           echo 'AuthName "Bestellungen"' >> webroot/.htaccess
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
-          echo 'hirsch:$1$fYrmJTqu$/RcIe9S9iVjc4l9KIJG1G.' > .htpasswd
+          echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: self-hosted
     needs: build
     environment: hetzner
     steps:
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/hochwa/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/hochwa/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
         id: preperations
