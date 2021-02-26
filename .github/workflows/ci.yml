@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux]
     steps:
       - uses: actions/checkout@v2
       - uses: shivammathur/setup-php@v2
