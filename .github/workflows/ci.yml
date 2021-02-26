@@ -49,8 +49,10 @@ jobs:
           echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
   deploy_hetzner:
     name: Deploy (Hetzner)
-    runs-on: self-hosted
-    needs: build
+    runs-on: [self-hosted, Linux]
+    needs:
+      - build
+      - tag_version
     environment:
       name: hetzner
       url: https://hirsch.hochwarth-e.com/
