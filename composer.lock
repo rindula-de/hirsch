@@ -1242,16 +1242,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v0.18.1",
+            "version": "v0.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "b47f26425e32a814dc1ee55e3ce669b9e73b8458"
+                "reference": "b6db6aa9f605e9a82a29f1325309929a1e0beac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/b47f26425e32a814dc1ee55e3ce669b9e73b8458",
-                "reference": "b47f26425e32a814dc1ee55e3ce669b9e73b8458",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/b6db6aa9f605e9a82a29f1325309929a1e0beac0",
+                "reference": "b6db6aa9f605e9a82a29f1325309929a1e0beac0",
                 "shasum": ""
             },
             "require": {
@@ -1290,9 +1290,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v0.18.1"
+                "source": "https://github.com/smalot/pdfparser/tree/v0.18.2"
             },
-            "time": "2021-01-05T08:52:07+00:00"
+            "time": "2021-02-25T07:40:30+00:00"
         },
         {
             "name": "symfony/config",
