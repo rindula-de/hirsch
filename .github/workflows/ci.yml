@@ -51,7 +51,9 @@ jobs:
     name: Deploy (Hetzner)
     runs-on: self-hosted
     needs: build
-    environment: hetzner
+    environment:
+      name: hetzner
+      url: https://hirsch.hochwarth-e.com/
     steps:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
