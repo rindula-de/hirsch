@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cakephp/cakephp",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "6d733756ec4d3d30cd9747a909cf183c481a0e77"
+                "reference": "40f8c07632abcc0d6a2aeb1cec560b60e3850bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/6d733756ec4d3d30cd9747a909cf183c481a0e77",
-                "reference": "6d733756ec4d3d30cd9747a909cf183c481a0e77",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/40f8c07632abcc0d6a2aeb1cec560b60e3850bbd",
+                "reference": "40f8c07632abcc0d6a2aeb1cec560b60e3850bbd",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2021-01-25T02:26:41+00:00"
+            "time": "2021-02-28T01:41:14+00:00"
         },
         {
             "name": "cakephp/chronos",
