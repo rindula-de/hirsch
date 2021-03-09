@@ -89,10 +89,12 @@ jobs:
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
           echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
+      - name: Pack Files
+        run: tar -cvf artifact.tar ./*
       - uses: actions/upload-artifact@master
         with:
           name: deployready
-          path: '**/*'
+          path: artifact.tar
           retention-days: 7
   deploy_hetzner:
     name: Deploy (Hetzner)
@@ -106,6 +108,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: deployready
+      - name: Unpack Files
+        run: tar -xvf artifact.tar
       - name: Display structure of downloaded files
         run: ls -R
       - run: sudo apt-get install -y sshpass rsync
