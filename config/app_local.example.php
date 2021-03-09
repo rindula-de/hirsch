@@ -67,8 +67,8 @@ return [
          * The test connection is used during the test suite.
          */
         'test' => [
-            'host' => 'localhost',
-            //'port' => 'non_standard_port_number',
+            'host' => '127.0.0.1',
+            'port' => 'non_standard_port_number_replace',
             'username' => 'hirsch',
             'password' => 'testing',
             'database' => 'hirsch_test',
