@@ -90,7 +90,7 @@ jobs:
           echo 'Require valid-user' >> webroot/.htaccess
           echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
       - name: Pack Files
-        run: tar -cvf artifact.tar ./*
+        run: tar -cvf artifact.tar .
       - uses: actions/upload-artifact@master
         with:
           name: deployready
