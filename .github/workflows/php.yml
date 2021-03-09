@@ -8,23 +8,41 @@ jobs:
   test:
     name: Unittest
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: hirsch
+          MYSQL_PASSWORD: testing
+          MYSQL_DATABASE: hirsch_test
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: shivammathur/setup-php@v2
-      with:
-        php-version: 7.4
-        tools: composer:v2
-        extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+      - name: Replace variables
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          sed -i "s/non_standard_port_number_replace/${DB_PORT}/" config/app_local.php
 
-    - name: Run Unittests
-      run: composer run-script test
+
+      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+      # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+      - name: Run Unittests
+        run: composer run-script test
