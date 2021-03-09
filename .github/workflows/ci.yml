@@ -110,8 +110,8 @@ jobs:
           name: deployready
       - name: Unpack Files
         run: tar -xvf artifact.tar
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Remove Artifact
+        run: rm artifact.tar
       - run: sudo apt-get install -y sshpass rsync
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
