@@ -7,17 +7,6 @@ jobs:
   build:
     name: Build
     runs-on: [self-hosted, Linux]
-    services:
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306
-        env:
-          MYSQL_USER: hirsch
-          MYSQL_PASSWORD: testing
-          MYSQL_DATABASE: hirsch_test
-          MYSQL_ROOT_PASSWORD: root
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v2
       - uses: shivammathur/setup-php@v2
