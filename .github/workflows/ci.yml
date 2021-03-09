@@ -89,6 +89,11 @@ jobs:
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
           echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
+      - uses: actions/upload-artifact@master
+        with:
+          name: deployready
+          path: '**/*'
+          retention-days: 7
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
@@ -98,6 +103,11 @@ jobs:
       name: hetzner
       url: https://hirsch.hochwarth-e.com/
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: deployready
+      - name: Display structure of downloaded files
+        run: ls -R
       - run: sudo apt-get install -y sshpass rsync
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
