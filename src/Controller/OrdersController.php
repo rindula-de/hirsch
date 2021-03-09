@@ -79,15 +79,15 @@ class OrdersController extends AppController
         $botd = new Date();
         $o = $this->Orders->find()->where([
             'for' => $botd->toIso8601String()
-        ])->contain(['Hirsch']);
+        ])->orderAsc('Orders.created')->contain(['Hirsch']);
 
         $preorders = $this->Orders->find()->where([
             'for >' => $botd->toIso8601String()
-        ])->group(['Hirsch.name', 'note', 'for'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
+        ])->orderAsc('Orders.created')->group(['Hirsch.name', 'note', 'for'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
         $oG = $this->Orders->find()->where([
             'for' => $botd->toIso8601String()
-        ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
+        ])->orderAsc('Orders.created')->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
         // Order Notification
         if (isset($_COOKIE['lastOrderedName'])) {
