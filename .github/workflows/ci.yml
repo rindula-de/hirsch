@@ -11,7 +11,7 @@ jobs:
       mariadb:
         image: mariadb:latest
         ports:
-          - 3306:3306
+          - 3306
         env:
           MYSQL_USER: hirsch
           MYSQL_PASSWORD: testing
@@ -38,6 +38,8 @@ jobs:
 
       - name: Run Unittests
         run: composer run-script test
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
   build:
     name: Build
     needs: test
