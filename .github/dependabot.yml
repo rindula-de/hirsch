@@ -7,6 +7,9 @@ version: 2
 updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
+    commit-message:
+      prefix: "build"
+      include: "scope"
     schedule:
       interval: "daily"
       time: "02:00"
@@ -15,6 +18,9 @@ updates:
     open-pull-requests-limit: 100
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/webroot/vue-apps/bezahlen" # Location of package manifests
+    commit-message:
+      prefix: "build"
+      include: "scope"
     schedule:
       interval: "daily"
       time: "02:00"
@@ -24,5 +30,8 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     open-pull-requests-limit: 100
+    commit-message:
+      prefix: "ci"
+      include: "scope"
     schedule:
       interval: "daily"
