@@ -57,7 +57,12 @@ jobs:
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-suggest
+        run: composer install --prefer-dist --no-interaction --no-scripts
+      - name: Replace Security Salt
+        run: |
+          SALT="{{$secrets.salt}}" sed -i "s/__SALT__/$SALT/g" config/app_local.php
+      - name: Composer post-install
+        run: composer run-script post-install-cmd
       - uses: actions/setup-node@v2
         with:
           node-version: '15'
