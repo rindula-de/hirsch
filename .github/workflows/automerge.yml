@@ -14,3 +14,4 @@ jobs:
           github-token: ${{ secrets.mytoken }}
           approve: false
           target: minor
+          command: "squash and merge"
