@@ -65,7 +65,8 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/ngvkjdrfnknvgimhcsllfkhxmujgjcsrj/*', ['controller' => 'Hirsch', 'action' => 'modalText'], ['_name' => 'modalText']);
     $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);
     $builder->connect('/jetzt-zahlen/*', ['controller' => 'Paypalmes', 'action' => 'pay'], ['_name' => 'paypal_weiterleitung']);
-    $builder->connect('/ich/will/auch/mal/zahlen/*', ['controller' => 'Paypalmes', 'action' => 'add'], ['_name' => 'selberZahlen']);
+    $builder->connect('/ich/will/auch/mal/zahlen/', ['controller' => 'Paypalmes', 'action' => 'add'], ['_name' => 'selberZahlen']);
+    $builder->connect('/ich/mach/das/heute', ['controller' => 'Paypalmes', 'action' => 'add', true]);
     $builder->connect('/pp/:action/*', ['controller' => 'Paypalmes']);
     $builder->connect('/holy/:action/*', ['controller' => 'Holidays']);
     $builder->connect('/holy/*', ['controller' => 'Holidays', 'action' => 'index']);

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-08-11 13:41+0200\n"
+"POT-Creation-Date: 2021-03-25 22:56+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,62 +14,149 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/OrdersController.php:114
-msgid "It's too late to revoke your order!"
+#: Controller/HolidaysController.php:59
+#: Controller/HolidaysController.php:83
+msgid "The holiday has been saved."
+msgstr ""
+
+#: Controller/HolidaysController.php:63
+#: Controller/HolidaysController.php:87
+msgid "The holiday could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/HolidaysController.php:104
+msgid "The holiday has been deleted."
+msgstr ""
+
+#: Controller/HolidaysController.php:106
+msgid "The holiday could not be deleted. Please, try again."
 msgstr ""
 
 #: Controller/OrdersController.php:120
+msgid "It's too late to revoke your order!"
+msgstr ""
+
+#: Controller/OrdersController.php:126
 msgid "The order has been deleted."
 msgstr ""
 
-#: Controller/OrdersController.php:122
+#: Controller/OrdersController.php:128
 msgid "The order could not be deleted. Please, try again."
 msgstr ""
 
-#: Controller/PaypalmesController.php:48
-#: Controller/PaypalmesController.php:75
+#: Controller/PaypalmesController.php:58
+#: Controller/PaypalmesController.php:90
 msgid "The paypalme has been saved."
 msgstr ""
 
-#: Controller/PaypalmesController.php:52
-#: Controller/PaypalmesController.php:79
+#: Controller/PaypalmesController.php:62
+msgid "You have successfully taken the responsibility to order today!"
+msgstr ""
+
+#: Controller/PaypalmesController.php:67
+#: Controller/PaypalmesController.php:94
 msgid "The paypalme could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/PaypalmesController.php:54
+#: Controller/PaypalmesController.php:69
 msgid "You have entered the Linkname in a wrong format. If your link is for example \"https://paypal.me/rindulalp/\" you have to enter \"rindulalp\""
 msgstr ""
 
-#: Paypalmes/add.php:13
-#: Paypalmes/edit.php:15
+#: Holidays/add.php:14
+#: Holidays/edit.php:14
+#: Holidays/index.php:22
+#: Holidays/view.php:14
+msgid "Actions"
+msgstr ""
+
+#: Holidays/add.php:15
+#: Holidays/edit.php:20
+#: Holidays/view.php:17
+msgid "List Holidays"
+msgstr ""
+
+#: Holidays/add.php:22
+msgid "Add Holiday"
+msgstr ""
+
+#: Holidays/add.php:28
+#: Holidays/edit.php:33
+#: Paypalmes/add.php:18
+#: Paypalmes/edit.php:20
 msgid "Submit"
 msgstr ""
 
-#: Paypalmes/index.php:21
+#: Holidays/edit.php:16
+#: Holidays/index.php:34
+msgid "Delete"
+msgstr ""
+
+#: Holidays/edit.php:18
+#: Holidays/index.php:34
+#: Holidays/view.php:16
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: Holidays/edit.php:27
+#: Holidays/view.php:15
+msgid "Edit Holiday"
+msgstr ""
+
+#: Holidays/index.php:13
+#: Holidays/view.php:18
+msgid "New Holiday"
+msgstr ""
+
+#: Holidays/index.php:14
+msgid "Holidays"
+msgstr ""
+
+#: Holidays/index.php:32
+#: View/Helper/PaginatorHelper.php:1268
+msgid "View"
+msgstr ""
+
+#: Holidays/index.php:33
+msgid "Edit"
+msgstr ""
+
+#: Holidays/index.php:43
 msgid "first"
 msgstr ""
 
-#: Paypalmes/index.php:22
+#: Holidays/index.php:44
 msgid "previous"
 msgstr ""
 
-#: Paypalmes/index.php:24
+#: Holidays/index.php:46
 msgid "next"
 msgstr ""
 
-#: Paypalmes/index.php:25
+#: Holidays/index.php:47
 msgid "last"
 msgstr ""
 
-#: Paypalmes/index.php:27
+#: Holidays/index.php:49
 msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
+#: Holidays/view.php:16
+msgid "Delete Holiday"
+msgstr ""
+
+#: Holidays/view.php:26
+msgid "Id"
+msgstr ""
+
+#: Holidays/view.php:30
+msgid "Start"
+msgstr ""
+
+#: Holidays/view.php:34
+msgid "End"
 msgstr ""
 
 #: layout/error.php:38
 msgid "Back"
-msgstr ""
-
-#: View/Helper/PaginatorHelper.php:1268
-msgid "View"
 msgstr ""
 

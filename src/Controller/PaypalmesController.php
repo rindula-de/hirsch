@@ -38,7 +38,7 @@ class PaypalmesController extends AppController
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($setAsPayer = false)
     {
         $paypalme = $this->Paypalmes->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -56,7 +56,12 @@ class PaypalmesController extends AppController
                 $paypalme = $this->Paypalmes->patchEntity($paypalme, $data);
                 if ($this->Paypalmes->save($paypalme)) {
                     $this->Flash->success(__('The paypalme has been saved.'));
-
+                    if ($setAsPayer) {
+                        $ph = $this->Paypalmes->Payhistory->newEntity(['paypalme_id' => $paypalme->id]);
+                        if ($this->Paypalmes->Payhistory->save($ph)) {
+                            $this->Flash->success(__('You have successfully taken the responsibility to order today!'));
+                        }
+                    }
                     return $this->redirect(['action' => 'index']);
                 }
                 $this->Flash->error(__('The paypalme could not be saved. Please, try again.'));
@@ -101,6 +106,9 @@ class PaypalmesController extends AppController
     public function pay()
     {
         $id = $this->request->getData()['id'];
+        if ($id == 'self') {
+            return $this->redirect(['action' => 'add', true]);
+        }
         $ppm = $this->Paypalmes->get($id);
         if ($ppm) {
             $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([

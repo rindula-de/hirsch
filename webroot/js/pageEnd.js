@@ -53,6 +53,7 @@ $(".preorderBtn").click(function (event) {
     $('#preorderModal').addClass('active')
 });
 
+if (typeof holidays !== 'undefined')
 $(".datepicker").flatpickr({
     altInput: true,
     altFormat: "j F, Y",

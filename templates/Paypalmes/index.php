@@ -13,5 +13,5 @@ use Cake\Collection\CollectionInterface;
 <script>
     var paypalmes = <?= json_encode($paypalmes) ?>;
     var payAddLink = <?= json_encode($this->Html->link('Hier', ['_name' => 'selberZahlen'])) ?>;
-    var activeId = <?= json_encode($active->id) ?>;
+    var activeId = <?= json_encode($active->id ?? null) ?>;
 </script>

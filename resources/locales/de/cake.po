@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-08-06 15:52+0200\n"
+"POT-Creation-Date: 2021-03-25 22:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: Error/error400.php:36 Error/error500.php:40
@@ -28,23 +28,24 @@ msgstr "Interner Fehler"
 msgid "You are not authorized to access that location."
 msgstr "Zugriff verweigert."
 
-#: Error/ExceptionRenderer.php:304
+#: Error/ExceptionRenderer.php:338
 msgid "Not Found"
 msgstr "Nicht gefunden"
 
-#: Error/ExceptionRenderer.php:306
+#: Error/ExceptionRenderer.php:340
 msgid "An Internal Error Has Occurred."
 msgstr "Interner Fehler."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:286
+#: Http/Middleware/CsrfProtectionMiddleware.php:381
 msgid "Missing or incorrect CSRF cookie type."
 msgstr "Fehlender oder falscher CSRF-Cookietyp."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:290
+#: Http/Middleware/CsrfProtectionMiddleware.php:385
 msgid "Missing or invalid CSRF cookie."
 msgstr "Fehlendes CSRF-Token-Cookie."
 
-#: Http/Middleware/CsrfProtectionMiddleware.php:311
+#: Http/Middleware/CsrfProtectionMiddleware.php:408
+#: Http/Middleware/SessionCsrfProtectionMiddleware.php:265
 msgid ""
 "CSRF token from either the request body or request headers did not match or "
 "is missing."
@@ -52,11 +53,15 @@ msgstr ""
 "Das CSRF-Token aus dem Anforderungstext oder den Anforderungsheadern stimmt "
 "nicht überein oder fehlt."
 
-#: Http/Response.php:1490
+#: Http/Middleware/SessionCsrfProtectionMiddleware.php:247
+msgid "Missing or incorrect CSRF session key"
+msgstr "Fehlender oder falscher CSRF-Sitzungsschlüssel"
+
+#: Http/Response.php:1493
 msgid "The requested file contains `..` and will not be read."
 msgstr "Die angeforderte Datei enthält `..` und wird nicht gelesen."
 
-#: Http/Response.php:1498
+#: Http/Response.php:1501
 msgid "The requested file was not found"
 msgstr "Die angeforderte Datei wurde nicht gefunden"
 
@@ -216,48 +221,48 @@ msgid_plural "{0} seconds"
 msgstr[0] "{0} Sekunde"
 msgstr[1] "{0} Sekunden"
 
-#: ORM/RulesChecker.php:55
+#: ORM/RulesChecker.php:63
 msgid "This value is already in use"
 msgstr "Dieser Wert wird bereits verwendet"
 
-#: ORM/RulesChecker.php:102
+#: ORM/RulesChecker.php:110
 msgid "This value does not exist"
 msgstr "Dieser Wert existiert nicht"
 
-#: ORM/RulesChecker.php:224
+#: ORM/RulesChecker.php:232
 msgid "Cannot modify row: a constraint for the `{0}` association fails."
 msgstr ""
 "Zeile nicht editierbar: eine Einschränkung für die Zuordnung \"{0}\" schlägt "
 "fehl."
 
-#: ORM/RulesChecker.php:262
+#: ORM/RulesChecker.php:270
 msgid "The count does not match {0}{1}"
 msgstr "Die Anzahl stimmt nicht mit {0} {1} überein"
 
-#: Utility/Text.php:916
+#: Utility/Text.php:920
 msgid "and"
 msgstr "und"
 
-#: Validation/Validator.php:2500
+#: Validation/Validator.php:2527
 msgid "This field is required"
 msgstr "Dieses Feld ist ein Pflichtfeld"
 
-#: Validation/Validator.php:2520 View/Form/ArrayContext.php:249
+#: Validation/Validator.php:2547 View/Form/ArrayContext.php:249
 msgid "This field cannot be left empty"
 msgstr "Dieses Feld darf nicht leer sein"
 
-#: Validation/Validator.php:2672
+#: Validation/Validator.php:2699
 msgid "The provided value is invalid"
 msgstr "Dieser Wert ist ungültig"
 
-#: View/Helper/FormHelper.php:981
+#: View/Helper/FormHelper.php:983
 msgid "Edit {0}"
 msgstr "{0} bearbeiten"
 
-#: View/Helper/FormHelper.php:983
+#: View/Helper/FormHelper.php:985
 msgid "New {0}"
 msgstr "{0} hinzufügen"
 
-#: View/Helper/FormHelper.php:1890
+#: View/Helper/FormHelper.php:1895
 msgid "Submit"
 msgstr "Senden"

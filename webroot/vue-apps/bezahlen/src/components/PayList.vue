@@ -7,6 +7,9 @@
             <span class="range-slider__value">{{tipValueFixed}}€</span>
         </div>
         <hr>
+        <div v-if="activeId == null" class="paypalmeslistitem self">
+            <button value="self" name="id" type="submit">Selber zahlen</button>
+        </div>
         <div
             :class="'paypalmeslistitem' + ((typeof activeId === 'number' && activeId === paypalme.id) ? ' active' : '')"
             v-bind:key="paypalme.id"

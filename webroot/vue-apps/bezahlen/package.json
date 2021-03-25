@@ -3,7 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "serve": "vue-cli-service serve",
         "build": "vue-cli-service build --mode production --target app --modern",
         "watch": "vue-cli-service build --mode production --target app --modern --watch",
         "lint": "vue-cli-service lint"
