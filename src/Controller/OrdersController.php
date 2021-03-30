@@ -10,10 +10,14 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Cookie\Cookie;
+use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
 use Cake\I18n\Date;
+use Cake\I18n\FrozenTime;
 use Cake\I18n\Time;
 use Cake\Utility\Security;
+use http\Exception\BadUrlException;
 
 /**
  * Orders Controller
@@ -26,6 +30,7 @@ class OrdersController extends AppController
 
     public function order($future = 0, $mealSlug = null)
     {
+        if ($mealSlug == null) throw new BadUrlException();
         $now = new Time();
         /** @var OrdersTable $orders */
         $orders = $this->getTableLocator()->get('Orders');
@@ -61,17 +66,18 @@ class OrdersController extends AppController
 
         if ($this->request->is('post')) {
             if (!empty($data)) {
-                setcookie('lastOrderedName', Security::encrypt($data['orderedby'], 'ordererNameDecryptionKeyLongVersion'), time() + (60 * 60 * 24 * 30), '/');
+                if (empty($data['orderedby'])) throw new BadRequestException();
+                $this->setResponse($this->getResponse()->withCookie(new Cookie('lastOrderedName', Security::encrypt($data['orderedby'], 'ordererNameDecryptionKeyLongVersion'), FrozenTime::now()->modify('+1 years'))));
                 if ($orders->save($order)) {
                     $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
-                    return $this->redirect(['controller' => 'paypalmes', 'action' => 'index']);
+                    return $this->redirect(['_name' => 'bezahlen']);
                 } else {
                     $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
-                    return;
+                    return $this->getResponse();
                 }
             }
-            return;
         }
+        return $this->getResponse();
     }
 
     public function list()
