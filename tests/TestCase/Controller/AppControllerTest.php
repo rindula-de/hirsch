@@ -29,9 +29,7 @@ class AppControllerTest extends TestCase
      */
     public function testE404(): void
     {
-        $this->get("/aaaa");
-        $this->assertRedirect("/karte");
-        $this->get("/gswsg");
+        $this->get("/");
         $this->assertRedirect("/karte");
         $this->get("/karte");
         $this->assertResponseSuccess();

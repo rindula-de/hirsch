@@ -21,7 +21,6 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Cake\Core\Configure;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
@@ -52,8 +51,6 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * to use (in this case, templates/Pages/home.php)...
      */
     $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-    if (!Configure::read('debug'))
-        $builder->connect('/*', ['controller' => 'app', 'action' => 'e404']);
 
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
