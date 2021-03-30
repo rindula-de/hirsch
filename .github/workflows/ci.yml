@@ -145,6 +145,12 @@ jobs:
       - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && bin/cake migrations migrate && bin/cake cache clear_all"
         id: preperations
         name: 👨‍💻 Preparing system
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs:
+      - deploy_hetzner
+    steps:
       - uses: geekyeggo/delete-artifact@v1
         name: ❌ Remove Artifacts
         with:
