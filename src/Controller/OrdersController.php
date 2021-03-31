@@ -73,11 +73,11 @@ class OrdersController extends AppController
                     return $this->redirect(['_name' => 'bezahlen']);
                 } else {
                     $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
-                    return $this->getResponse();
+                    return;
                 }
             }
         }
-        return $this->getResponse();
+        return;
     }
 
     public function list()
