@@ -130,6 +130,7 @@ class OrdersControllerTest extends TestCase
     public function testExtend(): void
     {
         Configure::write('debug', true);
+        Cache::clearAll();
         $extended = Cache::read("settings.extended", 'extended') ?? false;
         $this->assertEquals(false, $extended);
         $this->get(['controller' => 'Orders', 'action' => 'extend']);
