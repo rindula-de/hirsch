@@ -12,12 +12,11 @@ use Cake\I18n\Date;
 
 <template id="foodcard_template">
 <!--    $isRuhetag = strpos(strtolower($gericht), 'ruhetag') !== false;-->
-    <div class='foodcard'>
+    <div data-role="card" class='foodcard'>
         <h2 data-role="title"></h2>
         <span data-role="gericht"></span>
         <div data-role="actionbar" class='actionbar'>
             <a data-role="order" class="btn"></a>
-<!--            $html .= $this->Html->link(($date->isFuture()) ? "Vorbestellen" : 'Bestellen', ['_name' => 'bestellen', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);-->
         </div>
     </div>
 </template>
@@ -50,13 +49,30 @@ use Cake\I18n\Date;
             tagesessen_panel.classList.remove("loading");
             if (result) {
                 for (let i = 0; i < result.length; i++) {
+                    let date = new Date(result[i]['date']);
+                    let holidayDate = false;
+                    for (let j = 0; j < holidays.length; j++) {
+                        let start = new Date(holidays[j]['from']).setHours(0);
+                        let end = new Date(holidays[j]['to']).setHours(0);
+
+                        if (date >= start && date <= end) {
+                            holidayDate = true;
+                            break;
+                        }
+                    }
+                    if (result[i]['gericht'].toLowerCase().includes("ruhetag")) holidayDate = true;
                     let clone = template.content.cloneNode(true);
-                    clone.querySelector("[data-role=title]").innerHTML = "Tagesessen für den " + (new Date(result[i]['date'])).toLocaleDateString();
+                    clone.querySelector("[data-role=title]").innerHTML = "Tagesessen für den " + date.toLocaleDateString();
                     clone.querySelector("[data-role=gericht]").innerHTML = result[i]['gericht'];
                     let btn = clone.querySelector("[data-role=order]");
-                    btn.innerHTML = (i === 0) ? "Bestellen":"Vorbestellen";
-                    btn.setAttribute("href", "<?= $this->Url->build(['_name' => 'bestellen', '_i_', 'tagesessen']) ?>");
-                    btn.setAttribute("href", btn.getAttribute("href").replace("_i_", i));
+                    if (!holidayDate) {
+                        btn.innerHTML = (i === 0) ? "Bestellen" : "Vorbestellen";
+                        btn.setAttribute("href", "<?= $this->Url->build(['_name' => 'bestellen', '_i_', 'tagesessen']) ?>");
+                        btn.setAttribute("href", btn.getAttribute("href").replace("_i_", i));
+                    } else {
+                        clone.querySelector("[data-role=card]").classList.add("ruhetag");
+                        btn.remove();
+                    }
 
                     tagesessen_panel.append(clone);
                 }
