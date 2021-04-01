@@ -50,15 +50,20 @@ class PagesControllerTest extends TestCase
         $this->assertRedirect("/karte");
         $this->get('/karte');
         $this->assertResponseOk();
+        $this->assertStringContainsString("<html", $this->_getBodyAsString());
         $this->get('/bestellungen/');
         $this->assertResponseOk();
+        $this->assertStringContainsString("<html", $this->_getBodyAsString());
         $this->get('/zahlen-bitte/');
         $this->assertResponseOk();
+        $this->assertStringContainsString("<html", $this->_getBodyAsString());
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseSuccess();
+        $this->assertStringContainsString("<html", $this->_getBodyAsString());
         Configure::write("debug", true);
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseOk();
+        $this->assertStringContainsString("<html", $this->_getBodyAsString());
     }
 
     /**
