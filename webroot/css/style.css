@@ -845,6 +845,11 @@ input[type=number] {
   transition: max-height 0.2s ease-out;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;

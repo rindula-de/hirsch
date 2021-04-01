@@ -31,7 +31,7 @@ use Cake\I18n\Date;
     ?>
 </div>
 <button class="accordion">Tagesessen</button>
-<div class="panel" id="tagesessen_panel">
+<div class="panel loading" id="tagesessen_panel">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
 
@@ -47,6 +47,7 @@ use Cake\I18n\Date;
         dataType: 'json',
         success: function (result) {
             tagesessen_panel.innerHTML = "";
+            tagesessen_panel.classList.remove("loading");
             if (result) {
                 for (let i = 0; i < result.length; i++) {
                     let clone = template.content.cloneNode(true);
