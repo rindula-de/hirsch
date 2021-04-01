@@ -26,28 +26,6 @@ class FooddisplayHelper extends Helper
     protected $_defaultConfig = [];
 
     /**
-     * @param Date $date
-     * @param string $gericht
-     * @return string
-     */
-    public function displayDaily($date, $gericht, $showOrder = true)
-    {
-        $isRuhetag = strpos(strtolower($gericht), 'ruhetag') !== false;
-        $html = "";
-        $dateNice = $date->nice();
-        $html .= "<div class='foodcard'>";
-        $html .= "<h2>Tagesessen am $dateNice</h2>";
-        $html .= "<span>$gericht</span>";
-        if (!$isRuhetag && $showOrder) {
-            $html .= "<div class='actionbar'>";
-            $html .= $this->Html->link(($date->isFuture()) ? "Vorbestellen" : 'Bestellen', ['_name' => 'bestellen', $date->diffInDays(new Date()), 'tagesessen'], ['class' => 'btn']);
-            $html .= "</div>";
-        }
-        $html .= "</div>";
-        return $html;
-    }
-
-    /**
      * @param Hirsch $gericht
      * @return string
      */
