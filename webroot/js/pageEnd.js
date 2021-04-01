@@ -30,7 +30,7 @@ if (acc) {
 }
 
 $.ajax({
-    url: "/ngvkjdrfnknvgimhcsllfkhxmujgjcsrj",
+    url: "/modalInformationText",
     context: document.body,
     success: function (result) {
         if (result) {
