@@ -47,7 +47,7 @@ use Cake\I18n\Date;
         success: function (result) {
             tagesessen_panel.innerHTML = "";
             tagesessen_panel.classList.remove("loading");
-            if (result) {
+            if (result && result.length > 0) {
                 for (let i = 0; i < result.length; i++) {
                     let date = new Date(result[i]['date']);
                     let holidayDate = false;
