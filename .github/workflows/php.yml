@@ -26,7 +26,7 @@ jobs:
         with:
           php-version: 7.4
           tools: composer:v2
-          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql, http
 
       - name: Validate composer.json and composer.lock
         run: composer validate

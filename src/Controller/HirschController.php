@@ -24,6 +24,11 @@ use Smalot\PdfParser\Parser;
  */
 class HirschController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
 
     /**
      * Index method
@@ -38,6 +43,11 @@ class HirschController extends AppController
 
         $htg = $this->Hirsch->find()->where(['slug !=' => 'tagesessen', 'display' => 1]);
 
+        $this->set(compact('htg'));
+    }
+
+    public function getTagesessen()
+    {
         try {
             $server = Configure::readOrFail("MailAccess.host");
             $adresse = Configure::readOrFail("MailAccess.username");
@@ -59,7 +69,7 @@ class HirschController extends AppController
                 imap_expunge($mbox);
                 imap_close($mbox);
                 // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-                return $this->redirect(['_name' => 'karte']);
+                return $this->redirect(['action' => 'get_tagesessen']);
             }
 
             if ($emails) {
@@ -156,8 +166,9 @@ class HirschController extends AppController
         } catch (Exception $e) {
             $displayData = false;
         }
-            
-        $this->set(compact('displayData', 'htg'));
+
+        $this->set(compact('displayData'));
+        $this->viewBuilder()->setOption('serialize', 'displayData');
     }
 
     public function modalText()

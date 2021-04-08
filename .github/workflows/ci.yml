@@ -61,7 +61,7 @@ jobs:
           git config user.email Rindula@users.noreply.github.com
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v5.3
+        uses: mathieudutour/github-tag-action@v5.4
         with:
           github_token: ${{ secrets.mytoken }}
   build:
@@ -105,7 +105,7 @@ jobs:
           current_timestamp=`date +%H:%M\ %d.%m.%Y`; sed -i "s/last\_update\_timestamp/${current_timestamp}/" config/app_local.php
           sed -i 's/foodwars/${{ secrets.EMAILPASS }}/' config/app_local.php
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
-          sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap}INBOX/' config/app_local.php
+          sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap\/ssl}INBOX/' config/app_local.php
       - name: Passwortschutz erstellen
         run: |
           echo '' >> webroot/.htaccess

@@ -12,6 +12,6 @@ jobs:
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
           github-token: ${{ secrets.mytoken }}
-          approve: false
+          approve: true
           target: minor
           command: "squash and merge"
