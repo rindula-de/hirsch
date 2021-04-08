@@ -53,7 +53,7 @@ class OrdersController extends AppController
 
         $this->set(compact('meal', 'order', 'cookiedName'));
 
-        if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55))) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
+        if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55)) && !$extended) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
             $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
             return $this->redirect(['_name' => 'karte']);
         } elseif ($data['for']->isWeekend()) {
