@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae815115e3f0f475e0e6dbd8c6eff6d9",
+    "content-hash": "f05e955ac38e79be3c54cde0cabdeb76",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -1242,16 +1242,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v0.18.2",
+            "version": "v0.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "b6db6aa9f605e9a82a29f1325309929a1e0beac0"
+                "reference": "1895c17417aefa4508e35836c46da61988d61f26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/b6db6aa9f605e9a82a29f1325309929a1e0beac0",
-                "reference": "b6db6aa9f605e9a82a29f1325309929a1e0beac0",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/1895c17417aefa4508e35836c46da61988d61f26",
+                "reference": "1895c17417aefa4508e35836c46da61988d61f26",
                 "shasum": ""
             },
             "require": {
@@ -1290,9 +1290,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v0.18.2"
+                "source": "https://github.com/smalot/pdfparser/tree/v0.19.0"
             },
-            "time": "2021-02-25T07:40:30+00:00"
+            "time": "2021-04-13T08:27:56+00:00"
         },
         {
             "name": "symfony/config",
@@ -5683,7 +5683,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "psy/psysh": 0
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
