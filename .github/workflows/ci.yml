@@ -70,8 +70,8 @@ jobs:
           ref: changelog
       - name: Create Changelog
         run: |
-          echo "${{ steps.tag_version.outputs.changelog }}" >> Changelog.md
-          echo "" >> Changelog.md
+          echo "${{ steps.tag_version.outputs.changelog }}" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
       - name: Push Changelog
         uses: EndBug/add-and-commit@v7
         with:
