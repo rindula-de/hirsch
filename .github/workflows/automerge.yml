@@ -9,9 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - uses: reitermarkus/automerge@v2
         with:
-          github-token: ${{ secrets.mytoken }}
-          approve: true
-          target: minor
-          command: "squash and merge"
+          token: ${{ secrets.mytoken }}
+          merge-method: squash
+          pull-request: ${{ github.event.inputs.pull-request }}
