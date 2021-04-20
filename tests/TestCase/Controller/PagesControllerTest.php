@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
+use Cake\I18n\Time;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -59,7 +60,8 @@ class PagesControllerTest extends TestCase
         $this->assertStringContainsString("<html", $this->_getBodyAsString());
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseSuccess();
-        $this->assertStringContainsString("<html", $this->_getBodyAsString());
+        if (Time::now()->hour < 11)
+            $this->assertStringContainsString("<html", $this->_getBodyAsString());
         Configure::write("debug", true);
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseOk();
