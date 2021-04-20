@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $slug
  * @property string $name
- * @property boolean $display
+ * @property bool $display
  */
 class Hirsch extends Entity
 {

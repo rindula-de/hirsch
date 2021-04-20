@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Hirsch;
-use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;

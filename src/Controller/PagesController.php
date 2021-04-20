@@ -35,13 +35,13 @@ class PagesController extends AppController
      * Displays a view
      *
      * @param string ...$path Path segments.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Http\Exception\ForbiddenException When a directory traversal attempt.
-     * @throws \Cake\View\Exception\MissingTemplateException When the view file could not
+     * @return Response|null
+     * @throws ForbiddenException When a directory traversal attempt.
+     * @throws MissingTemplateException When the view file could not
      *   be found and in debug mode.
-     * @throws \Cake\Http\Exception\NotFoundException When the view file could not
+     * @throws NotFoundException When the view file could not
      *   be found and not in debug mode.
-     * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
+     * @throws MissingTemplateException In debug mode.
      */
     public function display(string ...$path): ?Response
     {
@@ -60,7 +60,9 @@ class PagesController extends AppController
             $subpage = $path[1];
         }
         $this->set(compact('page', 'subpage'));
-        if ($page == 'home' && !Configure::read('debug')) return $this->redirect(['controller' => 'Hirsch', 'action' => 'index']);
+        if ($page == 'home' && !Configure::read('debug')) {
+            return $this->redirect(['controller' => 'Hirsch', 'action' => 'index']);
+        }
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {

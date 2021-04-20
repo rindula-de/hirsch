@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Payhistory;
-use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetInterface;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -16,8 +13,7 @@ use Cake\Validation\Validator;
  * Payhistory Model
  *
  * @property PaypalmesTable&BelongsTo $Paypalmes
- *
- * @method Payhistory newEmptyEntity()
+ * @method \App\Model\Table\Payhistory newEmptyEntity()
  * @method Payhistory newEntity(array $data, array $options = [])
  * @method Payhistory[] newEntities(array $data, array $options = [])
  * @method Payhistory get($primaryKey, $options = [])
@@ -30,7 +26,6 @@ use Cake\Validation\Validator;
  * @method Payhistory[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method Payhistory[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method Payhistory[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin TimestampBehavior
  */
 class PayhistoryTable extends Table

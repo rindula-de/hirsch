@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Model\Entity\Paypalme;
 use App\Model\Table\PaypalmesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
 
 /**
@@ -25,7 +24,7 @@ class PaypalmesController extends AppController
     public function index()
     {
         $this->viewBuilder()->setLayout('vue');
-        $layoutName = "bezahlen"; // wie der ordner in /webroot/vue-apps/
+        $layoutName = 'bezahlen'; // wie der ordner in /webroot/vue-apps/
         $paypalmes = $this->paginate($this->Paypalmes);
 
         $active = $this->Paypalmes->findActivePayer();
@@ -44,11 +43,10 @@ class PaypalmesController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->getData();
             if (strpos(strtolower($data['link']), 'paypal.me') === false) {
-
                 // Ein "/" vor oder hinter dem Namen entfernen
-                if (strpos($data['link'], "/") === 0) {
+                if (strpos($data['link'], '/') === 0) {
                     $data['link'] = substr($data['link'], 1);
-                } elseif (strpos($data['link'], "/") === strlen($data['link']) - 1) {
+                } elseif (strpos($data['link'], '/') === strlen($data['link']) - 1) {
                     $data['link'] = substr($data['link'], 0, -1);
                 }
 
@@ -62,6 +60,7 @@ class PaypalmesController extends AppController
                             $this->Flash->success(__('You have successfully taken the responsibility to order today!'));
                         }
                     }
+
                     return $this->redirect(['action' => 'index']);
                 }
                 $this->Flash->error(__('The paypalme could not be saved. Please, try again.'));
@@ -112,11 +111,12 @@ class PaypalmesController extends AppController
         $ppm = $this->Paypalmes->get($id);
         if ($ppm) {
             $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([
-                "paypalme_id" => $id
+                'paypalme_id' => $id,
             ]));
+
             return $this->redirect($ppm->link . (3.5 + $this->request->getData()['tip']));
         }
+
         return $this->redirect(['action' => 'index']);
     }
-
 }
