@@ -17,3 +17,4 @@ jobs:
           token: "${{ secrets.mytoken }}"
           merge-method: squash
           pull-request: ${{ github.event.inputs.pull-request }}
+          squash-title: "${{ github.event.pull_request.title }} (#${{ github.event.number }})"
