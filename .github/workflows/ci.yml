@@ -178,4 +178,4 @@ jobs:
         with:
           workflow_id: ci.yml
           all_but_latest: true
-          token: ${{ secrets.mytoken }}
+          access_token: ${{ secrets.mytoken }}
