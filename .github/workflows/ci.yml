@@ -68,13 +68,10 @@ jobs:
         with:
           fetch-depth: 0
           ref: changelog
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '15'
       - name: Create Changelog
         run: |
-          npm i -g standard-version
-          standard-version --skip.bump --skip.commit --skip.tag
+          echo "${{ steps.tag_version.outputs.changelog }}" >> Changelog.md
+          echo "" >> Changelog.md
       - name: Push Changelog
         uses: EndBug/add-and-commit@v7
         with:
