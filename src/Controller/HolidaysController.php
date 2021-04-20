@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Model\Entity\Holiday;
 use App\Model\Table\HolidaysTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
 
 /**

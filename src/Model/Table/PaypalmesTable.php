@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Paypalme;
-use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetInterface;
 use Cake\I18n\Time;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -77,7 +75,6 @@ class PaypalmesTable extends Table
         return $validator;
     }
 
-
     /**
      * @return null|Paypalme
      */
@@ -86,14 +83,15 @@ class PaypalmesTable extends Table
 
         $active = $this->Payhistory->find()->select([
             'cnt' => 'COUNT(*)',
-            'paypalme_id'
+            'paypalme_id',
         ])->where([
-            'created >' => (new Time())->startOfDay()
+            'created >' => (new Time())->startOfDay(),
         ])->group(['paypalme_id'])->max('cnt');
 
         if ($active) {
             return $this->get($active->paypalme_id);
         }
+
         return null;
     }
 }
