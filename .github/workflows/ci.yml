@@ -86,9 +86,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '15'
-      - working-directory: webroot/vue-apps/bezahlen
-        name: Vue - Bezahlen - Abhängigkeiten installieren
-        run: while [ `npm ci` -ne 0 ]; do sleep 1; done
+      - name: Vue - Bezahlen - Abhängigkeiten installieren
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
         run: npm run build
