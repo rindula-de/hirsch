@@ -2,7 +2,13 @@ name: auto-merge
 
 on:
   pull_request_target:
-  #workflow_dispatch:
+    types:
+      - synchronize
+      - reopened
+      - edited
+      - labeled
+      - unlabeled
+      - ready_for_review
 
 jobs:
   auto-merge:
