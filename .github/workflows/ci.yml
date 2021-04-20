@@ -158,3 +158,8 @@ jobs:
         name: ❌ Remove Artifacts
         with:
           name: deployready
+      - uses: n1hility/cancel-previous-runs@v2
+        name: 🚮 Cancel older workflows
+        with: 
+          token: ${{ secrets.mytoken }}
+          workflow: ci.yml
