@@ -88,11 +88,7 @@ jobs:
           node-version: '15'
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Abhängigkeiten installieren
-        run: |
-          until `npm ci`
-          do
-          echo "Try again"
-          done
+        run: while [ `npm ci` -ne 0 ]; do sleep 1; done
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
         run: npm run build
