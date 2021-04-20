@@ -15,6 +15,6 @@ jobs:
       - uses: reitermarkus/automerge@v1.5.2
         with:
           token: "${{ secrets.mytoken }}"
-          merge-method: squash
           pull-request: ${{ github.event.inputs.pull-request }}
-          squash-title: "${{ github.event.pull_request.title }} (#${{ github.event.number }})"
+          squash-title: true
+          dry-run: false
