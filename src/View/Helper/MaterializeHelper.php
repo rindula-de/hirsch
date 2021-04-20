@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\View\Helper;
-
 
 use Cake\View\Helper;
 
@@ -18,7 +17,7 @@ class MaterializeHelper extends Helper
      * @param array $links ['text' => '', 'url' => null, 'options' => []]
      * @return string
      */
-    public function basicCard($title = "", $body = "", $links = [])
+    public function basicCard($title = '', $body = '', $links = [])
     {
         $html = "
     <div class=\"col s6\">
@@ -27,21 +26,26 @@ class MaterializeHelper extends Helper
           <span class=\"card-title\">$title</span>
           " . $this->Text->autoParagraph($body) . "
         </div>";
-        if (!empty($links)):
-            $html .= "<div class=\"card-action\">";
+        if (!empty($links)) :
+            $html .= '<div class="card-action">';
             foreach ($links as $link) {
-                if (empty($link['text']) || empty($link['url'])) continue;
-                if (empty($link['options'])) $link['options'] = [];
+                if (empty($link['text']) || empty($link['url'])) {
+                    continue;
+                }
+                if (empty($link['options'])) {
+                    $link['options'] = [];
+                }
                 $html .= $this->Html->link(
                     $link['text'],
                     $link['url'],
-                    $link['options']);
+                    $link['options']
+                );
             }
-            $html .= "</div>";
+            $html .= '</div>';
         endif;
         $html .= "</div>
     </div>";
+
         return $html;
     }
-
 }

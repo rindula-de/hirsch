@@ -9,7 +9,6 @@ use App\Model\Table\OrdersTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
@@ -27,10 +26,11 @@ use http\Exception\BadUrlException;
  */
 class OrdersController extends AppController
 {
-
     public function order($future = 0, $mealSlug = null)
     {
-        if ($mealSlug == null) throw new BadUrlException();
+        if ($mealSlug == null) {
+            throw new BadUrlException();
+        }
         $now = new Time();
         /** @var OrdersTable $orders */
         $orders = $this->getTableLocator()->get('Orders');
@@ -39,7 +39,7 @@ class OrdersController extends AppController
         $order = $orders->newEntity($data);
         $meal = $this->Orders->Hirsch->findBySlug($mealSlug)->first();
 
-        $extended = Cache::read("settings.extended", 'extended') ?? false;
+        $extended = Cache::read('settings.extended', 'extended') ?? false;
 
         $holidaysTable = $this->getTableLocator()->get('holidays');
 
@@ -54,29 +54,37 @@ class OrdersController extends AppController
         $this->set(compact('meal', 'order', 'cookiedName'));
 
         if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55)) && !$extended) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
-            $this->Flash->error("Die Zeit zum bestellen ist abgelaufen!");
+            $this->Flash->error('Die Zeit zum bestellen ist abgelaufen!');
+
             return $this->redirect(['_name' => 'karte']);
         } elseif ($data['for']->isWeekend()) {
-            $this->Flash->error("Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!");
+            $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!');
+
             return $this->redirect(['_name' => 'karte']);
         } elseif ($holiday && $data['for']->between($holiday->start, $holiday->end)) {
-            $this->Flash->error("An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!");
+            $this->Flash->error('An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!');
+
             return $this->redirect(['_name' => 'karte']);
         }
 
         if ($this->request->is('post')) {
             if (!empty($data)) {
-                if (empty($data['orderedby'])) throw new BadRequestException();
+                if (empty($data['orderedby'])) {
+                    throw new BadRequestException();
+                }
                 $this->setResponse($this->getResponse()->withCookie(new Cookie('lastOrderedName', Security::encrypt($data['orderedby'], 'ordererNameDecryptionKeyLongVersion'), FrozenTime::now()->modify('+1 years'))));
                 if ($orders->save($order)) {
-                    $this->Flash->success("Bestellung aufgegeben, Zahlung ausstehend");
+                    $this->Flash->success('Bestellung aufgegeben, Zahlung ausstehend');
+
                     return $this->redirect(['_name' => 'bezahlen']);
                 } else {
-                    $this->Flash->error("Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!");
+                    $this->Flash->error('Konnte Bestellung nicht aufgeben! Bitte versuche es erneut!');
+
                     return;
                 }
             }
         }
+
         return;
     }
 
@@ -84,15 +92,15 @@ class OrdersController extends AppController
     {
         $botd = new Date();
         $o = $this->Orders->find()->where([
-            'for' => $botd->toIso8601String()
+            'for' => $botd->toIso8601String(),
         ])->orderAsc('Orders.created')->contain(['Hirsch']);
 
         $preorders = $this->Orders->find()->where([
-            'for >' => $botd->toIso8601String()
+            'for >' => $botd->toIso8601String(),
         ])->orderAsc('Orders.created')->group(['Hirsch.name', 'note', 'for'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
         $oG = $this->Orders->find()->where([
-            'for' => $botd->toIso8601String()
+            'for' => $botd->toIso8601String(),
         ])->orderAsc('Orders.created')->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
         // Order Notification
@@ -100,17 +108,16 @@ class OrdersController extends AppController
             /** @var Order $lastOrder */
             $lastOrder = $this->Orders->find()->where([
                 'for' => $botd->toIso8601String(),
-                'orderedby' => Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion') ?? ''
+                'orderedby' => Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion') ?? '',
             ])->contain(['Hirsch'])->order(['for'])->first();
             if ($lastOrder) {
-                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . ((!empty($lastOrder->note)) ? " ({$lastOrder->note})" : ""));
+                $this->Flash->set('Deine heutige Bestellung: ' . $lastOrder->hirsch->name . (!empty($lastOrder->note) ? " ({$lastOrder->note})" : ''));
             }
         }
 
         $this->set(['orders' => $o, 'ordersGrouped' => $oG]);
         $this->set(compact('preorders'));
     }
-
 
     /**
      * Delete method
@@ -124,6 +131,7 @@ class OrdersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         if ((new Time())->hour >= 11 && !Configure::read('debug')) {
             $this->Flash->error(__('It\'s too late to revoke your order!'));
+
             return $this->redirect(['action' => 'list']);
         }
         $id = base64_decode($id);
@@ -137,16 +145,16 @@ class OrdersController extends AppController
         return $this->redirect(['action' => 'list']);
     }
 
-
     public function extend()
     {
         if ((new Time())->hour >= 12 && !Configure::read('debug')) {
-            $this->Flash->error("Die Bestellungen sind bereits aufgegeben!");
+            $this->Flash->error('Die Bestellungen sind bereits aufgegeben!');
+
             return $this->redirect($this->referer());
         }
 
-        Cache::write("settings.extended", true, 'extended');
-        $this->Flash->success("Die Bestellzeit wurde auf 11:20 Uhr verlängert");
+        Cache::write('settings.extended', true, 'extended');
+        $this->Flash->success('Die Bestellzeit wurde auf 11:20 Uhr verlängert');
 
         return $this->redirect($this->referer());
     }

@@ -4,10 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Entity\Hirsch;
-use App\Model\Table\HirschTable;
 use Cake\Core\Configure;
-use Cake\Datasource\ResultSetInterface;
-use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\InternalErrorException;
 use Cake\Http\Response;
 use Cake\I18n\Date;
@@ -49,11 +46,13 @@ class HirschController extends AppController
     public function getTagesessen()
     {
         try {
-            $server = Configure::readOrFail("MailAccess.host");
-            $adresse = Configure::readOrFail("MailAccess.username");
-            $password = Configure::readOrFail("MailAccess.password");
+            $server = Configure::readOrFail('MailAccess.host');
+            $adresse = Configure::readOrFail('MailAccess.username');
+            $password = Configure::readOrFail('MailAccess.password');
             $mbox = @imap_open($server, $adresse, $password);
-            if (!$mbox) throw new InternalErrorException(imap_last_error());
+            if (!$mbox) {
+                throw new InternalErrorException(imap_last_error());
+            }
 
             $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
             $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
@@ -78,11 +77,11 @@ class HirschController extends AppController
 
                     if (isset($structure->parts) && count($structure->parts)) {
                         for ($i = 0; $i < count($structure->parts); $i++) {
-                            $attachments[$i] = array(
+                            $attachments[$i] = [
                                 'is_attachment' => false,
                                 'filename' => '',
                                 'name' => '',
-                                'attachment' => '');
+                                'attachment' => ''];
 
                             if ($structure->parts[$i]->ifdparameters) {
                                 foreach ($structure->parts[$i]->dparameters as $object) {
@@ -103,7 +102,7 @@ class HirschController extends AppController
                             }
 
                             if ($attachments[$i]['is_attachment']) {
-                                $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . "");
+                                $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . '');
                                 if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
                                     $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
                                 } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
@@ -134,25 +133,25 @@ class HirschController extends AppController
                                             if ($dow < 2) {
                                                 $daysAdd++;
                                             }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date('+' . $daysAdd . ' days'))];
                                         case 3:
                                             preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
                                             if ($dow < 3) {
                                                 $daysAdd++;
                                             }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date('+' . $daysAdd . ' days'))];
                                         case 4:
                                             preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
                                             if ($dow < 4) {
                                                 $daysAdd++;
                                             }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date('+' . $daysAdd . ' days'))];
                                         case 5:
                                             preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]*([\d\w]{1,3}[^\d]+)/', $text, $matches);
                                             if ($dow < 5) {
                                                 $daysAdd++;
                                             }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date("+" . $daysAdd . " days"))];
+                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date('+' . $daysAdd . ' days'))];
                                     }
                                 }
                                 unlink($filename);
@@ -162,7 +161,6 @@ class HirschController extends AppController
                 }
             }
             imap_close($mbox);
-
         } catch (Exception $e) {
             $displayData = false;
         }
@@ -192,21 +190,27 @@ class HirschController extends AppController
         $content = '';
 
         $zip = zip_open($filename);
-        if (!$zip || is_numeric($zip)) return false;
+        if (!$zip || is_numeric($zip)) {
+            return false;
+        }
 
         while ($zip_entry = zip_read($zip)) {
+            if (zip_entry_open($zip, $zip_entry) == false) {
+                continue;
+            }
 
-            if (zip_entry_open($zip, $zip_entry) == FALSE) continue;
-
-            if (zip_entry_name($zip_entry) != "word/document.xml") continue;
+            if (zip_entry_name($zip_entry) != 'word/document.xml') {
+                continue;
+            }
 
             $content .= zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
 
             zip_entry_close($zip_entry);
         }
         zip_close($zip);
-        $content = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $content);
+        $content = str_replace('</w:r></w:p></w:tc><w:tc>', ' ', $content);
         $content = str_replace('</w:r></w:p>', "\r\n", $content);
+
         return strip_tags($content);
     }
 }

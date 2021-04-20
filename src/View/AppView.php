@@ -15,8 +15,6 @@ declare(strict_types=1);
  */
 namespace App\View;
 
-use App\View\Helper\FooddisplayHelper;
-use App\View\Helper\MaterializeHelper;
 use Cake\View\View;
 
 /**

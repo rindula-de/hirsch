@@ -40,14 +40,12 @@ class SendMailCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $extended = Cache::read("settings.extended", 'extended') ?? false;
-
+        $extended = Cache::read('settings.extended', 'extended') ?? false;
 
         if ((!$extended && Time::now()->minute < 10) || ($extended && Time::now()->minute > 10)) {
-
             $ordersTable = $this->loadModel('Orders');
             $orders = $ordersTable->find()->where([
-                'for' => (new Date())->toIso8601String()
+                'for' => (new Date())->toIso8601String(),
             ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
 
             $orderer = $ordersTable->find()->where(['for' => (new Date())->toIso8601String()])->select('orderedby');
@@ -55,20 +53,20 @@ class SendMailCommand extends Command
             $first = true;
             $out = '';
             foreach ($orders as $order) {
-                if (!$first) $out .= PHP_EOL . PHP_EOL;
-                $out .= $order->cnt . "x " . $order->hirsch->name;
+                if (!$first) {
+                    $out .= PHP_EOL . PHP_EOL;
+                }
+                $out .= $order->cnt . 'x ' . $order->hirsch->name;
                 if (!empty($order->note)) {
-                    $out .= PHP_EOL . "Sonderwunsch: " . $order->note;
+                    $out .= PHP_EOL . 'Sonderwunsch: ' . $order->note;
                 }
                 $first = false;
             }
 
-
             $currentReceiver = $this->getTableLocator()->get('PaypalMes')->findActivePayer();
 
             if (!empty($out) && !empty($currentReceiver)) {
-
-                $out .= PHP_EOL . PHP_EOL . PHP_EOL . "Besteller:" . PHP_EOL . PHP_EOL;
+                $out .= PHP_EOL . PHP_EOL . PHP_EOL . 'Besteller:' . PHP_EOL . PHP_EOL;
                 foreach ($orderer as $item) {
                     $out .= $item->orderedby . PHP_EOL;
                 }
@@ -78,10 +76,9 @@ class SendMailCommand extends Command
                 $mailer->setDomain('hochwarth-e.com');
                 $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
                     ->setTo($currentReceiver->email)
-                    ->setSubject("🦌 Hirsch Bestellungen vom " . new Date())
+                    ->setSubject('🦌 Hirsch Bestellungen vom ' . new Date())
                     ->setEmailFormat('both')
                     ->deliver($out);
-
             }
         }
     }

@@ -3,29 +3,30 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
+use App\Model\Entity\Order;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
+use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Orders Model
  *
- * @method \App\Model\Entity\Order newEmptyEntity()
- * @method \App\Model\Entity\Order newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Order[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Order get($primaryKey, $options = [])
- * @method \App\Model\Entity\Order findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Order patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Order[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Order|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Order saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Order[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Order[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Order[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Order[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method Order newEmptyEntity()
+ * @method Order newEntity(array $data, array $options = [])
+ * @method Order[] newEntities(array $data, array $options = [])
+ * @method Order get($primaryKey, $options = [])
+ * @method Order findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Order patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Order[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Order|false save(EntityInterface $entity, $options = [])
+ * @method Order saveOrFail(EntityInterface $entity, $options = [])
+ * @method Order[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Order[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Order[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Order[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @mixin TimestampBehavior
  * @property HirschTable Hirsch
  */
 class OrdersTable extends Table
@@ -47,15 +48,15 @@ class OrdersTable extends Table
         $this->addBehavior('Timestamp');
         $this->hasOne('Hirsch', [
             'foreignKey' => 'slug',
-            'bindingKey' => 'name'
+            'bindingKey' => 'name',
         ]);
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
