@@ -61,7 +61,7 @@ use App\View\AppView;
                     if (result[i]['gericht'].toLowerCase().includes("ruhetag")) holidayDate = true;
                     let clone = template.content.cloneNode(true);
                     clone.querySelector("[data-role=title]").innerHTML = "Tagesessen für den " + date.toLocaleDateString();
-                    clone.querySelector("[data-role=gericht]").innerHTML = result[i]['gericht'] + " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + result[i]['gericht'] + "'>🍽</a>";
+                    clone.querySelector("[data-role=gericht]").innerHTML = result[i]['gericht'] + " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + result[i]['gericht'] + "'>📷</a>";
                     let btn = clone.querySelector("[data-role=order]");
                     if (!holidayDate) {
                         btn.innerHTML = (i === 0) ? "Bestellen" : "Vorbestellen";
