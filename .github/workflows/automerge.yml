@@ -3,6 +3,7 @@ name: auto-merge
 on:
   pull_request_target:
     types:
+      - opened
       - synchronize
       - reopened
       - edited
@@ -14,10 +15,6 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: hmarr/auto-approve-action@v2
-        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
-        with:
-          github-token: "${{ secrets.mytoken }}"
       - uses: reitermarkus/automerge@v1.5.2
         with:
           token: "${{ secrets.mytoken }}"
