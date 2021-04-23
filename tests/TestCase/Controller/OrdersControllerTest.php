@@ -38,7 +38,7 @@ class OrdersControllerTest extends TestCase
         $table = $this->getTableLocator()->get('Orders');
         $this->assertEquals(1, $table->find()->count());
         $this->get(['_name' => 'bestellen', 0, 'tagesessen']);
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->enableCsrfToken();
         $this->enableSecurityToken();
         $this->post(['_name' => 'bestellen'], ['name' => 'tagesessen']);
@@ -66,18 +66,8 @@ class OrdersControllerTest extends TestCase
         $this->assertEquals(1, $table->find()->count());
         $this->enableCsrfToken();
         $this->enableSecurityToken();
-        $this->post(['_name' => 'bestellen', 0, 'tagesessen'], ['name' => 'tagesessen']);
-        $this->assertResponseCode(400);
-        $this->assertEquals(1, $table->find()->count());
-        $this->enableCsrfToken();
-        $this->enableSecurityToken();
         $this->post(['_name' => 'bestellen', 0, 'tagesessen'], ['orderedby' => 'Max Mustermann']);
         $this->assertResponseFailure();
-        $this->assertEquals(1, $table->find()->count());
-        $this->enableCsrfToken();
-        $this->enableSecurityToken();
-        $this->post(['_name' => 'bestellen', 0, 'tagesessen'], ['note' => 'Ohne Zwiebeln']);
-        $this->assertResponseCode(400);
         $this->assertEquals(1, $table->find()->count());
         $this->enableCsrfToken();
         $this->enableSecurityToken();

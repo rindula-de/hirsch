@@ -60,8 +60,6 @@ class PagesControllerTest extends TestCase
         $this->assertStringContainsString("<html", $this->_getBodyAsString());
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseSuccess();
-        if (Time::now()->hour < 11)
-            $this->assertStringContainsString("<html", $this->_getBodyAsString());
         Configure::write("debug", true);
         $this->get('/bestellen/0/tagesessen');
         $this->assertResponseOk();
