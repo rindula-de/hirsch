@@ -47,6 +47,9 @@ $cakeDescription = 'Hirsch Bestellungen';
     </script>
 </head>
 <body>
+<!--
+    Letztes Update: <?= (new Time(trim(Cake\Core\Configure::read("App.last_update"))))->nice().PHP_EOL ?>
+-->
 <?= $this->Nav->main() ?>
 <main class="main">
     <?= $this->Flash->render() ?>
@@ -71,9 +74,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
-<footer>
-    Letzes Update: <?= Cake\Core\Configure::read("App.last_update") ?>
-</footer>
 <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js"></script>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js"></script>
