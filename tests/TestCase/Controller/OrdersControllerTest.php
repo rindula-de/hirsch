@@ -38,7 +38,7 @@ class OrdersControllerTest extends TestCase
         $table = $this->getTableLocator()->get('Orders');
         $this->assertEquals(1, $table->find()->count());
         $this->get(['_name' => 'bestellen', 0, 'tagesessen']);
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->enableCsrfToken();
         $this->enableSecurityToken();
         $this->post(['_name' => 'bestellen'], ['name' => 'tagesessen']);
