@@ -12,7 +12,7 @@ updates:
       include: "scope"
     schedule:
       interval: "daily"
-      time: "02:00"
+      timezone: 06:00 Europe/Berlin
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
@@ -23,4 +23,11 @@ updates:
       prefix: "ci"
       include: "scope"
     schedule:
-      interval: "daily"
+      timezone: 05:00 Europe/Berlin
+  - package-ecosystem: gitsubmodule
+    directory: /
+    commit-message:
+      include: scope
+      prefix: "chore"
+    schedule:
+      timezone: 07:00 Europe/Berlin
