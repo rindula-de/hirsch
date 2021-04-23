@@ -16,17 +16,6 @@ updates:
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/webroot/vue-apps/bezahlen" # Location of package manifests
-    commit-message:
-      prefix: "build"
-      include: "scope"
-    schedule:
-      interval: "daily"
-      time: "02:00"
-    assignees:
-      - "Rindula"
-    open-pull-requests-limit: 100
   - package-ecosystem: "github-actions"
     directory: "/"
     open-pull-requests-limit: 100
