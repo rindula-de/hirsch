@@ -110,7 +110,9 @@ jobs:
           command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
-        run: npm run build
+        run: |
+          npx browserslist@latest --update-db
+          npm run build
       - name: Compile CSS from SCSS files
         uses: gha-utilities/sass-build@v0.3.7
         with:
