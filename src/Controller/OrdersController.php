@@ -75,16 +75,16 @@ class OrdersController extends AppController
             $this->Flash->error('Die Zeit zum bestellen ist abgelaufen!');
 
             return $this->redirect(['_name' => 'karte']);
-        } elseif ($data['for']->isWeekend()) {
+        } elseif (!Configure::read('debug') && $data['for']->isWeekend()) {
             $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!');
 
             return $this->redirect(['_name' => 'karte']);
-        } elseif ($holiday && $data['for']->between($holiday->start, $holiday->end)) {
+        } elseif (!Configure::read('debug') && $holiday && $data['for']->between($holiday->start, $holiday->end)) {
             $this->Flash->error('An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!');
 
             return $this->redirect(['_name' => 'karte']);
         }
-        
+
         return;
     }
 
