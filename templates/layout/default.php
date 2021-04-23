@@ -15,6 +15,7 @@
  */
 
 use App\View\AppView;
+use Cake\I18n\Time;
 
 $cakeDescription = 'Hirsch Bestellungen';
 ?>
@@ -44,6 +45,9 @@ $cakeDescription = 'Hirsch Bestellungen';
     <?= $this->fetch('script') ?>
 </head>
 <body>
+<!--
+    Letztes Update: <?= (new Time(trim(Cake\Core\Configure::read("App.last_update"))))->nice().PHP_EOL ?>
+-->
 <?= $this->Nav->main() ?>
 <main class="main">
     <div class="content">
@@ -68,9 +72,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
-<footer>
-    Letzes Update: <?= Cake\Core\Configure::read("App.last_update") ?>
-</footer>
 <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 </body>
 </html>
