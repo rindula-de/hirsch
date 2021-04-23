@@ -25,7 +25,7 @@ jobs:
         with:
           php-version: 7.4
           tools: composer:v2
-          extensions: intl, mbstring, imap, zip, dom, pdo_mysql, http
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -93,7 +93,7 @@ jobs:
         with:
           php-version: 7.4
           tools: composer:v2
-          extensions: intl, mbstring, imap, zip, dom, pdo_mysql, http
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Install Composer dependencies
         env:
           SALT: ${{ secrets.SALT }}
