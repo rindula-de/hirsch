@@ -39,6 +39,7 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           sed -i "s/non_standard_port_number_replace/${DB_PORT}/" config/app_local.php
+          current_timestamp=`git log -n1 --pretty=%ci HEAD`; sed -i "s/last\_update\_timestamp/${current_timestamp}/" config/app_local.php
 
 
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
