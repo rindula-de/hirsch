@@ -53,20 +53,6 @@ class OrdersController extends AppController
 
         $this->set(compact('meal', 'order', 'cookiedName'));
 
-        if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55)) && !$extended) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
-            $this->Flash->error('Die Zeit zum bestellen ist abgelaufen!');
-
-            return $this->redirect(['_name' => 'karte']);
-        } elseif ($data['for']->isWeekend()) {
-            $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!');
-
-            return $this->redirect(['_name' => 'karte']);
-        } elseif ($holiday && $data['for']->between($holiday->start, $holiday->end)) {
-            $this->Flash->error('An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!');
-
-            return $this->redirect(['_name' => 'karte']);
-        }
-
         if ($this->request->is('post')) {
             if (!empty($data)) {
                 if (empty($data['orderedby'])) {
@@ -85,6 +71,20 @@ class OrdersController extends AppController
             }
         }
 
+        if (!Configure::read('debug') && ((($future == 0 && ($now->hour > 10 || ($now->hour == 10 && $now->minute > 55)) && !$extended) || $future < 0) || (($future == 0 && ($now->hour > 11 || ($now->hour == 11 && $now->minute > 20)) && $extended) || $future < 0))) {
+            $this->Flash->error('Die Zeit zum bestellen ist abgelaufen!');
+
+            return $this->redirect(['_name' => 'karte']);
+        } elseif ($data['for']->isWeekend()) {
+            $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!');
+
+            return $this->redirect(['_name' => 'karte']);
+        } elseif ($holiday && $data['for']->between($holiday->start, $holiday->end)) {
+            $this->Flash->error('An diesem Tag sind Betriebsferien. Bitte wähle einen anderen Tag!');
+
+            return $this->redirect(['_name' => 'karte']);
+        }
+        
         return;
     }
 
