@@ -16,7 +16,7 @@ class Display extends AbstractMigration
     {
 
         $this->table('hirsch')
-            ->addColumn('display', 'tinyinteger', [
+            ->addColumn('display', 'boolean', [
                 'after' => 'name',
                 'default' => '1',
                 'length' => null,
