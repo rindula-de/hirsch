@@ -76,7 +76,7 @@ class OrdersController extends AppController
 
             return $this->redirect(['_name' => 'karte']);
         } elseif (!Configure::read('debug') && $data['for']->isWeekend()) {
-            $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen tag aus!');
+            $this->Flash->error('Am Wochenende wird dir keiner deine Bestellung abholen! Bitte wähle einen anderen Tag aus!');
 
             return $this->redirect(['_name' => 'karte']);
         } elseif (!Configure::read('debug') && $holiday && $data['for']->between($holiday->start, $holiday->end)) {
