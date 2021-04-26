@@ -13,6 +13,7 @@ updates:
     schedule:
       interval: "daily"
       timezone: Europe/Berlin
+      time: "04:00"
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
@@ -25,6 +26,7 @@ updates:
     schedule:
       interval: "daily"
       timezone: Europe/Berlin
+      time: "06:00"
   - package-ecosystem: gitsubmodule
     directory: /
     commit-message:
@@ -33,3 +35,4 @@ updates:
     schedule:
       interval: "daily"
       timezone: Europe/Berlin
+      time: "03:00"
