@@ -24,3 +24,4 @@ jobs:
           pull-request: ${{ github.event.number }}
           squash-title: true
           dry-run: false
+          do-not-merge-labels: wontfix
