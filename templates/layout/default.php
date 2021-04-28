@@ -74,8 +74,8 @@ $cakeDescription = 'Hirsch Bestellungen';
 </div>
 <div id="orderedModal" class="modal">
     <div class="modal-content">
-        <h2 id="orderedModalTitle">Bestellung</h2>
         <span class="close">&times;</span>
+        <h2 id="orderedModalTitle">Bestellung</h2>
         <p id="orderedModalText">Bestellung</p>
     </div>
 </div>
