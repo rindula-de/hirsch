@@ -72,6 +72,13 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
+<div id="orderedModal" class="modal">
+    <div class="modal-content">
+        <h2 id="orderedModalTitle">Bestellung</h2>
+        <span class="close">&times;</span>
+        <p id="orderedModalText">Bestellung</p>
+    </div>
+</div>
 <?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
 </body>
 </html>
