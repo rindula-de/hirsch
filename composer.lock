@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1239220f551b7fab11dd3c937615f9b1",
+    "content-hash": "268b25805dbcccfb041438167dc1ee82",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -1243,26 +1243,22 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v0.19.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "1895c17417aefa4508e35836c46da61988d61f26"
+                "reference": "d4148fd8160f2e9cfc03f0bbfa4efba8a4e15fa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/1895c17417aefa4508e35836c46da61988d61f26",
-                "reference": "1895c17417aefa4508e35836c46da61988d61f26",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/d4148fd8160f2e9cfc03f0bbfa4efba8a4e15fa4",
+                "reference": "d4148fd8160f2e9cfc03f0bbfa4efba8a4e15fa4",
                 "shasum": ""
             },
             "require": {
                 "ext-zlib": "*",
-                "php": ">=5.6",
+                "php": ">=7.1",
                 "symfony/polyfill-mbstring": "^1.18"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "symfony/phpunit-bridge": "^5.2"
             },
             "type": "library",
             "autoload": {
@@ -1291,9 +1287,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v0.19.0"
+                "source": "https://github.com/smalot/pdfparser/tree/v1.0.0"
             },
-            "time": "2021-04-13T08:27:56+00:00"
+            "time": "2021-04-26T12:46:49+00:00"
         },
         {
             "name": "symfony/config",
