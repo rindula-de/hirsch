@@ -121,7 +121,7 @@ jobs:
           npx browserslist@latest --update-db
           npm run build
       - name: Compile CSS from SCSS files
-        uses: gha-utilities/sass-build@v0.3.7
+        uses: gha-utilities/sass-build@v0.3.9
         with:
           source: webroot/scss/style.scss
           destination: webroot/css/style.css
