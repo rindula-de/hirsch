@@ -51,7 +51,7 @@ use App\View\AppView;
                     let holidayDate = false;
                     for (let j = 0; j < holidays.length; j++) {
                         let start = new Date(holidays[j]['from']).setHours(0);
-                        let end = new Date(holidays[j]['to']).setHours(0);
+                        let end = new Date(holidays[j]['to']).setHours(23);
 
                         if (date >= start && date <= end) {
                             holidayDate = true;
