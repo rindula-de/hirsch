@@ -26,7 +26,7 @@ updates:
     schedule:
       interval: "daily"
       timezone: Europe/Berlin
-      time: "06:00"
+      time: "04:00"
   - package-ecosystem: gitsubmodule
     directory: /
     commit-message:
@@ -35,4 +35,4 @@ updates:
     schedule:
       interval: "daily"
       timezone: Europe/Berlin
-      time: "03:00"
+      time: "04:00"
