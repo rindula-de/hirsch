@@ -148,7 +148,7 @@ jobs:
         with:
           name: deployready
           path: artifact.tar
-          retention-days: 7
+          retention-days: 1
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
