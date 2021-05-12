@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@2.11.0
         with:
           php-version: 7.4
           tools: composer:v2
@@ -97,7 +97,7 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@2.11.0
         with:
           php-version: 7.4
           tools: composer:v2
