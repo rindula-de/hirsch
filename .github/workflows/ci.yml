@@ -78,7 +78,7 @@ jobs:
           echo "${{ steps.tag_version.outputs.changelog }}" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
       - name: Push Changelog
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v7.2.1
         with:
           author_name: Rindula
           author_email: Rindula@users.noreply.github.com
