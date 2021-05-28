@@ -30,7 +30,6 @@ updates:
   - package-ecosystem: gitsubmodule
     directory: /
     commit-message:
-      include: scope
       prefix: "build"
     schedule:
       interval: "daily"
