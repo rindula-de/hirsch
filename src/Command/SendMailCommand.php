@@ -11,6 +11,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\I18n\Date;
 use Cake\I18n\Time;
 use Cake\Mailer\Mailer;
+use Cake\ORM\TableRegistry;
 
 /**
  * SendMail command.
@@ -44,6 +45,8 @@ class SendMailCommand extends Command
 
         if ((!$extended && Time::now()->minute < 10) || ($extended && Time::now()->minute > 10)) {
             $ordersTable = $this->loadModel('Orders');
+            $paypalMes = $this->loadModel('Paypalmes');
+            $payhistory = $this->loadModel('Payhistory');
             $orders = $ordersTable->find()->where([
                 'for' => (new Date())->toIso8601String(),
             ])->group(['Hirsch.name', 'note'])->select(['Hirsch.name', 'for', 'note', 'cnt' => 'count(Hirsch.name)'])->contain(['Hirsch']);
@@ -63,8 +66,18 @@ class SendMailCommand extends Command
                 $first = false;
             }
 
-            $currentReceiver = $this->getTableLocator()->get('PaypalMes')->findActivePayer();
-
+            $active = $payhistory->find()->select([
+                'cnt' => 'COUNT(*)',
+                'paypalme_id',
+            ])->where([
+                'created >' => (new Time())->startOfDay(),
+            ])->group(['paypalme_id'])->max('cnt');
+    
+            if ($active) {
+                $currentReceiver = $paypalMes->get($active->paypalme_id);
+            } else {
+                $currentReceiver = null;
+            }
             if (!empty($out) && !empty($currentReceiver)) {
                 $out .= PHP_EOL . PHP_EOL . PHP_EOL . 'Besteller:' . PHP_EOL . PHP_EOL;
                 foreach ($orderer as $item) {
@@ -75,7 +88,7 @@ class SendMailCommand extends Command
                 $mailer->viewBuilder()->setTemplate('orders');
                 $mailer->setDomain('hochwarth-e.com');
                 $mailer->setFrom(['essen@hochwarth-e.com' => 'Hirsch Bestellseite'])
-                    ->setTo($currentReceiver->email)
+                    ->setTo([$currentReceiver->email => $currentReceiver->name])
                     ->setSubject('🦌 Hirsch Bestellungen vom ' . new Date())
                     ->setEmailFormat('both')
                     ->deliver($out);

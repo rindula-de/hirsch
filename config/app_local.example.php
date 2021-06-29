@@ -15,7 +15,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', !true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
 
     'App' => [
         'last_update' => 'last_update_timestamp'
@@ -86,10 +86,10 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'host' => 'localhost',
-            'port' => 25,
-            'username' => null,
-            'password' => null,
+            'host' => 'mail.your-server.de',
+            'port' => 465,
+            'username' => 'essen@rindula.de',
+            'password' => 'foodwars',
             'client' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
