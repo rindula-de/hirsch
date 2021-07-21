@@ -33,7 +33,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link as="image" href="/img/essen.jpg" rel="preload">
 
-    <?= $this->Html->css(['style.css?' . round(time() / 1000)]) ?>
+    <?= $this->Html->css(['style.css?' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
