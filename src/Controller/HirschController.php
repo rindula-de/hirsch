@@ -115,12 +115,12 @@ class HirschController extends AppController
                     if (count($attachments) != 0) {
                         foreach ($attachments as $at) {
                             if ($at['is_attachment'] == 1) {
-                                $filename = tempnam(ROOT . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
-                                file_put_contents($filename, $at['attachment']);
-                                $parser = new Parser();
-                                $pdf = $parser->parseFile($filename);
-                                $text = str_replace("\t", '', $pdf->getText());
                                 if (strtolower($at['filename']) == 'mittagstisch.pdf') {
+                                    $filename = tempnam(ROOT . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
+                                    file_put_contents($filename, $at['attachment']);
+                                    $parser = new Parser();
+                                    $pdf = $parser->parseFile($filename);
+                                    $text = str_replace("\t", '', $pdf->getText());
                                     $now = new Time();
                                     $dow = $now->dayOfWeek;
                                     $daysAdd = 0;
@@ -153,8 +153,8 @@ class HirschController extends AppController
                                             }
                                             $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new Date('+' . $daysAdd . ' days'))];
                                     }
+                                    unlink($filename);
                                 }
-                                unlink($filename);
                             }
                         }
                     }
