@@ -45,6 +45,7 @@ class HirschController extends AppController
 
     public function getTagesessen()
     {
+        $file = '';
         try {
             $server = Configure::readOrFail('MailAccess.host');
             $adresse = Configure::readOrFail('MailAccess.username');
@@ -117,6 +118,7 @@ class HirschController extends AppController
                             if ($at['is_attachment'] == 1) {
                                 if (strtolower($at['filename']) == 'mittagstisch.pdf') {
                                     $filename = tempnam(ROOT . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
+                                    $file = base64_encode($at['attachment']);
                                     file_put_contents($filename, $at['attachment']);
                                     $parser = new Parser();
                                     $pdf = $parser->parseFile($filename);
@@ -165,8 +167,8 @@ class HirschController extends AppController
             $displayData = false;
         }
 
-        $this->set(compact('displayData'));
-        $this->viewBuilder()->setOption('serialize', 'displayData');
+        $this->set(compact('displayData', 'file'));
+        $this->viewBuilder()->setOption('serialize', ['displayData', 'file']);
     }
 
     public function modalText()

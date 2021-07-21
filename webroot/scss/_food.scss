@@ -43,6 +43,19 @@
     }
 }
 
+button.btn {
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.25);
+    margin-top: 10px;
+    transition: background-color .1s linear;
+    border-radius: 6px;
+    outline: none;
+    width: 100%;
+    &:hover {
+        background-color: darken($accentcolor, 10%);
+    }
+}
+
 @media screen and (max-width: 600px) {
     .foodcard {
         .actionbar {
