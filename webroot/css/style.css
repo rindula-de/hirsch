@@ -709,13 +709,15 @@ button.btn {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.25);
   margin-top: 10px;
-  transition: background-color 0.1s linear;
+  transition: background-color 0.1s linear, border 0.1s linear;
   border-radius: 6px;
   outline: none;
   width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.4);
 }
 button.btn:hover {
   background-color: #cf8300;
+  border: 2px solid #005cfc;
 }
 
 @media screen and (max-width: 600px) {
