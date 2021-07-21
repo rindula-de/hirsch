@@ -45,18 +45,21 @@ use App\View\AppView;
         success: function (result) {
             tagesessen_panel.innerHTML = "";
             tagesessen_panel.classList.remove("loading");
-            // decode base64 string, remove space for IE compatibility
-            var binary = atob(result.file.replace(/\s/g, ''));
-            var len = binary.length;
-            var buffer = new ArrayBuffer(len);
-            var view = new Uint8Array(buffer);
-            for (var i = 0; i < len; i++) {
-                view[i] = binary.charCodeAt(i);
+            if (result && result.file) {
+                // decode base64 string, remove space for IE compatibility
+                var binary = atob(result.file.replace(/\s/g, ''));
+                var len = binary.length;
+                var buffer = new ArrayBuffer(len);
+                var view = new Uint8Array(buffer);
+                for (var i = 0; i < len; i++) {
+                    view[i] = binary.charCodeAt(i);
+                }
+
+                var blob = new Blob([view], {type: 'application/pdf'});
+                var url = URL.createObjectURL(blob);
+                tagesessen_panel.innerHTML += "<button class='btn' onclick=\"window.open('" + url + "', 'pdf_karte', 'location=yes')\">PDF Karte ansehen</button>";
             }
 
-            var blob = new Blob([view], {type: 'application/pdf'});
-            var url = URL.createObjectURL(blob);
-            tagesessen_panel.innerHTML += "<button class='btn' onclick=\"window.open('"+url+"', 'pdf_karte', 'location=yes')\">PDF Karte ansehen</button>"
             if (result && result.displayData && result.displayData.length > 0) {
                 for (let i = 0; i < result.displayData.length; i++) {
                     let resultElement = result.displayData[i];
