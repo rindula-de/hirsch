@@ -11,6 +11,7 @@ var urlsToCache = [
     'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
     'https://cdn.jsdelivr.net/npm/flatpickr',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
+    'https://fonts.gstatic.com/s/materialicons/v94/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2',
     'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
     'https://fonts.googleapis.com/css?family=Raleway:400,700',
     'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCAIT5lu.woff2',
@@ -43,7 +44,7 @@ self.addEventListener('fetch', function(event) {
             return response || fetch(event.request, { headers: { Authorization: 'Basic user_auth_string' } }).then(
                 function(response) {
                     // Check if we received a valid response
-                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText")) {
+                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("get-tagesessen")) {
                         return response;
                     }
                     // IMPORTANT: Clone the response. A response is a stream
