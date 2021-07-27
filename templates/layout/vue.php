@@ -56,7 +56,7 @@ $cakeDescription = 'Hirsch Bestellungen';
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <link href="/vue-apps/<?= $layoutName ?>/dist/css/app.css?<?= round(time() / 1000) ?>" rel="stylesheet">
+    <link href="/vue-apps/<?= $layoutName ?>/dist/css/app.css?<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."css".DS."app.css") ?>" rel="stylesheet">
     <?= $this->fetch('script') ?>
     <script>
         var csrfToken = <?= json_encode($this->request->getAttribute('csrfToken')) ?>;
@@ -91,8 +91,8 @@ $cakeDescription = 'Hirsch Bestellungen';
     </div>
 </div>
 <?= $this->Html->script('pageEnd.js?' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
-<script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js"></script>
-<script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js"></script>
+<script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js?<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."chunk-vendor.js") ?>"></script>
+<script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js?<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."app.js") ?>"></script>
 <script>!function () {
         var e = document, t = e.createElement("script");
         if (!("noModule" in t) && "onbeforeload" in t) {
@@ -103,7 +103,7 @@ $cakeDescription = 'Hirsch Bestellungen';
             }, !0), t.type = "module", t.src = ".", e.head.appendChild(t), t.remove()
         }
     }();</script>
-<script src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors-legacy.js" nomodule></script>
-<script src="/vue-apps/<?= $layoutName ?>/dist/js/app-legacy.js" nomodule></script>
+<script src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors-legacy.js?<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."chunk-vendors-legacy.js") ?>" nomodule></script>
+<script src="/vue-apps/<?= $layoutName ?>/dist/js/app-legacy.js?<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."app-legacy.js") ?>" nomodule></script>
 </body>
 </html>
