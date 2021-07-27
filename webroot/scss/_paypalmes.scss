@@ -4,12 +4,11 @@
     text-align: center;
     border-radius: 6px;
     margin-bottom: 10px;
-
-    &.active, &.self {
+    &.active,
+    &.self {
         box-shadow: 0 0 40px invert($accentcolor, 100%), inset 0 0 50px invert($accentcolor, 100%);
         animation: active 3s linear infinite;
     }
-
     button {
         display: block;
         background-color: transparent;
@@ -22,7 +21,6 @@
         outline: none;
         cursor: pointer;
     }
-
     &:hover {
         background-color: darken($accentcolor, 10%);
     }
@@ -39,10 +37,7 @@ input[type="number"] {
         box-shadow: none;
     }
     25% {
-        box-shadow: 0 0 10px #00b3ff,
-        0 0 20px #00b3ff,
-        0 0 40px #00b3ff,
-        0 0 80px #00b3ff;
+        box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff, 0 0 80px #00b3ff;
         background: #ffffff;
         color: black;
     }
@@ -51,4 +46,3 @@ input[type="number"] {
         box-shadow: none;
     }
 }
-

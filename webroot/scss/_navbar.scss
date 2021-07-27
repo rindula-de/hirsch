@@ -6,14 +6,12 @@
     top: 0;
     width: 100%;
     z-index: 1;
-
     span {
         color: $accentcolor;
         padding: 14px 16px;
         float: left;
         z-index: 1;
     }
-
     a {
         transition: background-color .1s linear;
         float: left;
@@ -24,21 +22,17 @@
         text-decoration: none;
         font-size: 17px;
         z-index: 1;
-
         &.active {
             background-color: $accentcolor;
             color: white;
             z-index: 1;
         }
-
         &:hover {
             background-color: #ddd;
             color: black;
             z-index: 1;
         }
     }
-
-
     .icon {
         display: none;
         z-index: 1;
@@ -48,8 +42,8 @@
 @keyframes navLoad {
     @for $i from 0 through 100 {
         #{$i}% {
-            background: linear-gradient(90deg, $accentcolor 0%, $accentcolor percentage(max((100-$i)/100, 0.4)), rgba(0, 0, 0, 0) percentage(max((120-$i)/100, 0.6)));
-            max-width: percentage($i/100);
+            background: linear-gradient(90deg, $accentcolor 0%, $accentcolor percentage(max(math.div(100 - $i, 100), 0.4)), rgba(0, 0, 0, 0) percentage(max(math.div(120 - $i, 100), 0.6)));
+            max-width: percentage(math.div($i, 100));
         }
     }
 }
@@ -59,13 +53,11 @@
         a:not(:first-child) {
             visibility: hidden;
         }
-
         span {
             display: none;
             float: none;
             max-height: 0;
         }
-
         a.icon {
             float: right;
             display: block;
@@ -75,16 +67,13 @@
             right: 0;
             top: 0;
         }
-
         &.responsive {
-
             @include shadow;
-
-            a, span {
+            a,
+            span {
                 float: none;
                 visibility: visible;
                 text-align: left;
-
                 &.active {
                     animation: navLoad .2s forwards;
                 }

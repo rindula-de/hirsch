@@ -10,25 +10,24 @@
     transition: 0.4s;
     border-radius: 6px;
     font-size: 120%;
-
-    &:hover, &.active {
+    &:hover,
+    &.active {
         background-color: #ccc;
     }
-
     &.active {
         margin-bottom: 10px;
     }
-
     &:after {
-        content: '\02795'; /* Unicode character for "plus" sign (+) */
+        content: '\02795';
+        /* Unicode character for "plus" sign (+) */
         font-size: 13px;
         color: #777;
         float: right;
         margin-left: 5px;
     }
-
     &.active:after {
-        content: "\2796"; /* Unicode character for "minus" sign (-) */
+        content: "\2796";
+        /* Unicode character for "minus" sign (-) */
     }
 }
 

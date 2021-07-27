@@ -28,17 +28,14 @@ main {
     @include shadow
 }
 
-
 .paginator {
     text-align: right;
-
     .pagination {
         display: flex;
         justify-content: center;
         list-style: none;
         padding: 0;
         margin: 0 0 1rem;
-
         li {
             margin: 0 0.5rem;
         }
@@ -68,35 +65,31 @@ textarea {
     -webkit-transition: border .3s, -webkit-box-shadow .3s;
     transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
     resize: none;
-
     &:focus {
         border-bottom: 1px solid $accentcolor;
     }
 }
 
+
 /* Flash messages */
+
 .message {
     padding: 1rem;
-
     background: #eff8ff;
     color: #2779bd;
-
     border-color: #6cb2eb;
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
     margin-bottom: 2rem;
-
     &.hidden {
         display: none;
     }
-
     &.success {
         background: #e3fcec;
         color: #1f9d55;
         border-color: #51d88a;
     }
-
     &.error {
         background: #fcebea;
         color: #cc1f1a;
@@ -106,11 +99,9 @@ textarea {
 
 .displayName {
     margin-bottom: 15px;
-
     .btn {
         color: black;
         text-decoration: none;
-
         i {
             font-size: initial !important;
         }
@@ -118,49 +109,55 @@ textarea {
 }
 
 .modal {
-    visibility: hidden; /* Hidden by default */
+    visibility: hidden;
+    /* Hidden by default */
     display: block;
-    position: fixed; /* Stay in place */
-    z-index: 2; /* Sit on top */
+    position: fixed;
+    /* Stay in place */
+    z-index: 2;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
     backdrop-filter: blur(2px);
     transition: all .5s ease;
     opacity: 0;
-
     &.active {
         visibility: visible;
         opacity: 1;
     }
-
     .modal-content {
         border-radius: 10px;
         background-color: rgba(255, 255, 255, 0.8);
-        margin: 15% auto; /* 15% from the top and centered */
+        margin: 15% auto;
+        /* 15% from the top and centered */
         padding: 20px;
         border: 1px solid #888;
-        width: 40%; /* Could be more or less, depending on screen size */
+        width: 40%;
+        /* Could be more or less, depending on screen size */
         @include shadow
     }
-
     .close {
         color: #000000;
         float: right;
         font-size: 28px;
         font-weight: bold;
-
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             color: #ff4400;
             text-decoration: none;
             cursor: pointer;
         }
     }
-
     .btn {
         padding: 10px;
         background-color: rgba(0, 0, 0, 0.25);
@@ -170,10 +167,8 @@ textarea {
         cursor: pointer;
         text-decoration: none;
         color: black;
-
         &:hover {
             cursor: not-allowed;
-
             &[href] {
                 background-color: darken($accentcolor, 10%);
                 cursor: pointer;

@@ -2,8 +2,8 @@
     label {
         display: block;
     }
-
-    &.text, &.email {
+    &.text,
+    &.email {
         input {
             background-color: transparent;
             border: none;
@@ -21,7 +21,6 @@
             box-sizing: content-box;
             -webkit-transition: border .3s, -webkit-box-shadow .3s;
             transition: border .3s, -webkit-box-shadow .3s;
-
             &:focus {
                 border-bottom: 1px solid $accentcolor;
             }
@@ -29,12 +28,10 @@
     }
     &.select {
         appearance: none;
-
         option {
             padding: 5px;
         }
     }
-
     &.required {
         label {
             &::after {
@@ -43,8 +40,8 @@
             }
         }
     }
-
-    &.error, .error-message {
+    &.error,
+    .error-message {
         color: orangered;
     }
 }
@@ -57,7 +54,6 @@
         transition: background-color .1s linear;
         border-radius: 6px;
         border: none;
-
         &:hover {
             background-color: darken($accentcolor, 10%);
         }
