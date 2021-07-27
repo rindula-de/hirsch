@@ -4,6 +4,10 @@ var urlsToCache = [
     '/karte',
     '/zahlen-bitte',
     '/img/essen.jpg',
+    '/css/normalize.min.css',
+    '/css/milligram.min.css',
+    '/css/cake.css',
+    '/fallback.html',
     'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
     'https://cdn.jsdelivr.net/npm/flatpickr',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -53,7 +57,7 @@ self.addEventListener('fetch', function(event) {
                         });
                     return response;
                 }
-            );
+            ).catch(() => caches.match("/fallback.html"));
         })
     );
 });
