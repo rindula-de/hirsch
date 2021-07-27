@@ -40,8 +40,14 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
         .then(function(response) {
+            header = {};
+
+            if (response.url.includes("hirsch.hochwarth-e.com")) {
+                headers = { Authorization: 'Basic user_auth_string' }
+            }
+
             // Cache hit - return response
-            return response || fetch(event.request, { headers: { Authorization: 'Basic user_auth_string' } }).then(
+            return response || fetch(event.request, { headers: headers }).then(
                 function(response) {
                     // Check if we received a valid response
                     if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("get-tagesessen")) {
