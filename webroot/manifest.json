@@ -1,16 +1,16 @@
 {
-"lang": "de-DE",
-"name": "Hirsch Bestellseite",
-"short_name": "Hirsch",
-"description": "Die Bestellsammelseite für den Hirsch",
-"icons": [{
+    "lang": "de-DE",
+    "name": "Hirsch Bestellseite",
+    "short_name": "Hirsch",
+    "description": "Die Bestellsammelseite für den Hirsch",
+    "icons": [{
         "src": "favicon.png",
         "type": "image/png",
         "sizes": "239x239"
     }],
-"background_color": "white",
-"theme_color": "#ffa303",
-"start_url": "/karte",
-"display": "standalone",
-"orientation": "portrait"
+    "background_color": "#adadad",
+    "theme_color": "#ffa303",
+    "start_url": "/karte",
+    "display": "standalone",
+    "orientation": "portrait"
 }
