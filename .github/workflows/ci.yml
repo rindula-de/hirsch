@@ -134,7 +134,7 @@ jobs:
           sed -i 's/foodwars/${{ secrets.EMAILPASS }}/' config/app_local.php
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
           sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap\/ssl}INBOX/' config/app_local.php
-          sed -i 's/hirschcache/${`date -d "2000-01-01 GMT" '+%s'`}/' config/app_local.php
+          sed -i 's/hirschcache/${`date -d "2000-01-01 GMT" '+%s'`}/' webroot/sw.js
       - name: Passwortschutz erstellen
         run: |
           echo '' >> webroot/.htaccess
