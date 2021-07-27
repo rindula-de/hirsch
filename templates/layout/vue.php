@@ -48,7 +48,6 @@ $cakeDescription = 'Hirsch Bestellungen';
     </script>
 
     <?= $this->Html->css(['style.css?' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
-    <?= $this->Html->css('https://fonts.googleapis.com/icon?family=Material+Icons') ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
