@@ -11,7 +11,6 @@ var urlsToCache = [
     'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
     'https://cdn.jsdelivr.net/npm/flatpickr',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
-    'https://fonts.gstatic.com/s/materialicons/v94/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2',
     'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
     'https://fonts.googleapis.com/css?family=Raleway:400,700',
     'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCAIT5lu.woff2',
