@@ -193,7 +193,7 @@ jobs:
   cleanup_workflows:
     runs-on: ubuntu-latest
     needs:
-      - build_hetzner
+      - test
     steps:
       - name: 🚮 Cancel older workflows
         uses: styfle/cancel-workflow-action@0.9.0
