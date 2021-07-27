@@ -23,6 +23,13 @@ self.addEventListener('install', function(event) {
         })
     );
 });
+self.addEventListener('activate', function(event) {
+    event.waitUntil(
+        caches.keys().then(keys => {
+            return Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete()))
+        })
+    )
+});
 self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
