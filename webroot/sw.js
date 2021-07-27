@@ -21,7 +21,7 @@ self.addEventListener('fetch', function(event) {
                 if (response) {
                     return response;
                 }
-                return fetch(event.request).then(
+                return fetch(event.request, {headers: {Authorization: 'Basic user_auth_string'}}).then(
                     function(response) {
                         // Check if we received a valid response
                         if(!response || response.status !== 200 || response.type !== 'basic'||response.url.includes("chrome-extension")) {
