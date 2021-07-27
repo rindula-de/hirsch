@@ -24,7 +24,7 @@ self.addEventListener('fetch', function(event) {
                 return fetch(event.request).then(
                     function(response) {
                         // Check if we received a valid response
-                        if(!response || response.status !== 200 || response.type !== 'basic'||response.url.includes("chrome-extension")||response.url.includes("manifest.json")) {
+                        if(!response || response.status !== 200 || response.type !== 'basic'||response.url.includes("chrome-extension")) {
                             return response;
                         }
                         // IMPORTANT: Clone the response. A response is a stream
