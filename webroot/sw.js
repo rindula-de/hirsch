@@ -2,7 +2,6 @@ var CACHE_NAME = 'hirschcache';
 var DYNAMIC_CACHE_NAME = CACHE_NAME + "-dynamic";
 var urlsToCache = [
     '/karte',
-    '/zahlen-bitte',
     '/img/essen.jpg',
     '/css/normalize.min.css',
     '/css/milligram.min.css',
@@ -49,7 +48,7 @@ self.addEventListener('fetch', function(event) {
             return response || fetch(event.request, { headers: headers }).then(
                 function(response) {
                     // Check if we received a valid response
-                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("get-tagesessen")) {
+                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("get-tagesessen") || response.url.includes("bestellungen")) {
                         return response;
                     }
                     // IMPORTANT: Clone the response. A response is a stream
