@@ -134,7 +134,8 @@ jobs:
           sed -i 's/foodwars/${{ secrets.EMAILPASS }}/' config/app_local.php
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
           sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap\/ssl}INBOX/' config/app_local.php
-          current_timestamp=`git log -n1 --pretty=%ci HEAD`; sed -i 's/hirschcache/${current_timestamp}/' webroot/sw.js
+          current_timestamp=`git log -n1 --pretty=%ci HEAD`; sed -i "s/hirschcache/${current_timestamp}/" webroot/sw.js
+          sed -i 's/user_auth_string/${{ secrets.AUTHCREDENTIALS }}/' webroot/sw.js
       - name: Passwortschutz erstellen
         run: |
           echo '' >> webroot/.htaccess
