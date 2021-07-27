@@ -143,6 +143,10 @@ jobs:
           echo 'AuthName "Bestellungen"' >> webroot/.htaccess
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
+          echo '<Files "manifest.json">' >> webroot/.htaccess
+          echo '    Satisfy Any' >> webroot/.htaccess
+          echo '    Allow from all' >> webroot/.htaccess
+          echo '</Files>' >> webroot/.htaccess
           echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
       - name: Pack Files
         run: tar -cf artifact.tar .
