@@ -93,6 +93,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="orderedModalText">Bestellung</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
+<?= $this->Html->script('pageEnd.js?' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
 </body>
 </html>

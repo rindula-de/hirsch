@@ -90,7 +90,7 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.js?' . round(time() / 1000)) ?>
+<?= $this->Html->script('pageEnd.js?' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js"></script>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js"></script>
 <script>!function () {
