@@ -1,4 +1,5 @@
 var CACHE_NAME = 'hirschcache';
+var DYNAMIC_CACHE_NAME = CACHE_NAME + "-dynamic";
 var urlsToCache = [
     '/karte',
     '/zahlen-bitte',
@@ -26,7 +27,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
     event.waitUntil(
         caches.keys().then(keys => {
-            return Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+            return Promise.all(keys.filter(key => (key !== CACHE_NAME && key !== DYNAMIC_CACHE_NAME)).map(key => caches.delete(key)))
         })
     )
 });
@@ -35,10 +36,7 @@ self.addEventListener('fetch', function(event) {
         caches.match(event.request)
         .then(function(response) {
             // Cache hit - return response
-            if (response) {
-                return response;
-            }
-            return fetch(event.request, { headers: { Authorization: 'Basic user_auth_string' } }).then(
+            return response || fetch(event.request, { headers: { Authorization: 'Basic user_auth_string' } }).then(
                 function(response) {
                     // Check if we received a valid response
                     if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText")) {
@@ -49,7 +47,7 @@ self.addEventListener('fetch', function(event) {
                     // as well as the cache consuming the response, we need
                     // to clone it so we have two streams.
                     var responseToCache = response.clone();
-                    caches.open(CACHE_NAME)
+                    caches.open(DYNAMIC_CACHE_NAME)
                         .then(function(cache) {
                             cache.put(event.request, responseToCache);
                         });
