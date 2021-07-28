@@ -33,23 +33,11 @@ $cakeDescription = 'Hirsch Bestellungen';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link as="image" href="/img/essen.jpg" rel="preload">
     <link rel="manifest" href="/manifest.json">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
 
-    <?= $this->Html->css(['style.css?' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
+    <?= $this->Html->css(['style.css?crc=' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
+    <?= $this->Html->script(['main.js']) ?>
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/flatpickr') ?>
 
@@ -92,6 +80,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="orderedModalText">Bestellung</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.js?' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
+<?= $this->Html->script('pageEnd.js?crc=' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
 </body>
 </html>

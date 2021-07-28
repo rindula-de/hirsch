@@ -38,7 +38,7 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
         .then(function(response) {
-            header = {};
+            var headers = {};
 
             if (event.request.url.includes("hirsch.hochwarth-e.com")) {
                 headers = { Authorization: 'Basic user_auth_string' }
