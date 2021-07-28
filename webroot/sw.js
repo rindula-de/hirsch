@@ -43,6 +43,9 @@ self.addEventListener('fetch', function(event) {
             if (event.request.url.includes("hirsch.hochwarth-e.com")) {
                 headers = { Authorization: 'Basic user_auth_string' }
             }
+            if (event.request.url.includes("get-")) {
+                headers = { Accept: 'application/json' }
+            }
 
             // Cache hit - return response
             return response || fetch(event.request, { headers: headers }).then(
