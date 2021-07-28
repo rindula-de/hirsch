@@ -72,7 +72,7 @@ self.addEventListener('fetch', function(event) {
                 };
                 if (event.request.url.indexOf("modalInformationText")) {
                     var init = { "status": 418, "statusText": "I am a Teapot" };
-                    return new Response(null, init);
+                    return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
                 };
                 return caches.match("/fallback.html")
             });
