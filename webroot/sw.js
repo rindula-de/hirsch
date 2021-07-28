@@ -66,11 +66,11 @@ self.addEventListener('fetch', function(event) {
                     return response;
                 }
             ).catch(() => {
-                if (event.request.url.indexOf("get-tagesessen")) {
+                if (event.request.url.includes("get-tagesessen")) {
                     var init = { "status": 200, "statusText": "Dummy" };
                     return new Response('{"displayData": [], "file": ""}', init);
                 };
-                if (event.request.url.indexOf("modalInformationText")) {
+                if (event.request.url.includes("modalInformationText")) {
                     var init = { "status": 418, "statusText": "I am a Teapot" };
                     return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
                 };
