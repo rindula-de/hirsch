@@ -48,8 +48,16 @@ self.addEventListener('fetch', function(event) {
             return response || fetch(event.request, { headers: headers }).then(
                 function(response) {
                     // Check if we received a valid response
-                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("get-tagesessen") || response.url.includes("bestellungen")) {
+                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("bestellungen")) {
                         return response;
+                    }
+                    if (!response && response.url.includes("modalInformationText")) {
+                        var init = { "status": 418, "statusText": "I am a Teapot" };
+                        return new Response(null, init);
+                    }
+                    if (!response && response.url.includes("get-tagesessen")) {
+                        var init = { "status": 200, "statusText": "Cannot Cache - Empty" };
+                        return new Response('{"displayData": [], "file": ""}', init);
                     }
                     // IMPORTANT: Clone the response. A response is a stream
                     // and because we want the browser to consume the response
