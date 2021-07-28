@@ -51,11 +51,11 @@ self.addEventListener('fetch', function(event) {
                     if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("bestellungen")) {
                         return response;
                     }
-                    if (!response && response.url.includes("modalInformationText")) {
+                    if ((!response || response.status !== 200) && response.url.includes("modalInformationText")) {
                         var init = { "status": 418, "statusText": "I am a Teapot" };
                         return new Response(null, init);
                     }
-                    if (!response && response.url.includes("get-tagesessen")) {
+                    if ((!response || response.status !== 200) && response.url.includes("get-tagesessen")) {
                         var init = { "status": 200, "statusText": "Cannot Cache - Empty" };
                         return new Response('{"displayData": [], "file": ""}', init);
                     }
@@ -70,7 +70,9 @@ self.addEventListener('fetch', function(event) {
                         });
                     return response;
                 }
-            ).catch(() => caches.match("/fallback.html"));
+            ).catch(() => {
+                caches.match("/fallback.html")
+            });
         })
     );
 });
