@@ -65,16 +65,16 @@ self.addEventListener('fetch', function(event) {
                         });
                     return response;
                 }
-            ).catch(function(response) {
-                if (response.url.includes("get-tagesessen")) {
+            ).catch(() => {
+                if (event.request.url.indexOf("get-tagesessen")) {
                     var init = { "status": 200, "statusText": "Dummy" };
                     return new Response('{"displayData": [], "file": ""}', init);
                 };
-                if (response.url.includes("modalInformationText")) {
+                if (event.request.url.indexOf("modalInformationText")) {
                     var init = { "status": 418, "statusText": "I am a Teapot" };
                     return new Response(null, init);
                 };
-                caches.match("/fallback.html")
+                return caches.match("/fallback.html")
             });
         })
     );
