@@ -125,6 +125,10 @@ jobs:
         with:
           source: webroot/scss/style.scss
           destination: webroot/css/style.css
+      - name: Auto Minify
+        uses: nizarmah/auto-minify@master
+        with:
+          directory: 'webroot/js'
       - name: Push Compiled Files
         uses: EndBug/add-and-commit@v7.2.1
         id: commit_step
@@ -132,7 +136,7 @@ jobs:
           author_name: Rindula
           author_email: Rindula@users.noreply.github.com
           message: 'chore(gh-action): compile css files'
-          add: "webroot/css"
+          add: "webroot/css webroot/js"
       - name: Config anpassen
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         run: |
