@@ -37,7 +37,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     <?= $this->Html->css(['style.css?crc=' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
-    <?= $this->Html->script(['main.js']) ?>
+    <?= $this->Html->script(['main.min.js']) ?>
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/flatpickr') ?>
 
@@ -77,7 +77,7 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.js?crc=' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
+<?= $this->Html->script('pageEnd.min.js?crc=' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js?crc=<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."chunk-vendor.js") ?>"></script>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js?crc=<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."app.js") ?>"></script>
 <script>!function () {
