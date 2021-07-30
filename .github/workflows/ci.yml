@@ -212,7 +212,7 @@ jobs:
       - test
     steps:
       - name: 🚮 Cancel older workflows
-        uses: styfle/cancel-workflow-action@0.9.0
+        uses: styfle/cancel-workflow-action@0.9.1
         with:
           workflow_id: ci.yml
           access_token: ${{ secrets.mytoken }}
