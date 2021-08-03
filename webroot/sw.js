@@ -51,7 +51,7 @@ self.addEventListener('fetch', function(event) {
             return response || fetch(event.request, { headers: headers }).then(
                 function(response) {
                     // Check if we received a valid response
-                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("bestellungen") || response.url.includes("bestellen")) {
+                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("bestellungen") || response.url.includes("bestellen") || response.url.includes("sw.js")) {
                         return response;
                     }
                     // IMPORTANT: Clone the response. A response is a stream
