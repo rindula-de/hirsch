@@ -1,10 +1,7 @@
 function invokeServiceWorkerUpdateFlow(registration) {
-    // TODO implement your own UI notification element
-    if (confirm("Eine neue Version der Seite ist verfügbar. Jetzt aktualisieren?")) {
-        if (registration.waiting) {
-            // let waiting Service Worker know it should became active
-            registration.waiting.postMessage('SKIP_WAITING')
-        }
+    if (registration.waiting) {
+        // let waiting Service Worker know it should became active
+        registration.waiting.postMessage('SKIP_WAITING')
     }
 }
 
