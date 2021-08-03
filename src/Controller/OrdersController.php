@@ -9,6 +9,8 @@ use App\Model\Table\OrdersTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
@@ -26,6 +28,22 @@ use http\Exception\BadUrlException;
  */
 class OrdersController extends AppController
 {
+
+
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Security');
+    }
+
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Security->setConfig('unlockedActions', ['order']);
+    }
+
     public function order($future = 0, $mealSlug = null)
     {
         if ($mealSlug == null) {
