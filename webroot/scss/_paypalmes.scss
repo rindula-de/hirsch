@@ -6,8 +6,7 @@
     margin-bottom: 10px;
     &.active,
     &.self {
-        box-shadow: 0 0 40px invert($accentcolor, 100%), inset 0 0 50px invert($accentcolor, 100%);
-        animation: active 3s linear infinite;
+        box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff, 0 0 80px #00b3ff;
     }
     button {
         display: block;
@@ -29,20 +28,4 @@
 input[type="number"] {
     margin-bottom: 10px;
     width: 100%;
-}
-
-@keyframes active {
-    0% {
-        filter: none;
-        box-shadow: none;
-    }
-    25% {
-        box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff, 0 0 80px #00b3ff;
-        background: #ffffff;
-        color: black;
-    }
-    100% {
-        filter: none;
-        box-shadow: none;
-    }
 }
