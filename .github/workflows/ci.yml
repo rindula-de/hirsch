@@ -106,7 +106,7 @@ jobs:
         env:
           SALT: ${{ secrets.SALT }}
         run: composer install --prefer-dist --no-interaction
-      - uses: actions/setup-node@v2.3.2
+      - uses: actions/setup-node@v2.4.0
         with:
           node-version: '15'
       - name: Vue - Bezahlen - Abhängigkeiten installieren
