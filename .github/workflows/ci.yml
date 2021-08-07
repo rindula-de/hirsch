@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: deployment_hetzner
-      cancel-in-progress: true
+      cancel-in-progress: false
     needs:
       - build_hetzner
       - test
