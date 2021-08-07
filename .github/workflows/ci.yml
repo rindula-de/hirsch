@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     name: Unittest
@@ -87,6 +90,9 @@ jobs:
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
+    concurrency:
+      group: deployment_hetzner
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2.3.4
         with:
@@ -173,6 +179,9 @@ jobs:
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
+    concurrency:
+      group: deployment_hetzner
+      cancel-in-progress: true
     needs:
       - build_hetzner
       - test
@@ -205,14 +214,3 @@ jobs:
         name: ❌ Remove Artifacts
         with:
           name: deploy_hetzner
-
-  cleanup_workflows:
-    runs-on: ubuntu-latest
-    needs:
-      - test
-    steps:
-      - name: 🚮 Cancel older workflows
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          workflow_id: ci.yml
-          access_token: ${{ secrets.mytoken }}
