@@ -204,6 +204,7 @@ jobs:
 
   cleanup_artifacts:
     runs-on: ubuntu-latest
+    if: always()
     needs:
       - deploy_hetzner
     steps:
