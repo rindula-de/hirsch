@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - master
-concurrency:
-  group: deploy-${{github.ref}}
-  cancel-in-progress: false
 jobs:
   test:
     name: Unittest
@@ -51,6 +48,9 @@ jobs:
         run: composer run-script test
   release:
     runs-on: ubuntu-latest
+    concurrency:
+      group: release-${{github.ref}}
+      cancel-in-progress: false
     needs:
       - deploy_hetzner
     steps:
@@ -177,6 +177,9 @@ jobs:
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-${{github.ref}}
+      cancel-in-progress: false
     needs:
       - build_hetzner
       - test
