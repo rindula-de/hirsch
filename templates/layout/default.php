@@ -38,7 +38,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     <link as="image" href="/img/essen.jpg" rel="preload">
     <link rel="manifest" href="/manifest.json">
 
-    <?= $this->Html->css(['style.css?crc=' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
+    <?= $this->Html->css(['style.css']) ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
     <?= $this->Html->script(['main.min.js']) ?>
@@ -84,6 +84,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="orderedModalText">Bestellung</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.min.js?crc=' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
+<?= $this->Html->script('pageEnd.min.js') ?>
 </body>
 </html>
