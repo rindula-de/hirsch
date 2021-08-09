@@ -1,6 +1,7 @@
 var CACHE_NAME = 'hirschcache';
 var urlsToCache = [
     '/karte',
+    '/favicon.png',
     '/img/essen.jpg',
     '/css/normalize.min.css',
     '/css/milligram.min.css',
