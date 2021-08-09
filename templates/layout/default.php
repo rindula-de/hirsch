@@ -30,6 +30,10 @@ $cakeDescription = 'Hirsch Bestellungen';
     </title>
     <?= $this->Html->meta('icon') ?>
 
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link as="image" href="/img/essen.jpg" rel="preload">
     <link rel="manifest" href="/manifest.json">

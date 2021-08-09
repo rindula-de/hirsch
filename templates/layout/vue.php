@@ -30,11 +30,15 @@ $cakeDescription = 'Hirsch Bestellungen';
     </title>
     <?= $this->Html->meta('icon') ?>
 
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link as="image" href="/img/essen.jpg" rel="preload">
     <link rel="manifest" href="/manifest.json">
 
-    <?= $this->Html->css(['style.css?crc=' . crc32(WWW_ROOT.DS.'css'.DS.'style.css')]) ?>
+    <?= $this->Html->css(['style.css']) ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
     <?= $this->Html->script(['main.min.js']) ?>
@@ -77,7 +81,7 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.min.js?crc=' . crc32(WWW_ROOT.DS.'js'.DS.'pageEnd.js')) ?>
+<?= $this->Html->script('pageEnd.min.js') ?>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/chunk-vendors.js?crc=<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."chunk-vendor.js") ?>"></script>
 <script type="module" src="/vue-apps/<?= $layoutName ?>/dist/js/app.js?crc=<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."js".DS."app.js") ?>"></script>
 <script>!function () {
