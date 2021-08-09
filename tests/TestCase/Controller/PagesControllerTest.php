@@ -126,6 +126,7 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedError()
     {
+        $this->markTestSkipped("CSRF disabled");
         Configure::write("debug", true);
         $this->post('/', ['hello' => 'world']);
 
@@ -140,6 +141,7 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedOk()
     {
+        $this->markTestSkipped("CSRF disabled");
         Configure::write("debug", true);
         $this->enableCsrfToken();
         $this->post('/');
