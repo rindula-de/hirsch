@@ -116,6 +116,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
+          warning_on_retry: false
           command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
