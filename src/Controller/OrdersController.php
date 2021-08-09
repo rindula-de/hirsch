@@ -28,22 +28,6 @@ use http\Exception\BadUrlException;
  */
 class OrdersController extends AppController
 {
-
-
-
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadComponent('Security');
-    }
-
-    public function beforeFilter(EventInterface $event)
-    {
-        parent::beforeFilter($event);
-
-        $this->Security->setConfig('unlockedActions', ['order']);
-    }
-
     public function order($future = 0, $mealSlug = null)
     {
         if ($mealSlug == null) {
