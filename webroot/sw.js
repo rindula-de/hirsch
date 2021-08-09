@@ -1,5 +1,4 @@
 var CACHE_NAME = 'hirschcache';
-var DYNAMIC_CACHE_NAME = CACHE_NAME + "-dynamic";
 var urlsToCache = [
     '/karte',
     '/img/essen.jpg',
@@ -48,24 +47,7 @@ self.addEventListener('fetch', function(event) {
             }
 
             // Cache hit - return response
-            return response || fetch(event.request, { headers: headers }).then(
-                function(response) {
-                    // Check if we received a valid response
-                    if (!response || response.status !== 200 || response.type !== 'basic' || response.url.includes("chrome-extension") || response.url.includes("modalInformationText") || response.url.includes("bestellungen") || response.url.includes("bestellen") || response.url.includes("sw.js")) {
-                        return response;
-                    }
-                    // IMPORTANT: Clone the response. A response is a stream
-                    // and because we want the browser to consume the response
-                    // as well as the cache consuming the response, we need
-                    // to clone it so we have two streams.
-                    var responseToCache = response.clone();
-                    caches.open(DYNAMIC_CACHE_NAME)
-                        .then(function(cache) {
-                            cache.put(event.request, responseToCache);
-                        });
-                    return response;
-                }
-            ).catch(() => {
+            return response || fetch(event.request, { headers: headers }).catch(() => {
                 if (event.request.url.includes("get-tagesessen")) {
                     var init = { "status": 200, "statusText": "Dummy" };
                     return new Response('{"displayData": [], "file": ""}', init);
