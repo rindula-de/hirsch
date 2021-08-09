@@ -31,7 +31,7 @@ class OrdersController extends AppController
     public function order($future = 0, $mealSlug = null)
     {
         if ($mealSlug == null) {
-            throw new BadUrlException();
+            throw new BadUrlException("Konnte das Gericht nicht finden. Bitte wähle ein anderes!");
         }
         $now = new Time();
         /** @var OrdersTable $orders */
@@ -58,7 +58,7 @@ class OrdersController extends AppController
         if ($this->request->is('post')) {
             if (!empty($data)) {
                 if (empty($data['orderedby'])) {
-                    throw new BadRequestException();
+                    throw new BadRequestException("Du musst einen Namen angeben");
                 }
                 $this->setResponse($this->getResponse()->withCookie(new Cookie('lastOrderedName', Security::encrypt($data['orderedby'], 'ordererNameDecryptionKeyLongVersion'), FrozenTime::now()->modify('+1 years'))));
                 if ($orders->save($order)) {
