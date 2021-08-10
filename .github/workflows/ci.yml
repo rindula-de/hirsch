@@ -90,6 +90,9 @@ jobs:
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
+    concurrency:
+      group: build-${{github.ref}}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2.3.4
         with:
