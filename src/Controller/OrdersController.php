@@ -53,6 +53,9 @@ class OrdersController extends AppController
             $cookiedName = Security::decrypt($_COOKIE['lastOrderedName'], 'ordererNameDecryptionKeyLongVersion');
         }
 
+        $orderedDaylies = $this->Orders->find()->where(['for' => $data['for'], 'name' => 'tagesessen'])->count();
+        if ($orderedDaylies >= 2 && $meal->id === 1) $this->Flash->error("Achtung! Es wurden bereits $orderedDaylies Tagesessen bestellt! Die Portionen könnten kleiner ausfallen!");
+
         $this->set(compact('meal', 'order', 'cookiedName'));
 
         if ($this->request->is('post')) {
