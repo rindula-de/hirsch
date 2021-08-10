@@ -114,18 +114,6 @@ jobs:
       - uses: actions/setup-node@v2.4.0
         with:
           node-version: '15'
-      - name: Vue - Bezahlen - Abhängigkeiten installieren
-        uses: nick-invision/retry@v2.4.1
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          warning_on_retry: false
-          command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
-      - working-directory: webroot/vue-apps/bezahlen
-        name: Vue - Bezahlen - Bauen
-        run: |
-          npx browserslist@latest --update-db
-          npm run build
       - name: Compile CSS from SCSS files
         uses: gha-utilities/sass-build@v0.4.5
         with:
@@ -143,6 +131,18 @@ jobs:
           author_email: Rindula@users.noreply.github.com
           message: 'chore(gh-action): compile css files'
           add: "webroot/css webroot/js"
+      - name: Vue - Bezahlen - Abhängigkeiten installieren
+        uses: nick-invision/retry@v2.4.1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          warning_on_retry: false
+          command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
+      - working-directory: webroot/vue-apps/bezahlen
+        name: Vue - Bezahlen - Bauen
+        run: |
+          npx browserslist@latest --update-db
+          npm run build
       - name: Config anpassen
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         run: |
