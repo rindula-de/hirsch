@@ -132,6 +132,7 @@ jobs:
           message: 'chore(gh-action): compile css files'
           add: "webroot/css webroot/js"
       - name: Vue - Bezahlen - Abhängigkeiten installieren
+        if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         uses: nick-invision/retry@v2.4.1
         with:
           timeout_minutes: 10
@@ -139,6 +140,7 @@ jobs:
           warning_on_retry: false
           command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
       - working-directory: webroot/vue-apps/bezahlen
+        if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         name: Vue - Bezahlen - Bauen
         run: |
           npx browserslist@latest --update-db
