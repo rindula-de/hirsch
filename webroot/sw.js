@@ -37,32 +37,36 @@ self.addEventListener('activate', function(event) {
     )
 });
 self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request)
-        .then(function(response) {
-            var headers = event.request.headers;
+    if (event.request.method == "GET") {
+        event.respondWith(
+            caches.match(event.request)
+            .then(function(response) {
+                var headers = {};
+                if (event.request.url.includes("hirsch.hochwarth-e.com") || true) {
+                    Object.assign(headers, { Authorization: 'Basic user_auth_string' });
+                }
+                if (event.request.url.includes("get-")) {
+                    Object.assign(headers, { Accept: 'application/json' });
+                }
 
-            if (event.request.url.includes("hirsch.hochwarth-e.com")) {
-                headers = { Authorization: 'Basic user_auth_string' }
-            }
-            if (event.request.url.includes("get-")) {
-                headers = { Accept: 'application/json' }
-            }
-
-            // Cache hit - return response
-            return response || fetch(event.request, { headers: headers }).catch(() => {
-                if (event.request.url.includes("get-tagesessen")) {
-                    var init = { "status": 200, "statusText": "Dummy" };
-                    return new Response('{"displayData": [], "file": ""}', init);
-                };
-                if (event.request.url.includes("modalInformationText")) {
-                    var init = { "status": 418, "statusText": "I am a Teapot" };
-                    return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
-                };
-                return caches.match("/fallback.html")
-            });
-        })
-    );
+                const request = new Request(event.request, { headers });
+                // Cache hit - return response
+                return response || fetch(request).catch(() => {
+                    if (event.request.url.includes("get-tagesessen")) {
+                        var init = { "status": 200, "statusText": "Dummy" };
+                        return new Response('{"displayData": [], "file": ""}', init);
+                    };
+                    if (event.request.url.includes("modalInformationText")) {
+                        var init = { "status": 418, "statusText": "I am a Teapot" };
+                        return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
+                    };
+                    return caches.match("/fallback.html")
+                });
+            })
+        );
+    } else {
+        return;
+    }
 });
 
 self.addEventListener('message', (event) => {
