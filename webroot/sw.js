@@ -40,17 +40,17 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
         .then(function(response) {
-            var headers = event.request.headers;
+            const headers = new Headers(event.request.headers);
 
             if (event.request.url.includes("hirsch.hochwarth-e.com")) {
-                headers = { Authorization: 'Basic user_auth_string' }
+                headers.append('Authorization', 'Basic user_auth_string');
             }
             if (event.request.url.includes("get-")) {
-                headers = { Accept: 'application/json' }
+                headers.append('Accept', 'application/json');
             }
 
             // Cache hit - return response
-            return response || fetch(event.request, { headers: headers }).catch(() => {
+            return response || fetch(new Request(event.request, { headers: headers })).catch(() => {
                 if (event.request.url.includes("get-tagesessen")) {
                     var init = { "status": 200, "statusText": "Dummy" };
                     return new Response('{"displayData": [], "file": ""}', init);
@@ -61,8 +61,7 @@ self.addEventListener('fetch', function(event) {
                 };
                 return caches.match("/fallback.html")
             });
-        })
-    );
+        }));
 });
 
 self.addEventListener('message', (event) => {
