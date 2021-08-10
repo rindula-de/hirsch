@@ -8,6 +8,7 @@
     &.self {
         box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff, 0 0 80px #00b3ff;
         background: #ffffff;
+        animation: active 1s linear;
     }
     button {
         display: block;
@@ -29,4 +30,17 @@
 input[type="number"] {
     margin-bottom: 10px;
     width: 100%;
+}
+
+@keyframes active {
+    0%,
+    100% {
+        background: #ffffff;
+    }
+    25% {
+        background: #fff5c9;
+    }
+    90% {
+        background: #fbfeff;
+    }
 }
