@@ -42,7 +42,7 @@ self.addEventListener('fetch', function(event) {
             caches.match(event.request)
             .then(function(response) {
                 var headers = {};
-                if (event.request.url.includes("hirsch.hochwarth-e.com") || true) {
+                if (event.request.url.includes("hirsch.hochwarth-e.com")) {
                     Object.assign(headers, { Authorization: 'Basic user_auth_string' });
                 }
                 if (event.request.url.includes("get-")) {
