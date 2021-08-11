@@ -40,6 +40,16 @@ $.ajax({
     }
 });
 
+$.ajax({
+    url: "/order-until",
+    context: document.body,
+    success: function(result) {
+        if (result) {
+            $("#order-until").html(result.trim());
+        }
+    }
+});
+
 // When the user clicks on <span> (x), close the modal
 $('.close').click(function() {
     $(this).parent().parent().removeClass("active");

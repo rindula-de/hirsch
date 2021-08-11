@@ -29,9 +29,7 @@ class NavHelper extends Helper
 
     public function main()
     {
-        $extended = Cache::read('settings.extended', 'extended') ?? false;
-
-        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . ($extended ? '<span>Bestellungen heute bis 11:20 Uhr möglich!</span>' : '<span>Bestellungen am selben Tag bis 10:55 Uhr möglich</span>') . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
+        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . '<span id="order-until"></span>' . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
     }
 
     private function nav(array $items)

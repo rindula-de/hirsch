@@ -15,6 +15,7 @@
  */
 
 use App\View\AppView;
+use Cake\Core\Configure;
 use Cake\I18n\Time;
 
 $cakeDescription = 'Hirsch Bestellungen';
@@ -41,7 +42,7 @@ $cakeDescription = 'Hirsch Bestellungen';
     <?= $this->Html->css(['style.css']) ?>
     <?= $this->Html->css('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css') ?>
 
-    <?= $this->Html->script(['main.min.js']) ?>
+    <?= (Configure::read('debug', true)?$this->Html->script(['main.js']):$this->Html->script(['main.min.js'])) ?>
     <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js') ?>
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/flatpickr') ?>
 
@@ -84,6 +85,6 @@ $cakeDescription = 'Hirsch Bestellungen';
         <p id="orderedModalText">Bestellung</p>
     </div>
 </div>
-<?= $this->Html->script('pageEnd.min.js') ?>
+<?= (Configure::read('debug', true)?$this->Html->script('pageEnd.js'):$this->Html->script('pageEnd.min.js')) ?>
 </body>
 </html>

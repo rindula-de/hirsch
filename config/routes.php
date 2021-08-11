@@ -58,6 +58,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
     $builder->connect('/bestellen/*', ['controller' => 'Orders', 'action' => 'order'], ['_name' => 'bestellen']);
     $builder->connect('/bestellungen/*', ['controller' => 'Orders', 'action' => 'list'], ['_name' => 'bestellungen']);
+    $builder->connect('/order-until', ['controller' => 'Orders', 'action' => 'orderUntil'], ['_name' => 'orderUntil']);
     $builder->connect('/karte', ['controller' => 'Hirsch', 'action' => 'index'], ['_name' => 'karte']);
     $builder->connect('/modalInformationText/*', ['controller' => 'Hirsch', 'action' => 'modalText'], ['_name' => 'modalText']);
     $builder->connect('/zahlen-bitte/*', ['controller' => 'Paypalmes', 'action' => 'index'], ['_name' => 'bezahlen']);

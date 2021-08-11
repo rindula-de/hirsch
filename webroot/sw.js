@@ -8,6 +8,9 @@ var urlsToCache = [
     '/css/milligram.min.css',
     '/css/cake.css',
     '/fallback.html',
+    '/js/main.js',
+    '/js/main.min.js',
+    '/js/pageEnd.js',
     '/js/pageEnd.min.js',
     'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
     'https://cdn.jsdelivr.net/npm/flatpickr',
@@ -59,6 +62,10 @@ self.addEventListener('fetch', function(event) {
                     if (event.request.url.includes("modalInformationText")) {
                         var init = { "status": 418, "statusText": "I am a Teapot" };
                         return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
+                    };
+                    if (event.request.url.includes("order-until")) {
+                        var init = { "status": 200, "statusText": "Offline" };
+                        return new Response("Du bist aktuell offline!", init);
                     };
                     return caches.match("/fallback.html")
                 });

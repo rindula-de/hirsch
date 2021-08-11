@@ -93,6 +93,18 @@ class OrdersController extends AppController
         return;
     }
 
+    public function orderUntil()
+    {
+        $this->autoRender = false;
+        $extended = Cache::read('settings.extended', 'extended') ?? false;
+        if ($extended) {
+            echo "Bestellungen heute bis 11:20 möglich!";
+        } else {
+            echo "Bestellungen am selben Tag bis 10:55 Uhr möglich";
+        }
+        exit;
+    }
+
     public function list()
     {
         $botd = new Date();
