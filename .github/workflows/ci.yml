@@ -90,6 +90,8 @@ jobs:
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
+    environment:
+      name: hetzner
     concurrency:
       group: build-${{github.ref}}
       cancel-in-progress: true
