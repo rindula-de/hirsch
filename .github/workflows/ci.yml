@@ -169,7 +169,7 @@ jobs:
           echo '    Satisfy Any' >> webroot/.htaccess
           echo '    Allow from all' >> webroot/.htaccess
           echo '</Files>' >> webroot/.htaccess
-          echo "${{ secrets.HT_USER }}:$(echo -n ${{ secrets.HT_PASS }} | md5sum)" > .htpasswd
+          htpasswd -cb .htpasswd "${{ secrets.HT_USER }}" "${{ secrets.HT_PASS }}"
       - name: Pack Files
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         run: tar -cf artifact.tar .
