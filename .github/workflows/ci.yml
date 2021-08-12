@@ -156,7 +156,7 @@ jobs:
           sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
           sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap\/ssl}INBOX/' config/app_local.php
           current_timestamp=`git log -n1 --pretty=%ci HEAD`; sed -i "s/hirschcache/${current_timestamp}/" webroot/sw.js
-          sed -i 's/user_auth_string/${{ secrets.BASICAUTH }}/' webroot/sw.js
+          sed -i "s/user_auth_string/$(echo -n ${{ secrets.HT_USER }}:${{ secrets.HT_PASS }} | base64)/" webroot/sw.js
       - name: Passwortschutz erstellen
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         run: |
@@ -169,7 +169,7 @@ jobs:
           echo '    Satisfy Any' >> webroot/.htaccess
           echo '    Allow from all' >> webroot/.htaccess
           echo '</Files>' >> webroot/.htaccess
-          echo '${{ secrets.AUTHCREDENTIALS }}' > .htpasswd
+          echo "${{ secrets.HT_USER }}:$(echo -n ${{ secrets.HT_PASS }} | md5sum)" > .htpasswd
       - name: Pack Files
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         run: tar -cf artifact.tar .
