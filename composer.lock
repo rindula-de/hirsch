@@ -1240,16 +1240,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "35c88120b7a6edebb54037a3bb15c5de3a5c8a24"
+                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/35c88120b7a6edebb54037a3bb15c5de3a5c8a24",
-                "reference": "35c88120b7a6edebb54037a3bb15c5de3a5c8a24",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/43e436f32fd0e3d1f808c3b1768975c598c9a7df",
+                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df",
                 "shasum": ""
             },
             "require": {
@@ -1284,9 +1284,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v1.0.2"
+                "source": "https://github.com/smalot/pdfparser/tree/v1.1.0"
             },
-            "time": "2021-06-17T07:28:42+00:00"
+            "time": "2021-08-03T08:33:34+00:00"
         },
         {
             "name": "symfony/config",
@@ -1838,16 +1838,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2df51500adbaebdc4c38dea4c89a2e131c45c8a1"
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
-                "reference": "2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9174a3d80210dca8daa7f31fec659150bbeabfc6",
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6",
                 "shasum": ""
             },
             "require": {
@@ -1898,7 +1898,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.23.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.23.1"
             },
             "funding": [
                 {
@@ -1914,7 +1914,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-27T09:27:20+00:00"
+            "time": "2021-05-27T12:26:48+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
