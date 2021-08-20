@@ -7,6 +7,13 @@ jobs:
   test:
     name: Unittest
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        experimental: [false]
+        php: [7.4]
+        include:
+          - php: 8
+            experimental: true
     services:
       mariadb:
         image: mariadb:latest
@@ -23,7 +30,7 @@ jobs:
 
       - uses: shivammathur/setup-php@2.12.0
         with:
-          php-version: 7.4
+          php-version: ${{ matrix.php }}
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
@@ -45,6 +52,7 @@ jobs:
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run Unittests
+        continue-on-error: ${{ matrix.experimental }}
         run: composer run-script test
   release:
     runs-on: ubuntu-latest
