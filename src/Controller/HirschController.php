@@ -55,8 +55,8 @@ class HirschController extends AppController
                 throw new InternalErrorException(imap_last_error());
             }
 
-            $emailsToDelete = imap_sort($mbox, SORTDATE, 1, 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
-            $emails = imap_sort($mbox, SORTDATE, 1, 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
+            $emailsToDelete = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8?true:1), 0, 'BEFORE "' . (new Time('-6 days'))->format('d F Y') . '"');
+            $emails = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8?true:1), 0, 'SINCE "' . (new Time('-6 days'))->format('d F Y') . '"');
 
             $displayData = [];
 
