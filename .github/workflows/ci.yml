@@ -114,7 +114,7 @@ jobs:
           timezoneLinux: "Europe/Berlin"
       - uses: shivammathur/setup-php@2.12.0
         with:
-          php-version: 7.4
+          php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Install Composer dependencies
@@ -175,6 +175,7 @@ jobs:
           echo 'AuthName "Bestellungen"' >> webroot/.htaccess
           echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
           echo 'Require valid-user' >> webroot/.htaccess
+          echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> webroot/.htaccess
           echo '<Files "manifest.json">' >> webroot/.htaccess
           echo '    Satisfy Any' >> webroot/.htaccess
           echo '    Allow from all' >> webroot/.htaccess
