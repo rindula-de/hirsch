@@ -63,7 +63,7 @@ class HirschController extends AppController
             if ($emailsToDelete) {
                 foreach ($emailsToDelete as $emailId) {
                     // Markiert die E-Mails zum löschen
-                    imap_delete($mbox, $emailId);
+                    imap_delete($mbox, (explode(".", phpversion())[0] == 8?$emailId."":$emailId));
                 }
                 // Löscht die markierten Mails endgültig
                 imap_expunge($mbox);
