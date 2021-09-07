@@ -89,7 +89,7 @@ jobs:
           echo "${{ steps.tag_version.outputs.changelog }}" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
       - name: Push Changelog
-        uses: EndBug/add-and-commit@v7.2.1
+        uses: EndBug/add-and-commit@v7.3.0
         with:
           author_name: Rindula
           author_email: Rindula@users.noreply.github.com
@@ -134,7 +134,7 @@ jobs:
         with:
           directory: 'webroot/js'
       - name: Push Compiled Files
-        uses: EndBug/add-and-commit@v7.2.1
+        uses: EndBug/add-and-commit@v7.3.0
         id: commit_step
         with:
           author_name: Rindula
