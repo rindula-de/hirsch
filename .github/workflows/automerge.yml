@@ -2,7 +2,7 @@ name: auto-merge
 
 on:
   schedule:
-    - cron: 0 4 * * *
+    - cron: 30 4 * * *
 
   pull_request_target:
     types:
