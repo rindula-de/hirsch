@@ -91,6 +91,9 @@ jobs:
           contents: |
             ${{ steps.tag_version.outputs.changelog }}
           write-mode: append
+      - name: Add empty line to Changelog
+        run: |
+          echo "" >> CHANGELOG.md
       - name: Push Changelog
         uses: EndBug/add-and-commit@v7.3.0
         with:
