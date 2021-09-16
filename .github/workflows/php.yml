@@ -24,7 +24,7 @@ jobs:
 
       - uses: shivammathur/setup-php@2.14.0
         with:
-          php-version: 7.4
+          php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql, http
 
