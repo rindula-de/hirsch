@@ -85,7 +85,7 @@ jobs:
           fetch-depth: 0
           ref: changelog
       - name: Create Changelog
-        uses: DamianReeves/write-file-action
+        uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
           contents: |
