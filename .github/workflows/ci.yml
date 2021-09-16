@@ -85,9 +85,12 @@ jobs:
           fetch-depth: 0
           ref: changelog
       - name: Create Changelog
-        run: |
-          echo "${{ steps.tag_version.outputs.changelog }}" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
+        uses: DamianReeves/write-file-action
+        with:
+          path: CHANGELOG.md
+          contents: |
+            ${{ steps.tag_version.outputs.changelog }}
+          write-mode: append
       - name: Push Changelog
         uses: EndBug/add-and-commit@v7.3.0
         with:
