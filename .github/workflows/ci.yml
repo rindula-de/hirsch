@@ -145,7 +145,7 @@ jobs:
         with:
           author_name: Rindula
           author_email: Rindula@users.noreply.github.com
-          message: 'chore(gh-action): compile css files'
+          message: 'chore(gh-action): compiled & minified files'
           add: "webroot/css webroot/js"
       - name: Vue - Bezahlen - Abhängigkeiten installieren
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
