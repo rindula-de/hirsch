@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        experimental: [false]
         php: [7.4]
+        experimental: [false]
         include:
           - php: 8
             experimental: true
