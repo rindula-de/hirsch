@@ -48,7 +48,7 @@ $cakeDescription = 'Hirsch Bestellungen';
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <link href="/vue-apps/<?= $layoutName ?>/dist/css/app.css?crc=<?= crc32(WWW_ROOT.DS."vue-apps".DS.$layoutName.DS."dist".DS."css".DS."app.css") ?>" rel="stylesheet">
+    <link href="/vue-apps/<?= $layoutName ?>/dist/css/app.css" rel="stylesheet">
     <?= $this->fetch('script') ?>
     <script>
         var csrfToken = <?= json_encode($this->request->getAttribute('csrfToken')) ?>;
