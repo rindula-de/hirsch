@@ -160,7 +160,6 @@ jobs:
       - working-directory: webroot/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
         run: |
-          npx browserslist@latest --update-db
           npm run build
       - name: Config anpassen
         run: |

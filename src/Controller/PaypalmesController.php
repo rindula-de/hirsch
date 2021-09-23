@@ -104,17 +104,26 @@ class PaypalmesController extends AppController
      */
     public function pay()
     {
-        $id = $this->request->getData()['id'];
+        $id = $this->request->getData('id');
+        $reset = $this->request->getData('reset');
+        
         if ($id == 'self') {
             return $this->redirect(['action' => 'add', true]);
         }
-        $ppm = $this->Paypalmes->get($id);
-        if ($ppm) {
-            $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([
-                'paypalme_id' => $id,
-            ]));
+        if ($id) {
+            $ppm = $this->Paypalmes->get($id);
+            if ($ppm) {
+                $this->Paypalmes->Payhistory->save($this->Paypalmes->Payhistory->newEntity([
+                    'paypalme_id' => $id,
+                ]));
 
-            return $this->redirect($ppm->link . (3.5 + $this->request->getData()['tip']));
+                return $this->redirect($ppm->link . (3.5 + $this->request->getData()['tip']));
+            }
+        } elseif ($reset) {
+            $this->Paypalmes->Payhistory->deleteAll([
+                'paypalme_id' => $reset,
+                'DATE(created) = CURDATE()'
+            ]);
         }
 
         return $this->redirect(['action' => 'index']);
