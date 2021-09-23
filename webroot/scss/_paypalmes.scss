@@ -1,5 +1,6 @@
 .paypalmeslistitemcontainer {
     display: flex;
+    position: relative;
     .paypalmeslistitem {
         display: flex;
         width: 100%;
@@ -73,7 +74,7 @@
     border-color: #db2828;
     color: #fff;
     margin-left: 1em;
-    left: 75vw;
+    right: -4em;
     position: absolute;
     padding: .5833em .833em;
     padding-left: 1.5em;
