@@ -45,12 +45,12 @@ self.addEventListener('activate', function(event) {
     )
 });
 self.addEventListener('fetch', function(event) {
-    if (event.request.method == "GET") {
+    if (event.request.method === "GET") {
         event.respondWith(
             caches.match(event.request)
             .then(function(response) {
                 var headers = {};
-                if (event.request.url.includes("hirsch.hochwarth-e.com")) {
+                if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/")) {
                     Object.assign(headers, { Authorization: 'Basic user_auth_string' });
                 }
                 if (event.request.url.includes("get-")) {
@@ -60,24 +60,23 @@ self.addEventListener('fetch', function(event) {
                 const request = new Request(event.request, { headers });
                 // Cache hit - return response
                 return response || fetch(request).catch(() => {
+                    let init;
                     if (event.request.url.includes("get-tagesessen")) {
-                        var init = { "status": 200, "statusText": "Dummy" };
+                        init = {"status": 200, "statusText": "Dummy"};
                         return new Response('{"displayData": [], "file": ""}', init);
-                    };
+                    }
                     if (event.request.url.includes("modalInformationText")) {
-                        var init = { "status": 418, "statusText": "I am a Teapot" };
+                        init = { "status": 418, "statusText": "I am a Teapot" };
                         return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
-                    };
+                    }
                     if (event.request.url.includes("order-until")) {
-                        var init = { "status": 200, "statusText": "Offline" };
+                        init = { "status": 200, "statusText": "Offline" };
                         return new Response("Du bist aktuell offline!", init);
-                    };
+                    }
                     return caches.match("/fallback.html")
                 });
             })
         );
-    } else {
-        return;
     }
 });
 
