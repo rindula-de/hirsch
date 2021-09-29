@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\I18n\Date;
 use Cake\ORM\Entity;
 
 /**
@@ -12,6 +13,8 @@ use Cake\ORM\Entity;
  * @property string $link
  * @property string $name
  * @property string|null $email
+ * @property Date|null $bar
+ * @property boolean $onlybar
  * @property Paypalme $activePayer
  *
  * @property Payhistory $Payhistory
@@ -31,5 +34,14 @@ class Paypalme extends Entity
         'link' => true,
         'name' => true,
         'email' => true,
+        'bar' => true,
     ];
+
+    protected $_virtual = [
+        'onlybar',
+    ];
+
+    public function _getOnlybar() {
+        return (isset($this->bar))?new Date($this->bar) >= new Date():false;
+    }
 }
