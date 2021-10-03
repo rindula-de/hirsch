@@ -86,7 +86,7 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'host' => 'mail.your-server.de',
+            'host' => 'sslout.df.eu',
             'port' => 465,
             'username' => 'essen@rindula.de',
             'password' => 'foodwars',
