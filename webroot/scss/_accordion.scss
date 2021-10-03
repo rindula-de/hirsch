@@ -18,16 +18,18 @@
         margin-bottom: 10px;
     }
     &:after {
-        content: '\02795';
-        /* Unicode character for "plus" sign (+) */
+        font-family: 'Material Icons';
+        content: "unfold-more-horizontal";
+        -webkit-font-feature-settings: 'liga';
         font-size: 13px;
         color: #777;
         float: right;
         margin-left: 5px;
     }
     &.active:after {
-        content: "\2796";
-        /* Unicode character for "minus" sign (-) */
+        font-family: 'Material Icons';
+        content: "unfold-less-horizontal";
+        -webkit-font-feature-settings: 'liga';
     }
 }
 
