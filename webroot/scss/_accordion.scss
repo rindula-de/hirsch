@@ -18,17 +18,17 @@
         margin-bottom: 10px;
     }
     &:after {
-        font-family: 'Material Icons';
-        content: "unfold-more-horizontal";
-        -webkit-font-feature-settings: 'liga';
-        font-size: 13px;
+        font-family: "Material Icons";
+        content: "unfold_more_horizontal";
+        -webkit-font-feature-settings: "liga";
         color: #777;
         float: right;
         margin-left: 5px;
+        width: 1em;
     }
     &.active:after {
         font-family: 'Material Icons';
-        content: "unfold-less-horizontal";
+        content: "unfold_less_horizontal";
         -webkit-font-feature-settings: 'liga';
     }
 }
