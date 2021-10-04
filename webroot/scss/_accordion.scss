@@ -25,6 +25,7 @@
         float: right;
         margin-left: 5px;
         width: 1em;
+        overflow-x: hidden;
     }
     &.active:after {
         font-family: 'Material Icons';
