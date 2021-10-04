@@ -5,7 +5,7 @@
     margin: 0;
     position: fixed;
     top: 0;
-    width: 100%;
+    width: 100vw;
     z-index: 1;
     span {
         color: $accentcolor;
@@ -70,6 +70,7 @@
         }
         &.responsive {
             @include shadow;
+            height: 10.5rem
             a,
             span {
                 float: none;
