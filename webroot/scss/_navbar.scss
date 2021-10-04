@@ -70,7 +70,7 @@
         }
         &.responsive {
             @include shadow;
-            height: 10.5rem;
+            height: 10.75rem;
             a,
             span {
                 float: none;
@@ -81,10 +81,10 @@
                 }
             }
             span {
-                margin-top: 5px;
+                margin-top: 0;
                 padding-top: 5px;
                 border-top: 1px solid #ddd;
-                display: unset;
+                display: block;
             }
         }
     }
