@@ -67,7 +67,7 @@ $cakeDescription = 'Hirsch Bestellungen';
 </main>
 <div id="preorderModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close material-icons">close</span>
         <h2>Vorbestellen</h2>
         <input readonly type="text" class="datepicker flatpickr flatpickr-input" placeholder="Datum auswählen">
         <br>
@@ -78,7 +78,7 @@ $cakeDescription = 'Hirsch Bestellungen';
 </div>
 <div id="informationModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close material-icons">close</span>
         <p id="informationModalText">Lorem Schwippsum</p>
     </div>
 </div>
