@@ -151,7 +151,7 @@ jobs:
           add: "webroot/css webroot/js"
       - name: Vue - Bezahlen - Abhängigkeiten installieren
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
-        uses: nick-invision/retry@v2.4.1
+        uses: nick-invision/retry@v2.5.0
         with:
           timeout_minutes: 10
           max_attempts: 3
