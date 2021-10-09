@@ -54,53 +54,6 @@ jobs:
       - name: Run Unittests
         continue-on-error: ${{ matrix.experimental }}
         run: composer run-script test
-  release:
-    runs-on: ubuntu-latest
-    concurrency:
-      group: release-${{github.ref}}
-      cancel-in-progress: false
-    needs:
-      - deploy_hetzner
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
-      - name: Set Timezone
-        uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Europe/Berlin"
-      - name: Setup Git
-        run: |
-          git config user.name Rindula
-          git config user.email Rindula@users.noreply.github.com
-      - name: Bump version and push tag
-        id: tag_version
-        uses: release-drafter/release-drafter@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.mytoken }}
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
-          ref: changelog
-      - name: Create Changelog
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: CHANGELOG.md
-          contents: |
-            ${{ steps.tag_version.outputs.body }}
-          write-mode: append
-      - name: Add empty line to Changelog
-        run: |
-          echo "" >> CHANGELOG.md
-      - name: Push Changelog
-        uses: EndBug/add-and-commit@v7.4.0
-        with:
-          author_name: Rindula
-          author_email: Rindula@users.noreply.github.com
-          branch: changelog
-          tag: "changelog-${{ steps.tag_version.outputs.tag_name }}"
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
