@@ -20,7 +20,7 @@
 
 <?= $this->Form->end() ?>
 
-<datalist>
+<datalist id="wishlist">
     <option value="+ Pommes"></option>
     <option value="+ Senf"></option>
     <option value="+ Mayonnaise"></option>
