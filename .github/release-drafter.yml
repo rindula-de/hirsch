@@ -11,11 +11,15 @@ categories:
       - 'bugfix'
       - 'bug'
   - title: '🧰 Maintenance'
-    label: 'chore'
+    labels: 
+      - 'chore'
+      - 'deployscript'
   - title: '🛠 Refactoring'
     label: 'refactor'
   - title: '👾 CI/CD'
-    label: 'github_action'
+    labels: 
+      - 'github_action'
+      - 'workflow-config'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
