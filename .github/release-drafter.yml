@@ -5,6 +5,8 @@ categories:
     labels:
       - 'feature'
       - 'enhancement'
+  - title: '🏗️ Dependencies'
+    label: 'dependencies'
   - title: '🐛 Bug Fixes'
     labels:
       - 'fix'
