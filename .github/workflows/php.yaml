@@ -1,7 +1,7 @@
 name: PHP Check
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [ master ]
 
 jobs:
@@ -47,4 +47,3 @@ jobs:
 
       - name: Run Unittests
         run: composer run-script test
-diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
