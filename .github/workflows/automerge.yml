@@ -23,5 +23,6 @@ jobs:
           token: "${{ secrets.mytoken }}"
           pull-request: ${{ github.event.number }}
           squash-title: true
+          merge-method: rebase
           dry-run: false
           do-not-merge-labels: wontfix
