@@ -1,6 +1,5 @@
 name: CI/CD
 on:
-  pull_request:
   release:
     types: [published]
 jobs:
@@ -153,7 +152,7 @@ jobs:
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
-    if: "${{ needs.build_hetzner.outputs.pushed == 'false' }} && ${{ github.event_name != 'pull_request' }}"
+    if: "${{ needs.build_hetzner.outputs.pushed == 'false' }}"
     concurrency:
       group: deploy-${{github.ref}}
       cancel-in-progress: false
