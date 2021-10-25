@@ -78,7 +78,7 @@ jobs:
       with:
         directory: 'webroot/js'
     - name: Vue - Bezahlen - Abhängigkeiten installieren
-      uses: nick-invision/retry@v2.5.0
+      uses: nick-invision/retry@v2.5.1
       with:
         timeout_minutes: 10
         max_attempts: 3
