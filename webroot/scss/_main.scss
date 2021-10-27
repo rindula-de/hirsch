@@ -108,6 +108,16 @@ textarea {
     }
 }
 
+#order-until {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: #222222;
+    color: $accentcolor;
+    padding: 5px;
+}
+
 .modal {
     visibility: hidden;
     /* Hidden by default */
@@ -191,14 +201,5 @@ footer {
     }
     footer {
         display: none;
-    }
-    #order-until {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100vw;
-        background-color: #222222;
-        color: $accentcolor;
-        padding: 5px;
     }
 }
