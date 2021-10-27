@@ -59,7 +59,7 @@ $(".preorderBtn").click(function(event) {
     event.preventDefault();
     var slug = $(this).attr('data-slug');
     $('#preorderLink').removeAttr('href');
-    $('#preorderSlug').html(slug);
+    $('#preorderSlug').text(slug);
     $('#preorderModal').addClass('active')
 });
 
