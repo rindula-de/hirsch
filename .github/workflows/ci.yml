@@ -87,23 +87,6 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: '15'
-      - name: Compile CSS from SCSS files
-        uses: gha-utilities/sass-build@v0.4.7
-        with:
-          source: webroot/scss/style.scss
-          destination: webroot/css/style.css
-      - name: Auto Minify
-        uses: nizarmah/auto-minify@master
-        with:
-          directory: 'webroot/js'
-      - name: Push Compiled Files
-        uses: EndBug/add-and-commit@v7.4.0
-        id: commit_step
-        with:
-          author_name: Rindula
-          author_email: Rindula@users.noreply.github.com
-          message: 'build(gh-action): compiled & minified files'
-          add: "webroot/css webroot/js"
       - name: Vue - Bezahlen - Abhängigkeiten installieren
         if: "${{ steps.commit_step.outputs.pushed == 'false' }}"
         uses: nick-invision/retry@v2.5.1
