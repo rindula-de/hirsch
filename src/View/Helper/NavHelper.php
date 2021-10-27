@@ -29,7 +29,7 @@ class NavHelper extends Helper
 
     public function main()
     {
-        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . '<span id="order-until"></span>' . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
+        return '<nav id="navbar" class="navbar">' . $this->nav($this->navItems) . '<a href="javascript:void(0);" class="icon" onclick="openSideMenu()"> <i class="material-icons">menu</i> </a></nav>';
     }
 
     private function nav(array $items)
