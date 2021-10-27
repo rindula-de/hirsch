@@ -60,6 +60,7 @@ $cakeDescription = 'Hirsch Bestellungen';
         <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
     </div>
+    <span id="order-until"></span>
 </main>
 <div id="preorderModal" class="modal">
     <div class="modal-content">
