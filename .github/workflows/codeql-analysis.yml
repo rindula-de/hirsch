@@ -17,6 +17,7 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
+    types: [synchronize, opened, reopened, ready_for_review]
   schedule:
     - cron: '35 4 * * 2'
 
@@ -24,6 +25,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event_name == 'pull_request' && github.event.pull_request.draft == false
     permissions:
       actions: read
       contents: read
