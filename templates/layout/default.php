@@ -29,7 +29,7 @@ $cakeDescription = 'Hirsch Bestellungen';
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->meta('icon', 'favicon.png', ['type'=>'image/png']) ?>
 
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
