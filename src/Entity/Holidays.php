@@ -1,6 +1,6 @@
 <?php
 
-namespace AppEntity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Holidays
  *
  * @ORM\Table(name="holidays")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\HolidaysRepository")
  */
 class Holidays
 {
@@ -34,6 +34,35 @@ class Holidays
      * @ORM\Column(name="end", type="date", nullable=false)
      */
     private $end;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getStart(): ?\DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    public function setStart(\DateTimeInterface $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getEnd(): ?\DateTimeInterface
+    {
+        return $this->end;
+    }
+
+    public function setEnd(\DateTimeInterface $end): self
+    {
+        $this->end = $end;
+
+        return $this;
+    }
 
 
 }

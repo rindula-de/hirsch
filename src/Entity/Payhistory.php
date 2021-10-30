@@ -1,6 +1,6 @@
 <?php
 
-namespace AppEntity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Payhistory
  *
  * @ORM\Table(name="payhistory", indexes={@ORM\Index(name="paypalme_id", columns={"paypalme_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PayhistoryRepository")
  */
 class Payhistory
 {
@@ -37,6 +37,35 @@ class Payhistory
      * })
      */
     private $paypalme;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getPaypalme(): ?Paypalmes
+    {
+        return $this->paypalme;
+    }
+
+    public function setPaypalme(?Paypalmes $paypalme): self
+    {
+        $this->paypalme = $paypalme;
+
+        return $this;
+    }
 
 
 }
