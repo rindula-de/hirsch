@@ -24,9 +24,9 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="note", type="string", length=1000, nullable=false, options={"default"="''"})
+     * @ORM\Column(name="note", type="string", length=1000, nullable=false, options={"default"=""})
      */
-    private $note = '\'\'';
+    private $note = '';
 
     /**
      * @var \DateTime
@@ -50,14 +50,10 @@ class Orders
     private $orderedby;
 
     /**
-     * @var \Hirsch
-     *
-     * @ORM\ManyToOne(targetEntity="Hirsch")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="name", referencedColumnName="slug")
-     * })
+     * @ORM\ManyToOne(targetEntity=Hirsch::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $name;
+    private $hirsch;
 
     public function getId(): ?int
     {
@@ -112,17 +108,16 @@ class Orders
         return $this;
     }
 
-    public function getName(): ?Hirsch
+    public function getHirsch(): ?Hirsch
     {
-        return $this->name;
+        return $this->hirsch;
     }
 
-    public function setName(?Hirsch $name): self
+    public function setHirsch(?Hirsch $hirsch): self
     {
-        $this->name = $name;
+        $this->hirsch = $hirsch;
 
         return $this;
     }
-
 
 }

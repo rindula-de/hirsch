@@ -85,14 +85,18 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: '15'
+      - run: npm ci
+        name: Initialize NPM on Root
+      - run: npm run build
+        name: Webpack
       - name: Vue - Bezahlen - Abhängigkeiten installieren
         uses: nick-invision/retry@v2.5.1
         with:
           timeout_minutes: 10
           max_attempts: 3
           warning_on_retry: false
-          command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
-      - working-directory: webroot/vue-apps/bezahlen
+          command: cd $GITHUB_WORKSPACE/public/vue-apps/bezahlen && npm ci
+      - working-directory: public/vue-apps/bezahlen
         name: Vue - Bezahlen - Bauen
         run: |
           npm run build

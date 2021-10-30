@@ -1,0 +1,42 @@
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    border-radius: 6px;
+    font-size: 120%;
+    &:hover,
+    &.active {
+        background-color: #ccc;
+    }
+    &.active {
+        margin-bottom: 10px;
+    }
+    &:after {
+        font-family: "Material Icons";
+        content: "unfold_more_horizontal";
+        -webkit-font-feature-settings: "liga";
+        color: #777;
+        float: right;
+        margin-left: 5px;
+        width: 1em;
+        overflow-x: hidden;
+    }
+    &.active:after {
+        font-family: 'Material Icons';
+        content: "unfold_less_horizontal";
+        -webkit-font-feature-settings: 'liga';
+    }
+}
+
+.panel {
+    padding: 0 18px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s ease-out;
+}
