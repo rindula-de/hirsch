@@ -1,13 +1,13 @@
-function openSideMenu() {
-    var x = document.getElementById("navbar");
-    if (x.className === "navbar") {
-        x.className += " responsive";
-    } else {
-        x.className = "navbar";
-    }
-}
-
 $(document).ready(() => {
+    document.getElementById("navicon").addEventListener("click", function() {
+        let x = document.getElementById("navbar");
+        if (x.className === "navbar") {
+            x.className += " responsive";
+        } else {
+            x.className = "navbar";
+        }
+    })
+
     var acc = document.getElementsByClassName("accordion");
     var i;
     if (acc) {

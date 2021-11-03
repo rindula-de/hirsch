@@ -2,7 +2,7 @@
   <a href="{{ path("menu") }}" {% if app.request.attributes.get('_route') == 'menu' %}class="active"{% endif %}>Übersicht</a>
   <a href="{{ path("orders") }}" {% if app.request.attributes.get('_route') == 'orders' %}class="active"{% endif %}>Bestellungen</a>
   <a href="{{ path("paynow") }}" {% if app.request.attributes.get('_route') == 'paynow' %}class="active"{% endif %}>Bezahlen</a>
-  <a href="javascript:void(0);" class="icon" onclick="openSideMenu()">
+  <a href="javascript:void(0);" class="icon" id="navicon">
     <i class="material-icons">menu</i>
   </a>
 </nav>
