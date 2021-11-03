@@ -1,4 +1,0 @@
-[submodule "Bezahlen"]
-	path = webroot/vue-apps/bezahlen
-	url = git@github.com:Rindula/hirsch_vue_bezahlen.git
-	branch = master
