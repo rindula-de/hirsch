@@ -17,6 +17,14 @@ class MenuController extends AbstractController
 {
 
     /**
+     * @Route("/", name="index")
+     */
+    public function index(): Response
+    {
+        return $this->redirect("/karte");
+    }
+
+    /**
      * @Route("/karte", name="menu")
      * @Route("/bestellungen/", name="orders")
      * @Route("/zahlen-bitte/", name="paynow")
@@ -41,9 +49,9 @@ class MenuController extends AbstractController
     {
         $file = '';
         try {
-            $server = $_ENV['MailAccess.host'];
-            $adresse = $_ENV['MailAccess.username'];
-            $password = $_ENV['MailAccess.password'];
+            $server = $_ENV['MailAccess_host'];
+            $adresse = $_ENV['MailAccess_username'];
+            $password = $_ENV['MailAccess_password'];
             $mbox = @imap_open($server, $adresse, $password);
             if (!$mbox) {
                 throw new InternalErrorException(imap_last_error());
