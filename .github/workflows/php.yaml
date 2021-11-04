@@ -8,6 +8,7 @@ jobs:
     test:
         name: Unittest
         runs-on: ubuntu-latest
+        continue-on-error: ${{ matrix.experimental }}
         strategy:
             matrix:
                 php: [ 8 ]
@@ -52,5 +53,4 @@ jobs:
             # Docs: https://getcomposer.org/doc/articles/scripts.md
 
             -   name: Run Unittests
-                continue-on-error: ${{ matrix.experimental }}
                 run: composer run-script test
