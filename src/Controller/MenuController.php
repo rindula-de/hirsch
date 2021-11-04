@@ -21,12 +21,11 @@ class MenuController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->redirect("/karte");
+        return $this->redirectToRoute("menu");
     }
 
     /**
      * @Route("/karte", name="menu")
-     * @Route("/bestellungen/", name="orders")
      * @Route("/zahlen-bitte/", name="paynow")
      */
     public function menu(HirschRepository $hirschRepository): Response

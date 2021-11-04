@@ -31,9 +31,9 @@ class Orders
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="for", type="date", nullable=false)
+     * @ORM\Column(name="for_date", type="date", nullable=false)
      */
-    private $for;
+    private $for_date;
 
     /**
      * @var \DateTime
@@ -72,14 +72,14 @@ class Orders
         return $this;
     }
 
-    public function getFor(): ?\DateTimeInterface
+    public function getForDate(): ?\DateTimeInterface
     {
-        return $this->for;
+        return $this->for_date;
     }
 
-    public function setFor(\DateTimeInterface $for): self
+    public function setForDate(\DateTimeInterface $forDate): self
     {
-        $this->for = $for;
+        $this->for_date = $forDate;
 
         return $this;
     }

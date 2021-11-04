@@ -31,9 +31,9 @@ class Paypalmes
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false, options={"default"="''"})
+     * @ORM\Column(name="name", type="string", length=100, nullable=false, options={"default"=""})
      */
-    private $name = '\'\'';
+    private $name = '';
 
     /**
      * @var string|null
