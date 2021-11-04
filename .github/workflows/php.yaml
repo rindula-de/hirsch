@@ -13,9 +13,6 @@ jobs:
             matrix:
                 php: [ 8 ]
                 experimental: [ false ]
-                include:
-                    -   php: 7.4
-                        experimental: true
         services:
             mariadb:
                 image: mariadb:10.6.4
