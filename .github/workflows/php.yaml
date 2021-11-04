@@ -46,7 +46,7 @@ jobs:
                 env:
                     DB_PORT: ${{ job.services.mariadb.ports[3306] }}
                 run: |
-                    echo "DATABASE_URL="mysql://hirsch:testing@hirsch_test:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.local
+                    echo "DATABASE_URL=mysql://hirsch:testing@hirsch_test:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.local
 
 
             # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
