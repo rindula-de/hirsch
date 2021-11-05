@@ -94,6 +94,7 @@ jobs:
           echo 'SWVERSION="${{ steps.get_version.outputs.VERSION }}' >> .env.local
           sed -i "s/hirschcache/${{ steps.get_version.outputs.VERSION }}/" public/sw.js
           sed -i "s/user_auth_string/$(echo -n ${{ secrets.HT_USER }}:${{ secrets.HT_PASS }} | base64)/" public/sw.js
+          composer dump-env prod
       - name: Passwortschutz erstellen
         run: |
           echo '' >> public/.htaccess
