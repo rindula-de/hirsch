@@ -26,7 +26,6 @@ class MenuController extends AbstractController
 
     /**
      * @Route("/karte", name="menu")
-     * @Route("/zahlen-bitte/", name="paynow")
      */
     public function menu(HirschRepository $hirschRepository): Response
     {

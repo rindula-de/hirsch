@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zahlerliste{% endblock %}
+
+{% block body %}
+    <h2>Eingetragene Zahler</h2>
+    <form method="POST">
+    {% for paypalme in paypalmes %}
+    <div class="paypalmeslistitemcontainer">
+        <div class="paypalmeslistitem{% if paypalme.id == active %} active{% endif %}">
+            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank">{{paypalme.name}}</button>
+        </div>
+    </div>
+    {% endfor %}
+    </form>
+{% endblock %}

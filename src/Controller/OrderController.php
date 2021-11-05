@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Hirsch;
 use App\Entity\Orders;
+use App\Entity\Payhistory;
+use App\Entity\Paypalmes;
 use App\Form\OrderType;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
@@ -102,6 +104,54 @@ class OrderController extends AbstractController
             'orders' => $orders,
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
+        ]);
+    }
+
+    /**
+     * @Route("/zahlen-bitte/", name="paynow")
+     */
+    public function paynow(Request $request): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($request->isMethod('POST')) {
+            $payhistory = new Payhistory();
+            $payhistory->setCreated(new DateTime());
+            $paypalme = $entityManager->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
+            $payhistory->setPaypalme($paypalme);
+            $entityManager->persist($payhistory);
+            $entityManager->flush();
+            // redirect to paypalme.link
+            return $this->redirect($paypalme->getLink());
+        }
+
+        // find all PaypalMes
+        $paypalMes = $entityManager
+            ->getRepository(Paypalmes::class)
+            ->createQueryBuilder("p")
+            ->select('p')
+            ->getQuery()
+            ->getResult();
+        // get most common payhistory.paypalme
+        $active = $entityManager
+            ->getRepository(Payhistory::class)
+            ->createQueryBuilder("p")
+            ->select('count(p.paypalme) as cnt')
+            ->join('p.paypalme', 'pm')
+            ->addSelect('pm.id')
+            ->where("p.created BETWEEN :date_start AND :date_end")
+            ->groupBy("p.paypalme")
+            ->orderBy("cnt", "DESC")
+            ->setParameter("date_start", strftime("%Y-%m-%d").' 00:00:00')
+            ->setParameter("date_end", strftime("%Y-%m-%d").' 23:59:59')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()[0]['id'];
+        
+        return $this->render('order/paynow.html.twig', [
+            'paypalmes' => $paypalMes,
+            'active' => $active,
         ]);
     }
 
