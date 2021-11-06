@@ -102,4 +102,19 @@ $(document).ready(() => {
                 $('#preorderLink').attr('href', '/bestellen/' + diffDays + '/' + $('#preorderSlug').html())
             }
         });
+
+    // add eventlistener to elements with class range-slider__range
+    $(".range-slider__range").on("input", function() {
+        // get the value of the range input as number
+        var val = parseFloat($(this).val());
+        // format val to currency
+        var valFormatted = val.toLocaleString(undefined, {
+            style: "currency",
+            currency: "EUR"
+        });
+        // update the value of the range-slider__value
+        $(this).next().html(valFormatted);
+    });
+    // fire input event on class range-slider__range to update value
+    $(".range-slider__range").trigger("input");
 });

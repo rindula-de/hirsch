@@ -123,7 +123,7 @@ class OrderController extends AbstractController
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect($paypalme->getLink());
+            return $this->redirect($paypalme->getLink()."/".(3.5+$request->request->get('tip')));
         }
 
         // find all PaypalMes

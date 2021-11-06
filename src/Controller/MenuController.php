@@ -46,6 +46,7 @@ class MenuController extends AbstractController
     public function getTagesessen(): JsonResponse
     {
         $file = '';
+        $message = '';
         try {
             $server = $_ENV['MailAccess_host'];
             $adresse = $_ENV['MailAccess_username'];
@@ -117,7 +118,7 @@ class MenuController extends AbstractController
                         foreach ($attachments as $at) {
                             if ($at['is_attachment'] == 1) {
                                 if (strtolower($at['filename']) == 'mittagstisch.pdf') {
-                                    $filename = tempnam($this->params->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'tmp', 'hi_');
+                                    $filename = tempnam(sys_get_temp_dir(), 'hi_');
                                     $file = base64_encode($at['attachment']);
                                     file_put_contents($filename, $at['attachment']);
                                     $parser = new Parser();
@@ -164,8 +165,9 @@ class MenuController extends AbstractController
             imap_close($mbox);
         } catch (Exception $e) {
             $displayData = false;
+            $message = $e->getMessage();
         }
 
-        return $this->json(['displayData' => $displayData, 'file' => $file]);
+        return $this->json(['displayData' => $displayData, 'file' => $file, "message" => $message]);
     }
 }
