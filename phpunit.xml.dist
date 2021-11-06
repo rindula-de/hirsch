@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory suffix=".php">src/</directory>
-      <directory suffix=".php">plugins/*/src/</directory>
-    </include>
-    <exclude>
-      <file>src/Console/Installer.php</file>
-    </exclude>
-  </coverage>
-  <php>
-    <ini name="memory_limit" value="-1"/>
-    <ini name="apc.enable_cli" value="1"/>
-  </php>
-  <!-- Add any additional test suites you want to run here -->
-  <testsuites>
-    <testsuite name="app">
-      <directory>tests/TestCase/</directory>
-    </testsuite>
-    <!-- Add plugin test suites here. -->
-  </testsuites>
-  <!-- Setup a listener for fixtures -->
-  <listeners>
-    <listener class="\Cake\TestSuite\Fixture\FixtureInjector">
-      <arguments>
-        <object class="\Cake\TestSuite\Fixture\FixtureManager"/>
-      </arguments>
-    </listener>
-  </listeners>
-  <!-- Ignore vendor tests in code coverage reports -->
+
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="tests/bootstrap.php"
+         convertDeprecationsToExceptions="false"
+>
+    <php>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="SHELL_VERBOSITY" value="-1" />
+        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
+        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
+    <!-- Run `composer require symfony/panther` before enabling this extension -->
+    <!--
+    <extensions>
+        <extension class="Symfony\Component\Panther\ServerExtension" />
+    </extensions>
+    -->
 </phpunit>

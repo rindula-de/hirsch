@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zahlerliste{% endblock %}
+
+{% block body %}
+    <h2>Paypalierer</h2>
+    <form method="POST">
+    <div class="range-slider">
+        <h4>Trinkgeld:</h4>
+        <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5">
+        <span class="range-slider__value"></span>
+    </div>
+    {% for paypalme in paypalmes %}
+    <div class="paypalmeslistitemcontainer">
+        <div class="paypalmeslistitem{% if paypalme.id == active %} active{% endif %}">
+            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank">{{paypalme.name}}</button>
+        </div>
+    </div>
+    {% endfor %}
+    </form>
+{% endblock %}

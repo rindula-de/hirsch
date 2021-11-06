@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Karte{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('menu') }}
+{% endblock %}
+
+{% block body %}
+<template id="foodcard_template">
+    <div data-role="card" class='foodcard'>
+        <h2 data-role="title"></h2>
+        <span data-role="gericht"></span>
+        <div data-role="actionbar" class='actionbar'>
+            <a data-role="order" class="btn"></a>
+        </div>
+    </div>
+</template>
+
+<button class="accordion">Hirsch to Go</button>
+<div class="panel">
+    {% for gericht in htg %}
+        <div class='foodcard'>
+            <h2>{{ gericht.name }}</h2>
+            <div class="actionbar">
+                <a href="{{path("order", {preorder: 0, slug: gericht.slug})}}" class="btn">Bestellen</a>
+                <a href="{{path("order", {preorder: 1, slug: gericht.slug})}}" class="btn preorderBtn" data-slug="{{gericht.slug}}">Vorbestellen</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<button class="accordion">Tagesessen</button>
+<div class="panel loading" id="tagesessen_panel">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+{% endblock %}

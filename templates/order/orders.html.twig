@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bestellungen{% endblock %}
+
+{% block body %}
+    <h2>Heutige Bestellungen</h2>
+    <label>
+        <textarea rows="1" readonly="" onclick="this.focus();this.select()">{% if (orders | length) == 0 %}--- Keine Bestellungen ---{% else %}{% for order in orders %}{{ order.cnt }}x {{ order.name }}
+{% if order.note | length > 0 %}
+Sonderwunsch: {{ order.note }}
+{% endif %}
+
+{% endfor %}{% endif %}</textarea>
+    </label>
+    <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
+    <div class="panel">
+        {% for order in orderNameList %}
+            <p>{{ order.orderedby }}</p>
+        {% endfor %}
+    </div>
+
+    {% if preorders | length > 0 %}
+    <button class="accordion">Vorbestellungen ({{ preorders | length }})</button>
+    <div class="panel">
+        {% for order in preorders %}
+            <h2>{{ order.for_date|format_datetime('long', 'none', locale='de') }}</h2>{{ order.cnt }}x {{ order.name }}
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

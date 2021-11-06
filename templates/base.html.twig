@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <link rel="manifest" href="/manifest.json">
+    <link href="/favicon.png" type="image/png" rel="icon">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <title>
+      {% block title %}Welcome!{% endblock %}
+    </title>
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
+  <body>
+    {% include "navigation.html.twig" %}
+    <main class="main">
+      <div class="content">
+        {% block body %}{% endblock %}
+      </div>
+      <span id="order-until"></span>
+    </main>
+    <div id="preorderModal" class="modal">
+      <div class="modal-content">
+        <span class="close material-icons">close</span>
+        <h2>Vorbestellen</h2>
+        <input readonly="readonly" type="text" class="datepicker flatpickr flatpickr-input" placeholder="Datum auswählen">
+        <br>
+        <br>
+        <a href="#" id="preorderLink" class="btn">Datum wählen</a>
+        <span style="display: none" id="preorderSlug"></span>
+      </div>
+    </div>
+    <div id="informationModal" class="modal">
+      <div class="modal-content">
+        <span class="close material-icons">close</span>
+        <p id="informationModalText">Lorem Schwippsum</p>
+      </div>
+    </div>
+    <div id="orderedModal" class="modal">
+      <div class="modal-content">
+        <span class="close material-icons">close</span>
+        <h2 id="orderedModalTitle">Bestellung</h2>
+        <p id="orderedModalText">Bestellung</p>
+      </div>
+    </div>
+  </body>
+</html>

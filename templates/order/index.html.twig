@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <h2>{{meal.name}}</h2>
+    {{form(form)}}
+    <datalist id="wishlist">
+        <option value="+ Pommes"></option>
+        <option value="+ Senf"></option>
+        <option value="+ Mayonnaise"></option>
+        <option value="+ Ketchup"></option>
+        <option value="Extra Soße"></option>
+    </datalist>
+{% endblock %}

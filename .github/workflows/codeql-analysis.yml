@@ -70,50 +70,30 @@ jobs:
     - uses: actions/setup-node@v2.4.1
       with:
         node-version: '15'
-    - name: Compile CSS from SCSS files
-      uses: gha-utilities/sass-build@v0.4.7
-      with:
-        source: webroot/scss/style.scss
-        destination: webroot/css/style.css
-    - name: Auto Minify
-      uses: nizarmah/auto-minify@master
-      with:
-        directory: 'webroot/js'
-    - name: Vue - Bezahlen - Abhängigkeiten installieren
-      uses: nick-invision/retry@v2.5.1
-      with:
-        timeout_minutes: 10
-        max_attempts: 3
-        warning_on_retry: false
-        command: cd $GITHUB_WORKSPACE/webroot/vue-apps/bezahlen && npm ci
-    - working-directory: webroot/vue-apps/bezahlen
-      name: Vue - Bezahlen - Bauen
-      run: |
-        npx browserslist@latest --update-db
-        npm run build
+    - run: npm ci
+      name: Initialize NPM on Root
+    - run: npm run build
+      name: Webpack Build
     - name: Config anpassen
       run: |
-        sed -i 's/db\_user/hirsch/' config/app_local.php
-        sed -i 's/db\_pass/${{ secrets.DBPASS }}/' config/app_local.php
-        sed -i 's/db\_name/hirsch/' config/app_local.php
-        current_timestamp=`git log -n1 --pretty=%ci HEAD`; sed -i "s/last\_update\_timestamp/${current_timestamp}/" config/app_local.php
-        sed -i 's/foodwars/${{ secrets.EMAILPASS }}/' config/app_local.php
-        sed -i 's/essen@rindula\.de/essen@hochwarth-e.com/' config/app_local.php
-        sed -i 's/{rindula\.de\/imap\/novalidate-cert}INBOX/{sslin.df.eu\/imap\/ssl}INBOX/' config/app_local.php
-        sed -i "s/hirschcache/$GITHUB_SHA/" webroot/sw.js
-        sed -i "s/user_auth_string/$(echo -n ${{ secrets.HT_USER }}:${{ secrets.HT_PASS }} | base64)/" webroot/sw.js
+        echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
+        echo 'EMAILPASS="${{ secrets.EMAILPASS }}"' >> .env.local
+        echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
+        echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
+        echo 'SWVERSION="${{ steps.get_version.outputs.VERSION }}"' >> .env.local
+        composer dump-env prod
     - name: Passwortschutz erstellen
       run: |
-        echo '' >> webroot/.htaccess
-        echo 'AuthType Basic' >> webroot/.htaccess
-        echo 'AuthName "Bestellungen"' >> webroot/.htaccess
-        echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> webroot/.htaccess
-        echo 'Require valid-user' >> webroot/.htaccess
-        echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> webroot/.htaccess
-        echo '<Files "manifest.json">' >> webroot/.htaccess
-        echo '    Satisfy Any' >> webroot/.htaccess
-        echo '    Allow from all' >> webroot/.htaccess
-        echo '</Files>' >> webroot/.htaccess
+        echo '' >> public/.htaccess
+        echo 'AuthType Basic' >> public/.htaccess
+        echo 'AuthName "Bestellungen"' >> public/.htaccess
+        echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> public/.htaccess
+        echo 'Require valid-user' >> public/.htaccess
+        echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess
+        echo '<Files "manifest.json">' >> public/.htaccess
+        echo '    Satisfy Any' >> public/.htaccess
+        echo '    Allow from all' >> public/.htaccess
+        echo '</Files>' >> public/.htaccess
         htpasswd -cb .htpasswd "${{ secrets.HT_USER }}" "${{ secrets.HT_PASS }}"
 
     # ℹ️ Command-line programs to run using the OS shell.
