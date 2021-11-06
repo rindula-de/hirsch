@@ -60,7 +60,6 @@ class PwaController extends AbstractController
         // merge $manifest and $urlsToCache
         $urlsToCache = array_merge(array_values($manifest), $urlsToCache);
 
-        dd($urlsToCache);
         $response = new Response(
             null,
             200,
