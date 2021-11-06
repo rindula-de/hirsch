@@ -15,7 +15,7 @@ github_actions:
 workflow-config:
   - .github/*.yml
 
-docs:
+documentation:
   - README.md
   
 wontfix:
