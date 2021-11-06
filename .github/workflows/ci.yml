@@ -91,7 +91,9 @@ jobs:
           echo 'EMAILPASS="${{ secrets.EMAILPASS }}"' >> .env.local
           echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
           echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
-          echo 'SWVERSION="${{ steps.get_version.outputs.VERSION }}"' >> .env.local
+          echo 'APP_VERSION="${{ steps.get_version.outputs.VERSION }}"' >> .env.local
+          echo 'HT_USERNAME="${{ secrets.HT_USER }}"' >> .env.local
+          echo 'HT_PASSWORD="${{ secrets.HT_PASS }}"' >> .env.local
           composer dump-env prod
       - name: Passwortschutz erstellen
         run: |
@@ -135,7 +137,7 @@ jobs:
         run: rm artifact.tar
       - run: sudo apt-get install -y sshpass rsync
         name: 📦 Installing upload dependencies
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".ddev" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
         name: 👨‍💻 Uploading files
       - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && bin/console --no-interaction doctrine:migrations:migrate && bin/console --no-interaction cache:clear"
