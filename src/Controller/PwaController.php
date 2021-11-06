@@ -12,7 +12,7 @@ class PwaController extends AbstractController
     /**
      * @Route("/manifest.json")
      */
-    public function index(): JsonResponse
+    public function manifest(): JsonResponse
     {
         return new JsonResponse([
             "lang" => "de-DE",
@@ -32,4 +32,49 @@ class PwaController extends AbstractController
             "orientation" => "portrait"
             ], 200, ['Content-Type' => 'application/manifest+json']);
     }
+
+    /**
+     * @Route("/sw.js")
+     */
+    public function serviceWorker(): Response
+    {
+
+        // read /public/build/manifest.json and parse it
+        $manifest = json_decode(file_get_contents(__DIR__ . '/../../public/build/manifest.json'), true);
+
+        $urlsToCache = [
+            '/karte',
+            '/favicon.png',
+            'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+            'https://cdn.jsdelivr.net/npm/flatpickr',
+            'https://fonts.googleapis.com/icon?family=Material+Icons',
+            'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
+            'https://fonts.googleapis.com/css?family=Raleway:400,700',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCAIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCkIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCIIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCMIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyC0ITw.woff2',
+        ];
+
+        // merge $manifest and $urlsToCache
+        $urlsToCache = array_merge(array_values($manifest), $urlsToCache);
+
+        dd($urlsToCache);
+        $response = new Response(
+            null,
+            200,
+            ['Content-Type' => 'application/javascript']
+        );
+
+        return $this->render('serviceworker.js.twig', [
+            'version' => $_ENV['APP_VERSION'] ?? '0.0.0',
+            'urlsToCache' => $urlsToCache,
+            'credentials' => [
+                'username' => $_ENV['HT_USERNAME'] ?? '',
+                'password' => $_ENV['HT_PASSWORD'] ?? '',
+                'string' => base64_encode(($_ENV['HT_USERNAME'] ?? '') . ':' . ($_ENV['HT_PASSWORD'] ?? '')),
+            ]
+        ], $response);
+    }	
 }
