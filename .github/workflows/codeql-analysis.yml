@@ -70,15 +70,10 @@ jobs:
     - uses: actions/setup-node@v2.4.1
       with:
         node-version: '15'
-    - name: Compile CSS from SCSS files
-      uses: gha-utilities/sass-build@v0.4.7
-      with:
-        source: webroot/scss/style.scss
-        destination: webroot/css/style.css
-    - name: Auto Minify
-      uses: nizarmah/auto-minify@master
-      with:
-        directory: 'webroot/js'
+    - run: npm ci
+      name: Initialize NPM on Root
+    - run: npm run build
+      name: Webpack Build
     - name: Config anpassen
       run: |
         echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4' > .env.local
@@ -88,6 +83,7 @@ jobs:
         echo 'SWVERSION="${{ steps.get_version.outputs.VERSION }}' >> .env.local
         sed -i "s/hirschcache/${{ steps.get_version.outputs.VERSION }}/" public/sw.js
         sed -i "s/user_auth_string/$(echo -n ${{ secrets.HT_USER }}:${{ secrets.HT_PASS }} | base64)/" public/sw.js
+        composer dump-env prod
     - name: Passwortschutz erstellen
       run: |
         echo '' >> public/.htaccess
