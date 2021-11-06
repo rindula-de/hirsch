@@ -1,9 +1,10 @@
-cake:
+symfony:
   - src/**/*
   - config/**/*
-  - templates/**/*
-  - resources/**/*
-  - plugins/**/*
+  - public/**/*
+
+database:
+  - migrations/**/*.php
 
 tests:
   - tests/**/*
@@ -13,9 +14,6 @@ github_actions:
   
 workflow-config:
   - .github/*.yml
-  
-deployscript:
-  - gogogo.sh
 
 docs:
   - README.md
@@ -23,4 +21,4 @@ docs:
 wontfix:
   - bin/*
   - .htaccess
-  - webroot/.htaccess
+  - public/.htaccess
