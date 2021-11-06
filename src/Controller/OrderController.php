@@ -147,7 +147,8 @@ class OrderController extends AbstractController
             ->setParameter("date_end", strftime("%Y-%m-%d").' 23:59:59')
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult()[0]['id'];
+            ->getResult();
+        $active = $active[0]['id'] ?? null;
         
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
