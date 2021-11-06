@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\UtilityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,7 @@ class PwaController extends AbstractController
     /**
      * @Route("/sw.js")
      */
-    public function serviceWorker(): Response
+    public function serviceWorker(UtilityService $utilityService): Response
     {
 
         // read /public/build/manifest.json and parse it
@@ -66,8 +67,8 @@ class PwaController extends AbstractController
             ['Content-Type' => 'application/javascript']
         );
 
-        return $this->render('serviceworker.js.twig', [
-            'version' => $_ENV['APP_VERSION'] ?? '0.0.0',
+        return $this->render('serviceworker.js', [
+            'version' => $_ENV['APP_VERSION'] ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
             'urlsToCache' => $urlsToCache,
             'credentials' => [
                 'username' => $_ENV['HT_USERNAME'] ?? '',
@@ -75,5 +76,5 @@ class PwaController extends AbstractController
                 'string' => base64_encode(($_ENV['HT_USERNAME'] ?? '') . ':' . ($_ENV['HT_PASSWORD'] ?? '')),
             ]
         ], $response);
-    }	
+    }
 }
