@@ -4,11 +4,20 @@ on:
   push:
     branches:
       - master
+  schedule:
+    cron: '0 10 * * 0'
 
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
+        id: create_release
         env:
           GITHUB_TOKEN:  ${{ github.token }}
+      - uses: eregon/publish-release@v1
+        if: github.event.type == "schedule"
+        env:
+          GITHUB_TOKEN: ${{ secrets.mytoken }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
