@@ -90,6 +90,9 @@ jobs:
           echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
           echo 'APP_ENV=prod' >> .env.local
           echo 'APP_SECRET="${{ secrets.SALT }}"' >> .env.local
+          echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' >> .env.local
+          echo 'MailAccess_username="essen@hochwarth-e.com"' >> .env.local
+          echo 'MailAccess_password="${{ secrets.EMAILPASS }}"' >> .env.local
           echo 'EMAILPASS="${{ secrets.EMAILPASS }}"' >> .env.local
           echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
           echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
