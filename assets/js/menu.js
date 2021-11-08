@@ -28,6 +28,9 @@ $.ajax({
             for (let i = 0; i < result.displayData.length; i++) {
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
+                if (date < new Date()) {
+                    continue;
+                }
                 let holidayDate = false;
                 // for (let j = 0; j < holidays.length; j++) {
                 //     let start = new Date(holidays[j]['from']).setHours(0);
