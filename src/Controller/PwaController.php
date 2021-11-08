@@ -15,6 +15,14 @@ class PwaController extends AbstractController
      */
     public function manifest(): JsonResponse
     {
+        // read /assets/styles/app.scss and use regex to extract the CSS
+        $css = file_get_contents(__DIR__ . '/../../assets/styles/app.scss');
+        $css = preg_replace('/\s+/', '', $css);
+        $css = preg_replace('/\/\/.*/', '', $css);
+        $css = preg_replace('/\/\*[^\*]*\*\//', '', $css);
+        $css = preg_replace('/@import.*;/', '', $css);
+        $themecolor = explode(":", explode(';', $css)[0])[1];
+
         return new JsonResponse([
             "lang" => "de-DE",
             "name" => "Hirsch Bestellsammelseite",
@@ -27,7 +35,7 @@ class PwaController extends AbstractController
                 "purpose" => "any maskable"
             ]],
             "background_color" => "#adadad",
-            "theme_color" => "#ffa303",
+            "theme_color" => $themecolor,
             "start_url" => $this->generateUrl('menu'),
             "display" => "standalone",
             "orientation" => "portrait"
