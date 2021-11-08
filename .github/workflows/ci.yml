@@ -81,10 +81,6 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: '15'
-      - run: npm ci
-        name: Initialize NPM on Root
-      - run: npm run build
-        name: Webpack Build
       - name: Config anpassen
         run: |
           echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
@@ -113,6 +109,10 @@ jobs:
           echo '    Allow from all' >> public/.htaccess
           echo '</Files>' >> public/.htaccess
           htpasswd -cb .htpasswd "${{ secrets.HT_USER }}" "${{ secrets.HT_PASS }}"
+      - run: npm ci
+        name: Initialize NPM on Root
+      - run: npm run build
+        name: Webpack Build
       - name: Pack Files
         run: tar -cf artifact.tar .
       - uses: actions/upload-artifact@master
