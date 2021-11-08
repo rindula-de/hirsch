@@ -28,7 +28,8 @@ $.ajax({
             for (let i = 0; i < result.displayData.length; i++) {
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
-                if (date < new Date()) {
+                let today = (new Date()).setHours(0, 0, 0, 0);
+                if (date < today) {
                     continue;
                 }
                 let holidayDate = false;
