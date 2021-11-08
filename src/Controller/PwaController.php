@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PwaController extends AbstractController
 {
     /**
-     * @Route("/manifest.json")
+     * @Route("/manifest.json", methods={"GET"})
      */
     public function manifest(): JsonResponse
     {
@@ -35,7 +35,7 @@ class PwaController extends AbstractController
     }
 
     /**
-     * @Route("/sw.js")
+     * @Route("/sw.js", methods={"GET"})
      */
     public function serviceWorker(UtilityService $utilityService): Response
     {

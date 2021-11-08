@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Date;
 class OrderController extends AbstractController
 {
     /**
-     * @Route("/order/{preorder}/{slug}", name="order")
+     * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
     public function index(int $preorder, String $slug, HirschRepository $hirschRepository, Request $request): Response
     {
@@ -47,7 +47,7 @@ class OrderController extends AbstractController
         ]);
     }
     /**
-     * @Route("/order-until", name="order-until")
+     * @Route("/order-until", name="order-until", methods={"GET"})
      */
     public function orderuntil(): Response
     {
@@ -55,7 +55,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/bestellungen/", name="orders")
+     * @Route("/bestellungen/", name="orders", methods={"GET"})
      */
     public function orders(): Response
     {
@@ -108,7 +108,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/zahlen-bitte/", name="paynow")
+     * @Route("/zahlen-bitte/", name="paynow", methods={"GET"})
      */
     public function paynow(Request $request): Response
     {
