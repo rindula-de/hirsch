@@ -81,13 +81,14 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: '15'
-      - run: npm ci
-        name: Initialize NPM on Root
-      - run: npm run build
-        name: Webpack Build
       - name: Config anpassen
         run: |
           echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
+          echo 'APP_ENV=prod' >> .env.local
+          echo 'APP_SECRET="${{ secrets.SALT }}"' >> .env.local
+          echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' >> .env.local
+          echo 'MailAccess_username="essen@hochwarth-e.com"' >> .env.local
+          echo 'MailAccess_password="${{ secrets.EMAILPASS }}"' >> .env.local
           echo 'EMAILPASS="${{ secrets.EMAILPASS }}"' >> .env.local
           echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
           echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
@@ -108,6 +109,10 @@ jobs:
           echo '    Allow from all' >> public/.htaccess
           echo '</Files>' >> public/.htaccess
           htpasswd -cb .htpasswd "${{ secrets.HT_USER }}" "${{ secrets.HT_PASS }}"
+      - run: npm ci
+        name: Initialize NPM on Root
+      - run: npm run build
+        name: Webpack Build
       - name: Pack Files
         run: tar -cf artifact.tar .
       - uses: actions/upload-artifact@master
@@ -140,7 +145,7 @@ jobs:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".ddev" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
         name: 👨‍💻 Uploading files
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && bin/console --no-interaction doctrine:migrations:migrate && bin/console --no-interaction cache:clear"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php80 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php80 bin/console --no-interaction cache:clear"
         id: preperations
         name: 👨‍💻 Preparing system
 

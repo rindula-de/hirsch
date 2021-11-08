@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Smalot\PdfParser\Parser;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class MenuController extends AbstractController
 {
@@ -25,7 +27,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/karte", name="menu")
+     * @Route("/karte", name="menu", methods={"GET"})
      */
     public function menu(HirschRepository $hirschRepository): Response
     {
@@ -41,132 +43,125 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/hirsch/get-tagesessen", name="tagesessen")
+     * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
      */
     public function getTagesessen(): JsonResponse
     {
         $file = '';
-        $message = '';
-        try {
-            $server = $_ENV['MailAccess_host'];
-            $adresse = $_ENV['MailAccess_username'];
-            $password = $_ENV['MailAccess_password'];
-            $mbox = @imap_open($server, $adresse, $password);
-            if (!$mbox) {
-                throw new InternalErrorException(imap_last_error());
-            }
+        $message = 'Cached';
 
-            $emailsToDelete = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8?true:1), 0, 'BEFORE "' . (new DateTime('-6 days'))->format('d F Y') . '"');
-            $emails = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8?true:1), 0, 'SINCE "' . (new DateTime('-6 days'))->format('d F Y') . '"');
+        $cache = new FilesystemAdapter();
 
-            $displayData = [];
-
-            if ($emailsToDelete) {
-                foreach ($emailsToDelete as $emailId) {
-                    // Markiert die E-Mails zum löschen
-                    imap_delete($mbox, (explode(".", phpversion())[0] == 8?$emailId."":$emailId));
+        $displayData = $cache->get('tagesessenData', function (ItemInterface $item) use (&$message) {
+            $item->expiresAfter(3600);
+            try {
+                $server = $_ENV['MailAccess_host'];
+                $adresse = $_ENV['MailAccess_username'];
+                $password = $_ENV['MailAccess_password'];
+                $mbox = @imap_open($server, $adresse, $password);
+                if (!$mbox) {
+                    throw new InternalErrorException(imap_last_error());
                 }
-                // Löscht die markierten Mails endgültig
-                imap_expunge($mbox);
+
+                $emailsToDelete = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8 ? true : 1), 0, 'BEFORE "' . (new DateTime('-6 days'))->format('d F Y') . '"');
+                $emails = imap_sort($mbox, SORTDATE, (explode(".", phpversion())[0] == 8 ? true : 1), 0, 'SINCE "' . (new DateTime('-6 days'))->format('d F Y') . '"');
+
+                $displayData = [];
+
+                if ($emailsToDelete) {
+                    foreach ($emailsToDelete as $emailId) {
+                        // Markiert die E-Mails zum löschen
+                        imap_delete($mbox, (explode(".", phpversion())[0] == 8 ? $emailId . "" : $emailId));
+                    }
+                    // Löscht die markierten Mails endgültig
+                    imap_expunge($mbox);
+                    imap_close($mbox);
+                    // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
+                    return $this->redirect("tagesessen");
+                }
+
+                if ($emails) {
+                    foreach ($emails as $emailId) {
+                        $structure = imap_fetchstructure($mbox, $emailId);
+
+                        if (isset($structure->parts) && count($structure->parts)) {
+                            for ($i = 0; $i < count($structure->parts); $i++) {
+                                $attachments[$i] = [
+                                    'is_attachment' => false,
+                                    'filename' => '',
+                                    'name' => '',
+                                    'attachment' => ''
+                                ];
+
+                                if ($structure->parts[$i]->ifdparameters) {
+                                    foreach ($structure->parts[$i]->dparameters as $object) {
+                                        if (strtolower($object->attribute) == 'filename') {
+                                            $attachments[$i]['is_attachment'] = true;
+                                            $attachments[$i]['filename'] = $object->value;
+                                        }
+                                    }
+                                }
+
+                                if ($structure->parts[$i]->ifparameters) {
+                                    foreach ($structure->parts[$i]->parameters as $object) {
+                                        if (strtolower($object->attribute) == 'name') {
+                                            $attachments[$i]['is_attachment'] = true;
+                                            $attachments[$i]['name'] = $object->value;
+                                        }
+                                    }
+                                }
+
+                                if ($attachments[$i]['is_attachment']) {
+                                    $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . '');
+                                    if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
+                                        $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
+                                    } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
+                                        $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (count($attachments) != 0) {
+                            foreach ($attachments as $at) {
+                                if ($at['is_attachment'] == 1) {
+                                    if (strtolower($at['filename']) == 'mittagstisch.pdf') {
+                                        $filename = tempnam(sys_get_temp_dir(), 'hi_');
+                                        $file = base64_encode($at['attachment']);
+                                        file_put_contents($filename, $at['attachment']);
+                                        $parser = new Parser();
+                                        $pdf = $parser->parseFile($filename);
+                                        $text = str_replace("\t", '', $pdf->getText());
+                                        preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("monday this week"))];
+
+                                        preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("tuesday this week"))];
+
+                                        preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("wednesday this week"))];
+
+                                        preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("thursday this week"))];
+
+                                        preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("friday this week"))];
+
+                                        unlink($filename);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 imap_close($mbox);
-                // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-                return $this->redirect("tagesessen");
+                $message = "";
+            } catch (Exception $e) {
+                $displayData = false;
+                $message = $e->getMessage();
             }
-
-            if ($emails) {
-                foreach ($emails as $emailId) {
-                    $structure = imap_fetchstructure($mbox, $emailId);
-
-                    if (isset($structure->parts) && count($structure->parts)) {
-                        for ($i = 0; $i < count($structure->parts); $i++) {
-                            $attachments[$i] = [
-                                'is_attachment' => false,
-                                'filename' => '',
-                                'name' => '',
-                                'attachment' => ''];
-
-                            if ($structure->parts[$i]->ifdparameters) {
-                                foreach ($structure->parts[$i]->dparameters as $object) {
-                                    if (strtolower($object->attribute) == 'filename') {
-                                        $attachments[$i]['is_attachment'] = true;
-                                        $attachments[$i]['filename'] = $object->value;
-                                    }
-                                }
-                            }
-
-                            if ($structure->parts[$i]->ifparameters) {
-                                foreach ($structure->parts[$i]->parameters as $object) {
-                                    if (strtolower($object->attribute) == 'name') {
-                                        $attachments[$i]['is_attachment'] = true;
-                                        $attachments[$i]['name'] = $object->value;
-                                    }
-                                }
-                            }
-
-                            if ($attachments[$i]['is_attachment']) {
-                                $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1) . '');
-                                if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
-                                    $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
-                                } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
-                                    $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
-                                }
-                            }
-                        }
-                    }
-
-                    if (count($attachments) != 0) {
-                        foreach ($attachments as $at) {
-                            if ($at['is_attachment'] == 1) {
-                                if (strtolower($at['filename']) == 'mittagstisch.pdf') {
-                                    $filename = tempnam(sys_get_temp_dir(), 'hi_');
-                                    $file = base64_encode($at['attachment']);
-                                    file_put_contents($filename, $at['attachment']);
-                                    $parser = new Parser();
-                                    $pdf = $parser->parseFile($filename);
-                                    $text = str_replace("\t", '', $pdf->getText());
-                                    $dow = date( "w");
-                                    $daysAdd = 0;
-                                    switch ($dow) {
-                                        case 1:
-                                            preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime())];
-                                        case 2:
-                                            preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 2) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 3:
-                                            preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 3) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 4:
-                                            preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 4) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 5:
-                                            preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 5) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                    }
-                                    unlink($filename);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            imap_close($mbox);
-        } catch (Exception $e) {
-            $displayData = false;
-            $message = $e->getMessage();
-        }
+            return $displayData;
+        });
 
         return $this->json(['displayData' => $displayData, 'file' => $file, "message" => $message]);
     }

@@ -3,7 +3,7 @@ let template = document.getElementById("foodcard_template");
 let tagesessen_panel = document.getElementById('tagesessen_panel');
 
 $.ajax({
-    url: "/hirsch/get-tagesessen",
+    url: "/api/get-tagesessen",
     context: document.body,
     dataType: 'json',
     success: function(result) {
@@ -28,23 +28,28 @@ $.ajax({
             for (let i = 0; i < result.displayData.length; i++) {
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
-                let holidayDate = false;
-                for (let j = 0; j < holidays.length; j++) {
-                    let start = new Date(holidays[j]['from']).setHours(0);
-                    let end = new Date(holidays[j]['to']).setHours(23);
+                let today = (new Date()).setHours(0, 0, 0, 0);
+                if (date < today) {
 
-                    if (date >= start && date <= end) {
-                        holidayDate = true;
-                        break;
-                    }
+                    continue;
                 }
+                let holidayDate = false;
+                // for (let j = 0; j < holidays.length; j++) {
+                //     let start = new Date(holidays[j]['from']).setHours(0);
+                //     let end = new Date(holidays[j]['to']).setHours(23);
+
+                //     if (date >= start && date <= end) {
+                //         holidayDate = true;
+                //         break;
+                //     }
+                // }
                 if (resultElement['gericht'].toLowerCase().includes("ruhetag")) holidayDate = true;
                 let clone = template.content.cloneNode(true);
                 clone.querySelector("[data-role=title]").innerHTML = "Tagesessen für den " + date.toLocaleDateString();
                 clone.querySelector("[data-role=gericht]").innerHTML = resultElement['gericht'] + ((holidayDate) ? "" : " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + resultElement['gericht'] + "'>📷</a>");
                 let btn = clone.querySelector("[data-role=order]");
                 if (!holidayDate) {
-                    btn.innerHTML = (i === 0) ? "Bestellen" : "Vorbestellen";
+                    btn.innerHTML = (date.toISOString() === new Date().toISOString()) ? "Bestellen" : "Vorbestellen";
                     btn.setAttribute("href", "/order/_i_/tagesessen");
                     btn.setAttribute("href", btn.getAttribute("href").replace("_i_", i));
                 } else {

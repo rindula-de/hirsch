@@ -11,10 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class PwaController extends AbstractController
 {
     /**
-     * @Route("/manifest.json")
+     * @Route("/manifest.json", methods={"GET"})
      */
     public function manifest(): JsonResponse
     {
+        // read /assets/styles/app.scss and use regex to extract the CSS
+        $css = file_get_contents(__DIR__ . '/../../assets/styles/app.scss');
+        $css = preg_replace('/\s+/', '', $css);
+        $css = preg_replace('/\/\/.*/', '', $css);
+        $css = preg_replace('/\/\*[^\*]*\*\//', '', $css);
+        $css = preg_replace('/@import.*;/', '', $css);
+        $themecolor = explode(":", explode(';', $css)[0])[1];
+
         return new JsonResponse([
             "lang" => "de-DE",
             "name" => "Hirsch Bestellsammelseite",
@@ -27,7 +35,7 @@ class PwaController extends AbstractController
                 "purpose" => "any maskable"
             ]],
             "background_color" => "#adadad",
-            "theme_color" => "#ffa303",
+            "theme_color" => $themecolor,
             "start_url" => $this->generateUrl('menu'),
             "display" => "standalone",
             "orientation" => "portrait"
@@ -35,7 +43,7 @@ class PwaController extends AbstractController
     }
 
     /**
-     * @Route("/sw.js")
+     * @Route("/sw.js", methods={"GET"})
      */
     public function serviceWorker(UtilityService $utilityService): Response
     {
@@ -46,6 +54,7 @@ class PwaController extends AbstractController
         $urlsToCache = [
             '/karte',
             '/favicon.png',
+            '/api/doc',
             'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
             'https://cdn.jsdelivr.net/npm/flatpickr',
             'https://fonts.googleapis.com/icon?family=Material+Icons',
