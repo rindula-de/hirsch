@@ -25,7 +25,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/karte", name="menu")
+     * @Route("/karte", name="menu", methods={"GET"})
      */
     public function menu(HirschRepository $hirschRepository): Response
     {
