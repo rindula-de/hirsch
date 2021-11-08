@@ -30,6 +30,7 @@ $.ajax({
                 let date = new Date(resultElement['date']);
                 let today = (new Date()).setHours(0, 0, 0, 0);
                 if (date < today) {
+
                     continue;
                 }
                 let holidayDate = false;
