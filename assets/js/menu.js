@@ -3,7 +3,7 @@ let template = document.getElementById("foodcard_template");
 let tagesessen_panel = document.getElementById('tagesessen_panel');
 
 $.ajax({
-    url: "/hirsch/get-tagesessen",
+    url: "/api/get-tagesessen",
     context: document.body,
     dataType: 'json',
     success: function(result) {
@@ -29,15 +29,15 @@ $.ajax({
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
                 let holidayDate = false;
-                for (let j = 0; j < holidays.length; j++) {
-                    let start = new Date(holidays[j]['from']).setHours(0);
-                    let end = new Date(holidays[j]['to']).setHours(23);
+                // for (let j = 0; j < holidays.length; j++) {
+                //     let start = new Date(holidays[j]['from']).setHours(0);
+                //     let end = new Date(holidays[j]['to']).setHours(23);
 
-                    if (date >= start && date <= end) {
-                        holidayDate = true;
-                        break;
-                    }
-                }
+                //     if (date >= start && date <= end) {
+                //         holidayDate = true;
+                //         break;
+                //     }
+                // }
                 if (resultElement['gericht'].toLowerCase().includes("ruhetag")) holidayDate = true;
                 let clone = template.content.cloneNode(true);
                 clone.querySelector("[data-role=title]").innerHTML = "Tagesessen für den " + date.toLocaleDateString();

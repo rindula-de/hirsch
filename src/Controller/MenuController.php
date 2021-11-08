@@ -41,7 +41,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/hirsch/get-tagesessen", name="tagesessen")
+     * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
      */
     public function getTagesessen(): JsonResponse
     {

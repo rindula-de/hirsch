@@ -46,6 +46,7 @@ class PwaController extends AbstractController
         $urlsToCache = [
             '/karte',
             '/favicon.png',
+            '/api/doc',
             'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
             'https://cdn.jsdelivr.net/npm/flatpickr',
             'https://fonts.googleapis.com/icon?family=Material+Icons',
