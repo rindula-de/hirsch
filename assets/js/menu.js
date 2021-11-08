@@ -44,7 +44,7 @@ $.ajax({
                 clone.querySelector("[data-role=gericht]").innerHTML = resultElement['gericht'] + ((holidayDate) ? "" : " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + resultElement['gericht'] + "'>📷</a>");
                 let btn = clone.querySelector("[data-role=order]");
                 if (!holidayDate) {
-                    btn.innerHTML = (i === 0) ? "Bestellen" : "Vorbestellen";
+                    btn.innerHTML = (date.toISOString() === new Date().toISOString()) ? "Bestellen" : "Vorbestellen";
                     btn.setAttribute("href", "/order/_i_/tagesessen");
                     btn.setAttribute("href", btn.getAttribute("href").replace("_i_", i));
                 } else {
