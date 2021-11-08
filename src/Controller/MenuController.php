@@ -124,37 +124,21 @@ class MenuController extends AbstractController
                                     $parser = new Parser();
                                     $pdf = $parser->parseFile($filename);
                                     $text = str_replace("\t", '', $pdf->getText());
-                                    $dow = date( "w");
-                                    $daysAdd = 0;
-                                    switch ($dow) {
-                                        case 1:
-                                            preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime())];
-                                        case 2:
-                                            preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 2) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 3:
-                                            preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 3) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 4:
-                                            preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 4) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                        case 5:
-                                            preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                            if ($dow < 5) {
-                                                $daysAdd++;
-                                            }
-                                            $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('+' . $daysAdd . ' days'))];
-                                    }
+                                    preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                    $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("monday this week"))];
+
+                                    preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                    $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("tuesday this week"))];
+
+                                    preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                    $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("wednesday this week"))];
+
+                                    preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                    $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("thursday this week"))];
+
+                                    preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
+                                    $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("friday this week"))];
+                                    
                                     unlink($filename);
                                 }
                             }
