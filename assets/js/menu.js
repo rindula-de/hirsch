@@ -29,6 +29,7 @@ $.ajax({
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
                 let today = new Date();
+                date.setUTCHours(0, 0, 0, 0);
                 today.setUTCHours(0, 0, 0, 0);
                 if (date < today) {
 
@@ -50,7 +51,7 @@ $.ajax({
                 clone.querySelector("[data-role=gericht]").innerHTML = resultElement['gericht'] + ((holidayDate) ? "" : " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + resultElement['gericht'] + "'>📷</a>");
                 let btn = clone.querySelector("[data-role=order]");
                 if (!holidayDate) {
-                    btn.innerHTML = (date.toISOString() === today.toISOString()) ? "Bestellen" : "Vorbestellen";
+                    btn.innerHTML = (date.getTime() === today.getTime()) ? "Bestellen" : "Vorbestellen";
                     btn.setAttribute("href", "/order/_i_/tagesessen");
                     btn.setAttribute("href", btn.getAttribute("href").replace("_i_", Math.floor((date - today) / (1000 * 60 * 60 * 24))));
                 } else {
