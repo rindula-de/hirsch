@@ -28,7 +28,8 @@ $.ajax({
             for (let i = 0; i < result.displayData.length; i++) {
                 let resultElement = result.displayData[i];
                 let date = new Date(resultElement['date']);
-                let today = (new Date()).setHours(0, 0, 0, 0);
+                let today = new Date();
+                today.setUTCHours(0, 0, 0, 0);
                 if (date < today) {
 
                     continue;
@@ -49,7 +50,7 @@ $.ajax({
                 clone.querySelector("[data-role=gericht]").innerHTML = resultElement['gericht'] + ((holidayDate) ? "" : " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + resultElement['gericht'] + "'>📷</a>");
                 let btn = clone.querySelector("[data-role=order]");
                 if (!holidayDate) {
-                    btn.innerHTML = (date.toISOString() === new Date().toISOString()) ? "Bestellen" : "Vorbestellen";
+                    btn.innerHTML = (date.toISOString() === today.toISOString()) ? "Bestellen" : "Vorbestellen";
                     btn.setAttribute("href", "/order/_i_/tagesessen");
                     btn.setAttribute("href", btn.getAttribute("href").replace("_i_", i));
                 } else {
