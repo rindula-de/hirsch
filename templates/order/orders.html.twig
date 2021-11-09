@@ -15,7 +15,9 @@ Sonderwunsch: {{ order.note }}
     <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
     <div class="panel">
         {% for order in orderNameList %}
-            <p>{{ order.orderedby }}</p>
+        <div class="displayName">
+            <span title="{{ order.id }}">{{ order.orderedby }}{% if order.orderedby == ordererName %}<a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn">delete_forever</a>{% endif %}</span>
+        </div>
         {% endfor %}
     </div>
 
