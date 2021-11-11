@@ -133,19 +133,19 @@ class MenuController extends AbstractController
                                         $pdf = $parser->parseFile($filename);
                                         $text = str_replace("\t", '', $pdf->getText());
                                         preg_match('/M\s*o\s*n\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("monday this week"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("monday this week"))->setTimezone("UTC")];
 
                                         preg_match('/D\s*i\s*e\s*n\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("tuesday this week"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("tuesday this week"))->setTimezone("UTC")];
 
                                         preg_match('/M\s*i\s*t\s*t\s*w\s*o\s*c\s*h[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("wednesday this week"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("wednesday this week"))->setTimezone("UTC")];
 
                                         preg_match('/D\s*o\s*n\s*n\s*e\s*r\s*s\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("thursday this week"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("thursday this week"))->setTimezone("UTC")];
 
                                         preg_match('/F\s*r\s*e\s*i\s*t\s*a\s*g[^a-zA-Z0-9\-]+([^\d\n]*)/', $text, $matches);
-                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("friday this week"))];
+                                        $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("friday this week"))->setTimezone("UTC")];
 
                                         unlink($filename);
                                     }
