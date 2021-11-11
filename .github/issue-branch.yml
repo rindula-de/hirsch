@@ -1,5 +1,5 @@
 branchName: 'issue/${issue.number}'
-openDraftPR: true
+openPR: true
 copyIssueDescriptionToPR: true
 copyIssueLabelsToPR: true
 copyIssueAssigneeToPR: true
