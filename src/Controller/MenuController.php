@@ -119,7 +119,7 @@ class MenuController extends AbstractController
                     if (count($attachments) != 0) {
                         foreach ($attachments as $at) {
                             if ($at['is_attachment'] == 1) {
-                                if (strtolower($at['filename']) == 'mittagstisch.pdf') {
+                                if (str_contains(strtolower($at['filename']), 'mittagstisch')) {
                                     $filename = tempnam(sys_get_temp_dir(), 'hi_');
                                     $file = base64_encode($at['attachment']);
                                     file_put_contents($filename, $at['attachment']);
