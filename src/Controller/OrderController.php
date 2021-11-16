@@ -136,7 +136,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/zahlen-bitte/", name="paynow", methods={"GET"})
+     * @Route("/zahlen-bitte/", name="paynow", methods={"GET", "POST"})
      */
     public function paynow(Request $request): Response
     {
