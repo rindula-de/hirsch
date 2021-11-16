@@ -19,16 +19,8 @@
 </template>
 
 <button class="accordion">Hirsch to Go</button>
-<div class="panel">
-    {% for gericht in htg %}
-        <div class='foodcard'>
-            <h2>{{ gericht.name }}</h2>
-            <div class="actionbar">
-                <a href="{{path("order", {preorder: 0, slug: gericht.slug})}}" class="btn">Bestellen</a>
-                <a href="{{path("order", {preorder: 1, slug: gericht.slug})}}" class="btn preorderBtn" data-slug="{{gericht.slug}}">Vorbestellen</a>
-            </div>
-        </div>
-    {% endfor %}
+<div class="panel loading" id="menu_panel">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
 <button class="accordion">Tagesessen</button>
 <div class="panel loading" id="tagesessen_panel">

@@ -29,15 +29,23 @@ class MenuController extends AbstractController
     /**
      * @Route("/karte", name="menu", methods={"GET"})
      */
-    public function menu(HirschRepository $hirschRepository): Response
+    public function menu(): Response
+    {
+        return $this->render('menu/index.html.twig', []);
+    }
+
+    /**
+     * @Route("/api/get-menu", name="api_menu", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function getMenu(HirschRepository $hirschRepository): JsonResponse
     {
         $criteria = new Criteria();
         $criteria->where(Criteria::expr()->eq('display', true))->andWhere(Criteria::expr()->neq('slug', 'tagesessen'));
 
         $htg = $hirschRepository->matching($criteria)->toArray();
-        return $this->render('menu/index.html.twig', [
-            'htg' => $htg,
-        ]);
+        return $this->json($htg);
     }
 
     /**

@@ -7,6 +7,26 @@ $.ajax({
     dataType: 'json'
 }).done(function(holidays) {
     $.ajax({
+        url: "/api/get-menu",
+        context: document.body,
+        dataType: 'json'
+    }).done(function(menus) {
+        let menu_panel = document.getElementById('menu_panel');
+        menu_panel.innerHTML = "";
+        menu_panel.classList.remove("loading");
+        for (const menu of menus) {
+            let clone = template.content.cloneNode(true);
+            clone.querySelector("[data-role=title]").innerHTML = menu['name'];
+            clone.querySelector("[data-role=gericht]").innerHTML = "" //"<a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + menu['name'] + "'>📷</a>";
+            let btn = clone.querySelector("[data-role=order]");
+            btn.innerHTML = "Bestellen";
+            btn.setAttribute("href", "/order/0/" + menu['slug']);
+
+            menu_panel.append(clone);
+        }
+
+    });
+    $.ajax({
         url: "/api/get-tagesessen",
         context: document.body,
         dataType: 'json',
