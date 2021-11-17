@@ -35,6 +35,8 @@ class MenuController extends AbstractController
     }
 
     /**
+     * Get the Hirsch to Go menu
+     * 
      * @Route("/api/get-menu", name="api_menu", methods={"GET"})
      *
      * @return JsonResponse
@@ -49,6 +51,7 @@ class MenuController extends AbstractController
     }
 
     /**
+     * Get a list of all menu items this week
      * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
      */
     public function getTagesessen(): JsonResponse
