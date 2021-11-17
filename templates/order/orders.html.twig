@@ -2,15 +2,15 @@
 
 {% block title %}Bestellungen{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('orders') }}
+{% endblock %}
+
 {% block body %}
     <h2>Heutige Bestellungen</h2>
     <label>
-        <textarea rows="1" readonly="" onclick="this.focus();this.select()">{% if (orders | length) == 0 %}--- Keine Bestellungen ---{% else %}{% for order in orders %}{{ order.cnt }}x {{ order.name }}
-{% if order.note | length > 0 %}
-Sonderwunsch: {{ order.note }}
-{% endif %}
-
-{% endfor %}{% endif %}</textarea>
+        <textarea rows="1" readonly="" onclick="this.focus();this.select()" id="orders">Lade Bestellungen...</textarea>
     </label>
     <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
     <div class="panel">

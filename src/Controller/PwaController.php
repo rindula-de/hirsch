@@ -76,7 +76,7 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => $_ENV['APP_VERSION'] ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
+            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:null) ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
             'urlsToCache' => $urlsToCache,
             'credentials' => [
                 'username' => $_ENV['HT_USERNAME'] ?? '',

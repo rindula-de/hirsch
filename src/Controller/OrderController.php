@@ -100,6 +100,7 @@ class OrderController extends AbstractController
                     'orderedby' => $order->getOrderedby(),
                     'created' => $order->getCreated(),
                     'forDate' => $order->getForDate(),
+                    'note' => $order->getNote(),
                     'ordered' => $order->getHirsch()->getName(),
                     'orderedSlug' => $order->getHirsch()->getSlug(),
                 ];
