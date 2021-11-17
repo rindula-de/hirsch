@@ -27,7 +27,7 @@ class PwaController extends AbstractController
             "lang" => "de-DE",
             "name" => "Hirsch Bestellsammelseite",
             "short_name" => "Hirsch Bestellung",
-            "description" => "Die Bestellsammelseite für den Hirsch",
+            "description" => "Die Bestellsammelseite für den Hirsch. Aktuelle Version: ".$_ENV["APP_VERSION"],
             "icons" => [[
                 "src" => "favicon.png",
                 "type" => "image/png",
