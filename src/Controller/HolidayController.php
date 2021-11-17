@@ -27,6 +27,7 @@ class HolidayController extends AbstractController
     }
 
     /**
+     * Get all holidays
      * @Route("/api/holidays", name="holidays_api", methods={"GET"})
      */
     public function holidays(): JsonResponse

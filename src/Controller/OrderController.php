@@ -11,6 +11,7 @@ use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateInterval;
 use DateTime;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -75,6 +76,37 @@ class OrderController extends AbstractController
         $this->addFlash('success', 'Bestellung gelöscht');
 
         return $this->redirectToRoute('orders');
+    }
+
+    /**
+     * Get a list of all orders today
+     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
+     * @param bool $onlyToday
+     * @OA\Parameter(
+     *     name="onlyToday",
+     *     in="path",
+     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *     @OA\Schema(type="integer")
+     * )
+     */
+    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    {
+        $orders = $ordersRepository->findAll();
+        $data = [];
+        foreach ($orders as $order) {
+            if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
+                $data[] = [
+                    'id' => $order->getId(),
+                    'orderedby' => $order->getOrderedby(),
+                    'created' => $order->getCreated(),
+                    'forDate' => $order->getForDate(),
+                    'ordered' => $order->getHirsch()->getName(),
+                    'orderedSlug' => $order->getHirsch()->getSlug(),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
     }
 
     /**
@@ -177,7 +209,7 @@ class OrderController extends AbstractController
             ->getQuery()
             ->getResult();
         $active = $active[0]['id'] ?? null;
-        
+
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
             'active' => $active,
