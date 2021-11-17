@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3dccf31e90e3cdc0a66872f86abc6a7",
+    "content-hash": "231024c32442e5b835edd310ec920c02",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2354,16 +2354,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v1.1.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df"
+                "reference": "4d6864a70bc61068a240a72a4198588728b2cefc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/43e436f32fd0e3d1f808c3b1768975c598c9a7df",
-                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/4d6864a70bc61068a240a72a4198588728b2cefc",
+                "reference": "4d6864a70bc61068a240a72a4198588728b2cefc",
                 "shasum": ""
             },
             "require": {
@@ -2398,9 +2398,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v1.1.0"
+                "source": "https://github.com/smalot/pdfparser/tree/v2.0.0"
             },
-            "time": "2021-08-03T08:33:34+00:00"
+            "time": "2021-10-18T05:32:02+00:00"
         },
         {
             "name": "symfony/apache-pack",
