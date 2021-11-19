@@ -18,7 +18,7 @@
         "nelmio/api-doc-bundle": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
-        "smalot/pdfparser": "^1.1",
+        "smalot/pdfparser": "^2.0",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.3.*",
         "symfony/cache": "5.3.*",

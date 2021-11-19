@@ -25,9 +25,9 @@ class PwaController extends AbstractController
 
         return new JsonResponse([
             "lang" => "de-DE",
-            "name" => "Hirsch Bestellsammelseite",
+            "name" => "Hirsch Bestellsammelseite " . $_ENV['APP_VERSION'],
             "short_name" => "Hirsch Bestellung",
-            "description" => "Die Bestellsammelseite für den Hirsch",
+            "description" => "Die Bestellsammelseite für den Hirsch. Aktuelle Version: ".$_ENV["APP_VERSION"],
             "icons" => [[
                 "src" => "favicon.png",
                 "type" => "image/png",
@@ -54,7 +54,6 @@ class PwaController extends AbstractController
         $urlsToCache = [
             '/karte',
             '/favicon.png',
-            '/api/doc',
             'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
             'https://cdn.jsdelivr.net/npm/flatpickr',
             'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -77,7 +76,7 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => $_ENV['APP_VERSION'] ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
+            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:null) ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
             'urlsToCache' => $urlsToCache,
             'credentials' => [
                 'username' => $_ENV['HT_USERNAME'] ?? '',

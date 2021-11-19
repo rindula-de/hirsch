@@ -18,6 +18,7 @@ hooks:
 webimage_extra_packages: [php8.0-imap]
 use_dns_when_possible: true
 composer_version: ""
+timezone: Europe/Berlin
 
 # Key features of ddev's config.yaml:
 

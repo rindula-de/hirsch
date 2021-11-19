@@ -2,20 +2,22 @@
 
 {% block title %}Bestellungen{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('orders') }}
+{% endblock %}
+
 {% block body %}
     <h2>Heutige Bestellungen</h2>
     <label>
-        <textarea rows="1" readonly="" onclick="this.focus();this.select()">{% if (orders | length) == 0 %}--- Keine Bestellungen ---{% else %}{% for order in orders %}{{ order.cnt }}x {{ order.name }}
-{% if order.note | length > 0 %}
-Sonderwunsch: {{ order.note }}
-{% endif %}
-
-{% endfor %}{% endif %}</textarea>
+        <textarea rows="1" readonly="" onclick="this.focus();this.select()" id="orders">Lade Bestellungen...</textarea>
     </label>
     <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
     <div class="panel">
         {% for order in orderNameList %}
-            <p>{{ order.orderedby }}</p>
+        <div class="displayName">
+            <span><span class="material-icons" style="cursor: pointer;" data-name="{{order.orderedby}}" data-ordered="{{order.name}}" data-special="{{order.note}}" onclick="$('#orderedModalTitle').html('Bestellung von '+$(this).attr('data-name'));$('#orderedModalText').html($(this).attr('data-ordered')+(($(this).attr('data-special')!='')?'<br><br>'+$(this).attr('data-special'):''));$('#orderedModal').addClass('active')">restaurant</span>{{ order.orderedby }}{% if order.orderedby == ordererName %}<a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn">delete_forever</a>{% endif %}</span>
+        </div>
         {% endfor %}
     </div>
 

@@ -11,8 +11,11 @@ use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateInterval;
 use DateTime;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,17 +31,24 @@ class OrderController extends AbstractController
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin")))->setForDate((new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(0,0))->setHirsch($hirsch);
-
+        if ($request->cookies->get('ordererName')) {
+            $order->setOrderedby($request->cookies->get('ordererName'));
+        }
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
-        // dd($form);
         if ($form->isSubmitted()) {
             $order = $form->getData();
-//            dd($order);
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);
             $em->flush();
-            return $this->redirectToRoute("paynow");
+            // Set ordererName Cookie
+            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime("+1 year"))->setTimezone(new \DateTimeZone("Europe/Berlin")));
+
+            // create response with cookie
+            $response = new RedirectResponse($this->generateUrl("paynow"));
+            $response->headers->setCookie($cookie);
+            // redirect with cookie
+            return $response;
         }
 
         return $this->render('order/index.html.twig', [
@@ -54,10 +64,56 @@ class OrderController extends AbstractController
         return new Response("Bestellungen am selben Tag bis 10:55 möglich", 200);
     }
 
+    // function to delete order
+    /**
+     * @Route("/orders/delete/{id}", name="order_delete", methods={"GET", "DELETE"})
+     */
+    public function delete(Orders $order): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($order);
+        $entityManager->flush();
+        $this->addFlash('success', 'Bestellung gelöscht');
+
+        return $this->redirectToRoute('orders');
+    }
+
+    /**
+     * Get a list of all orders today
+     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
+     * @param bool $onlyToday
+     * @OA\Parameter(
+     *     name="onlyToday",
+     *     in="path",
+     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *     @OA\Schema(type="integer")
+     * )
+     */
+    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    {
+        $orders = $ordersRepository->findAll();
+        $data = [];
+        foreach ($orders as $order) {
+            if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
+                $data[] = [
+                    'id' => $order->getId(),
+                    'orderedby' => $order->getOrderedby(),
+                    'created' => $order->getCreated(),
+                    'forDate' => $order->getForDate(),
+                    'note' => $order->getNote(),
+                    'ordered' => $order->getHirsch()->getName(),
+                    'orderedSlug' => $order->getHirsch()->getSlug(),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
+    }
+
     /**
      * @Route("/bestellungen/", name="orders", methods={"GET"})
      */
-    public function orders(): Response
+    public function orders(Request $request): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $orders = $entityManager
@@ -95,6 +151,10 @@ class OrderController extends AbstractController
             ->getRepository(Orders::class)
             ->createQueryBuilder("o")
             ->select('o.orderedby')
+            ->addSelect('o.id')
+            ->addSelect('o.note')
+            ->innerJoin('o.hirsch', 'h')
+            ->addSelect('h.name')
             ->where("o.for_date = :date")
             ->setParameter("date", strftime("%Y-%m-%d"))
             ->getQuery()
@@ -104,11 +164,12 @@ class OrderController extends AbstractController
             'orders' => $orders,
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
+            'ordererName' => $request->cookies->get('ordererName'),
         ]);
     }
 
     /**
-     * @Route("/zahlen-bitte/", name="paynow", methods={"GET"})
+     * @Route("/zahlen-bitte/", name="paynow", methods={"GET", "POST"})
      */
     public function paynow(Request $request): Response
     {
@@ -149,7 +210,7 @@ class OrderController extends AbstractController
             ->getQuery()
             ->getResult();
         $active = $active[0]['id'] ?? null;
-        
+
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
             'active' => $active,
