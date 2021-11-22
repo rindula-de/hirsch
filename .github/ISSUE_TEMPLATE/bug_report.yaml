@@ -1,0 +1,36 @@
+name: Fehlermeldung
+description: Reiche eine Fehlermeldung ein
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke, dass du einen Fehler melden möchtest!
+  - type: input
+    id: contact
+    attributes:
+      label: Kontakt Details
+      description: Wie kann ich dich am besten erreichen?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Was ist passiert?
+      description: Schreib bitte auch, was du stattdessen erwartet hast!
+      placeholder: Was ist passiert?!
+      value: "Irgendwas ist nicht richtig!"
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Welchen Browser verwendest du?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
