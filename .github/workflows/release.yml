@@ -16,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN:  ${{ github.token }}
       - uses: eregon/publish-release@v1
-        if: github.event.type == "schedule"
+        if: ${{github.event.type}} == "schedule"
         env:
           GITHUB_TOKEN: ${{ secrets.mytoken }}
         with:
