@@ -7,14 +7,6 @@ body:
     attributes:
       value: |
         Danke, dass du einen Fehler melden möchtest!
-  - type: input
-    id: contact
-    attributes:
-      label: Kontakt Details
-      description: Wie kann ich dich am besten erreichen?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
   - type: textarea
     id: what-happened
     attributes:
