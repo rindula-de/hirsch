@@ -2,16 +2,7 @@ name: auto-merge
 
 on:
   schedule:
-    - cron: 0/30 5/1 * * *
-
-  pull_request_target:
-    types:
-      - synchronize
-      - reopened
-      - edited
-      - labeled
-      - unlabeled
-      - ready_for_review
+    - cron: 0 18 * * 1
 
 jobs:
   auto-merge:
