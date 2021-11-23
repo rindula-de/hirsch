@@ -2354,16 +2354,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "4d6864a70bc61068a240a72a4198588728b2cefc"
+                "reference": "768d1d6859bdf9ef0da44724ac84079f920b7599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/4d6864a70bc61068a240a72a4198588728b2cefc",
-                "reference": "4d6864a70bc61068a240a72a4198588728b2cefc",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/768d1d6859bdf9ef0da44724ac84079f920b7599",
+                "reference": "768d1d6859bdf9ef0da44724ac84079f920b7599",
                 "shasum": ""
             },
             "require": {
@@ -2398,9 +2398,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v2.0.0"
+                "source": "https://github.com/smalot/pdfparser/tree/v2.0.1"
             },
-            "time": "2021-10-18T05:32:02+00:00"
+            "time": "2021-11-22T11:57:24+00:00"
         },
         {
             "name": "symfony/apache-pack",
