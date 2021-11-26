@@ -2,7 +2,7 @@ name: auto-merge
 
 on:
   schedule:
-    - cron: 0 18 * * 1
+    - cron: 0/10 18,19 * * 1
 
 jobs:
   auto-merge:
