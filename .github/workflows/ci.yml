@@ -48,8 +48,8 @@ jobs:
       # Create database Schema
       - name: Create database schema and dummy data
         run: |
-          bin/console --env=test doctrine:schema:create
-          bin/console --env=test doctrine:fixtures:load
+          bin/console --env=test doctrine:schema:create --no-interaction
+          bin/console --env=test doctrine:fixtures:load --no-interaction
       - run: npm ci
         name: Initialize NPM on Root
       - run: npm run build
