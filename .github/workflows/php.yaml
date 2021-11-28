@@ -48,7 +48,7 @@ jobs:
         - name: Create database schema and dummy data
           run: |
             bin/console --env=test doctrine:schema:create
-            bin/console doctrine:fixtures:load
+            bin/console --env=test doctrine:fixtures:load
         # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
         # Docs: https://getcomposer.org/doc/articles/scripts.md
 
