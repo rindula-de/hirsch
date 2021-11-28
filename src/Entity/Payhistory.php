@@ -24,9 +24,9 @@ class Payhistory
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = 'current_timestamp()';
+    private $created = '';
 
     /**
      * @var \Paypalmes

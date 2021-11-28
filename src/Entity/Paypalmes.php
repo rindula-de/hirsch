@@ -45,9 +45,9 @@ class Paypalmes
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="bar", type="date", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="bar", type="date", nullable=true)
      */
-    private $bar = 'NULL';
+    private $bar = '';
 
     public function getId(): ?int
     {

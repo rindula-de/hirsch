@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"name"})})
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"hirsch_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
 class Orders
@@ -38,9 +38,9 @@ class Orders
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = 'current_timestamp()';
+    private $created = '';
 
     /**
      * @var string
