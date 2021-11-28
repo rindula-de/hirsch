@@ -43,7 +43,7 @@ jobs:
           env:
             DB_PORT: ${{ job.services.mariadb.ports[3306] }}
           run: |
-            echo "DATABASE_URL=mysql://db:db@localhost:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+            echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
         # Create database Schema
         - name: Create database schema and dummy data
           run: |
