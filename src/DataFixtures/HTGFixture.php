@@ -12,11 +12,23 @@ class HTGFixture extends Fixture
     {
         $htg = new Hirsch();
 
+        $htg->setName('Tagesessen');
+        $htg->setSlug('tagesessen');
+        $htg->setDisplay(true);
+
+        $manager->persist($htg);
+        
+        ////////////////////////
+        
+        $htg = new Hirsch();
+
         $htg->setName('Schweizer Wurstsalat mit Pommes');
         $htg->setSlug('Schweizer-Wurstsalat-mit-Pommes');
         $htg->setDisplay(true);
 
         $manager->persist($htg);
+        
+        /////////////////////////
 
         $manager->flush();
     }
