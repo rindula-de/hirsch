@@ -17,9 +17,9 @@ jobs:
         ports:
           - 3306
         env:
-          MYSQL_USER: hirsch
-          MYSQL_PASSWORD: testing
-          MYSQL_DATABASE: hirsch_test
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
@@ -41,9 +41,13 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
-          echo "DATABASE_URL=mysql://hirsch:testing@hirsch_test:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.local
+          echo "DATABASE_URL=mysql://db:db@db:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
 
-
+      # Create database Schema
+      - name: Create database schema and dummy data
+        run: |
+          bin/console --env=test doctrine:schema:create
+          bin/console doctrine:fixtures:load
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
