@@ -24,7 +24,9 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v2.4.0
-
+      - uses: actions/setup-node@v2.4.1
+        with:
+          node-version: '15'
       - uses: shivammathur/setup-php@2.15.0
         with:
           php-version: ${{ matrix.php }}
@@ -48,6 +50,10 @@ jobs:
         run: |
           bin/console --env=test doctrine:schema:create
           bin/console --env=test doctrine:fixtures:load
+      - run: npm ci
+        name: Initialize NPM on Root
+      - run: npm run build
+        name: Webpack Build
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
