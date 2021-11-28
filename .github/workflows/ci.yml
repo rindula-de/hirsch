@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: '15'
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: shivammathur/setup-php@2.16.0
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
@@ -79,7 +79,7 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: shivammathur/setup-php@2.16.0
         with:
           php-version: 8
           tools: composer:v2
