@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: '0 20 * * 1'
 
 jobs:
   update_release_draft:
@@ -15,9 +13,3 @@ jobs:
         id: create_release
         env:
           GITHUB_TOKEN:  ${{ github.token }}
-      - uses: eregon/publish-release@v1
-        if: ${{github.event.type == 'schedule'}}
-        env:
-          GITHUB_TOKEN: ${{ secrets.mytoken }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
