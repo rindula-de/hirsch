@@ -53,7 +53,7 @@ $.ajax({
                 for (resultElement of result.displayData) {
                     let date = new Date(resultElement['date']);
                     let today = new Date();
-                    date.setHours(15, 0, 0, 0);
+                    date.setHours(0, 0, 0, 0);
                     // today.setHours(0, 0, 0, 0);
                     if (date < today) {
                         continue;
