@@ -77,7 +77,7 @@ $.ajax({
                     if (!holidayDate) {
                         btn.innerHTML = (i === 0 && date.getDate() === today.getDate()) ? "Bestellen" : "Vorbestellen";
                         btn.setAttribute("href", "/order/_i_/tagesessen");
-                        btn.setAttribute("href", btn.getAttribute("href").replace("_i_", Math.ceil((date - today) / (1000 * 60 * 60 * 24))));
+                        btn.setAttribute("href", btn.getAttribute("href").replace("_i_", Math.floor((date - today) / (1000 * 60 * 60 * 24))));
                     } else {
                         clone.querySelector("[data-role=card]").classList.add("ruhetag");
                         btn.remove();
