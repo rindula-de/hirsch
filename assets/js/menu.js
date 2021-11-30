@@ -53,11 +53,12 @@ $.ajax({
                 for (resultElement of result.displayData) {
                     let date = new Date(resultElement['date']);
                     let today = new Date();
-                    date.setHours(0, 0, 0, 0);
+                    date.setHours(15, 0, 0, 0);
                     // today.setHours(0, 0, 0, 0);
                     if (date < today) {
                         continue;
                     }
+                    date.setHours(0, 0, 0, 0);
                     let holidayDate = resultElement['gericht'].toLowerCase().includes("ruhetag");
                     if (!holidayDate) {
                         for (let j = 0; j < holidays.length; j++) {
@@ -75,7 +76,7 @@ $.ajax({
                     clone.querySelector("[data-role=gericht]").innerHTML = resultElement['gericht'] + ((holidayDate) ? "" : " <a target='menu_preview' href='https://www.google.com/search?tbm=isch&q=" + resultElement['gericht'] + "'>📷</a>");
                     let btn = clone.querySelector("[data-role=order]");
                     if (!holidayDate) {
-                        btn.innerHTML = (i === 0 && date.getDate() === today.getDate()) ? "Bestellen" : "Vorbestellen";
+                        btn.innerHTML = (i === 0 && date.getDate() <== today.getDate()) ? "Bestellen" : "Vorbestellen";
                         btn.setAttribute("href", "/order/_i_/tagesessen");
                         btn.setAttribute("href", btn.getAttribute("href").replace("_i_", Math.floor((date - today) / (1000 * 60 * 60 * 24))));
                     } else {
