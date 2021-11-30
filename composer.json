@@ -60,7 +60,7 @@
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "5.3.*",
         "symfony/css-selector": "5.3.*",
-        "symfony/debug-bundle": "5.3.*",
+        "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.34",
         "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "5.3.*",
