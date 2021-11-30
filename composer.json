@@ -32,7 +32,7 @@
         "symfony/http-foundation": "5.4.*",
         "symfony/intl": "5.3.*",
         "symfony/mailer": "5.3.*",
-        "symfony/mime": "5.3.*",
+        "symfony/mime": "5.4.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.3.*",
         "symfony/process": "5.3.*",
