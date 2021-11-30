@@ -26,7 +26,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v2.5.0
         with:
           node-version: '15'
       - uses: shivammathur/setup-php@2.16.0
