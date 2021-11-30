@@ -37,7 +37,7 @@
         "symfony/notifier": "5.3.*",
         "symfony/process": "5.3.*",
         "symfony/property-access": "5.4.*",
-        "symfony/property-info": "5.3.*",
+        "symfony/property-info": "5.4.*",
         "symfony/proxy-manager-bridge": "5.3.*",
         "symfony/runtime": "5.3.*",
         "symfony/security-bundle": "5.4.*",
