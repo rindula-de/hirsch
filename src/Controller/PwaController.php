@@ -34,6 +34,13 @@ class PwaController extends AbstractController
                 "sizes" => "512x512",
                 "purpose" => "any maskable"
             ]],
+            'shortcuts' => [
+                [
+                    'name' => "Tagesessen bestellen",
+                    'url' => "/order/0/tagesessen",
+                    'description' => "Komme direkt auf die Tagesessenbestellseite"
+                ]
+            ],
             "background_color" => "#adadad",
             "theme_color" => $themecolor,
             "start_url" => $this->generateUrl('menu'),
@@ -52,8 +59,9 @@ class PwaController extends AbstractController
         $manifest = json_decode(file_get_contents(__DIR__ . '/../../public/build/manifest.json'), true);
 
         $urlsToCache = [
-            '/karte',
+            $this->generateUrl('menu'),
             '/favicon.png',
+            $this->generateUrl('offlineinfo'),
             'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
             'https://cdn.jsdelivr.net/npm/flatpickr',
             'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -76,13 +84,22 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:null) ?? $utilityService->hashDirectory(__DIR__."/../../public/build") ?? '0.0.0',
-            'urlsToCache' => $urlsToCache,
+            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:null) ?? $utilityService->hashDirectory(__DIR__."/../../public") ?? '0.0.0',
+            'urlsToCache' => json_encode($urlsToCache),
+            'offline_route' => $this->generateUrl('offlineinfo'),
             'credentials' => [
                 'username' => $_ENV['HT_USERNAME'] ?? '',
                 'password' => $_ENV['HT_PASSWORD'] ?? '',
                 'string' => base64_encode(($_ENV['HT_USERNAME'] ?? '') . ':' . ($_ENV['HT_PASSWORD'] ?? '')),
             ]
         ], $response);
+    }
+
+    /**
+     * @Route("/offline", name="offlineinfo")
+     */
+    public function offlineInfo(): Response
+    {
+        return new Response('Du bist offline', 200);
     }
 }

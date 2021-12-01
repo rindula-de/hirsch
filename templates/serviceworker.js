@@ -1,5 +1,5 @@
 var CACHE_NAME = '{{ version }}';
-var urlsToCache = {{ urlsToCache | json_encode(constant('JSON_UNESCAPED_SLASHES')) | raw }};
+var urlsToCache = JSON.parse("{{ urlsToCache }}");
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -18,37 +18,20 @@ self.addEventListener('activate', function(event) {
 });
 self.addEventListener('fetch', function(event) {
     if (event.request.method === "GET") {
+        var headers = new Headers(event.request.headers);
+        if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/")) {
+            headers.append("Authorization", 'Basic {{ credentials.string | raw }}');
+        }
         event.respondWith(
-            caches.match(event.request)
-            .then(function(response) {
-                var headers = {};
-                if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/")) {
-                    Object.assign(headers, { Authorization: 'Basic {{ credentials.string | raw }}' });
-                }
-                if (event.request.url.includes("get-")) {
-                    Object.assign(headers, { Accept: 'application/json' });
-                }
-
-                const request = new Request(event.request, { headers });
-                // Cache hit - return response
-                return response || fetch(request).catch(() => {
-                    let init;
-                    if (event.request.url.includes("get-tagesessen")) {
-                        init = {"status": 200, "statusText": "Dummy"};
-                        return new Response('{"displayData": [], "file": ""}', init);
-                    }
-                    if (event.request.url.includes("modalInformationText")) {
-                        init = { "status": 418, "statusText": "I am a Teapot" };
-                        return new Response("Du bist aktuell offline! Die angezeigten Daten sind unter Umständen nicht aktuell!", init);
-                    }
-                    if (event.request.url.includes("order-until")) {
-                        init = { "status": 200, "statusText": "Offline" };
-                        return new Response("Du bist aktuell offline!", init);
-                    }
-                    return caches.match("/fallback.html")
-                });
-            })
-        );
+            // fetch first, then cache
+            fetch(event.request, { headers })
+            .catch(function(error) {
+                return caches.match(event.request)
+                    .then(function(r) {
+                        if (r) return r;
+                        return caches.match("{{offline_route|raw}}").then(function(rt) { return rt });
+                    });
+            }));
     }
 });
 
