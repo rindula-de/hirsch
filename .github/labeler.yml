@@ -3,6 +3,7 @@ symfony:
   - config/**/*
   - public/**/*
   - assets/**/*
+  - templates/**/*
 
 database:
   - migrations/**/*.php
