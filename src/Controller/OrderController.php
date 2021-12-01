@@ -54,6 +54,7 @@ class OrderController extends AbstractController
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'meal' => $hirsch,
+            'order' => $order,
         ]);
     }
     /**
