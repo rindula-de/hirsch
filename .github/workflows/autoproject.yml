@@ -17,3 +17,4 @@ jobs:
         contains(github.event.issue.labels.*.name, 'bug')
       with:
         project: 'https://github.com/Rindula/hirsch/projects/2'
+        column_name: 'Needs triage'
