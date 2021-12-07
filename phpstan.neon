@@ -1,6 +1,5 @@
 parameters:
     level: 7
-    checkMissingIterableValueType: false
-    treatPhpDocTypesAsCertain: false
-    excludes_analyse:
-        - src/Console/Installer.php
+    paths:
+        - src
+        - tests
