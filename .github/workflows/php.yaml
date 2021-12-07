@@ -10,7 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
+      - uses: shivammathur/setup-php@2.16.0
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
 
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
