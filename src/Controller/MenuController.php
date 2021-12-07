@@ -138,19 +138,19 @@ class MenuController extends AbstractController
                                     $pdf = $parser->parseFile($filename);
                                     $text = str_replace("\t", '', $pdf->getText());
                                     $text = preg_replace('/\s+/', ' ', $text);
-                                    preg_match('/Montag ([\w\s\-\,öäüÄÜÖ!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Dienstag/', $text, $matches);
+                                    preg_match('/Montag ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Dienstag/', $text, $matches);
                                     $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("monday noon this week"))];
 
-                                    preg_match('/Dienstag ([\w\s\-\,öäüÄÜÖ!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Mittwoch/', $text, $matches);
+                                    preg_match('/Dienstag ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Mittwoch/', $text, $matches);
                                     $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("tuesday noon this week"))];
 
-                                    preg_match('/Mittwoch ([\w\s\-\,öäüÄÜÖ!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Donnerstag/', $text, $matches);
+                                    preg_match('/Mittwoch ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Donnerstag/', $text, $matches);
                                     $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("wednesday noon this week"))];
 
-                                    preg_match('/Donnerstag ([\w\s\-\,öäüÄÜÖ!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Freitag/', $text, $matches);
+                                    preg_match('/Donnerstag ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Freitag/', $text, $matches);
                                     $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("thursday noon this week"))];
 
-                                    preg_match('/Freitag ([\w\s\-\,öäüÄÜÖ!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Restaurant/', $text, $matches);
+                                    preg_match('/Freitag ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`]+?)( (\d+,\d{2}) Euro?)? Restaurant/', $text, $matches);
                                     $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime("friday noon this week"))];
 
                                     unlink($filename);
