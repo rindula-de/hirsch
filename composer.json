@@ -18,6 +18,7 @@
         "nelmio/api-doc-bundle": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpstan": "^1.2",
+        "phpstan/phpstan-symfony": "^1.0",
         "sensio/framework-extra-bundle": "^6.2",
         "smalot/pdfparser": "^2.0",
         "symfony/apache-pack": "^1.0",
@@ -57,6 +58,8 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.7",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-doctrine": "^1.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "5.4.*",

@@ -19,17 +19,19 @@ class UtilityService
         $files = array();
         $dir = dir($directory);
 
-        while (false !== ($file = $dir->read())) {
-            if ($file != '.' and $file != '..') {
-                if (is_dir($directory . '/' . $file)) {
-                    $files[] = $this->hashDirectory($directory . '/' . $file);
-                } else {
-                    $files[] = md5_file($directory . '/' . $file);
+        if ($dir) {
+            while (false !== ($file = $dir->read())) {
+                if ($file != '.' and $file != '..') {
+                    if (is_dir($directory . '/' . $file)) {
+                        $files[] = $this->hashDirectory($directory . '/' . $file);
+                    } else {
+                        $files[] = md5_file($directory . '/' . $file);
+                    }
                 }
             }
-        }
 
-        $dir->close();
+            $dir->close();
+        }
 
         return md5(implode('', $files));
     }
