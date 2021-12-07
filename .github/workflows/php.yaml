@@ -5,6 +5,18 @@ on:
     branches: [ master ]
 
 jobs:
+  stan:
+    name: PHP Stan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+
+      - name: PHPStan Static Analysis
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/
+
   test:
     name: Unittest
     runs-on: ubuntu-latest
