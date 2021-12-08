@@ -27,25 +27,25 @@
         border: 0 solid transparent;
         z-index: 100;
 
-        .red {
+        &.red {
             background-color: #db2828;
             border-color: #db2828;
             color: #fff;
         }
 
-        .green {
+        &.green {
             background-color: #06b400;
             border-color: #06b400;
             color: #fff;
         }
 
-        .blue {
+        &.blue {
             background-color: #0012b4;
             border-color: #0012b4;
             color: #fff;
         }
 
-        .yellow {
+        &.yellow {
             background-color: #fffb09;
             border-color: #fffb09;
             color: #000000;
