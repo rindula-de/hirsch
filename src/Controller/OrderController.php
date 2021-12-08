@@ -30,7 +30,8 @@ class OrderController extends AbstractController
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
-        $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin")))->setForDate((new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(0,0))->setHirsch($hirsch);
+        $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(0,0);
+        $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin")))->setForDate($preorder_time)->setHirsch($hirsch);
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
@@ -54,6 +55,7 @@ class OrderController extends AbstractController
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'meal' => $hirsch,
+            'order_date' => $preorder_time,
         ]);
     }
     /**

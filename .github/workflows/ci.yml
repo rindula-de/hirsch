@@ -17,15 +17,17 @@ jobs:
         ports:
           - 3306
         env:
-          MYSQL_USER: hirsch
-          MYSQL_PASSWORD: testing
-          MYSQL_DATABASE: hirsch_test
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v2.4.0
-
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: actions/setup-node@v2.5.0
+        with:
+          node-version: '15'
+      - uses: shivammathur/setup-php@2.16.0
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
@@ -41,9 +43,17 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
-          echo "DATABASE_URL=mysql://hirsch:testing@hirsch_test:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.local
+          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
 
-
+      # Create database Schema
+      - name: Create database schema and dummy data
+        run: |
+          bin/console --env=test doctrine:schema:create --no-interaction
+          bin/console --env=test doctrine:fixtures:load --no-interaction
+      - run: npm ci
+        name: Initialize NPM on Root
+      - run: npm run build
+        name: Webpack Build
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
@@ -69,7 +79,7 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: shivammathur/setup-php@2.16.0
         with:
           php-version: 8
           tools: composer:v2
@@ -78,7 +88,7 @@ jobs:
         env:
           SALT: ${{ secrets.SALT }}
         run: composer install --prefer-dist --no-interaction
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v2.5.0
         with:
           node-version: '15'
       - name: Config anpassen

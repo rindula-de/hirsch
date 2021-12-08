@@ -15,6 +15,9 @@
         <div class="paypalmeslistitem{% if paypalme.id == active %} active{% endif %}">
             <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank">{{paypalme.name}}</button>
         </div>
+        {% if date(paypalme.bar) >= date() %}
+        <span class="label red">Nur Barzahlung</span>
+        {% endif %}
     </div>
     {% endfor %}
     </form>

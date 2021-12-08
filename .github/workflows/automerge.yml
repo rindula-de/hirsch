@@ -2,16 +2,7 @@ name: auto-merge
 
 on:
   schedule:
-    - cron: 30 0/2 * * *
-
-  pull_request_target:
-    types:
-      - synchronize
-      - reopened
-      - edited
-      - labeled
-      - unlabeled
-      - ready_for_review
+    - cron: 0/20 * * * *
 
 jobs:
   auto-merge:
@@ -20,8 +11,7 @@ jobs:
       - uses: reitermarkus/automerge@v1.5.2
         with:
           token: "${{ secrets.mytoken }}"
-          pull-request: ${{ github.event.number }}
           squash-title: true
-          merge-method: rebase
+          merge-method: squash
           dry-run: false
           do-not-merge-labels: wontfix

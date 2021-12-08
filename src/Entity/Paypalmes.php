@@ -45,9 +45,9 @@ class Paypalmes
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="bar", type="date", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="bar", type="date", nullable=true)
      */
-    private $bar = 'NULL';
+    private $bar;
 
     public function getId(): ?int
     {
@@ -90,12 +90,12 @@ class Paypalmes
         return $this;
     }
 
-    public function getBar(): ?\DateTimeInterface
+    public function getBar(): ?\DateTime
     {
         return $this->bar;
     }
 
-    public function setBar(?\DateTimeInterface $bar): self
+    public function setBar(?\DateTime $bar): self
     {
         $this->bar = $bar;
 

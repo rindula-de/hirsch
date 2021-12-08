@@ -4,6 +4,7 @@
 
 {% block body %}
     <h2>{{meal.name}}</h2>
+    <small>Bestellung für den {{order_date|format_datetime('long', 'none', locale='de')}}</small>
     {{form(form)}}
     <datalist id="wishlist">
         <option value="+ Pommes"></option>

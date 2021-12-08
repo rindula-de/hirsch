@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"name"})})
+ * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"hirsch_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
 class Orders
@@ -38,9 +38,9 @@ class Orders
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = 'current_timestamp()';
+    private $created;
 
     /**
      * @var string
@@ -50,6 +50,8 @@ class Orders
     private $orderedby;
 
     /**
+     * @var Hirsch
+     * 
      * @ORM\ManyToOne(targetEntity=Hirsch::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -72,24 +74,24 @@ class Orders
         return $this;
     }
 
-    public function getForDate(): ?\DateTimeInterface
+    public function getForDate(): ?\DateTime
     {
         return $this->for_date;
     }
 
-    public function setForDate(\DateTimeInterface $forDate): self
+    public function setForDate(\DateTime $forDate): self
     {
         $this->for_date = $forDate;
 
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
