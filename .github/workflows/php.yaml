@@ -15,6 +15,8 @@ jobs:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - run: |
+          composer install
 
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
