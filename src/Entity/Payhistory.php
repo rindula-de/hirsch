@@ -26,10 +26,10 @@ class Payhistory
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = '';
+    private $created;
 
     /**
-     * @var \Paypalmes
+     * @var Paypalmes|null
      *
      * @ORM\ManyToOne(targetEntity="Paypalmes")
      * @ORM\JoinColumns({
@@ -43,12 +43,12 @@ class Payhistory
         return $this->id;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
