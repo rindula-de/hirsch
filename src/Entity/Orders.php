@@ -40,7 +40,7 @@ class Orders
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = '';
+    private $created;
 
     /**
      * @var string
@@ -50,6 +50,8 @@ class Orders
     private $orderedby;
 
     /**
+     * @var Hirsch
+     * 
      * @ORM\ManyToOne(targetEntity=Hirsch::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -72,24 +74,24 @@ class Orders
         return $this;
     }
 
-    public function getForDate(): ?\DateTimeInterface
+    public function getForDate(): ?\DateTime
     {
         return $this->for_date;
     }
 
-    public function setForDate(\DateTimeInterface $forDate): self
+    public function setForDate(\DateTime $forDate): self
     {
         $this->for_date = $forDate;
 
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
