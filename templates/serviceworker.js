@@ -19,7 +19,7 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
     if (event.request.method === "GET") {
         var headers = new Headers(event.request.headers);
-        if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/")) {
+        if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/") || event.request.url.startsWith("/build/")) {
             headers.append("Authorization", 'Basic {{ credentials.string | raw }}');
         }
         event.respondWith(
