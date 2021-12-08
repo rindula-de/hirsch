@@ -17,11 +17,15 @@ class PwaController extends AbstractController
     {
         // read /assets/styles/app.scss and use regex to extract the CSS
         $css = file_get_contents(__DIR__ . '/../../assets/styles/app.scss');
-        $css = preg_replace('/\s+/', '', $css);
-        $css = preg_replace('/\/\/.*/', '', $css);
-        $css = preg_replace('/\/\*[^\*]*\*\//', '', $css);
-        $css = preg_replace('/@import.*;/', '', $css);
-        $themecolor = explode(":", explode(';', $css)[0])[1];
+        if ($css) {
+            $css = preg_replace('/\s+/', '', $css);
+            $css = preg_replace('/\/\/.*/', '', $css);
+            $css = preg_replace('/\/\*[^\*]*\*\//', '', $css);
+            $css = preg_replace('/@import.*;/', '', $css);
+            $themecolor = explode(":", explode(';', $css)[0])[1];
+        } else {
+            $themecolor = '#3f51b5';
+        }
 
         return new JsonResponse([
             "lang" => "de-DE",
@@ -55,9 +59,6 @@ class PwaController extends AbstractController
     public function serviceWorker(UtilityService $utilityService): Response
     {
 
-        // read /public/build/manifest.json and parse it
-        $manifest = json_decode(file_get_contents(__DIR__ . '/../../public/build/manifest.json'), true);
-
         $urlsToCache = [
             $this->generateUrl('menu'),
             '/favicon.png',
@@ -74,6 +75,14 @@ class PwaController extends AbstractController
             'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyC0ITw.woff2',
         ];
 
+        // read /public/build/manifest.json and parse it
+        $manifest_json = file_get_contents(__DIR__ . '/../../public/build/manifest.json');
+        if ($manifest_json)
+            $manifest = json_decode($manifest_json, true);
+        else
+            $manifest = [];
+    
+
         // merge $manifest and $urlsToCache
         $urlsToCache = array_merge(array_values($manifest), $urlsToCache);
 
@@ -84,7 +93,7 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:null) ?? $utilityService->hashDirectory(__DIR__."/../../public") ?? '0.0.0',
+            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:$utilityService->hashDirectory(__DIR__."/../../public")),
             'urlsToCache' => json_encode($urlsToCache),
             'offline_route' => $this->generateUrl('offlineinfo'),
             'credentials' => [
