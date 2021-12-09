@@ -19,7 +19,7 @@ jobs:
         run: |
           composer install
       - name: PHP Stan Analyse
-        run: phpstan analyse
+        run: vendor/bin/phpstan analyse
 
   test:
     name: Unittest
