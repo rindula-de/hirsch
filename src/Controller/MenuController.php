@@ -53,6 +53,7 @@ class MenuController extends AbstractController
      * Get a list of all menu items this week.
      *
      * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
+     * @Route("/api/get-tagesessen-karte", name="tagesessenkarte", methods={"GET"})
      */
     public function getTagesessen(): JsonResponse|RedirectResponse
     {
@@ -174,7 +175,7 @@ class MenuController extends AbstractController
             $displayData = false;
             $message = $e->getMessage();
         }
-
-        return $this->json(['displayData' => $displayData, 'file' => $file, 'message' => $message]);
+        if ($request->attributes->get('_route') == 'tagesessenkarte') return $this->json(['file' => $file, 'message' => $message]);
+        if ($request->attributes->get('_route') == 'tagesessen') return $this->json(['displayData' => $displayData, 'message' => $message]);
     }
 }
