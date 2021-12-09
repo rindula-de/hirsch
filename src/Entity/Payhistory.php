@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Payhistory
+ * Payhistory.
  *
  * @ORM\Table(name="payhistory", indexes={@ORM\Index(name="paypalme_id", columns={"paypalme_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PayhistoryRepository")
@@ -66,6 +66,4 @@ class Payhistory
 
         return $this;
     }
-
-
 }

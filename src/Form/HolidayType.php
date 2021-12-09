@@ -15,14 +15,13 @@ class HolidayType extends AbstractType
         $builder
             ->add('start', null, [
                 'row_attr' => ['class' => 'input date'],
-                'label' => 'Start'
+                'label'    => 'Start',
             ])
             ->add('end', null, [
                 'row_attr' => ['class' => 'input date'],
-                'label' => 'Ende'
+                'label'    => 'Ende',
             ])
-            ->add('submit', SubmitType::class)
-        ;
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
