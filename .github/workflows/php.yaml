@@ -15,13 +15,11 @@ jobs:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - run: |
+      - name: Dependencies
+        run: |
           composer install
-
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          memory_limit: 6G
+      - name: PHP Stan Analyse
+        run: phpstan analyse
 
   test:
     name: Unittest
