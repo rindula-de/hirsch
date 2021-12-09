@@ -175,7 +175,11 @@ class MenuController extends AbstractController
             $displayData = false;
             $message = $e->getMessage();
         }
-        if ($request->attributes->get('_route') == 'tagesessenkarte') return $this->json(['file' => $file, 'message' => $message]);
-        if ($request->attributes->get('_route') == 'tagesessen') return $this->json(['displayData' => $displayData, 'message' => $message]);
+        if ($request->attributes->get('_route') == 'tagesessenkarte') {
+            return $this->json(['file' => $file, 'message' => $message]);
+        }
+        if ($request->attributes->get('_route') == 'tagesessen') {
+            return $this->json(['displayData' => $displayData, 'message' => $message]);
+        }
     }
 }
