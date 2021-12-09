@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Hirsch
+ * Hirsch.
  *
  * @ORM\Table(name="hirsch", uniqueConstraints={@ORM\UniqueConstraint(name="slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\HirschRepository")
@@ -82,6 +82,4 @@ class Hirsch
 
         return $this;
     }
-
-
 }

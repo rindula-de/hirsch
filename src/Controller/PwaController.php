@@ -16,41 +16,41 @@ class PwaController extends AbstractController
     public function manifest(): JsonResponse
     {
         // read /assets/styles/app.scss and use regex to extract the CSS
-        $css = file_get_contents(__DIR__ . '/../../assets/styles/app.scss');
+        $css = file_get_contents(__DIR__.'/../../assets/styles/app.scss');
         if ($css) {
             $css = preg_replace('/\s+/', '', $css);
             $css = preg_replace('/\/\/.*/', '', $css);
             $css = preg_replace('/\/\*[^\*]*\*\//', '', $css);
             $css = preg_replace('/@import.*;/', '', $css);
-            $themecolor = explode(":", explode(';', $css)[0])[1];
+            $themecolor = explode(':', explode(';', $css)[0])[1];
         } else {
             $themecolor = '#3f51b5';
         }
 
         return new JsonResponse([
-            "lang" => "de-DE",
-            "name" => "Hirsch Bestellsammelseite " . $_ENV['APP_VERSION'],
-            "short_name" => "Hirsch Bestellung",
-            "description" => "Die Bestellsammelseite für den Hirsch. Aktuelle Version: ".$_ENV["APP_VERSION"],
-            "icons" => [[
-                "src" => "favicon.png",
-                "type" => "image/png",
-                "sizes" => "512x512",
-                "purpose" => "any maskable"
+            'lang'        => 'de-DE',
+            'name'        => 'Hirsch Bestellsammelseite '.$_ENV['APP_VERSION'],
+            'short_name'  => 'Hirsch Bestellung',
+            'description' => 'Die Bestellsammelseite für den Hirsch. Aktuelle Version: '.$_ENV['APP_VERSION'],
+            'icons'       => [[
+                'src'     => 'favicon.png',
+                'type'    => 'image/png',
+                'sizes'   => '512x512',
+                'purpose' => 'any maskable',
             ]],
             'shortcuts' => [
                 [
-                    'name' => "Tagesessen bestellen",
-                    'url' => "/order/0/tagesessen",
-                    'description' => "Komme direkt auf die Tagesessenbestellseite"
-                ]
+                    'name'        => 'Tagesessen bestellen',
+                    'url'         => '/order/0/tagesessen',
+                    'description' => 'Komme direkt auf die Tagesessenbestellseite',
+                ],
             ],
-            "background_color" => "#adadad",
-            "theme_color" => $themecolor,
-            "start_url" => $this->generateUrl('menu'),
-            "display" => "standalone",
-            "orientation" => "portrait"
-            ], 200, ['Content-Type' => 'application/manifest+json']);
+            'background_color' => '#adadad',
+            'theme_color'      => $themecolor,
+            'start_url'        => $this->generateUrl('menu'),
+            'display'          => 'standalone',
+            'orientation'      => 'portrait',
+        ], 200, ['Content-Type' => 'application/manifest+json']);
     }
 
     /**
@@ -58,7 +58,6 @@ class PwaController extends AbstractController
      */
     public function serviceWorker(UtilityService $utilityService): Response
     {
-
         $urlsToCache = [
             $this->generateUrl('menu'),
             '/favicon.png',
@@ -76,12 +75,12 @@ class PwaController extends AbstractController
         ];
 
         // read /public/build/manifest.json and parse it
-        $manifest_json = file_get_contents(__DIR__ . '/../../public/build/manifest.json');
-        if ($manifest_json)
+        $manifest_json = file_get_contents(__DIR__.'/../../public/build/manifest.json');
+        if ($manifest_json) {
             $manifest = json_decode($manifest_json, true);
-        else
+        } else {
             $manifest = [];
-    
+        }
 
         // merge $manifest and $urlsToCache
         $urlsToCache = array_merge(array_values($manifest), $urlsToCache);
@@ -93,14 +92,14 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => ($_ENV['APP_VERSION']!=="development"?$_ENV['APP_VERSION']:$utilityService->hashDirectory(__DIR__."/../../public")),
-            'urlsToCache' => json_encode($urlsToCache),
+            'version'       => ($_ENV['APP_VERSION'] !== 'development' ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+            'urlsToCache'   => json_encode($urlsToCache),
             'offline_route' => $this->generateUrl('offlineinfo'),
-            'credentials' => [
+            'credentials'   => [
                 'username' => $_ENV['HT_USERNAME'] ?? '',
                 'password' => $_ENV['HT_PASSWORD'] ?? '',
-                'string' => base64_encode(($_ENV['HT_USERNAME'] ?? '') . ':' . ($_ENV['HT_PASSWORD'] ?? '')),
-            ]
+                'string'   => base64_encode(($_ENV['HT_USERNAME'] ?? '').':'.($_ENV['HT_PASSWORD'] ?? '')),
+            ],
         ], $response);
     }
 
