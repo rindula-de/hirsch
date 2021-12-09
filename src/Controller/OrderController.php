@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Hirsch;
 use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\OrderType;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
-use DateInterval;
 use DateTime;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,19 +17,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 class OrderController extends AbstractController
 {
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
-    public function index(int $preorder, String $slug, HirschRepository $hirschRepository, Request $request): Response
+    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
-        $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(0,0);
-        $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin")))->setForDate($preorder_time)->setHirsch($hirsch);
+        $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
+        $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
@@ -43,27 +40,28 @@ class OrderController extends AbstractController
             $em->persist($order);
             $em->flush();
             // Set ordererName Cookie
-            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime("+1 year"))->setTimezone(new \DateTimeZone("Europe/Berlin")));
+            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
 
             // create response with cookie
-            $response = new RedirectResponse($this->generateUrl("paynow"));
+            $response = new RedirectResponse($this->generateUrl('paynow'));
             $response->headers->setCookie($cookie);
             // redirect with cookie
             return $response;
         }
 
         return $this->render('order/index.html.twig', [
-            'form' => $form->createView(),
-            'meal' => $hirsch,
+            'form'       => $form->createView(),
+            'meal'       => $hirsch,
             'order_date' => $preorder_time,
         ]);
     }
+
     /**
      * @Route("/order-until", name="order-until", methods={"GET"})
      */
     public function orderuntil(): Response
     {
-        return new Response("Bestellungen am selben Tag bis 10:55 möglich", 200);
+        return new Response('Bestellungen am selben Tag bis 10:55 möglich', 200);
     }
 
     // function to delete order
@@ -81,8 +79,10 @@ class OrderController extends AbstractController
     }
 
     /**
-     * Get a list of all orders today
+     * Get a list of all orders today.
+     *
      * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
+     *
      * @param bool $onlyToday
      * @OA\Parameter(
      *     name="onlyToday",
@@ -98,12 +98,12 @@ class OrderController extends AbstractController
         foreach ($orders as $order) {
             if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
                 $data[] = [
-                    'id' => $order->getId(),
-                    'orderedby' => $order->getOrderedby(),
-                    'created' => $order->getCreated(),
-                    'forDate' => $order->getForDate(),
-                    'note' => $order->getNote(),
-                    'ordered' => $order->getHirsch()->getName(),
+                    'id'          => $order->getId(),
+                    'orderedby'   => $order->getOrderedby(),
+                    'created'     => $order->getCreated(),
+                    'forDate'     => $order->getForDate(),
+                    'note'        => $order->getNote(),
+                    'ordered'     => $order->getHirsch()->getName(),
                     'orderedSlug' => $order->getHirsch()->getSlug(),
                 ];
             }
@@ -120,53 +120,53 @@ class OrderController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $orders = $entityManager
             ->getRepository(Orders::class)
-            ->createQueryBuilder("o")
+            ->createQueryBuilder('o')
             ->select('o.for_date')
             ->addSelect('o.note')
             ->addSelect('count(o.id) as cnt')
             ->addSelect('count(o.orderedby) as personen')
             ->innerJoin('o.hirsch', 'h')
             ->addSelect('h.name')
-            ->where("o.for_date = :date")
-            ->groupBy("h.name")
-            ->addGroupBy("o.note")
-            ->setParameter("date", strftime("%Y-%m-%d"))
+            ->where('o.for_date = :date')
+            ->groupBy('h.name')
+            ->addGroupBy('o.note')
+            ->setParameter('date', strftime('%Y-%m-%d'))
             ->getQuery()
             ->getResult();
         $preorders = $entityManager
             ->getRepository(Orders::class)
-            ->createQueryBuilder("o")
+            ->createQueryBuilder('o')
             ->select('o.for_date')
             ->addSelect('o.note')
             ->addSelect('count(o.id) as cnt')
             ->addSelect('count(o.orderedby) as personen')
             ->innerJoin('o.hirsch', 'h')
             ->addSelect('h.name')
-            ->where("o.for_date > :date")
-            ->groupBy("h.name")
-            ->addGroupBy("o.note")
-            ->orderBy("o.for_date", "ASC")
-            ->setParameter("date", strftime("%Y-%m-%d"))
+            ->where('o.for_date > :date')
+            ->groupBy('h.name')
+            ->addGroupBy('o.note')
+            ->orderBy('o.for_date', 'ASC')
+            ->setParameter('date', strftime('%Y-%m-%d'))
             ->getQuery()
             ->getResult();
         $orderNameList = $entityManager
             ->getRepository(Orders::class)
-            ->createQueryBuilder("o")
+            ->createQueryBuilder('o')
             ->select('o.orderedby')
             ->addSelect('o.id')
             ->addSelect('o.note')
             ->innerJoin('o.hirsch', 'h')
             ->addSelect('h.name')
-            ->where("o.for_date = :date")
-            ->setParameter("date", strftime("%Y-%m-%d"))
+            ->where('o.for_date = :date')
+            ->setParameter('date', strftime('%Y-%m-%d'))
             ->getQuery()
             ->getResult();
 
         return $this->render('order/orders.html.twig', [
-            'orders' => $orders,
-            'preorders' => $preorders,
+            'orders'        => $orders,
+            'preorders'     => $preorders,
             'orderNameList' => $orderNameList,
-            'ordererName' => $request->cookies->get('ordererName'),
+            'ordererName'   => $request->cookies->get('ordererName'),
         ]);
     }
 
@@ -175,7 +175,6 @@ class OrderController extends AbstractController
      */
     public function paynow(Request $request): Response
     {
-
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('POST')) {
@@ -186,28 +185,28 @@ class OrderController extends AbstractController
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect($paypalme->getLink()."/".(3.5+$request->request->get('tip')));
+            return $this->redirect($paypalme->getLink().'/'.(3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes
         $paypalMes = $entityManager
             ->getRepository(Paypalmes::class)
-            ->createQueryBuilder("p")
+            ->createQueryBuilder('p')
             ->select('p')
             ->getQuery()
             ->getResult();
         // get most common payhistory.paypalme
         $active = $entityManager
             ->getRepository(Payhistory::class)
-            ->createQueryBuilder("p")
+            ->createQueryBuilder('p')
             ->select('count(p.paypalme) as cnt')
             ->join('p.paypalme', 'pm')
             ->addSelect('pm.id')
-            ->where("p.created BETWEEN :date_start AND :date_end")
-            ->groupBy("p.paypalme")
-            ->orderBy("cnt", "DESC")
-            ->setParameter("date_start", strftime("%Y-%m-%d").' 00:00:00')
-            ->setParameter("date_end", strftime("%Y-%m-%d").' 23:59:59')
+            ->where('p.created BETWEEN :date_start AND :date_end')
+            ->groupBy('p.paypalme')
+            ->orderBy('cnt', 'DESC')
+            ->setParameter('date_start', strftime('%Y-%m-%d').' 00:00:00')
+            ->setParameter('date_end', strftime('%Y-%m-%d').' 23:59:59')
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
@@ -215,8 +214,7 @@ class OrderController extends AbstractController
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
-            'active' => $active,
+            'active'    => $active,
         ]);
     }
-
 }

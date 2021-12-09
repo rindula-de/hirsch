@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Orders
+ * Orders.
  *
  * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"hirsch_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
@@ -51,7 +51,7 @@ class Orders
 
     /**
      * @var Hirsch
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=Hirsch::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -121,5 +121,4 @@ class Orders
 
         return $this;
     }
-
 }
