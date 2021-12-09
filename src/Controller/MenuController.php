@@ -182,5 +182,6 @@ class MenuController extends AbstractController
         if ($request->attributes->get('_route') == 'tagesessen') {
             return $this->json(['displayData' => $displayData, 'message' => $message]);
         }
+        return $this->json(['message' => 'Controller route nicht definiert']);
     }
 }
