@@ -20,14 +20,16 @@ class HolidayController extends AbstractController
         $holidays = $this->getDoctrine()
             ->getRepository(Holidays::class)
             ->findAll();
+
         return $this->render('holiday/index.html.twig', [
             'controller_name' => 'HolidayController',
-            'holidays' => $holidays,
+            'holidays'        => $holidays,
         ]);
     }
 
     /**
-     * Get all holidays
+     * Get all holidays.
+     *
      * @Route("/api/holidays", name="holidays_api", methods={"GET"})
      */
     public function holidays(): JsonResponse
@@ -53,9 +55,10 @@ class HolidayController extends AbstractController
 
             return $this->redirectToRoute('holidays');
         }
+
         return $this->render('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
@@ -74,9 +77,10 @@ class HolidayController extends AbstractController
 
             return $this->redirectToRoute('holidays');
         }
+
         return $this->render('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 }

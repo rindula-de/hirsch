@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Orders;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,22 +16,21 @@ class OrderType extends AbstractType
         $builder
             ->add('orderedby', TextType::class, [
                 'row_attr' => ['class' => 'input text required'],
-                'attr' => ['placeholder' => "Max Mustermann"],
-                'label' => 'Dein Name'
+                'attr'     => ['placeholder' => 'Max Mustermann'],
+                'label'    => 'Dein Name',
             ])
             ->add('note', TextType::class, [
-                'row_attr' => ['class' => 'input text'],
-                'attr' => ['placeholder' => "Keine", 'list' => 'wishlist'],
-                'required' => false,
-                'label' => 'Sonderwünsche',
-                'empty_data' => ''
+                'row_attr'   => ['class' => 'input text'],
+                'attr'       => ['placeholder' => 'Keine', 'list' => 'wishlist'],
+                'required'   => false,
+                'label'      => 'Sonderwünsche',
+                'empty_data' => '',
             ])
             ->add('submit', SubmitType::class, [
                 'row_attr' => ['class' => 'submit'],
-                'attr' => ['class' => "btn waves-purple waves-effect"],
-                'label' => 'Verbindlich bestellen'
-            ])
-        ;
+                'attr'     => ['class' => 'btn waves-purple waves-effect'],
+                'label'    => 'Verbindlich bestellen',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
