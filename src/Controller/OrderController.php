@@ -9,7 +9,6 @@ use App\Form\OrderType;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
