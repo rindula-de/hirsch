@@ -9,6 +9,7 @@ use App\Form\OrderType;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateTime;
+use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -23,7 +24,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
-    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request): Response
+    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
@@ -32,11 +33,11 @@ class OrderController extends AbstractController
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
-        $form = $this->createForm(OrderType::class, $order);
+        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()->format('d.m.Y')]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $order = $form->getData();
-            $em = $this->getDoctrine()->getManager();
+            $em = $doctrine->getManager();
             $em->persist($order);
             $em->flush();
             // Set ordererName Cookie
@@ -68,9 +69,9 @@ class OrderController extends AbstractController
     /**
      * @Route("/orders/delete/{id}", name="order_delete", methods={"GET", "DELETE"})
      */
-    public function delete(Orders $order): Response
+    public function delete(Orders $order, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
         $entityManager->remove($order);
         $entityManager->flush();
         $this->addFlash('success', 'Bestellung gelöscht');
@@ -115,9 +116,9 @@ class OrderController extends AbstractController
     /**
      * @Route("/bestellungen/", name="orders", methods={"GET"})
      */
-    public function orders(Request $request): Response
+    public function orders(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
         $orders = $entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -173,14 +174,14 @@ class OrderController extends AbstractController
     /**
      * @Route("/zahlen-bitte/", name="paynow", methods={"GET", "POST"})
      */
-    public function paynow(Request $request): Response
+    public function paynow(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
 
         if ($request->isMethod('POST')) {
             $payhistory = new Payhistory();
             $payhistory->setCreated(new DateTime());
-            $paypalme = $entityManager->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
+            $paypalme = $doctrine->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
             $payhistory->setPaypalme($paypalme);
             $entityManager->persist($payhistory);
             $entityManager->flush();

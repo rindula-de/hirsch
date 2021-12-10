@@ -13,7 +13,7 @@
     {% for paypalme in paypalmes %}
     <div class="paypalmeslistitemcontainer">
         <div class="paypalmeslistitem{% if paypalme.id == active %} active{% endif %}">
-            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank">{{paypalme.name}}</button>
+            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank" class="paypalmebutton">{{paypalme.name}}</button>
         </div>
         {% if date(paypalme.bar) >= date() %}
         <span class="label red">Nur Barzahlung</span>
@@ -21,4 +21,5 @@
     </div>
     {% endfor %}
     </form>
+    <p>Wenn du auch in der Liste stehen willst, kannst du dich <a href="{{path("paypal_add")}}">hier</a> eintragen.</p>
 {% endblock %}
