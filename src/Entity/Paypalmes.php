@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Paypalmes
+ * Paypalmes.
  *
  * @ORM\Table(name="paypalmes")
  * @ORM\Entity(repositoryClass="App\Repository\PaypalmesRepository")
@@ -101,6 +101,4 @@ class Paypalmes
 
         return $this;
     }
-
-
 }

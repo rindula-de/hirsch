@@ -16,6 +16,7 @@ categories:
     labels: 
       - 'chore'
       - 'deployscript'
+      - 'database'
   - title: '🛠 Refactoring'
     label: 'refactor'
   - title: '👾 CI/CD'

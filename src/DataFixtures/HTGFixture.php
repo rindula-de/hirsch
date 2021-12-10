@@ -17,9 +17,9 @@ class HTGFixture extends Fixture
         $htg->setDisplay(true);
 
         $manager->persist($htg);
-        
+
         ////////////////////////
-        
+
         $htg = new Hirsch();
 
         $htg->setName('Schweizer Wurstsalat mit Pommes');
@@ -27,7 +27,7 @@ class HTGFixture extends Fixture
         $htg->setDisplay(true);
 
         $manager->persist($htg);
-        
+
         /////////////////////////
 
         $manager->flush();

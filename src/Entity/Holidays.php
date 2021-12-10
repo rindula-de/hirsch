@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Holidays
+ * Holidays.
  *
  * @ORM\Table(name="holidays")
  * @ORM\Entity(repositoryClass="App\Repository\HolidaysRepository")
@@ -63,6 +63,4 @@ class Holidays
 
         return $this;
     }
-
-
 }
