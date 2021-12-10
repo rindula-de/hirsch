@@ -1,4 +1,51 @@
 $(document).ready(() => {
+    $(document).bind("contextmenu", function(event) {
+
+        // Avoid the real one
+        event.preventDefault();
+        $(".custom-menu").empty();
+        if (event.target.classList.contains('paypalmebutton')) {
+            $(".custom-menu").html('<li data-id="' + event.target.value + '" data-action="edit-paypalme">Bearbeiten</li>');
+        }
+
+        // If the menu element is clicked
+        $(".custom-menu li").click(function() {
+
+            // This is the triggered action name
+            switch ($(this).attr("data-action")) {
+
+                // A case for each action. Your actions here
+                case "edit-paypalme":
+                    window.location.href = "/paypal/edit/" + $(this).attr("data-id");
+                    break;
+            }
+
+            // Hide it AFTER the action was triggered
+            $(".custom-menu").hide(100);
+        });
+
+        // Show contextmenu
+        $(".custom-menu").finish().toggle(100).
+
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+
+
+    // If the document is clicked somewhere
+    $(document).bind("mousedown", function(e) {
+
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+
+            // Hide it
+            $(".custom-menu").hide(100);
+        }
+    });
+
     document.getElementById("navicon").addEventListener("click", function() {
         let x = document.getElementById("navbar");
         if (x.className === "navbar") {
