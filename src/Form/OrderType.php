@@ -31,7 +31,6 @@ class OrderType extends AbstractType
                 'row_attr' => ['class' => 'submit'],
                 'attr'     => ['class' => 'btn waves-purple waves-effect'],
                 'label'    => 'Verbindlich bestellen',
-                'help'     => 'Für den '.$options['for_date'].' bestellen',
             ]);
     }
 
