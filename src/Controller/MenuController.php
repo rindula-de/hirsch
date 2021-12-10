@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -53,8 +54,9 @@ class MenuController extends AbstractController
      * Get a list of all menu items this week.
      *
      * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
+     * @Route("/api/get-tagesessen-karte", name="tagesessenkarte", methods={"GET"})
      */
-    public function getTagesessen(): JsonResponse|RedirectResponse
+    public function getTagesessen(Request $request): JsonResponse|RedirectResponse
     {
         $file = '';
         $message = '';
@@ -174,7 +176,13 @@ class MenuController extends AbstractController
             $displayData = false;
             $message = $e->getMessage();
         }
+        if ($request->attributes->get('_route') == 'tagesessenkarte') {
+            return $this->json(['file' => $file, 'message' => $message]);
+        }
+        if ($request->attributes->get('_route') == 'tagesessen') {
+            return $this->json(['displayData' => $displayData, 'message' => $message]);
+        }
 
-        return $this->json(['displayData' => $displayData, 'file' => $file, 'message' => $message]);
+        return $this->json(['message' => 'Controller route nicht definiert']);
     }
 }

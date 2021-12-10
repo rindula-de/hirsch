@@ -20,11 +20,12 @@ self.addEventListener('fetch', function(event) {
     if (event.request.method === "GET") {
         var headers = new Headers(event.request.headers);
         if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/") || event.request.url.startsWith("/build/")) {
-            headers.append("Authorization", 'Basic {{ credentials.string | raw }}');
+            headers.set("Authorization", 'Basic {{ credentials.string | raw }}');
         }
+        var req = new Request(event.request.clone(), { headers });
         event.respondWith(
             // fetch first, then cache
-            fetch(event.request, { headers })
+            fetch(req)
             .catch(function(error) {
                 return caches.match(event.request)
                     .then(function(r) {
