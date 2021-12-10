@@ -155,7 +155,7 @@ if ('serviceWorker' in navigator) {
         // detect controller change and refresh the page
         navigator.serviceWorker.addEventListener('controllerchange', () => {
             if (!refreshing) {
-                window.location.reload()
+                window.location.reload(true);
                 refreshing = true
             }
         })

@@ -32,7 +32,7 @@ class OrderController extends AbstractController
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
-        $form = $this->createForm(OrderType::class, $order);
+        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()->format('d.m.Y')]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $order = $form->getData();
