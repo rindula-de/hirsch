@@ -13,7 +13,7 @@ class PaypalMesController extends AbstractController
     #[Route('/paypal/add', name: 'paypal_add')]
     public function add(Request $request): Response
     {
-        // load form 
+        // load form
         $form = $this->createForm(PaypalmesType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
