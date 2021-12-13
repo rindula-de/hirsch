@@ -6,6 +6,8 @@ $(document).ready(() => {
         $(".custom-menu").empty();
         if (event.target.classList.contains('paypalmebutton')) {
             $(".custom-menu").html('<li data-id="' + event.target.value + '" data-action="edit-paypalme">Bearbeiten</li>');
+        } else if (event.target.classList.contains('orderarea')) {
+            $(".custom-menu").html('<li data-text="' + event.target.value + '" data-action="copy">Kopieren</li>');
         }
 
         // If the menu element is clicked
@@ -17,6 +19,9 @@ $(document).ready(() => {
                 // A case for each action. Your actions here
                 case "edit-paypalme":
                     window.location.href = "/paypal/edit/" + $(this).attr("data-id");
+                    break;
+                case "copy":
+                    navigator.clipboard.writeText($(this).attr("data-text"));
                     break;
             }
 
