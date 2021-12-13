@@ -22,7 +22,7 @@ self.addEventListener('fetch', function(event) {
         if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/") || event.request.url.startsWith("/build/")) {
             headers.set("Authorization", 'Basic {{ credentials.string | raw }}');
         }
-        var req = new Request(event.request.clone(), { headers });
+        var req = new Request(event.request.clone(), { headers, credentials: 'always' });
         event.respondWith(
             // fetch first, then cache
             fetch(req)
