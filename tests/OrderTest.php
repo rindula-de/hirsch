@@ -3,14 +3,12 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use SecurityTrait;
 
 class OrderTest extends WebTestCase
 {
     public function testOrdering(): void
     {
         $client = static::createClient();
-
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -19,7 +17,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
             'order[note]'      => '', ]);
-            $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(401);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -28,7 +26,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
             'order[note]'      => '+ Pommes', ]);
-            $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(401);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -37,7 +35,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]'      => '', ]);
-            $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(401);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -48,7 +46,7 @@ class OrderTest extends WebTestCase
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(401);
 
-        $this->loginAs("ROLE_USER", true);
+        $this->loginAs('ROLE_USER', true);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
