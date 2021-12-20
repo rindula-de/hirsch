@@ -36,7 +36,8 @@ trait SecurityTrait
         $tokenStorage->setToken(null);
     }
 
-    protected function getUser(string $role = 'ROLE_USER', bool $userFromDatabase = false): User {
+    protected function getUser(string $role = 'ROLE_USER', bool $userFromDatabase = false): User
+    {
         if (empty(self::$users[$role])) {
             self::$users[$role] = $userFromDatabase
                 ? ($this->getFirstUserByRole($role) ?: $this->createNewUser($role, $userFromDatabase))
