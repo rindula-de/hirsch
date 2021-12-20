@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
+     * @var int
+     * 
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,17 +22,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @var string
+     * 
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
 
     /**
+     * @var string[]
+     * 
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
+     * 
      * @ORM\Column(type="string")
      */
     private $password;
