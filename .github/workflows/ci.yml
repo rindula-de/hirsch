@@ -106,19 +106,6 @@ jobs:
           echo 'HT_USERNAME="${{ secrets.HT_USER }}"' >> .env.local
           echo 'HT_PASSWORD="${{ secrets.HT_PASS }}"' >> .env.local
           composer dump-env prod
-      - name: Passwortschutz erstellen
-        run: |
-          echo '' >> public/.htaccess
-          echo 'AuthType Basic' >> public/.htaccess
-          echo 'AuthName "Bestellungen"' >> public/.htaccess
-          echo 'AuthUserFile /usr/www/users/hochwa/hirsch/.htpasswd' >> public/.htaccess
-          echo 'Require valid-user' >> public/.htaccess
-          echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess
-          echo '<Files "manifest.json">' >> public/.htaccess
-          echo '    Satisfy Any' >> public/.htaccess
-          echo '    Allow from all' >> public/.htaccess
-          echo '</Files>' >> public/.htaccess
-          htpasswd -cb .htpasswd "${{ secrets.HT_USER }}" "${{ secrets.HT_PASS }}"
       - run: npm ci
         name: Initialize NPM on Root
       - run: npm run build
