@@ -33,14 +33,14 @@ $.ajax({
     }).done(function(result) {
         tagesessen_panel.innerHTML = "";
         tagesessen_panel.classList.remove("loading");
-        
+
         $.ajax({
             url: "/api/get-tagesessen-karte",
             context: document.body,
             dataType: 'json',
         }).done(result => {
             if (!(result && result.file)) return
-            // decode base64 string, remove space for IE compatibility
+                // decode base64 string, remove space for IE compatibility
             var binary = atob(result.file.replace(/\s/g, ''));
             var len = binary.length;
             var buffer = new ArrayBuffer(len);
@@ -52,7 +52,7 @@ $.ajax({
             var blob = new Blob([view], { type: 'application/pdf' });
             var url = URL.createObjectURL(blob);
             tagesessen_panel.innerHTML = "<button class='btn' onclick=\"window.open('" + url + "', 'pdf_karte', 'location=yes')\">PDF Karte ansehen</button>" + tagesessen_panel.innerHTML;
-            
+
             tagesessen_panel.style.maxHeight = tagesessen_panel.scrollHeight + "px";
         })
 
@@ -70,8 +70,10 @@ $.ajax({
                 let holidayDate = resultElement['gericht'].toLowerCase().includes("ruhetag");
                 if (!holidayDate) {
                     for (let j = 0; j < holidays.length; j++) {
-                        let start = new Date(holidays[j]['from']).setHours(0);
-                        let end = new Date(holidays[j]['to']).setHours(23);
+                        let start = new Date(holidays[j]['start']);
+                        let end = new Date(holidays[j]['end']);
+                        start.setHours(0, 0, 0, 0);
+                        end.setHours(0, 0, 0, 0);
 
                         if (date >= start && date <= end) {
                             holidayDate = true;
