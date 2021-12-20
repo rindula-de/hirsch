@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class OrderTest extends WebTestCase
 {
+
+    use SecurityTrait;
+
     public function testOrdering(): void
     {
         $client = static::createClient();
@@ -46,7 +49,7 @@ class OrderTest extends WebTestCase
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(401);
 
-        $this->loginAs('ROLE_USER', true);
+        $this->login();
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
