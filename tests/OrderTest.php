@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class OrderTest extends WebTestCase
 {
-
     use SecurityTrait;
 
     public function testOrdering(): void
