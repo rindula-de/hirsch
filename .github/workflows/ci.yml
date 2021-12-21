@@ -106,6 +106,7 @@ jobs:
           echo 'HT_USERNAME="${{ secrets.HT_USER }}"' >> .env.local
           echo 'HT_PASSWORD="${{ secrets.HT_PASS }}"' >> .env.local
           composer dump-env prod
+          echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess
       - run: npm ci
         name: Initialize NPM on Root
       - run: npm run build
