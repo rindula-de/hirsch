@@ -67,6 +67,7 @@ class PaypalMesController extends AbstractController
             $em->remove($pay);
         }
         $em->flush();
+
         return $this->redirectToRoute('paynow');
     }
 }
