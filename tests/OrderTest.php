@@ -55,7 +55,7 @@ class OrderTest extends WebTestCase
     public function testOrderingUnauthenticated(): void
     {
         $client = static::createClient();
-        
+
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
