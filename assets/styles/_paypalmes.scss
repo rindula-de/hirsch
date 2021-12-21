@@ -92,23 +92,6 @@
             position: relative;
             z-index: 100;
         }
-        &.active {
-            button:first-child {
-                width: calc(100% - 4em);
-                flex-shrink: 0;
-            }
-            button:last-child {
-                border-left: 1px solid black;
-                border-radius: 6px;
-                padding: 7px 0;
-                i {
-                    font-size: 1.4em;
-                }
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.2);
-                }
-            }
-        }
         button {
             display: block;
             background-color: transparent;
