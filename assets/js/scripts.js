@@ -4,9 +4,12 @@ $(document).ready(() => {
         // Avoid the real one
         event.preventDefault();
         $(".custom-menu").empty();
-        if (event.target.classList.contains('paypalmebutton')) {
+        if ($(event.target).hasClass('paypalmebutton')) {
             $(".custom-menu").html('<li data-id="' + event.target.value + '" data-action="edit-paypalme">Bearbeiten</li>');
-        } else if (event.target.classList.contains('orderarea')) {
+            if ($(event.target).parent().hasClass('active')) {
+                $(".custom-menu").append('<li data-id="' + event.target.value + '" data-action="deactivate-paypalme">Als aktiven Bezahler entfernen</li>');
+            }
+        } else if ($(event.target).hasClass('orderarea')) {
             $(".custom-menu").html('<li data-text="' + event.target.value + '" data-action="copy">Kopieren</li>');
         }
 
@@ -15,13 +18,14 @@ $(document).ready(() => {
 
             // This is the triggered action name
             switch ($(this).attr("data-action")) {
-
-                // A case for each action. Your actions here
                 case "edit-paypalme":
                     window.location.href = "/paypal/edit/" + $(this).attr("data-id");
                     break;
                 case "copy":
                     navigator.clipboard.writeText($(this).attr("data-text"));
+                    break;
+                case "deactivate-paypalme":
+                    window.location.href = "/paypal/remove-active/" + $(this).attr("data-id");
                     break;
             }
 

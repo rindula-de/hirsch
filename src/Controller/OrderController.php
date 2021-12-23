@@ -28,25 +28,31 @@ class OrderController extends AbstractController
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
+        if ($hirsch === null) {
+            return $this->redirectToRoute('menu');
+        }
         $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
-        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()->format('d.m.Y')]);
+        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $order = $form->getData();
             $em = $doctrine->getManager();
-            $em->persist($order);
-            $em->flush();
-            // Set ordererName Cookie
-            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
-
-            // create response with cookie
             $response = new RedirectResponse($this->generateUrl('paynow'));
-            $response->headers->setCookie($cookie);
-            // redirect with cookie
+            if ($order instanceof Orders) {
+                $em->persist($order);
+                $em->flush();
+                // Set ordererName Cookie
+                $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+
+                // create response with cookie
+                $response->headers->setCookie($cookie);
+                // redirect with cookie
+            }
+
             return $response;
         }
 
@@ -97,15 +103,15 @@ class OrderController extends AbstractController
         $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
-            if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
+            if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
                 $data[] = [
                     'id'          => $order->getId(),
                     'orderedby'   => $order->getOrderedby(),
                     'created'     => $order->getCreated(),
                     'forDate'     => $order->getForDate(),
                     'note'        => $order->getNote(),
-                    'ordered'     => $order->getHirsch()->getName(),
-                    'orderedSlug' => $order->getHirsch()->getSlug(),
+                    'ordered'     => $order->getHirsch()?->getName(),
+                    'orderedSlug' => $order->getHirsch()?->getSlug(),
                 ];
             }
         }
@@ -186,7 +192,7 @@ class OrderController extends AbstractController
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect($paypalme->getLink().'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes
@@ -211,7 +217,11 @@ class OrderController extends AbstractController
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-        $active = $active[0]['id'] ?? null;
+        if (is_array($active) && array_key_exists(0, $active) && array_key_exists('id', $active[0])) {
+            $active = $active[0]['id'];
+        } else {
+            $active = null;
+        }
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
