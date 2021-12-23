@@ -41,15 +41,17 @@ class OrderController extends AbstractController
         if ($form->isSubmitted()) {
             $order = $form->getData();
             $em = $doctrine->getManager();
-            $em->persist($order);
-            $em->flush();
-            // Set ordererName Cookie
-            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
-
-            // create response with cookie
             $response = new RedirectResponse($this->generateUrl('paynow'));
-            $response->headers->setCookie($cookie);
-            // redirect with cookie
+            if ($order instanceof Orders) {
+                $em->persist($order);
+                $em->flush();
+                // Set ordererName Cookie
+                $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+                
+                // create response with cookie
+                $response->headers->setCookie($cookie);
+                // redirect with cookie
+            }
             return $response;
         }
 
@@ -214,7 +216,11 @@ class OrderController extends AbstractController
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-        $active = $active[0]['id'] ?? null;
+        if (is_array($active) && array_key_exists(0, $active) && array_key_exists('id', $active[0])) {
+            $active = $active[0]['id'];
+        } else {
+            $active = null;
+        }
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
