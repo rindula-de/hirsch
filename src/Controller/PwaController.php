@@ -19,10 +19,10 @@ class PwaController extends AbstractController
         $css = file_get_contents(__DIR__.'/../../assets/styles/app.scss');
         if ($css) {
             $css = preg_replace('/\s+/', '', $css);
-            $css = preg_replace('/\/\/.*/', '', $css??"");
-            $css = preg_replace('/\/\*[^\*]*\*\//', '', $css??"");
-            $css = preg_replace('/@import.*;/', '', $css??"");
-            $themecolor = explode(':', explode(';', $css??":")[0])[1];
+            $css = preg_replace('/\/\/.*/', '', $css ?? '');
+            $css = preg_replace('/\/\*[^\*]*\*\//', '', $css ?? '');
+            $css = preg_replace('/@import.*;/', '', $css ?? '');
+            $themecolor = explode(':', explode(';', $css ?? ':')[0])[1];
         } else {
             $themecolor = '#3f51b5';
         }
