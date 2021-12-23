@@ -63,6 +63,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         if ($user instanceof User) {
             return $user;
         }
+
         return null;
     }
 }

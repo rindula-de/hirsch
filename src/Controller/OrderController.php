@@ -47,11 +47,12 @@ class OrderController extends AbstractController
                 $em->flush();
                 // Set ordererName Cookie
                 $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
-                
+
                 // create response with cookie
                 $response->headers->setCookie($cookie);
                 // redirect with cookie
             }
+
             return $response;
         }
 
