@@ -1,7 +1,6 @@
 .paypalmeslistitemcontainer {
     display: flex;
     position: relative;
-
     .label {
         font-size: 0.9rem;
         margin-left: 1em;
@@ -26,31 +25,26 @@
         font-weight: 700;
         border: 0 solid transparent;
         z-index: 100;
-
         &.red {
             background-color: #db2828;
             border-color: #db2828;
             color: #fff;
         }
-
         &.green {
             background-color: #06b400;
             border-color: #06b400;
             color: #fff;
         }
-
         &.blue {
             background-color: #0012b4;
             border-color: #0012b4;
             color: #fff;
         }
-
         &.yellow {
             background-color: #fffb09;
             border-color: #fffb09;
             color: #000000;
         }
-
         &::before {
             z-index: 99;
             position: absolute;
@@ -82,7 +76,6 @@
             border-radius: 500rem;
         }
     }
-
     .paypalmeslistitem {
         display: flex;
         width: 100%;
@@ -98,23 +91,6 @@
             animation: active 2s linear infinite;
             position: relative;
             z-index: 100;
-        }
-        &.active {
-            button:first-child {
-                width: calc(100% - 4em);
-                flex-shrink: 0;
-            }
-            button:last-child {
-                border-left: 1px solid black;
-                border-radius: 6px;
-                padding: 7px 0;
-                i {
-                    font-size: 1.4em;
-                }
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.2);
-                }
-            }
         }
         button {
             display: block;

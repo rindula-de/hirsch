@@ -115,7 +115,7 @@ class Orders
         return $this->hirsch;
     }
 
-    public function setHirsch(?Hirsch $hirsch): self
+    public function setHirsch(Hirsch $hirsch): self
     {
         $this->hirsch = $hirsch;
 

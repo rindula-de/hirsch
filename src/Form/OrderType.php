@@ -24,6 +24,7 @@ class OrderType extends AbstractType
                 'attr'       => ['placeholder' => 'Keine', 'list' => 'wishlist'],
                 'required'   => false,
                 'label'      => 'Sonderwünsche',
+                'help'       => 'Extrawünsche, wie "extra Pommes" oder "ohne Salat"',
                 'empty_data' => '',
             ])
             ->add('submit', SubmitType::class, [
@@ -37,6 +38,7 @@ class OrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Orders::class,
+            'for_date'   => null,
         ]);
     }
 }

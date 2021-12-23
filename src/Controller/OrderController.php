@@ -9,6 +9,7 @@ use App\Form\OrderType;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateTime;
+use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -23,29 +24,35 @@ class OrderController extends AbstractController
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
-    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request): Response
+    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
+        if ($hirsch === null) {
+            return $this->redirectToRoute('menu');
+        }
         $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
         if ($request->cookies->get('ordererName')) {
             $order->setOrderedby($request->cookies->get('ordererName'));
         }
-        $form = $this->createForm(OrderType::class, $order);
+        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $order = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($order);
-            $em->flush();
-            // Set ordererName Cookie
-            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
-
-            // create response with cookie
+            $em = $doctrine->getManager();
             $response = new RedirectResponse($this->generateUrl('paynow'));
-            $response->headers->setCookie($cookie);
-            // redirect with cookie
+            if ($order instanceof Orders) {
+                $em->persist($order);
+                $em->flush();
+                // Set ordererName Cookie
+                $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+
+                // create response with cookie
+                $response->headers->setCookie($cookie);
+                // redirect with cookie
+            }
+
             return $response;
         }
 
@@ -68,9 +75,9 @@ class OrderController extends AbstractController
     /**
      * @Route("/orders/delete/{id}", name="order_delete", methods={"GET", "DELETE"})
      */
-    public function delete(Orders $order): Response
+    public function delete(Orders $order, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
         $entityManager->remove($order);
         $entityManager->flush();
         $this->addFlash('success', 'Bestellung gelöscht');
@@ -96,15 +103,15 @@ class OrderController extends AbstractController
         $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
-            if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
+            if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
                 $data[] = [
                     'id'          => $order->getId(),
                     'orderedby'   => $order->getOrderedby(),
                     'created'     => $order->getCreated(),
                     'forDate'     => $order->getForDate(),
                     'note'        => $order->getNote(),
-                    'ordered'     => $order->getHirsch()->getName(),
-                    'orderedSlug' => $order->getHirsch()->getSlug(),
+                    'ordered'     => $order->getHirsch()?->getName(),
+                    'orderedSlug' => $order->getHirsch()?->getSlug(),
                 ];
             }
         }
@@ -115,9 +122,9 @@ class OrderController extends AbstractController
     /**
      * @Route("/bestellungen/", name="orders", methods={"GET"})
      */
-    public function orders(Request $request): Response
+    public function orders(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
         $orders = $entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -173,19 +180,19 @@ class OrderController extends AbstractController
     /**
      * @Route("/zahlen-bitte/", name="paynow", methods={"GET", "POST"})
      */
-    public function paynow(Request $request): Response
+    public function paynow(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $doctrine->getManager();
 
         if ($request->isMethod('POST')) {
             $payhistory = new Payhistory();
             $payhistory->setCreated(new DateTime());
-            $paypalme = $entityManager->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
+            $paypalme = $doctrine->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
             $payhistory->setPaypalme($paypalme);
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect($paypalme->getLink().'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes
@@ -210,7 +217,11 @@ class OrderController extends AbstractController
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-        $active = $active[0]['id'] ?? null;
+        if (is_array($active) && array_key_exists(0, $active) && array_key_exists('id', $active[0])) {
+            $active = $active[0]['id'];
+        } else {
+            $active = null;
+        }
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
