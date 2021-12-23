@@ -9,6 +9,8 @@ $(document).ready(() => {
             if ($(event.target).parent().hasClass('active')) {
                 $(".custom-menu").append('<li data-id="' + event.target.value + '" data-action="deactivate-paypalme">Als aktiven Bezahler entfernen</li>');
             }
+        } else if ($(event.target).hasClass('orderarea')) {
+            $(".custom-menu").html('<li data-text="' + event.target.value + '" data-action="copy">Kopieren</li>');
         }
 
         // If the menu element is clicked
@@ -18,6 +20,9 @@ $(document).ready(() => {
             switch ($(this).attr("data-action")) {
                 case "edit-paypalme":
                     window.location.href = "/paypal/edit/" + $(this).attr("data-id");
+                    break;
+                case "copy":
+                    navigator.clipboard.writeText($(this).attr("data-text"));
                     break;
                 case "deactivate-paypalme":
                     window.location.href = "/paypal/remove-active/" + $(this).attr("data-id");

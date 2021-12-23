@@ -10,7 +10,7 @@
 {% block body %}
     <h2>Heutige Bestellungen</h2>
     <label>
-        <textarea rows="1" readonly="" onclick="this.focus();this.select()" id="orders">Lade Bestellungen...</textarea>
+        <textarea class="orderarea" rows="1" readonly="" onclick="this.focus();this.select()" id="orders">Lade Bestellungen...</textarea>
     </label>
     <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
     <div class="panel">
