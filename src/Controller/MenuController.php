@@ -148,6 +148,7 @@ class MenuController extends AbstractController
                                         $pdf = $parser->parseFile($filename);
                                         $text = str_replace("\t", '', $pdf->getText());
                                         $text = preg_replace('/\s+/', ' ', $text);
+                                        $text = trim($text??"");
                                         preg_match('/Montag ([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`„“]+?)( (\d+,\d{2}) Euro?)? Dienstag/', $text, $matches);
                                         $displayData[] = ['gericht' => trim($matches[1]), 'date' => (new DateTime('monday noon this week'))];
 
