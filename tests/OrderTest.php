@@ -12,6 +12,9 @@ class OrderTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
+        if ($user === null) {
+            $this->fail('No user found with username "test"');
+        }
 
         $client->loginUser($user);
 
