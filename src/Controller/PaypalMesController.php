@@ -24,8 +24,10 @@ class PaypalMesController extends AbstractController
             $data = $form->getData();
             // save data
             $em = $doctrine->getManager();
-            $em->persist($data);
-            $em->flush();
+            if ($data instanceof Paypalmes) {
+                $em->persist($data);
+                $em->flush();
+            }
             // redirect
             return $this->redirectToRoute('paynow');
         }
@@ -46,8 +48,10 @@ class PaypalMesController extends AbstractController
             $data = $form->getData();
             // save data
             $em = $doctrine->getManager();
-            $em->persist($data);
-            $em->flush();
+            if ($data instanceof Paypalmes) {
+                $em->persist($data);
+                $em->flush();
+            }
             // redirect
             return $this->redirectToRoute('paynow');
         }

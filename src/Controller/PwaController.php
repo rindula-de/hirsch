@@ -78,6 +78,9 @@ class PwaController extends AbstractController
         $manifest_json = file_get_contents(__DIR__.'/../../public/build/manifest.json');
         if ($manifest_json) {
             $manifest = json_decode($manifest_json, true);
+            if (!is_array($manifest)) {
+                $manifest = [];
+            }
         } else {
             $manifest = [];
         }
