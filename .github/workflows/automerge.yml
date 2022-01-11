@@ -1,18 +1,17 @@
 name: auto-merge
 
 on:
-  schedule:
-    - cron: 0/10 18,19 * * 1
+  pull_request_target:
+    types: [labeled]
 
 jobs:
-  auto-merge:
+  enable-auto-merge:
     runs-on: ubuntu-latest
+
+    # Specifically check that dependabot (or another trusted party) created this pull-request, and that it has been labelled correctly.
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dependencies')
     steps:
-      - uses: reitermarkus/automerge@v1.5.2
-        with:
-          token: "${{ secrets.mytoken }}"
-          pull-request: ${{ github.event.number }}
-          squash-title: true
-          merge-method: rebase
-          dry-run: false
-          do-not-merge-labels: wontfix
+    - uses: alexwilson/enable-github-automerge-action@main
+      with:
+        github-token: "${{ secrets.mytoken }}"
+        merge-method: "REBASE"

@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Payhistory
+ * Payhistory.
  *
  * @ORM\Table(name="payhistory", indexes={@ORM\Index(name="paypalme_id", columns={"paypalme_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PayhistoryRepository")
@@ -24,12 +24,12 @@ class Payhistory
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    private $created = 'current_timestamp()';
+    private $created;
 
     /**
-     * @var \Paypalmes
+     * @var Paypalmes|null
      *
      * @ORM\ManyToOne(targetEntity="Paypalmes")
      * @ORM\JoinColumns({
@@ -43,12 +43,12 @@ class Payhistory
         return $this->id;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
@@ -66,6 +66,4 @@ class Payhistory
 
         return $this;
     }
-
-
 }

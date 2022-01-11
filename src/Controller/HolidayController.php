@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Holidays;
 use App\Form\HolidayType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,24 +16,24 @@ class HolidayController extends AbstractController
     /**
      * @Route("/holidays", name="holidays", methods={"GET"})
      */
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        $holidays = $this->getDoctrine()
-            ->getRepository(Holidays::class)
-            ->findAll();
+        $holidays = $doctrine->getRepository(Holidays::class)->findAll();
+
         return $this->render('holiday/index.html.twig', [
             'controller_name' => 'HolidayController',
-            'holidays' => $holidays,
+            'holidays'        => $holidays,
         ]);
     }
 
     /**
-     * Get all holidays
+     * Get all holidays.
+     *
      * @Route("/api/holidays", name="holidays_api", methods={"GET"})
      */
-    public function holidays(): JsonResponse
+    public function holidays(ManagerRegistry $doctrine): JsonResponse
     {
-        $holidays = $this->getDoctrine()
+        $holidays = $doctrine
             ->getRepository(Holidays::class)
             ->findAll();
 
@@ -53,9 +54,10 @@ class HolidayController extends AbstractController
 
             return $this->redirectToRoute('holidays');
         }
+
         return $this->render('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
@@ -74,9 +76,10 @@ class HolidayController extends AbstractController
 
             return $this->redirectToRoute('holidays');
         }
+
         return $this->render('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 }

@@ -21,7 +21,8 @@ $.ajax({
         ordersarea.empty();
         for (const ordersKey in orders) {
             for (const ordersNote in orders[ordersKey]) {
-                ordersarea.append(`${orders[ordersKey][ordersNote]}x ${ordersKey}`+(ordersNote?"\nSonderwunsch: "+ordersNote:"")+`\n\n`);
+                if (ordersarea.val()) ordersarea.append(`\n\n`);
+                ordersarea.append(`${orders[ordersKey][ordersNote]}x ${ordersKey}` + (ordersNote ? "\nSonderwunsch: " + ordersNote : ""));
             }
         }
     } else {
@@ -30,7 +31,7 @@ $.ajax({
     }
 
 }).fail(function(jqXHR, textStatus, errorThrown) {
-    console.log(jqXHR);
-    console.log(textStatus);
-    console.log(errorThrown);
+    console.error(jqXHR);
+    console.error(textStatus);
+    console.error(errorThrown);
 });

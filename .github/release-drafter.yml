@@ -2,9 +2,9 @@ name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Features'
-    labels:
-      - 'feature'
-      - 'enhancement'
+    label: 'feature'
+  - title: '🙌 Enhancements'
+    label: 'enhancement'
   - title: '🏗️ Dependencies'
     label: 'dependencies'
   - title: '🐛 Bug Fixes'
@@ -16,6 +16,7 @@ categories:
     labels: 
       - 'chore'
       - 'deployscript'
+      - 'database'
   - title: '🛠 Refactoring'
     label: 'refactor'
   - title: '👾 CI/CD'

@@ -158,6 +158,18 @@
     "phpspec/prophecy": {
         "version": "1.14.0"
     },
+    "phpstan/extension-installer": {
+        "version": "1.1.0"
+    },
+    "phpstan/phpstan": {
+        "version": "1.2.0"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "1.0.2"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "1.0.3"
+    },
     "phpunit/php-code-coverage": {
         "version": "9.2.8"
     },
@@ -493,9 +505,6 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.23.1"
-    },
-    "symfony/polyfill-php73": {
-        "version": "v1.23.0"
     },
     "symfony/polyfill-php80": {
         "version": "v1.23.1"
