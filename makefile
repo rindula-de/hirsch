@@ -22,30 +22,30 @@ vendor/autoload.php:
 	$(COMPOSER) install --prefer-dist --no-interaction
 
 env.local: vendor/autoload.php
-	ifneq ($(DBPASS),)
+	if [[ -n "${DBPASS}" ]]; then
 		@echo 'DATABASE_URL="mysql://hirsch:${ DBPASS }@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
-	endif
+	fi
 	@echo 'APP_ENV=prod' >> .env.local
-	ifneq ($(SALT),)
+	if [[ -n "$(SALT)" ]]; then
 		@echo 'APP_SECRET="${ SALT }"' >> .env.local
-	endif
+	fi
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' >> .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' >> .env.local
-	ifneq ($(EMAILPASS),)
+	if [[ -n "$(EMAILPASS)" ]]; then
 		@echo 'MailAccess_password="${ EMAILPASS }"' >> .env.local
 		@echo 'EMAILPASS="${ EMAILPASS }"' >> .env.local
-	endif
+	fi
 	@echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
 	@echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
-	ifneq ($(VERSION),)
+	if [[ -n "$(VERSION)" ]]; then
 		@echo 'APP_VERSION="${ VERSION }"' >> .env.local
-	endif
-	ifneq ($(HT_USER),)
+	fi
+	if [[ -n "$(HT_USER)" ]]; then
 		@echo 'HT_USERNAME="${ HT_USER }"' >> .env.local
-	endif
-	ifneq ($(HT_PASS),)
+	fi
+	if [[ -n "$(HT_PASS)" ]]; then
 		@echo 'HT_PASSWORD="${ HT_PASS }"' >> .env.local
-	endif
+	fi
 	@echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess
 
 .env.local.php: env.local
