@@ -96,6 +96,7 @@ jobs:
           HT_USER: ${{ secrets.HT_USER }}
           HT_PASS: ${{ secrets.HT_PASS }}
         run: make install
+      - run: make artifact.tar
       - uses: actions/upload-artifact@master
         with:
           name: deploy_hetzner
