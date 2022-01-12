@@ -22,18 +22,33 @@ vendor/autoload.php:
 	$(COMPOSER) install --prefer-dist --no-interaction
 
 env.local: vendor/autoload.php
-	@if [ -n "${DBPASS}" ]; then echo 'DATABASE_URL="mysql://hirsch:${ DBPASS }@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local; fi
+	@if [ -n "${DBPASS}" ]; then\
+        echo 'DATABASE_URL="mysql://hirsch:${ DBPASS }@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local\
+    fi
 	@echo 'APP_ENV=prod' >> .env.local
-	@if [ -n "$(SALT)" ]; then echo 'APP_SECRET="${ SALT }"' >> .env.local; fi
+	@if [ -n "$(SALT)" ]; then\
+        echo 'APP_SECRET="${ SALT }"' >> .env.local\
+    fi
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' >> .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' >> .env.local
-	@if [ -n "$(EMAILPASS)" ]; then echo 'MailAccess_password="${ EMAILPASS }"' >> .env.local; echo 'EMAILPASS="${ EMAILPASS }"' >> .env.local; fi
+	@if [ -n "$(EMAILPASS)" ]; then\
+        echo 'MailAccess_password="${ EMAILPASS }"' >> .env.local\
+        echo 'EMAILPASS="${ EMAILPASS }"' >> .env.local\
+    fi
 	@echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
 	@echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
-	@if [ -n "$(VERSION)" ]; then echo 'APP_VERSION="${ VERSION }"' >> .env.local; fi
-	@if [ -n "$(HT_USER)" ]; then echo 'HT_USERNAME="${ HT_USER }"' >> .env.local; fi
-	@if [ -n "$(HT_PASS)" ]; then echo 'HT_PASSWORD="${ HT_PASS }"' >> .env.local; fi
-	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess; fi
+	@if [ -n "$(VERSION)" ]; then\
+        echo 'APP_VERSION="${ VERSION }"' >> .env.local\
+    fi
+	@if [ -n "$(HT_USER)" ]; then\
+        echo 'HT_USERNAME="${ HT_USER }"' >> .env.local\
+    fi
+	@if [ -n "$(HT_PASS)" ]; then\
+        echo 'HT_PASSWORD="${ HT_PASS }"' >> .env.local\
+    fi
+	@if [ -z "$(WT_PROFILE_ID)" ]; then\
+        grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess\
+    fi
 
 .env.local.php: env.local
 	$(COMPOSER) dump-env prod
