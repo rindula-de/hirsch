@@ -85,21 +85,7 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('orders');
     }
 
-    /**
-     * Get a list of all orders today.
-     *
-     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
-     *
-     * @param bool $onlyToday
-     * @OA\Parameter(
-     *     name="onlyToday",
-     *     in="path",
-     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
-     *     @OA\Schema(type="integer")
-     * )
-     */
-    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
-    {
+    public getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true) {
         $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
@@ -115,8 +101,37 @@ class OrderController extends AbstractController
                 ];
             }
         }
+        return $data;
+    }
+
+    /**
+     * Get a list of all orders today.
+     *
+     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
+     *
+     * @param bool $onlyToday
+     * @OA\Parameter(
+     *     name="onlyToday",
+     *     in="path",
+     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *     @OA\Schema(type="integer")
+     * )
+     */
+    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    {
+        $data = $this->getOrdersData($ordersRepository, $onlyToday);
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/api/orders/stream", methods={"GET"})
+     */
+    public function api_orders_stream(OrdersRepository $ordersRepository) {
+        header('Content-Type: text/event-stream');
+        header('Cache-Control: no-cache');
+        echo 'data: ' . json_encode($this->getOrdersData($ordersRepository, true));
+        flush();
     }
 
     /**

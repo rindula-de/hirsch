@@ -1,8 +1,4 @@
-$.ajax({
-    url: '/api/orders/1',
-    type: 'GET',
-    dataType: 'json',
-}).done(function(data) {
+function processData(data) {
     let orders = [];
     let ordersarea = $('#orders');
     if (data.length > 0) {
@@ -30,8 +26,22 @@ $.ajax({
         ordersarea.append('--- Keine Bestellugen ---')
     }
 
-}).fail(function(jqXHR, textStatus, errorThrown) {
-    console.error(jqXHR);
-    console.error(textStatus);
-    console.error(errorThrown);
-});
+}
+
+if (typeof (EventSource) !== "undefined") {
+    var source = new EventSource("/api/orders/stream");
+    source.onmessage = function (event) {
+        data = JSON.parse(event.data);
+        processData(data);
+    };
+} else {
+    $.ajax({
+        url: '/api/orders/1',
+        type: 'GET',
+        dataType: 'json',
+    }).done(processData).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR);
+        console.error(textStatus);
+        console.error(errorThrown);
+    });
+}
