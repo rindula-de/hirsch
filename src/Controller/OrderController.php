@@ -15,12 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
+    private $ordersRepository;
+    public function __construct(OrdersRepository $ordersRepository) {
+        $this->ordersRepository = $ordersRepository;
+    }
+
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
@@ -88,9 +94,9 @@ class OrderController extends AbstractController
     /**
      * @return mixed[]
      */
-    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true): array
+    public function getOrdersData(bool $onlyToday = true): array
     {
-        $orders = $ordersRepository->findAll();
+        $orders = $this->ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
             if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
@@ -122,9 +128,9 @@ class OrderController extends AbstractController
      *     @OA\Schema(type="integer")
      * )
      */
-    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    public function api_orders(bool $onlyToday = true): JsonResponse
     {
-        $data = $this->getOrdersData($ordersRepository, $onlyToday);
+        $data = $this->getOrdersData($onlyToday);
 
         return new JsonResponse($data);
     }
@@ -132,11 +138,11 @@ class OrderController extends AbstractController
     /**
      * @Route("/api/orders/stream", methods={"GET"})
      */
-    public function api_orders_stream(OrdersRepository $ordersRepository): StreamedResponse
+    public function api_orders_stream(): void
     {
         $response = new StreamedResponse();
         $response->setCallback(function () {
-            echo json_encode($this->getOrdersData($ordersRepository, true));
+            echo json_encode($this->getOrdersData(true));
             flush();
         });
         $response->send();
