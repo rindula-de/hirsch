@@ -85,7 +85,7 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('orders');
     }
 
-    public getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true) {
+    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true) {
         $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
