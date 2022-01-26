@@ -85,7 +85,7 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('orders');
     }
 
-    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true): array
+    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true): array<mixed>
     {
         $orders = $ordersRepository->findAll();
         $data = [];
@@ -129,12 +129,14 @@ class OrderController extends AbstractController
     /**
      * @Route("/api/orders/stream", methods={"GET"})
      */
-    public function api_orders_stream(OrdersRepository $ordersRepository): void
+    public function api_orders_stream(OrdersRepository $ordersRepository): StreamedResponse
     {
-        header('Content-Type: text/event-stream');
-        header('Cache-Control: no-cache');
-        echo 'data: '.json_encode($this->getOrdersData($ordersRepository, true));
-        flush();
+        $response = new StreamedResponse();
+        $response->setCallback(function () {
+            echo json_encode($this->getOrdersData($ordersRepository, true));
+            flush();
+        });
+        $response->send();
     }
 
     /**
