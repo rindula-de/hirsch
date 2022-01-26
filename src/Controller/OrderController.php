@@ -88,7 +88,7 @@ class OrderController extends AbstractController
     /**
      * @return mixed[]
      */
-    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true): void
+    public function getOrdersData(OrdersRepository $ordersRepository, bool $onlyToday = true): array
     {
         $orders = $ordersRepository->findAll();
         $data = [];
