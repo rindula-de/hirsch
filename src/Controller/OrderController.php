@@ -15,17 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    private $ordersRepository;
-
-    public function __construct(OrdersRepository $ordersRepository)
-    {
+    private OrdersRepository $ordersRepository;
+    public function __construct(OrdersRepository $ordersRepository) {
         $this->ordersRepository = $ordersRepository;
     }
 
