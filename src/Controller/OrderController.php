@@ -17,18 +17,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    private OrdersRepository $ordersRepository;
-
-    public function __construct(OrdersRepository $ordersRepository)
-    {
-        $this->ordersRepository = $ordersRepository;
-    }
-
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
@@ -94,11 +86,21 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @return mixed[]
+     * Get a list of all orders today.
+     *
+     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
+     *
+     * @param bool $onlyToday
+     * @OA\Parameter(
+     *     name="onlyToday",
+     *     in="path",
+     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *     @OA\Schema(type="integer")
+     * )
      */
-    public function getOrdersData(bool $onlyToday = true): array
+    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
     {
-        $orders = $this->ordersRepository->findAll();
+        $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
             if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
@@ -114,40 +116,7 @@ class OrderController extends AbstractController
             }
         }
 
-        return $data;
-    }
-
-    /**
-     * Get a list of all orders today.
-     *
-     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
-     *
-     * @param bool $onlyToday
-     * @OA\Parameter(
-     *     name="onlyToday",
-     *     in="path",
-     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
-     *     @OA\Schema(type="integer")
-     * )
-     */
-    public function api_orders(bool $onlyToday = true): JsonResponse
-    {
-        $data = $this->getOrdersData($onlyToday);
-
         return new JsonResponse($data);
-    }
-
-    /**
-     * @Route("/api/orders/stream", methods={"GET"})
-     */
-    public function api_orders_stream(): void
-    {
-        $response = new StreamedResponse();
-        $response->setCallback(function () {
-            echo json_encode($this->getOrdersData(true));
-            flush();
-        });
-        $response->send();
     }
 
     /**
