@@ -3,12 +3,14 @@ COMPOSER = composer
 NPM = npm
 GIT = git
 EXEC_PHP = php
+ENV = prod
 ifdef WT_PROFILE_ID
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
   NPM = ddev exec npm
   EXEC_PHP = ddev exec php
+  ENV = dev
 endif
 SYMFONY = $(EXEC_PHP) bin/console
 ARTIFACT_NAME = artifact.tar
@@ -20,9 +22,9 @@ help: ## Outputs this help screen
 msg:
 	$(SYMFONY) messenger:consume async -vv --time-limit=3600
 
-install: vendor/autoload.php .env.local.php public/build/manifest.json ## Install all neccecary dependencies
+install: vendor .env.local.php public/build/manifest.json ## Install all neccecary dependencies
 
-vendor/autoload.php:
+vendor vendor/autoload.php: | composer.json composer.lock
 	$(COMPOSER) validate
 	$(COMPOSER) install --prefer-dist --no-interaction
 
@@ -45,12 +47,12 @@ vendor/autoload.php:
 
 
 .env.local.php: .env.local
-	$(COMPOSER) dump-env prod
+	$(COMPOSER) dump-env $(ENV) --no-interaction
 
-node_modules/.bin/encore:
+node_modules node_modules/.bin node_modules/.bin/encore:
 	$(NPM) ci
 
-public/build/manifest.json: node_modules/.bin/encore
+public public/build public/build/manifest.json: node_modules/.bin/encore | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
 	$(NPM) run build
 
 $(ARTIFACT_NAME):
