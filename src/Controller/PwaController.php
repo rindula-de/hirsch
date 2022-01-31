@@ -43,12 +43,12 @@ class PwaController extends AbstractController
                 $time->modify('+1 day');
             }
             // $time to seconds
-            $time = $time->getTimestamp()-time();
+            $time = $time->getTimestamp() - time();
 
             $item->expiresAfter(43200 + $time);
             print_r($time);
-            $bus->dispatch(new FetchMsUsers(), [new DelayStamp($time*1000)]);
-        
+            $bus->dispatch(new FetchMsUsers(), [new DelayStamp($time * 1000)]);
+
             return null;
         });
 

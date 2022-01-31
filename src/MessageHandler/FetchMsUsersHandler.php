@@ -6,7 +6,6 @@ use App\Entity\MsUser;
 use App\Message\FetchMsUsers;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FetchMsUsersHandler implements MessageHandlerInterface
