@@ -33,7 +33,7 @@ class ModalController extends AbstractController
                 if ($date >= $holiday->getStart() && $date <= $holiday->getEnd() && $this->session->get('last_showed_holidays', 0) < time() - 60 * 15) {
                     $this->session->set('last_showed_holidays', time());
 
-                    return new Response('Der hirsch hat aktuell Urlaub und ist vom '.$holiday->getStart()->format('d.m.Y').' bis zum '.$holiday->getEnd()->format('d.m.Y').' nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!');
+                    return new Response('Der Hirsch hat aktuell Urlaub und ist vom '.$holiday->getStart()->format('d.m.Y').' bis zum '.$holiday->getEnd()->format('d.m.Y').' nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!');
                 }
             }
         }
