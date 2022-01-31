@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Message\FetchMsUsers;
 use App\Repository\HirschRepository;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;

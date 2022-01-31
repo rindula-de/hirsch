@@ -5,7 +5,6 @@ namespace App\MessageHandler;
 use App\Entity\MsUser;
 use App\Message\FetchMsUsers;
 use Doctrine\Persistence\ManagerRegistry;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FetchMsUsersHandler implements MessageHandlerInterface
@@ -51,6 +50,7 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
         curl_close($curl);
         if ($err) {
             $message = 'cURL Error #: '.$err;
+
             throw new \Exception($message);
         } else {
             $response = json_decode($response, true)['value'];
@@ -66,7 +66,7 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
 
             foreach ($data as $d) {
                 $e = new MsUser();
-                $e->setName($d['givenName'] . ' ' . $d['surname']);
+                $e->setName($d['givenName'].' '.$d['surname']);
                 $e->setEmail($d['mail']);
                 $e->setUid($d['id']);
                 if (!$entityManager->isOpen()) {
