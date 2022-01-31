@@ -33,6 +33,7 @@ class MenuController extends AbstractController
     public function menu(MessageBusInterface $bus): Response
     {
         $bus->dispatch(new FetchMsUsers());
+
         return $this->render('menu/index.html.twig', []);
     }
 
