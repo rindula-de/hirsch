@@ -95,6 +95,9 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           HT_USER: ${{ secrets.HT_USER }}
           HT_PASS: ${{ secrets.HT_PASS }}
+          MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
+          MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
+          MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
         run: make install
       - run: make artifact.tar
       - uses: actions/upload-artifact@master
