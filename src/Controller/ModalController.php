@@ -5,13 +5,12 @@ namespace App\Controller;
 use App\Entity\Holidays;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ModalController extends AbstractController
 {
-
     public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
     {
         $this->doctrine = $doctrine;
@@ -33,6 +32,7 @@ class ModalController extends AbstractController
             if ($holiday->getStart() !== null && $holiday->getEnd() !== null) {
                 if ($date >= $holiday->getStart() && $date <= $holiday->getEnd() && $this->session->get('last_showed_holidays', 0) < time() - 60 * 15) {
                     $this->session->set('last_showed_holidays', time());
+
                     return new Response('Der hirsch hat aktuell Urlaub und ist vom '.$holiday->getStart()->format('d.m.Y').' bis zum '.$holiday->getEnd()->format('d.m.Y').' nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!');
                 }
             }
