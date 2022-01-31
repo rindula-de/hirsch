@@ -11,6 +11,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 final class FetchMsUsersHandler implements MessageHandlerInterface
 {
     private ManagerRegistry $doctrine;
+
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -21,18 +22,18 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
         // Login to the Microsoft API
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => 'https://login.microsoftonline.com/' . $_ENV['MS_GRAPH_TENANT'] . '/oauth2/v2.0/token',
+            CURLOPT_URL            => 'https://login.microsoftonline.com/'.$_ENV['MS_GRAPH_TENANT'].'/oauth2/v2.0/token',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query([
-                'grant_type' => 'client_credentials',
-                'client_id' => $_ENV['MS_GRAPH_CLIENT_ID'],
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => http_build_query([
+                'grant_type'    => 'client_credentials',
+                'client_id'     => $_ENV['MS_GRAPH_CLIENT_ID'],
                 'client_secret' => $_ENV['MS_GRAPH_CLIENT_SECRET'],
-                'scope' => 'https://graph.microsoft.com/.default'
+                'scope'         => 'https://graph.microsoft.com/.default',
             ]),
             CURLOPT_HTTPHEADER => [
-                'Content-Type: application/x-www-form-urlencoded'
-            ]
+                'Content-Type: application/x-www-form-urlencoded',
+            ],
         ]);
         $response = curl_exec($curl);
         curl_close($curl);
@@ -53,7 +54,7 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
                     CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST  => 'GET',
                     CURLOPT_HTTPHEADER     => [
-                        'Authorization: ' . $token['token_type'] . ' ' . $token['access_token'],
+                        'Authorization: '.$token['token_type'].' '.$token['access_token'],
                         'Cache-Control: no-cache',
                         'Content-Type: application/json',
                     ],
@@ -62,7 +63,8 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
                 $err = curl_error($curl);
                 curl_close($curl);
                 if ($err) {
-                    $message = 'cURL Error #: ' . $err;
+                    $message = 'cURL Error #: '.$err;
+
                     throw new \Exception($message);
                 } elseif (is_string($response)) {
                     $response = json_decode($response, true);
@@ -83,7 +85,7 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
 
                             foreach ($data as $d) {
                                 $e = new MsUser();
-                                $e->setName($d['givenName'] . ' ' . $d['surname']);
+                                $e->setName($d['givenName'].' '.$d['surname']);
                                 $e->setEmail($d['mail']);
                                 $e->setUid($d['id']);
                                 if (!$entityManager->isOpen()) {

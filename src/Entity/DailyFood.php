@@ -12,7 +12,7 @@ class DailyFood
 {
     /**
      * @var int
-     * 
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -21,14 +21,14 @@ class DailyFood
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
      * @var \DateTimeInterface
-     * 
+     *
      * @ORM\Column(type="date")
      */
     private $date;

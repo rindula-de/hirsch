@@ -14,6 +14,7 @@ class ModalController extends AbstractController
 {
     private ManagerRegistry $doctrine;
     private SessionInterface $session;
+
     public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
     {
         $this->doctrine = $doctrine;
