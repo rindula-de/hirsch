@@ -52,7 +52,7 @@ vendor vendor/autoload.php: | composer.json composer.lock
 node_modules node_modules/.bin node_modules/.bin/encore:
 	$(NPM) ci
 
-public public/build public/build/manifest.json: node_modules/.bin/encore | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
+public public/build public/build/manifest.json: node_modules/.bin/encore vendor/autoload.php | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
 	$(NPM) run build
 
 $(ARTIFACT_NAME):
