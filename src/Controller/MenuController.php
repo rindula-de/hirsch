@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends AbstractController
@@ -30,10 +29,8 @@ class MenuController extends AbstractController
     /**
      * @Route("/karte", name="menu", methods={"GET"})
      */
-    public function menu(MessageBusInterface $bus): Response
+    public function menu(): Response
     {
-        $bus->dispatch(new FetchMsUsers());
-
         return $this->render('menu/index.html.twig', []);
     }
 

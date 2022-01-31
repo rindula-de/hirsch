@@ -2,17 +2,17 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\MsUser;
 use App\Message\FetchMsUsers;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FetchMsUsersHandler implements MessageHandlerInterface
 {
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->logger = $logger;
+        $this->doctrine = $doctrine;
     }
 
     public function __invoke(FetchMsUsers $message)
@@ -51,12 +51,39 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
         curl_close($curl);
         if ($err) {
             $message = 'cURL Error #: '.$err;
-        // throw new \Exception($message);
+            throw new \Exception($message);
         } else {
-            $response = json_decode($response, true);
+            $response = json_decode($response, true)['value'];
             $message = 'Successfully fetched users from MS Graph API';
+
+            $entityManager = $this->doctrine->getManager();
+            // truncate ms_user table
+            $entityManager->getConnection()->executeUpdate('TRUNCATE TABLE ms_user');
+
+            $data = array_filter($response, function ($user) {
+                return strpos($user['userPrincipalName'], '#EXT#@') === false && !empty($user['mail']) && !empty($user['givenName']) && !empty($user['surname']) && strpos($user['userPrincipalName'], '@hochwarth-it.de') !== false;
+            });
+
+            foreach ($data as $d) {
+                $e = new MsUser();
+                $e->setName($d['givenName'] . ' ' . $d['surname']);
+                $e->setEmail($d['mail']);
+                $e->setUid($d['id']);
+                if (!$entityManager->isOpen()) {
+                    $entityManager = $entityManager->create(
+                        $entityManager->getConnection(),
+                        $entityManager->getConfiguration()
+                    );
+                }
+                $entityManager->persist($e);
+            }
+            if (!$entityManager->isOpen()) {
+                $entityManager = $entityManager->create(
+                    $entityManager->getConnection(),
+                    $entityManager->getConfiguration()
+                );
+            }
+            $entityManager->flush();
         }
-        $this->logger->info($message);
-        $this->logger->info(print_r($response, true));
     }
 }
