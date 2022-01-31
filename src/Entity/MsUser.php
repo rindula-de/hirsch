@@ -11,17 +11,23 @@ use Doctrine\ORM\Mapping as ORM;
 class MsUser
 {
     /**
+     * @var string
+     * 
      * @ORM\Id
      * @ORM\Column(type="string", length=255)
      */
     private $uid;
 
     /**
+     * @var string
+     * 
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var string
+     * 
      * @ORM\Column(type="string", length=255)
      */
     private $email;

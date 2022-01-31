@@ -7,10 +7,13 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ModalController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+    private SessionInterface $session;
     public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
     {
         $this->doctrine = $doctrine;

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class DailyFood
 {
     /**
+     * @var int
+     * 
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -18,11 +20,15 @@ class DailyFood
     private $id;
 
     /**
+     * @var string
+     * 
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var \DateTimeInterface
+     * 
      * @ORM\Column(type="date")
      */
     private $date;
