@@ -32,6 +32,7 @@ version-resolver:
   minor:
     labels:
       - 'minor'
+      - 'database'
   patch:
     labels:
       - 'patch'
