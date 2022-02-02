@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Message\FetchMsUsers;
+use App\Message\SendOrderOverview;
 use App\Service\UtilityService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class PwaController extends AbstractController
         }
 
         $cache = new FilesystemAdapter();
-        $cache->get('msuser_cache03', function (ItemInterface $item) use ($bus) {
+        $cache->get('msuser_cache', function (ItemInterface $item) use ($bus) {
             // set $time to next noon
             $time = new DateTime('now');
             $time->setTime(12, 0, 0);
@@ -48,7 +49,7 @@ class PwaController extends AbstractController
             $item->expiresAfter(43200 + $time);
             print_r($time);
             $bus->dispatch(new FetchMsUsers(), [new DelayStamp($time * 1000)]);
-
+            
             return null;
         });
 
