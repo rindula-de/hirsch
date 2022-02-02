@@ -25,10 +25,11 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $this->kernel = $kernel;
     }
 
-    public function __invoke(SendOrderOverview $message)
+    public function __invoke(SendOrderOverview $message): void
     {
 
         // get all orders for today
+        /** @var mixed[] */
         $orders = $this->entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -49,9 +50,10 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $text = "Heutige Bestellungen:\n\n";
         $path = $this->kernel->getProjectDir().'/public/favicon.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
+        $data = file_get_contents($path)?:'';
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
         $html = '<h1><img src="'.$base64.'" style="width: 50px;"> Heutige Hirsch Bestellung ('.(new DateTime())->format('d.m.Y').')</h1>';
+        /** @var mixed[] $order */
         foreach ($orders as $order) {
             $text .= $order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"\nSonderwunsch:" . $order['note']:"") . "\n\n";
             $html .= "<li>".$order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"<li>Sonderwunsch: " . $order['note'] . "</li>":"") . "</li>";
@@ -60,15 +62,17 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         // get active payer
         $activePayer = $this->entityManager->getRepository(Payhistory::class)->findActivePayer();
         /** @var Paypalmes */
-        $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id']);
-        // prepare symfony mailer
-        $email = (new Email())
-            ->from('essen@hochwarth-e.com')
-            ->to($activePayer->getEmail())
-            ->subject('Bestellübersicht')
-            ->text($text)
-            ->html($html);
+        $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id']??0);
+        if ($activePayer->getEmail()) {
+            // prepare symfony mailer
+            $email = (new Email())
+                ->from('essen@hochwarth-e.com')
+                ->to($activePayer->getEmail())
+                ->subject('Bestellübersicht')
+                ->text($text)
+                ->html($html);
 
-        $this->mailer->send($email);
+            $this->mailer->send($email);
+        }
     }
 }
