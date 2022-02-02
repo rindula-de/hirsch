@@ -34,7 +34,7 @@ class OrderTest extends WebTestCase
         ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseRedirects('/karte', 302);
-        $date = date_create('10:00:00');
+        $date = date_create('08:00:00');
         if (!$date) {
             $this->fail('Could not create date 10:00:00');
         }
