@@ -18,14 +18,13 @@ class OrderTest extends WebTestCase
     {
         ClockMock::register(Orders::class);
         ClockMock::register(OrderController::class);
-        ClockMock::register(DateTime::class);
-        $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
         if ($user === null) {
             $this->fail('No user found with username "test"');
         }
-
+        
+        $client = static::createClient();
         $client->loginUser($user);
         $date = date_create('12:00:00');
         if (!$date) {
@@ -36,7 +35,7 @@ class OrderTest extends WebTestCase
         $this->assertResponseRedirects('/karte', 302);
         $date = date_create('08:00:00');
         if (!$date) {
-            $this->fail('Could not create date 10:00:00');
+            $this->fail('Could not create date 08:00:00');
         }
         ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
