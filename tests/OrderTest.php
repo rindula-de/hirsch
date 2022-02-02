@@ -6,6 +6,9 @@ use App\Repository\UserRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * @group time-sensitive
+ */
 class OrderTest extends WebTestCase
 {
     public function testOrderingAuthenticated(): void
