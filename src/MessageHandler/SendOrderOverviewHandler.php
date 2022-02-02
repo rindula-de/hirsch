@@ -51,8 +51,8 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $text = "Heutige Bestellungen:\n\n";
         $path = $this->kernel->getProjectDir().'/public/favicon.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path)?:'';
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        $data = file_get_contents($path) ?: '';
+        $base64 = 'data:image/'.$type.';base64,'.base64_encode($data);
         $html = '<h1><img src="'.$base64.'" style="width: 50px;"> Heutige Hirsch Bestellung ('.(new DateTime())->format('d.m.Y').')</h1>';
         /** @var mixed[] $order */
         foreach ($orders as $order) {
@@ -63,7 +63,7 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         // get active payer
         $activePayer = $this->entityManager->getRepository(Payhistory::class)->findActivePayer();
         /** @var Paypalmes */
-        $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id']??0);
+        $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id'] ?? 0);
         if ($activePayer->getEmail()) {
             // prepare symfony mailer
             $email = (new Email())
