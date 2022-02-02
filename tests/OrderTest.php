@@ -34,7 +34,7 @@ class OrderTest extends WebTestCase
         ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseStatusCodeSame(302);
-    $this->assertSelectorTextContains('div.message.warning', 'Du kannst heute nicht mehr bestellen!', 'Could not find warning message');
+        $this->assertSelectorTextContains('div.message.warning', 'Du kannst heute nicht mehr bestellen!', 'Could not find warning message');
         $date = date_create('10:00:00');
         if (!$date) {
             $this->fail('Could not create date 10:00:00');
