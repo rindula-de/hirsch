@@ -35,9 +35,6 @@ class OrderTest extends WebTestCase
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertSelectorTextContains('div.message.warning', 'Du kannst heute nicht mehr bestellen!');
         $this->assertResponseStatusCodeSame(302);
-        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
-        $this->assertResponseStatusCodeSame(302);
-        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
         $date = date_create('10:00:00');
         if (!$date) {
             $this->fail('Could not create date 10:00:00');
@@ -45,6 +42,7 @@ class OrderTest extends WebTestCase
         ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
