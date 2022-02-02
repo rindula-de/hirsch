@@ -18,11 +18,19 @@ class OrderTest extends WebTestCase
         }
 
         $client->loginUser($user);
-        ClockMock::withClockMock(date_create('11:00:00')->getTimestamp());
+        $date = date_create('11:00:00');
+        if (!$date) {
+            $this->fail('Could not create date 11:00:00');
+        }
+        ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseStatusCodeSame(302);
         $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
-        ClockMock::withClockMock(date_create('10:00:00')->getTimestamp());
+        $date = date_create('10:00:00');
+        if (!$date) {
+            $this->fail('Could not create date 10:00:00');
+        }
+        ClockMock::withClockMock($date->getTimestamp());
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('div.message.warning', 'Du kannst heute nicht mehr bestellen!');
