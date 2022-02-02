@@ -5,7 +5,6 @@ namespace App\Tests;
 use App\Controller\OrderController;
 use App\Entity\Orders;
 use App\Repository\UserRepository;
-use DateTime;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -23,7 +22,7 @@ class OrderTest extends WebTestCase
         if ($user === null) {
             $this->fail('No user found with username "test"');
         }
-        
+
         $client = static::createClient();
         $client->loginUser($user);
         $date = date_create('12:00:00');
