@@ -18,6 +18,7 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
     private KernelInterface $kernel;
+
     public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer, KernelInterface $kernel)
     {
         $this->entityManager = $entityManager;
@@ -50,11 +51,11 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $path = $this->kernel->getProjectDir().'/public/favicon.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        $base64 = 'data:image/'.$type.';base64,'.base64_encode($data);
         $html = '<h1><img src="'.$base64.'" style="width: 50px;"> Heutige Hirsch Bestellung ('.(new DateTime())->format('d.m.Y').')</h1>';
         foreach ($orders as $order) {
-            $text .= $order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"\nSonderwunsch:" . $order['note']:"") . "\n\n";
-            $html .= "<li>".$order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"<li>Sonderwunsch: " . $order['note'] . "</li>":"") . "</li>";
+            $text .= $order['cnt'].'x '.$order['name'].(!empty($order['note']) ? "\nSonderwunsch:".$order['note'] : '')."\n\n";
+            $html .= '<li>'.$order['cnt'].'x '.$order['name'].(!empty($order['note']) ? '<li>Sonderwunsch: '.$order['note'].'</li>' : '').'</li>';
         }
 
         // get active payer
