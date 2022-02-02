@@ -24,7 +24,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: '15'
       - uses: shivammathur/setup-php@2.16.0
@@ -84,35 +84,22 @@ jobs:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - name: Install Composer dependencies
-        env:
-          SALT: ${{ secrets.SALT }}
-        run: composer install --prefer-dist --no-interaction
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: '15'
-      - name: Config anpassen
-        run: |
-          echo 'DATABASE_URL="mysql://hirsch:${{ secrets.DBPASS }}@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' > .env.local
-          echo 'APP_ENV=prod' >> .env.local
-          echo 'APP_SECRET="${{ secrets.SALT }}"' >> .env.local
-          echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' >> .env.local
-          echo 'MailAccess_username="essen@hochwarth-e.com"' >> .env.local
-          echo 'MailAccess_password="${{ secrets.EMAILPASS }}"' >> .env.local
-          echo 'EMAILPASS="${{ secrets.EMAILPASS }}"' >> .env.local
-          echo 'EMAILUSER="essen@hochwarth-e.com"' >> .env.local
-          echo 'POBOX="{sslin.df.eu/imap/ssl}INBOX/"' >> .env.local
-          echo 'APP_VERSION="${{ steps.get_version.outputs.VERSION }}"' >> .env.local
-          echo 'HT_USERNAME="${{ secrets.HT_USER }}"' >> .env.local
-          echo 'HT_PASSWORD="${{ secrets.HT_PASS }}"' >> .env.local
-          composer dump-env prod
-          echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' >> public/.htaccess
-      - run: npm ci
-        name: Initialize NPM on Root
-      - run: npm run build
-        name: Webpack Build
-      - name: Pack Files
-        run: tar -cf artifact.tar .
+      - name: Make Install
+        env:
+          DBPASS: ${{ secrets.DBPASS }}
+          SALT: ${{ secrets.SALT }}
+          EMAILPASS: ${{ secrets.EMAILPASS }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+          HT_USER: ${{ secrets.HT_USER }}
+          HT_PASS: ${{ secrets.HT_PASS }}
+          MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
+          MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
+          MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
+        run: make install
+      - run: make artifact.tar
       - uses: actions/upload-artifact@master
         with:
           name: deploy_hetzner

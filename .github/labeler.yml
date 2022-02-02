@@ -24,3 +24,6 @@ wontfix:
   - bin/*
   - .htaccess
   - public/.htaccess
+  
+chore:
+  - makefile
