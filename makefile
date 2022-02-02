@@ -57,3 +57,13 @@ public public/build public/build/manifest.json: node_modules/.bin/encore vendor/
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
+
+tests: export APP_ENV=test
+tests:
+	$(SYMFONY) doctrine:database:drop --force || true
+	$(SYMFONY) doctrine:database:create
+	$(SYMFONY) doctrine:schema:create -n
+	$(SYMFONY) doctrine:fixtures:load -n
+	$(EXEC_PHP) bin/phpunit $@
+
+.PHONY: tests
