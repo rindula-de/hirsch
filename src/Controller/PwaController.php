@@ -34,7 +34,7 @@ class PwaController extends AbstractController
         }
 
         $cache = new FilesystemAdapter();
-        $cache->get('msuser_cache03', function (ItemInterface $item) use ($bus) {
+        $cache->get('msuser_cache', function (ItemInterface $item) use ($bus) {
             // set $time to next noon
             $time = new DateTime('now');
             $time->setTime(12, 0, 0);

@@ -6,25 +6,30 @@ use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\OrderType;
+use App\Message\SendOrderOverview;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class OrderController extends AbstractController
 {
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
-    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine): Response
+    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine, MessageBusInterface $bus): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
@@ -52,6 +57,24 @@ class OrderController extends AbstractController
                 $response->headers->setCookie($cookie);
                 // redirect with cookie
             }
+            $cache = new FilesystemAdapter();
+            $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
+                // set $time to next noon
+                $time = new DateTime('now');
+                $time->setTime(11, 0, 0);
+                // if $time is in past, set $time to next day
+                if ($time < new DateTime('now')) {
+                    return null;
+                }
+                // $time to seconds
+                $time = $time->getTimestamp() - time();
+
+                $item->expiresAfter(3600 + 43200 + $time);
+                print_r($time);
+                $bus->dispatch(new SendOrderOverview(), [new DelayStamp($time * 1000)]);
+
+                return null;
+            });
 
             return $response;
         }
@@ -202,23 +225,9 @@ class OrderController extends AbstractController
             ->select('p')
             ->getQuery()
             ->getResult();
-        // get most common payhistory.paypalme
-        $active = $entityManager
-            ->getRepository(Payhistory::class)
-            ->createQueryBuilder('p')
-            ->select('count(p.paypalme) as cnt')
-            ->join('p.paypalme', 'pm')
-            ->addSelect('pm.id')
-            ->where('p.created BETWEEN :date_start AND :date_end')
-            ->groupBy('p.paypalme')
-            ->orderBy('cnt', 'DESC')
-            ->setParameter('date_start', strftime('%Y-%m-%d').' 00:00:00')
-            ->setParameter('date_end', strftime('%Y-%m-%d').' 23:59:59')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getResult();
-        if (is_array($active) && array_key_exists(0, $active) && array_key_exists('id', $active[0])) {
-            $active = $active[0]['id'];
+        $active = $entityManager->getRepository(Payhistory::class)->findActivePayer();
+        if (is_array($active) && array_key_exists('id', $active)) {
+            $active = $active['id'];
         } else {
             $active = null;
         }
