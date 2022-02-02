@@ -17,13 +17,13 @@ class OrderTest extends WebTestCase
     {
         ClockMock::register(Orders::class);
         ClockMock::register(OrderController::class);
+        $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
         if ($user === null) {
             $this->fail('No user found with username "test"');
         }
 
-        $client = static::createClient();
         $client->loginUser($user);
         $date = date_create('12:00:00');
         if (!$date) {
