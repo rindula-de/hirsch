@@ -18,6 +18,7 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
     private KernelInterface $kernel;
+
     public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer, KernelInterface $kernel)
     {
         $this->entityManager = $entityManager;
@@ -55,8 +56,8 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $html = '<h1><img src="'.$base64.'" style="width: 50px;"> Heutige Hirsch Bestellung ('.(new DateTime())->format('d.m.Y').')</h1>';
         /** @var mixed[] $order */
         foreach ($orders as $order) {
-            $text .= $order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"\nSonderwunsch:" . $order['note']:"") . "\n\n";
-            $html .= "<li>".$order['cnt'] . "x " . $order['name'] . (!empty($order['note'])?"<li>Sonderwunsch: " . $order['note'] . "</li>":"") . "</li>";
+            $text .= $order['cnt'].'x '.$order['name'].(!empty($order['note']) ? "\nSonderwunsch:".$order['note'] : '')."\n\n";
+            $html .= '<li>'.$order['cnt'].'x '.$order['name'].(!empty($order['note']) ? '<li>Sonderwunsch: '.$order['note'].'</li>' : '').'</li>';
         }
 
         // get active payer

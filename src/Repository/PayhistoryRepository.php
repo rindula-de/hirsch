@@ -20,11 +20,12 @@ class PayhistoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Returns active payer information
+     * Returns active payer information.
      *
      * @return array<string, int>|null ['id' => 0, 'cnt' => 0]
      */
-    public function findActivePayer() {
+    public function findActivePayer()
+    {
         $val = $this
             ->createQueryBuilder('p')
             ->select('count(p.paypalme) as cnt')
@@ -41,6 +42,7 @@ class PayhistoryRepository extends ServiceEntityRepository
         if (is_array($val) && count($val) > 0) {
             return $val[0];
         }
+
         return null;
     }
 
