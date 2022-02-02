@@ -79,6 +79,12 @@ class OrderController extends AbstractController
             return $response;
         }
 
+        // if its after 10:55 redirect back to menu
+        if ($preorder === 0 && new DateTime('now') > new DateTime('10:55')) {
+            $this->addFlash("warning", "Du kannst heute nicht mehr bestellen! Bitte such dir eine alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.");
+            return $this->redirectToRoute('menu');
+        }
+
         return $this->render('order/index.html.twig', [
             'form'       => $form->createView(),
             'meal'       => $hirsch,

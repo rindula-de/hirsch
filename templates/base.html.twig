@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title>
-      {% block title %}?{% endblock %} | Hirschbestellung
+      {% block title %}?{% endblock %}
+      | Hirschbestellung
     </title>
     {% block stylesheets %}
       {{ encore_entry_link_tags('app') }}
@@ -28,27 +29,18 @@
     {% include "navigation.html.twig" %}
     <main class="main">
       <div class="content">
-        {% for message in app.flashes('success') %}
-            <div class="message success">
-                {{ message }}
+        {% for label, messages in app.flashes %}
+          {% for message in messages %}
+            <div class="message {{label}}">
+              {{ message }}
             </div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="message error">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes %}
-            <div class="message">
-                {{ message }}
-            </div>
+          {% endfor %}
         {% endfor %}
         {% block body %}{% endblock %}
       </div>
       <span id="order-until"></span>
     </main>
-    <ul class='custom-menu'>
-    </ul>
+    <ul class='custom-menu'></ul>
     <div id="preorderModal" class="modal">
       <div class="modal-content">
         <span class="close material-icons">close</span>
