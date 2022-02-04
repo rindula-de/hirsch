@@ -30,7 +30,7 @@ install: install_deps install_db  ## Install the project
 install_deps: vendor .env.local.php public/build/manifest.json
 
 install_db: vendor .env.local.php
-	bin/console doctrine:migrations:migrate --no-interaction
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: | composer.json composer.lock
 	$(COMPOSER) validate
@@ -54,24 +54,28 @@ vendor vendor/autoload.php: | composer.json composer.lock
 	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 
-.env.local.php: .env.local
+.env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
 
 node_modules node_modules/.bin node_modules/.bin/encore:
 	$(NPM) ci
 
-public public/build public/build/manifest.json: node_modules/.bin/encore vendor/autoload.php | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
+public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
 	$(NPM) run build
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
+    
+tests: export APP_ENV=test
+tests: install_deps
+	$(EXEC_PHP) bin/phpunit
 
 clean:
 	rm -rf vendor
 	rm -rf var
-	rm- rf node_modules
-	rm- rf .env.local
-	rm- rf .env.local.php
-	rm- rf public/build
+	rm -rf node_modules
+	rm -rf .env.local
+	rm -rf .env.local.php
+	rm -rf public/build
 
-.PHONY: clean install install_deps install_db msg help
+.PHONY: clean install install_deps install_db msg help tests
