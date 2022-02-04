@@ -30,14 +30,14 @@ final class Version20211104135414 extends AbstractMigration
         )
         ;
         ");
-        $this->addSql("CREATE TABLE `holidays` (
+        $this->addSql('CREATE TABLE `holidays` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `start` DATE NOT NULL,
             `end` DATE NOT NULL,
             PRIMARY KEY (`id`) USING BTREE
         )
         ;
-        ");
+        ');
         $this->addSql("CREATE TABLE `orders` (
             `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
             `hirsch_id` INT(11) NOT NULL,
@@ -60,7 +60,7 @@ final class Version20211104135414 extends AbstractMigration
         )
         ;
         ");
-        $this->addSql("CREATE TABLE `payhistory` (
+        $this->addSql('CREATE TABLE `payhistory` (
             `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
             `paypalme_id` INT(11) NOT NULL,
             `created` DATETIME NOT NULL DEFAULT current_timestamp(),
@@ -68,7 +68,7 @@ final class Version20211104135414 extends AbstractMigration
             INDEX `paypalme_id` (`paypalme_id`) USING BTREE
         )
         ;
-        ");
+        ');
         $this->addSql('
         CREATE PROCEDURE `clear payhistory`()
         BEGIN
@@ -79,11 +79,11 @@ final class Version20211104135414 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql("DROP TABLE `holidays`");
-        $this->addSql("DROP TABLE `orders`");
-        $this->addSql("DROP TABLE `payhistory`");
-        $this->addSql("DROP TABLE `paypalmes`");
-        $this->addSql("DROP TABLE `hirsch`");
-        $this->addSql("DROP PROCEDURE IF EXISTS `clear payhistory`");
+        $this->addSql('DROP TABLE `holidays`');
+        $this->addSql('DROP TABLE `orders`');
+        $this->addSql('DROP TABLE `payhistory`');
+        $this->addSql('DROP TABLE `paypalmes`');
+        $this->addSql('DROP TABLE `hirsch`');
+        $this->addSql('DROP PROCEDURE IF EXISTS `clear payhistory`');
     }
 }
