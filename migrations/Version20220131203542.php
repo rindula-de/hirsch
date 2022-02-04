@@ -30,7 +30,6 @@ final class Version20220131203542 extends AbstractMigration
         $this->addSql('DROP TABLE daily_food');
         $this->addSql('DROP TABLE ms_user');
         $this->addSql('ALTER TABLE hirsch CHANGE slug slug VARCHAR(191) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`, CHANGE name name VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`');
-        $this->addSql('ALTER TABLE messenger_messages CHANGE body body LONGTEXT NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE headers headers LONGTEXT NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE queue_name queue_name VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`');
         $this->addSql('ALTER TABLE orders CHANGE note note VARCHAR(1000) CHARACTER SET utf8 DEFAULT \'\' NOT NULL COLLATE `utf8_general_ci`, CHANGE orderedby orderedby VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`');
         $this->addSql('ALTER TABLE paypalmes CHANGE link link VARCHAR(100) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`, CHANGE name name VARCHAR(100) CHARACTER SET utf8 DEFAULT \'\' NOT NULL COLLATE `utf8_general_ci`, CHANGE email email VARCHAR(255) CHARACTER SET utf8 DEFAULT \'NULL\' COLLATE `utf8_general_ci`');
         $this->addSql('ALTER TABLE user CHANGE username username VARCHAR(180) NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE roles roles LONGTEXT NOT NULL COLLATE `utf8mb4_unicode_ci` COMMENT \'(DC2Type:json)\', CHANGE password password VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`');

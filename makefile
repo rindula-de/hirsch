@@ -4,7 +4,7 @@ NPM = npm
 GIT = git
 EXEC_PHP = php
 ENV = prod
-ifdef WT_PROFILE_ID
+ifneq (, $(shell which ddev))
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
@@ -30,8 +30,7 @@ install: install_deps install_db  ## Install the project
 install_deps: vendor .env.local.php public/build/manifest.json
 
 install_db: vendor .env.local.php
-	bin/console doctrine:databaase:create --force || true
-	bin/console doctrine:migrations:migrate
+	bin/console doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: | composer.json composer.lock
 	$(COMPOSER) validate
