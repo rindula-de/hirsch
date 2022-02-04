@@ -57,12 +57,14 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "ext-simplexml": "*",
         "dama/doctrine-test-bundle": "^6.7",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "infection/infection": "^0.26.4",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.2",
-        "phpstan/phpstan-symfony": "^1.0",
         "phpstan/phpstan-doctrine": "^1.0",
+        "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "6.0.*",
@@ -83,7 +85,8 @@
             "composer/package-versions-deprecated": true,
             "phpstan/extension-installer": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "infection/extension-installer": true
         }
     },
     "autoload": {
