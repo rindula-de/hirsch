@@ -10,6 +10,11 @@ ifdef WT_PROFILE_ID
   COMPOSER = ddev composer
   NPM = ddev exec npm
   EXEC_PHP = ddev exec php
+  ifeq (, $(shell which ddev))
+    COMPOSER = composer
+    NPM = npm
+    EXEC_PHP = php
+  endif
   ENV = dev
 endif
 SYMFONY = $(EXEC_PHP) bin/console
