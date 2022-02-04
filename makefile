@@ -74,3 +74,5 @@ clean:
 	rm- rf .env.local
 	rm- rf .env.local.php
 	rm- rf public/build
+
+.PHONY: clean install install_deps install_db msg help
