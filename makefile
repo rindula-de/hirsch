@@ -30,7 +30,7 @@ install: install_deps install_db  ## Install the project
 install_deps: vendor .env.local.php public/build/manifest.json
 
 install_db: vendor .env.local.php
-	bin/console doctrine:migrations:migrate --no-interaction
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: | composer.json composer.lock
 	$(COMPOSER) validate
@@ -68,7 +68,7 @@ $(ARTIFACT_NAME):
     
 tests: export APP_ENV=test
 tests: install_deps
-    bin/phpunit
+    $(EXEC_PHP) bin/phpunit
 
 clean:
 	rm -rf vendor
