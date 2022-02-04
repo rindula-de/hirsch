@@ -68,7 +68,7 @@ $(ARTIFACT_NAME):
     
 tests: export APP_ENV=test
 tests: install_deps
-    $(EXEC_PHP) bin/phpunit
+	$(EXEC_PHP) bin/phpunit
 
 clean:
 	rm -rf vendor
