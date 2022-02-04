@@ -73,9 +73,9 @@ tests: install_deps
 clean:
 	rm -rf vendor
 	rm -rf var
-	rm- rf node_modules
-	rm- rf .env.local
-	rm- rf .env.local.php
-	rm- rf public/build
+	rm -rf node_modules
+	rm -rf .env.local
+	rm -rf .env.local.php
+	rm -rf public/build
 
 .PHONY: clean install install_deps install_db msg help tests
