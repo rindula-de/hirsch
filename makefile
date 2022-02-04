@@ -54,13 +54,13 @@ vendor vendor/autoload.php: | composer.json composer.lock
 	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 
-.env.local.php: .env.local
+.env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
 
 node_modules node_modules/.bin node_modules/.bin/encore:
 	$(NPM) ci
 
-public public/build public/build/manifest.json: node_modules/.bin/encore vendor/autoload.php | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
+public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
 	$(NPM) run build
 
 $(ARTIFACT_NAME):
