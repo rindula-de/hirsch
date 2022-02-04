@@ -56,13 +56,11 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
-      - run: make install
+      - run: APP_ENV=test make install
         name: Install dependencies
       # Create database Schema
-      - name: Create database schema and dummy data
-        run: |
-          bin/console --env=test doctrine:schema:create --no-interaction
-          bin/console --env=test doctrine:fixtures:load --no-interaction
+      - name: Create dummy data
+        run: bin/console --env=test doctrine:fixtures:load --no-interaction
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 

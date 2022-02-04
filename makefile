@@ -4,7 +4,7 @@ NPM = npm
 GIT = git
 EXEC_PHP = php
 ENV = prod
-ifdef WT_PROFILE_ID
+ifneq (, $(shell which ddev))
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
@@ -12,17 +12,25 @@ ifdef WT_PROFILE_ID
   EXEC_PHP = ddev exec php
   ENV = dev
 endif
+ifdef APP_ENV
+	ENV = $(APP_ENV)
+endif
 SYMFONY = $(EXEC_PHP) bin/console
 ARTIFACT_NAME = artifact.tar
 MAKEFLAGS := --jobs=$(shell nproc)
 
 help: ## Outputs this help screen
-        @grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 msg:
 	$(SYMFONY) messenger:consume async -vv --time-limit=3600
 
-install: vendor .env.local.php public/build/manifest.json ## Install all neccecary dependencies
+install: install_deps install_db  ## Install the project
+
+install_deps: vendor .env.local.php public/build/manifest.json
+
+install_db: vendor .env.local.php
+	bin/console doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: | composer.json composer.lock
 	$(COMPOSER) validate
@@ -30,7 +38,7 @@ vendor vendor/autoload.php: | composer.json composer.lock
 
 .env.local:
 	@if [ -n "$(DBPASS)" ]; then echo 'DATABASE_URL="mysql://hirsch:$(DBPASS)@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' | tee .env.local; fi;
-	@echo 'APP_ENV=prod' | tee -a .env.local
+	@echo 'APP_ENV=$(ENV)' | tee -a .env.local
 	@if [ -n "$(SALT)" ]; then echo 'APP_SECRET="$(SALT)"' | tee -a .env.local; fi;
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' | tee -a .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' | tee -a .env.local
@@ -57,3 +65,13 @@ public public/build public/build/manifest.json: node_modules/.bin/encore vendor/
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
+
+clean:
+	rm -rf vendor
+	rm -rf var
+	rm- rf node_modules
+	rm- rf .env.local
+	rm- rf .env.local.php
+	rm- rf public/build
+
+.PHONY: clean install install_deps install_db msg help
