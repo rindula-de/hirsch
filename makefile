@@ -65,6 +65,10 @@ public public/build public/build/manifest.json: node_modules/.bin/encore vendor/
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
+    
+tests: export APP_ENV=test
+tests: install_deps
+    bin/phpunit
 
 clean:
 	rm -rf vendor
@@ -74,4 +78,4 @@ clean:
 	rm- rf .env.local.php
 	rm- rf public/build
 
-.PHONY: clean install install_deps install_db msg help
+.PHONY: clean install install_deps install_db msg help tests
