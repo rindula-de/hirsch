@@ -24,7 +24,7 @@ export default class extends Controller {
                         orders[order.ordered][order.note]++;
                     }
                 }
-                this.empty();
+                ordersarea.empty();
                 for (const ordersKey in orders) {
                     for (const ordersNote in orders[ordersKey]) {
                         if (ordersarea.val()) ordersarea.append(`\n\n`);

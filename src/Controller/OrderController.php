@@ -38,9 +38,6 @@ class OrderController extends AbstractController
         }
         $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
-        if ($request->cookies->get('ordererName')) {
-            $order->setOrderedby($request->cookies->get('ordererName'));
-        }
         $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,8 +77,8 @@ class OrderController extends AbstractController
 
         $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
 
-        return $this->render('order/index.html.twig', [
-            'form'       => $form->createView(),
+        return $this->renderForm('order/index.html.twig', [
+            'form'       => $form,
             'meal'       => $hirsch,
             'order_date' => $preorder_time,
         ], $response);

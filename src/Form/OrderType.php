@@ -21,7 +21,7 @@ class OrderType extends AbstractType
             ])
             ->add('note', TextType::class, [
                 'row_attr'   => ['class' => 'input text'],
-                'attr'       => ['placeholder' => 'Keine', 'list' => 'wishlist'],
+                'attr'       => ['placeholder' => 'Keine', 'list' => 'wishlist', 'autofill'=>"off", 'autocomplete'=>"off"],
                 'required'   => false,
                 'label'      => 'Sonderwünsche',
                 'help'       => 'Extrawünsche, wie "extra Pommes" oder "ohne Salat"',

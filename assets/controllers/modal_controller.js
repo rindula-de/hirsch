@@ -6,7 +6,7 @@ export default class extends Controller {
     connect() {
         // When the user clicks on <span> (x), close the modal
         $(this.closeTarget).click(function() {
-            $(this.element).removeClass("active");
-        }).bind(this);
+            $(this).removeClass("active");
+        }.bind(this.element));
     }
 }
