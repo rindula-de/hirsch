@@ -60,7 +60,7 @@ vendor vendor/autoload.php: | composer.json composer.lock
 node_modules node_modules/.bin/encore:
 	$(YARN) install --force
 
-public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
+build public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/scripts.js
 	$(YARN) build
 
 $(ARTIFACT_NAME):
@@ -82,4 +82,4 @@ clean:
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean install_deps install_db
+.PHONY: tests install msg help clean install_deps install_db build
