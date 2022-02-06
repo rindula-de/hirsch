@@ -57,7 +57,7 @@ vendor vendor/autoload.php: | composer.json composer.lock
 .env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
 
-node_modules node_modules/.bin/encore:
+node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
 
 build public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/scripts.js
