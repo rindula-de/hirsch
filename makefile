@@ -82,4 +82,4 @@ clean:
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean
+.PHONY: tests install msg help clean install_deps install_db
