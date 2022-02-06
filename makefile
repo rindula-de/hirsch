@@ -67,8 +67,12 @@ $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
     
 tests: export APP_ENV=test
-tests: install_deps
-	$(EXEC_PHP) bin/phpunit
+tests:
+	$(SYMFONY) doctrine:database:drop --env=test --force || true
+	$(SYMFONY) doctrine:database:create --env=test
+	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
+	$(SYMFONY) doctrine:fixtures:load --env=test --no-interaction
+	$(EXEC_PHP) bin/phpunit $@
 
 clean:
 	rm -rf vendor
@@ -78,4 +82,4 @@ clean:
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: clean install install_deps install_db msg help tests
+.PHONY: tests install msg help clean install_deps install_db
