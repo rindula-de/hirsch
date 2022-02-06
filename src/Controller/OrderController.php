@@ -6,55 +6,82 @@ use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\OrderType;
+use App\Message\SendOrderOverview;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class OrderController extends AbstractController
 {
     /**
      * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
      */
-    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine): Response
+    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine, MessageBusInterface $bus): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
+        if ($hirsch === null) {
+            return $this->redirectToRoute('menu');
+        }
         $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
-        if ($request->cookies->get('ordererName')) {
-            $order->setOrderedby($request->cookies->get('ordererName'));
-        }
-        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()->format('d.m.Y')]);
+        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $order = $form->getData();
             $em = $doctrine->getManager();
-            $em->persist($order);
-            $em->flush();
-            // Set ordererName Cookie
-            $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
-
-            // create response with cookie
             $response = new RedirectResponse($this->generateUrl('paynow'));
-            $response->headers->setCookie($cookie);
-            // redirect with cookie
+            if ($order instanceof Orders) {
+                $em->persist($order);
+                $em->flush();
+                // Set ordererName Cookie
+                $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+
+                // create response with cookie
+                $response->headers->setCookie($cookie);
+                // redirect with cookie
+            }
+            $cache = new FilesystemAdapter();
+            $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
+                // set $time to next noon
+                $time = new DateTime('now');
+                $time->setTime(11, 0, 0);
+                // if $time is in past, set $time to next day
+                if ($time < new DateTime('now')) {
+                    return null;
+                }
+                // $time to seconds
+                $time = $time->getTimestamp() - time();
+
+                $item->expiresAfter(3600 + 43200 + $time);
+                $bus->dispatch(new SendOrderOverview(), [new DelayStamp($time * 1000)]);
+
+                return null;
+            });
+
             return $response;
         }
 
-        return $this->render('order/index.html.twig', [
-            'form'       => $form->createView(),
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
+
+        return $this->renderForm('order/index.html.twig', [
+            'form'       => $form,
             'meal'       => $hirsch,
             'order_date' => $preorder_time,
-        ]);
+        ], $response);
     }
 
     /**
@@ -97,15 +124,15 @@ class OrderController extends AbstractController
         $orders = $ordersRepository->findAll();
         $data = [];
         foreach ($orders as $order) {
-            if (!$onlyToday || $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d')) {
+            if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
                 $data[] = [
                     'id'          => $order->getId(),
                     'orderedby'   => $order->getOrderedby(),
                     'created'     => $order->getCreated(),
                     'forDate'     => $order->getForDate(),
                     'note'        => $order->getNote(),
-                    'ordered'     => $order->getHirsch()->getName(),
-                    'orderedSlug' => $order->getHirsch()->getSlug(),
+                    'ordered'     => $order->getHirsch()?->getName(),
+                    'orderedSlug' => $order->getHirsch()?->getSlug(),
                 ];
             }
         }
@@ -186,7 +213,7 @@ class OrderController extends AbstractController
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect($paypalme->getLink().'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes
@@ -196,22 +223,12 @@ class OrderController extends AbstractController
             ->select('p')
             ->getQuery()
             ->getResult();
-        // get most common payhistory.paypalme
-        $active = $entityManager
-            ->getRepository(Payhistory::class)
-            ->createQueryBuilder('p')
-            ->select('count(p.paypalme) as cnt')
-            ->join('p.paypalme', 'pm')
-            ->addSelect('pm.id')
-            ->where('p.created BETWEEN :date_start AND :date_end')
-            ->groupBy('p.paypalme')
-            ->orderBy('cnt', 'DESC')
-            ->setParameter('date_start', strftime('%Y-%m-%d').' 00:00:00')
-            ->setParameter('date_end', strftime('%Y-%m-%d').' 23:59:59')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getResult();
-        $active = $active[0]['id'] ?? null;
+        $active = $entityManager->getRepository(Payhistory::class)->findActivePayer();
+        if (is_array($active) && array_key_exists('id', $active)) {
+            $active = $active['id'];
+        } else {
+            $active = null;
+        }
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,

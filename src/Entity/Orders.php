@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Orders.
@@ -45,6 +46,7 @@ class Orders
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Bitte gib einen Namen ein.")
      * @ORM\Column(name="orderedby", type="string", length=255, nullable=false)
      */
     private $orderedby;
@@ -115,7 +117,7 @@ class Orders
         return $this->hirsch;
     }
 
-    public function setHirsch(?Hirsch $hirsch): self
+    public function setHirsch(Hirsch $hirsch): self
     {
         $this->hirsch = $hirsch;
 

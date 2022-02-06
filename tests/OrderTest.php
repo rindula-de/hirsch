@@ -12,6 +12,9 @@ class OrderTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
+        if ($user === null) {
+            $this->fail('No user found with username "test"');
+        }
 
         $client->loginUser($user);
 
@@ -40,7 +43,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]'      => '', ]);
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseStatusCodeSame(422);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -49,7 +52,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testOrderingUnauthenticated(): void

@@ -20,7 +20,10 @@ workflow-config:
 documentation:
   - README.md
   
-wontfix:
+executables:
   - bin/*
+
+chore:
+  - makefile
   - .htaccess
   - public/.htaccess

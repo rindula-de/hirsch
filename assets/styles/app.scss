@@ -12,3 +12,15 @@ $accentcolor: #ffa303;
 @import "loader";
 @import "contextmenu";
 @import "material-icons";
+
+.turbo-progress-bar {
+    background-color: darken($accentcolor, 10%);
+    @include shadow;
+}
+
+body {
+    transition: opacity 1000ms;
+}
+body.turbo-loading, body.turbo-loaded {
+    opacity: .2;
+}
