@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 COMPOSER = composer
-NPM = npm
+YARN = yarn
 GIT = git
 EXEC_PHP = php
 ENV = prod
@@ -8,7 +8,7 @@ ifneq (, $(shell which ddev))
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
-  NPM = ddev exec npm
+  YARN = ddev exec yarn
   EXEC_PHP = ddev exec php
   ENV = dev
 endif
@@ -57,11 +57,11 @@ vendor vendor/autoload.php: | composer.json composer.lock
 .env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
 
-node_modules node_modules/.bin node_modules/.bin/encore:
-	$(NPM) ci
+node_modules node_modules/.bin/encore:
+	$(YARN) install --force
 
 public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/menu.js assets/js/orders.js assets/js/scripts.js
-	$(NPM) run build
+	$(YARN) build
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .

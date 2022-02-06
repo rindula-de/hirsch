@@ -1,6 +1,9 @@
 {
     "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "@hotwired/turbo": "^7.0.1",
         "@symfony/stimulus-bridge": "^2.0.0",
+        "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
         "@symfony/webpack-encore": "^1.8.1",
         "core-js": "^3.21.0",
         "regenerator-runtime": "^0.13.2",
@@ -18,6 +21,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "flatpickr": "^4.6.9",
+        "jquery": "^3.6.0",
         "offline-plugin": "^5.0.7"
     }
 }

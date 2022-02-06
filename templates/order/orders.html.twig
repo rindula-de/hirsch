@@ -2,17 +2,12 @@
 
 {% block title %}Bestellungen{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('orders') }}
-{% endblock %}
-
 {% block body %}
     <h2>Heutige Bestellungen</h2>
     <label>
-        <textarea class="orderarea" rows="1" readonly="" onclick="this.focus();this.select()" id="orders">Lade Bestellungen...</textarea>
+        <textarea class="orderarea" rows="1" readonly="" onclick="this.focus();this.select()" id="orders" data-controller="orders">Lade Bestellungen...</textarea>
     </label>
-    <button class="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
+    <button class="accordion" data-controller="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
     <div class="panel">
         {% for order in orderNameList %}
         <div class="displayName">
@@ -22,7 +17,7 @@
     </div>
 
     {% if preorders | length > 0 %}
-    <button class="accordion">Vorbestellungen ({{ preorders | length }})</button>
+    <button class="accordion" data-controller="accordion">Vorbestellungen ({{ preorders | length }})</button>
     <div class="panel">
         {% for order in preorders %}
             <h2>{{ order.for_date|format_datetime('long', 'none', locale='de') }}</h2>{{ order.cnt }}x {{ order.name }}
