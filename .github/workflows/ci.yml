@@ -48,11 +48,17 @@ jobs:
         name: Build
         env:
           APP_ENV: test
+      - name: Create dummy data
+        run: bin/console doctrine:fixtures:load --no-interaction
+        env:
+          APP_ENV: test
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run Unittests
         run: composer run-script test
+        env:
+          APP_ENV: test
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
