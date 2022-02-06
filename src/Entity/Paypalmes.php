@@ -56,11 +56,13 @@ class Paypalmes
 
     public function getLink(): ?string
     {
-        return $this->link;
+        return rtrim(trim($this->link), '/');
     }
 
     public function setLink(string $link): self
     {
+        // make sure there is no trailing slash
+        $link = rtrim(trim($link), '/');
         $this->link = $link;
 
         return $this;

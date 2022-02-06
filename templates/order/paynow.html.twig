@@ -4,7 +4,7 @@
 
 {% block body %}
     <h2>Paypalierer</h2>
-    <form method="POST">
+    <form method="POST" data-turbo="false">
     <div class="range-slider" data-controller="tipslider">
         <h4>Trinkgeld:</h4>
         <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5" data-tipslider-target="input">
