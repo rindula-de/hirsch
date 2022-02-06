@@ -64,7 +64,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]'      => '', ]);
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseStatusCodeSame(422);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -73,7 +73,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testOrderingUnauthenticated(): void

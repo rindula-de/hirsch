@@ -4,11 +4,11 @@
 
 {% block body %}
     <h2>Paypalierer</h2>
-    <form method="POST">
-    <div class="range-slider">
+    <form method="POST" data-turbo="false">
+    <div class="range-slider" data-controller="tipslider">
         <h4>Trinkgeld:</h4>
-        <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5">
-        <span class="range-slider__value"></span>
+        <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5" data-tipslider-target="input">
+        <span class="range-slider__value" data-tipslider-target="display"></span>
     </div>
     {% for paypalme in paypalmes %}
     <div class="paypalmeslistitemcontainer">

@@ -7,6 +7,7 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <meta http-equiv="expires" content="0"/>
     <meta name="theme-color" content="#ffa303"/>
+    {% block metas %}{% endblock %}
     <link rel="manifest" href="/manifest.json">
     <link href="/favicon.png" type="image/png" rel="icon">
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
@@ -19,8 +20,6 @@
       {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     {% block javascripts %}
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
@@ -38,12 +37,13 @@
         {% endfor %}
         {% block body %}{% endblock %}
       </div>
-      <span id="order-until"></span>
+      <span id="order-until" data-controller="orderuntil"></span>
     </main>
-    <ul class='custom-menu'></ul>
-    <div id="preorderModal" class="modal">
+    <ul class='custom-menu'>
+    </ul>
+    <div id="preorderModal" class="modal" data-controller="modal">
       <div class="modal-content">
-        <span class="close material-icons">close</span>
+        <span class="close material-icons" data-modal-target="close">close</span>
         <h2>Vorbestellen</h2>
         <input readonly="readonly" type="text" class="datepicker flatpickr flatpickr-input" placeholder="Datum auswählen">
         <br>
@@ -52,15 +52,15 @@
         <span style="display: none" id="preorderSlug"></span>
       </div>
     </div>
-    <div id="informationModal" class="modal">
+    <div id="informationModal" class="modal" data-controller="modal">
       <div class="modal-content">
-        <span class="close material-icons">close</span>
+        <span class="close material-icons" data-modal-target="close">close</span>
         <p id="informationModalText">Lorem Schwippsum</p>
       </div>
     </div>
-    <div id="orderedModal" class="modal">
+    <div id="orderedModal" class="modal" data-controller="modal">
       <div class="modal-content">
-        <span class="close material-icons">close</span>
+        <span class="close material-icons" data-modal-target="close">close</span>
         <h2 id="orderedModalTitle">Bestellung</h2>
         <p id="orderedModalText">Bestellung</p>
       </div>
