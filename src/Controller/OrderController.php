@@ -86,7 +86,7 @@ class OrderController extends AbstractController
             'form'       => $form,
             'meal'       => $hirsch,
             'order_date' => $preorder_time,
-        ], $response);
+        ], new Response(null, $form->isSubmitted()?422:200));
     }
 
     /**
