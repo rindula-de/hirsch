@@ -4,16 +4,16 @@
 
 {% block body %}
     <h2>Paypalierer</h2>
-    <form method="POST">
-    <div class="range-slider">
+    <form method="POST" data-turbo="false">
+    <div class="range-slider" data-controller="tipslider">
         <h4>Trinkgeld:</h4>
-        <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5">
-        <span class="range-slider__value"></span>
+        <input max="5" min="0" name="tip" step="0.1" type="range" class="range-slider__range" value="0.5" data-tipslider-target="input">
+        <span class="range-slider__value" data-tipslider-target="display"></span>
     </div>
     {% for paypalme in paypalmes %}
     <div class="paypalmeslistitemcontainer">
         <div class="paypalmeslistitem{% if paypalme.id == active %} active{% endif %}">
-            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank" class="paypalmebutton">{{paypalme.name}}</button>
+            <button value="{{ paypalme.id }}" name="id" type="submit" formtarget="_blank" class="paypalmebutton" onclick="setTimeout(() => Turbo.visit('.'), 5000)">{{paypalme.name}}</button>
         </div>
         {% if date(paypalme.bar) >= date() %}
         <span class="label red">Nur Barzahlung</span>
