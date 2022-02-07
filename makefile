@@ -10,11 +10,6 @@ ifneq (, $(shell which ddev))
   COMPOSER = ddev composer
   YARN = ddev exec yarn
   EXEC_PHP = ddev exec php
-  ifeq (, $(shell which ddev))
-    COMPOSER = composer
-    NPM = npm
-    EXEC_PHP = php
-  endif
   ENV = dev
 endif
 ifdef APP_ENV
@@ -70,7 +65,7 @@ build public public/build public/build/manifest.json: node_modules/.bin/encore v
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
-    
+
 tests: export APP_ENV=test
 tests:
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
