@@ -57,7 +57,7 @@ export default class extends Controller {
         
                     var blob = new Blob([view], { type: 'application/pdf' });
                     var url = URL.createObjectURL(blob);
-                    tagesessen_panel.innerHTML = "<button class='btn' onclick=\"window.open('" + url + "', 'pdf_karte', 'location=yes')\">PDF Karte ansehen</button>" + tagesessen_panel.innerHTML;
+                    tagesessen_panel.innerHTML = "<button class='btn' onclick=\"window.open('" + url + "', 'pdf_karte', 'location=yes')\">PDF Karte ansehen</button><br><br>" + tagesessen_panel.innerHTML;
         
                     tagesessen_panel.style.maxHeight = tagesessen_panel.scrollHeight + "px";
                 })
