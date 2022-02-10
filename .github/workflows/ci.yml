@@ -9,8 +9,13 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        php: [8]
+        php: [8, 8.1]
         experimental: [false]
+        include:
+          # includes a new variable of npm with a value of 6
+          # for the matrix leg matching the os and version
+          - php: 8.2
+            experimental: true
     services:
       mariadb:
         image: mariadb:10.6.4
@@ -27,38 +32,33 @@ jobs:
       - uses: actions/setup-node@v2.5.1
         with:
           node-version: '15'
-      - uses: shivammathur/setup-php@2.16.0
+      - uses: shivammathur/setup-php@2.17.0
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Replace variables
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
-
-      # Create database Schema
-      - name: Create database schema and dummy data
-        run: |
-          bin/console --env=test doctrine:schema:create --no-interaction
-          bin/console --env=test doctrine:fixtures:load --no-interaction
-      - run: npm ci
-        name: Initialize NPM on Root
-      - run: npm run build
-        name: Webpack Build
+          
+      - run: make install
+        name: Build
+        env:
+          APP_ENV: test
+      - name: Create dummy data
+        run: bin/console doctrine:fixtures:load --no-interaction
+        env:
+          APP_ENV: test
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run Unittests
         run: composer run-script test
+        env:
+          APP_ENV: test
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.16.0
+      - uses: shivammathur/setup-php@2.17.0
         with:
           php-version: 8
           tools: composer:v2

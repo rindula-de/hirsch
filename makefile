@@ -65,7 +65,7 @@ build public public/build public/build/manifest.json: node_modules/.bin/encore v
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
-    
+
 tests: export APP_ENV=test
 tests:
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
