@@ -32,7 +32,7 @@ install_deps: vendor .env.local.php public/build/manifest.json
 install_db: vendor .env.local.php
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
-vendor vendor/autoload.php: | composer.json composer.lock
+vendor vendor/autoload.php: composer.json composer.lock
 	$(COMPOSER) validate
 	$(COMPOSER) install --prefer-dist --no-interaction
 
@@ -60,7 +60,7 @@ vendor vendor/autoload.php: | composer.json composer.lock
 node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
 
-build public public/build public/build/manifest.json: node_modules/.bin/encore vendor | assets/app.js assets/styles/app.scss assets/js/scripts.js
+build public public/build public/build/manifest.json: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js
 	$(YARN) build
 
 $(ARTIFACT_NAME):
