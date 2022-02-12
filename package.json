@@ -27,7 +27,7 @@
         "offline-plugin": "^5.0.7"
     },
     "browserslist": [
-
-        "dead"
+        "last 1 version",
+        "> 1%"
       ]
 }
