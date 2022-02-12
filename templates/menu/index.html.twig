@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Karte{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('menu') }}
+{% block metas %}
+    <link rel="prefetch" href="/order/0/tagesessen">
 {% endblock %}
 
+{% block title %}Karte{% endblock %}
+
 {% block body %}
-<template id="foodcard_template">
+<div data-controller="dailymenu">
+<template data-dailymenu-target="template">
     <div data-role="card" class='foodcard'>
         <h2 data-role="title"></h2>
         <span data-role="gericht"></span>
@@ -17,13 +17,13 @@
         </div>
     </div>
 </template>
-
-<button class="accordion">Hirsch to Go</button>
-<div class="panel loading" id="menu_panel">
+<button class="accordion" data-controller="accordion">Hirsch to Go</button>
+<div class="panel loading" id="menu_panel" data-dailymenu-target="menu">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </div>
-<button class="accordion">Tagesessen</button>
-<div class="panel loading" id="tagesessen_panel">
+<button class="accordion" data-controller="accordion">Tagesessen</button>
+<div class="panel loading" id="tagesessen_panel" data-dailymenu-target="dailyfood">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
 </div>
 {% endblock %}

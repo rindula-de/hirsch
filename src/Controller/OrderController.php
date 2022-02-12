@@ -38,12 +38,9 @@ class OrderController extends AbstractController
         }
         $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
         $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
-        if ($request->cookies->get('ordererName')) {
-            $order->setOrderedby($request->cookies->get('ordererName'));
-        }
         $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $order = $form->getData();
             $em = $doctrine->getManager();
             $response = new RedirectResponse($this->generateUrl('paynow'));
@@ -70,7 +67,6 @@ class OrderController extends AbstractController
                 $time = $time->getTimestamp() - time();
 
                 $item->expiresAfter(3600 + 43200 + $time);
-                print_r($time);
                 $bus->dispatch(new SendOrderOverview(), [new DelayStamp($time * 1000)]);
 
                 return null;
@@ -79,11 +75,13 @@ class OrderController extends AbstractController
             return $response;
         }
 
-        return $this->render('order/index.html.twig', [
-            'form'       => $form->createView(),
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
+
+        return $this->renderForm('order/index.html.twig', [
+            'form'       => $form,
             'meal'       => $hirsch,
             'order_date' => $preorder_time,
-        ]);
+        ], $response);
     }
 
     /**

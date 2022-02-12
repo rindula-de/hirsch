@@ -1,4 +1,22 @@
 .input {
+    ul {
+        // errors list
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+            // error item
+            color: red;
+            font-size: 0.8em;
+            &:before {
+                // error icon
+                font-family: 'Material Icons';
+                font-size: 1.2rem;
+                margin-right: 0.5rem;
+                content: 'warning';
+            }
+        }
+    }
     label {
         display: block;
     }
