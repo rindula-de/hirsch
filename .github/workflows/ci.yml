@@ -5,10 +5,7 @@ on:
 jobs:
   test:
     name: Unittest
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: ./.github/workflows/php.yaml
+    uses: ./.github/workflows/php.yaml
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
