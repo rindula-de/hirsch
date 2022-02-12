@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+php -d xdebug.mode=coverage ./vendor/bin/infection --only-covered "$@"
