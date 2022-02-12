@@ -21,8 +21,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "browserslist": "^4.19.1",
         "flatpickr": "^4.6.9",
         "jquery": "^3.6.0",
         "offline-plugin": "^5.0.7"
-    }
+    },
+    "browserslist": [
+
+        "dead"
+      ]
 }
