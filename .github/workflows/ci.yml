@@ -6,59 +6,8 @@ jobs:
   test:
     name: Unittest
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
-    strategy:
-      matrix:
-        php: [8, 8.1]
-        experimental: [false]
-        include:
-          # includes a new variable of npm with a value of 6
-          # for the matrix leg matching the os and version
-          - php: 8.2
-            experimental: true
-    services:
-      mariadb:
-        image: mariadb:10.6.4
-        ports:
-          - 3306
-        env:
-          MYSQL_USER: db
-          MYSQL_PASSWORD: db
-          MYSQL_DATABASE: db_test
-          MYSQL_ROOT_PASSWORD: root
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.5.1
-        with:
-          node-version: '15'
-      - uses: shivammathur/setup-php@2.17.0
-        with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
-          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-
-      - name: Replace variables
-        env:
-          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-        run: |
-          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
-          
-      - run: make install
-        name: Build
-        env:
-          APP_ENV: test
-      - name: Create dummy data
-        run: bin/console doctrine:fixtures:load --no-interaction
-        env:
-          APP_ENV: test
-      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-      # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-      - name: Run Unittests
-        run: composer run-script test
-        env:
-          APP_ENV: test
+      - uses: ./.github/workflows/php.yaml
   build_hetzner:
     name: Build (Hetzner)
     runs-on: ubuntu-latest
