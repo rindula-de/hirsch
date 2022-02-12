@@ -29,7 +29,7 @@ install: install_deps install_db  ## Install the project
 
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
 
-install_db: vendor .env.local.php ## Install the database
+install_db: vendor .env.local.php migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: composer.json composer.lock
