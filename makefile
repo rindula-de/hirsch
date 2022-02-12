@@ -22,14 +22,14 @@ MAKEFLAGS := --jobs=$(shell nproc)
 help: ## Outputs this help screen
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-msg:
+msg: ## Run symfony message consumer
 	$(SYMFONY) messenger:consume async -vv --time-limit=3600
 
 install: install_deps install_db  ## Install the project
 
-install_deps: vendor .env.local.php public/build/manifest.json
+install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
 
-install_db: vendor .env.local.php
+install_db: vendor .env.local.php ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: composer.json composer.lock
@@ -67,14 +67,14 @@ $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
 tests: export APP_ENV=test
-tests:
+tests: ## Run the tests
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
 	$(SYMFONY) doctrine:fixtures:load --env=test --no-interaction
 	$(EXEC_PHP) bin/phpunit $@
 
-clean:
+clean: ## Clean up the project
 	rm -rf vendor
 	rm -rf var
 	rm -rf node_modules
