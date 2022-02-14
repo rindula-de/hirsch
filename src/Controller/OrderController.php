@@ -76,7 +76,7 @@ class OrderController extends AbstractController
         }
 
         // if its after 10:55 redirect back to menu
-        if ($preorder === 0 && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('U', '10:55')) {
+        if ($preorder === 0 && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')) {
             $this->addFlash('warning', 'Du kannst heute nicht mehr bestellen! Bitte such dir eine alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.');
 
             return $this->redirectToRoute('menu');

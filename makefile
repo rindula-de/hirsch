@@ -68,11 +68,19 @@ $(ARTIFACT_NAME):
 
 tests: export APP_ENV=test
 tests:
+	$(EXEC_PHP) vendor/bin/phpstan
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
-	$(SYMFONY) doctrine:fixtures:load --env=test --no-interaction
-	$(EXEC_PHP) bin/phpunit $@
+	$(EXEC_PHP) bin/phpunit
+
+clover.xml: tests
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html coverage --coverage-clover clover.xml
+	$(EXEC_PHP) ./bin/coverage-checker clover.xml 10
+
+infection_test: export APP_ENV=test
+infection_test: clover.xml
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --coverage-clover clover.xml
 
 clean:
 	rm -rf vendor
@@ -82,4 +90,4 @@ clean:
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean install_deps install_db build
+.PHONY: tests install msg help clean install_deps install_db build infection_test

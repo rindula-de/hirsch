@@ -14,11 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class OrderTest extends WebTestCase
 {
-    public function testOrderingAuthenticated(): void
+    public function testOrderingAuthenticatedTooLate(): void
     {
-        ClockMock::register(Orders::class);
-        ClockMock::register(OrderController::class);
-        ClockMock::register(DateTime::class);
+        $this->markAsRisky();
+        ClockMock::withClockMock(strtotime('12:00'));
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
@@ -27,18 +26,23 @@ class OrderTest extends WebTestCase
         }
 
         $client->loginUser($user);
-        $date = date_create('12:00:00');
-        if (!$date) {
-            $this->fail('Could not create date 12:00:00');
-        }
-        ClockMock::withClockMock($date->getTimestamp());
-        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseRedirects('/karte', 302);
-        $date = date_create('08:00:00');
-        if (!$date) {
-            $this->fail('Could not create date 08:00:00');
+        ClockMock::withClockMock(false);
+    }
+
+    public function testOrderingAuthenticatedInTime(): void
+    {
+        $this->markAsRisky();
+        ClockMock::withClockMock(strtotime('08:00'));
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneByUsername('test');
+        if ($user === null) {
+            $this->fail('No user found with username "test"');
         }
-        ClockMock::withClockMock($date->getTimestamp());
+
+        $client->loginUser($user);
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
@@ -74,6 +78,7 @@ class OrderTest extends WebTestCase
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
+        ClockMock::withClockMock(false);
     }
 
     public function testOrderingUnauthenticated(): void
