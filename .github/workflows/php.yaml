@@ -30,7 +30,7 @@ jobs:
       matrix:
         php: [8, 8.1]
         experimental: [false]
-        include:
+        # include:
           # includes a new variable of npm with a value of 6
           # for the matrix leg matching the os and version
           # - php: 8.2
