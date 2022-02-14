@@ -2,10 +2,7 @@
 
 namespace App\Tests;
 
-use App\Controller\OrderController;
-use App\Entity\Orders;
 use App\Repository\UserRepository;
-use DateTime;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
