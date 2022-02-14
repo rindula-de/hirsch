@@ -27,11 +27,7 @@ msg: ## Run symfony message consumer
 
 install: install_deps install_db  ## Install the project
 
-ifeq ("prod", $(ENV))
-install_deps: vendor .env.local.php public/build/manifest.json replace ## Install and build all dependencies
-else
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
-endif
 
 replace: config/packages/security.yaml
 	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
