@@ -27,7 +27,14 @@ msg: ## Run symfony message consumer
 
 install: install_deps install_db  ## Install the project
 
+ifeq ("prod", $(ENV))
+install_deps: vendor .env.local.php public/build/manifest.json replace ## Install and build all dependencies
+else
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
+endif
+
+replace: config/packages/security.yaml
+	sed -i 's/127.0.0.1/$(NOPASSWDIPS)/g' config/packages/security.yaml
 
 install_db: vendor .env.local.php ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
@@ -82,4 +89,4 @@ clean: ## Clean up the project
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean install_deps install_db build
+.PHONY: tests install msg help clean install_deps install_db build replace
