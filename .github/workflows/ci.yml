@@ -91,3 +91,14 @@ jobs:
         name: ❌ Remove Artifacts
         with:
           name: deploy_hetzner
+
+  remove_on_failed:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    if: always() && needs.test.result == 'failure'
+    steps:
+      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true # default: false
+          tag_name: ${GITHUB_REF##*/} # tag name to delete
