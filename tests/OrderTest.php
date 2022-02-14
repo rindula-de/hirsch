@@ -15,7 +15,7 @@ class OrderTest extends WebTestCase
     {
         $this->markAsRisky();
         ClockMock::withClockMock(strtotime('12:00'));
-        $client = static::createClient();
+        $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
         if ($user === null) {
@@ -80,7 +80,7 @@ class OrderTest extends WebTestCase
 
     public function testOrderingUnauthenticated(): void
     {
-        $client = static::createClient();
+        $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
 
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseStatusCodeSame(401);

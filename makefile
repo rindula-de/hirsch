@@ -29,8 +29,12 @@ install: install_deps install_db  ## Install the project
 
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
 
+
 install_db: vendor .env.local.php migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
+replace: config/packages/security.yaml
+	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
 
 vendor vendor/autoload.php: composer.json composer.lock
 	$(COMPOSER) validate
@@ -90,4 +94,4 @@ clean: ## Clean up the project
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean install_deps install_db build infection_test
+.PHONY: tests install msg help clean install_deps install_db build replace infection_test
