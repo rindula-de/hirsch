@@ -66,11 +66,6 @@ jobs:
         name: Install dependencies
         env:
           APP_ENV: test
-      # Create database Schema
-      - name: Create dummy data
-        run: bin/console doctrine:fixtures:load --no-interaction
-        env:
-          APP_ENV: test
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
