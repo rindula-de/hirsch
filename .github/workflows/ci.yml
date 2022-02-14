@@ -45,8 +45,10 @@ jobs:
           MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
           MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
           MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
-          NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
         run: make install_deps
+      - run: make replace
+        env:
+          NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
       - run: make artifact.tar
       - uses: actions/upload-artifact@master
         with:
