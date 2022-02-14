@@ -34,7 +34,7 @@ install_deps: vendor .env.local.php public/build/manifest.json ## Install and bu
 endif
 
 replace: config/packages/security.yaml
-	sed -i 's/127.0.0.1/$(NOPASSWDIPS)/g' config/packages/security.yaml
+	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
 
 install_db: vendor .env.local.php ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
