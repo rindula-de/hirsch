@@ -30,11 +30,11 @@ jobs:
       matrix:
         php: [8, 8.1]
         experimental: [false]
-        include:
+        # include:
           # includes a new variable of npm with a value of 6
           # for the matrix leg matching the os and version
-          - php: 8.2
-            experimental: true
+          # - php: 8.2
+          #   experimental: true
     services:
       mariadb:
         image: mariadb:10.6.4
@@ -64,11 +64,6 @@ jobs:
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
       - run: make install
         name: Install dependencies
-        env:
-          APP_ENV: test
-      # Create database Schema
-      - name: Create dummy data
-        run: bin/console doctrine:fixtures:load --no-interaction
         env:
           APP_ENV: test
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"

@@ -45,6 +45,7 @@ jobs:
           MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
           MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
           MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
+          NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
         run: make install_deps
       - run: make artifact.tar
       - uses: actions/upload-artifact@master
@@ -91,3 +92,15 @@ jobs:
         name: ❌ Remove Artifacts
         with:
           name: deploy_hetzner
+
+  remove_on_failed:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - build_hetzner
+    if: ${{ failure() }}
+    steps:
+      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true # default: false
+          tag_name: ${GITHUB_REF##*/} # tag name to delete
