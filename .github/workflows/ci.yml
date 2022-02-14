@@ -96,7 +96,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test
-    if: always() && needs.test.result == 'failure'
+      - build_hetzner
+    if: ${{ failure() }}
     steps:
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
