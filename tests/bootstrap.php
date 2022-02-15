@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 $_ENV['APP_ENV'] = 'test'; //Needed for infection Testing because it sets the env variable to late
 
 use App\Controller\OrderController;
