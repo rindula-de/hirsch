@@ -48,8 +48,8 @@ class MenuController extends AbstractController
     /**
      * Get a list of all menu items this week.
      */
-    #[Route('/api/get-tagesessen', name: 'api_tagesessen', methods: ['GET'])]
-    #[Route('/api/get-tagesessen-karte', name: 'api_tagesessenkarte', methods: ['GET'])]
+    #[Route('/api/get-tagesessen', name: 'tagesessen', methods: ['GET'])]
+    #[Route('/api/get-tagesessen-karte', name: 'tagesessenkarte', methods: ['GET'])]
     public function getTagesessen(Request $request): JsonResponse|RedirectResponse
     {
         $file = '';
