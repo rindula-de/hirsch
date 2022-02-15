@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class OrderTest extends WebTestCase
 {
-
     public function testOrderingAuthenticated(): void
     {
         $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
