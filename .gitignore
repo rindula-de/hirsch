@@ -28,6 +28,7 @@ yarn-error.log
 
 .idea/
 .vscode/
+install_db
 
 ###> code coverage ###
 clover.xml
