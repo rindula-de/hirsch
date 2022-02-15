@@ -47,8 +47,9 @@ class OrderController extends AbstractController
             OrderType::class,
             $order,
             [
-                'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')
-            ]);
+                'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y'),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +64,8 @@ class OrderController extends AbstractController
                 $cookie = new Cookie(
                     'ordererName',
                     $order->getOrderedby(),
-                    (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+                    (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin'))
+                );
 
                 // create response with cookie
                 $response->headers->setCookie($cookie);
@@ -100,7 +102,8 @@ class OrderController extends AbstractController
         ) {
             $this->addFlash(
                 'warning',
-                'Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.');
+                'Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.'
+            );
 
             return $this->redirectToRoute('menu');
         }
@@ -133,7 +136,7 @@ class OrderController extends AbstractController
      * Get a list of all orders today.
      *
      * @param OrdersRepository $ordersRepository
-     * @param bool $onlyToday
+     * @param bool             $onlyToday
      * @OA\Parameter(
      *     name="onlyToday",
      *     in="path",
