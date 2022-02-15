@@ -40,8 +40,8 @@ vendor vendor/autoload.php: composer.json composer.lock
 	$(COMPOSER) install --prefer-dist --no-interaction
 
 .env.local:
-	@if [ -n "$(DBPASS)" ]; then echo 'DATABASE_URL="mysql://hirsch:$(DBPASS)@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' | tee .env.local; fi;
-	@echo 'APP_ENV=$(ENV)' | tee -a .env.local
+	@echo 'APP_ENV=$(ENV)' | tee .env.local
+	@if [ -n "$(DBPASS)" ]; then echo 'DATABASE_URL="mysql://hirsch:$(DBPASS)@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' | tee -a .env.local; fi;
 	@if [ -n "$(SALT)" ]; then echo 'APP_SECRET="$(SALT)"' | tee -a .env.local; fi;
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' | tee -a .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' | tee -a .env.local
