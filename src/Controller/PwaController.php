@@ -14,9 +14,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class PwaController extends AbstractController
 {
-    /**
-     * @Route("/manifest.json", methods={"GET"})
-     */
+    #[Route('/manifest.json', methods: ['GET'])]
     public function manifest(MessageBusInterface $bus): JsonResponse
     {
         // read /assets/styles/app.scss and use regex to extract the CSS

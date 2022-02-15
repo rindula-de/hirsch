@@ -26,43 +26,62 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class OrderController extends AbstractController
 {
-    /**
-     * @Route("/order/{preorder}/{slug}", name="order", methods={"GET", "POST"})
-     */
+    #[Route('/order/{preorder}/{slug}', name: 'order', methods: ['GET', 'POST'])]
     public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine, MessageBusInterface $bus): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
+
         if ($hirsch === null) {
             return $this->redirectToRoute('menu');
         }
-        $preorder_time = (new DateTime("+$preorder day"))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(0, 0);
-        $order->setCreated((new DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin')))->setForDate($preorder_time)->setHirsch($hirsch);
-        $form = $this->createForm(OrderType::class, $order, ['for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y')]);
+
+        $preorder_time = (new DateTime("+$preorder day"))
+            ->setTimezone(new \DateTimeZone('Europe/Berlin'))
+            ->setTime(0, 0);
+        $order->setCreated((new DateTime())
+            ->setTimezone(new \DateTimeZone('Europe/Berlin')))
+            ->setForDate($preorder_time)
+            ->setHirsch($hirsch);
+        $form = $this->createForm(
+            OrderType::class,
+            $order,
+            [
+                'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y'),
+            ]
+        );
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $order = $form->getData();
             $em = $doctrine->getManager();
             $response = new RedirectResponse($this->generateUrl('paynow'));
+
             if ($order instanceof Orders) {
                 $em->persist($order);
                 $em->flush();
                 // Set ordererName Cookie
-                $cookie = new Cookie('ordererName', $order->getOrderedby(), (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin')));
+                $cookie = new Cookie(
+                    'ordererName',
+                    $order->getOrderedby(),
+                    (new DateTime('+1 year'))->setTimezone(new \DateTimeZone('Europe/Berlin'))
+                );
 
                 // create response with cookie
                 $response->headers->setCookie($cookie);
-                // redirect with cookie
             }
+
             $cache = new FilesystemAdapter();
             $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
                 // set $time to next noon
                 $time = new DateTime('now');
                 $time->setTime(11, 0, 0);
+
                 // if $time is in past, set $time to next day
                 if ($time < new DateTime('now')) {
                     return null;
                 }
+
                 // $time to seconds
                 $time = $time->getTimestamp() - time();
 
@@ -76,8 +95,15 @@ class OrderController extends AbstractController
         }
 
         // if its after 10:55 redirect back to menu
-        if ($request->headers->get('User-Agent') !== 'Symfony BrowserKit' && $preorder === 0 && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')) {
-            $this->addFlash('warning', 'Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.');
+        if (
+            $request->headers->get('User-Agent') !== 'Symfony BrowserKit'
+            && $preorder === 0
+            && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')
+        ) {
+            $this->addFlash(
+                'warning',
+                'Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.'
+            );
 
             return $this->redirectToRoute('menu');
         }
@@ -89,18 +115,13 @@ class OrderController extends AbstractController
         ], new Response(null, $form->isSubmitted() ? 422 : 200));
     }
 
-    /**
-     * @Route("/order-until", name="order-until", methods={"GET"})
-     */
+    #[Route('/order-until', name: 'order-until', methods: ['GET'])]
     public function orderuntil(): Response
     {
         return new Response('Bestellungen am selben Tag bis 10:55 möglich', 200);
     }
 
-    // function to delete order
-    /**
-     * @Route("/orders/delete/{id}", name="order_delete", methods={"GET", "DELETE"})
-     */
+    #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
@@ -114,16 +135,18 @@ class OrderController extends AbstractController
     /**
      * Get a list of all orders today.
      *
-     * @Route("/api/orders/{onlyToday?1}", name="api_orders", methods={"GET"})
-     *
-     * @param bool $onlyToday
+     * @param OrdersRepository $ordersRepository
+     * @param bool             $onlyToday
      * @OA\Parameter(
      *     name="onlyToday",
      *     in="path",
      *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
      *     @OA\Schema(type="integer")
      * )
+     *
+     * @return JsonResponse
      */
+    #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
     public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
     {
         $orders = $ordersRepository->findAll();
@@ -145,9 +168,7 @@ class OrderController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/bestellungen/", name="orders", methods={"GET"})
-     */
+    #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
     public function orders(Request $request, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
@@ -203,9 +224,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/zahlen-bitte/", name="paynow", methods={"GET", "POST"})
-     */
+    #[Route('/zahlen-bitte/', name: 'paynow', methods: ['GET', 'POST'])]
     public function paynow(Request $request, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();

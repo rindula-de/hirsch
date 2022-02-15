@@ -21,9 +21,7 @@ class ModalController extends AbstractController
         $this->session = $requestStack->getSession();
     }
 
-    /**
-     * @Route("/modalInformationText", name="modal", methods={"GET"})
-     */
+    #[Route('/modalInformationText/{id}', name: 'modal', methods: ['GET'])]
     public function index(): Response
     {
         // if the current date is between the start and end date of holidays, the modal will be displayed

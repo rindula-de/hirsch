@@ -17,17 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     */
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->redirectToRoute('menu');
     }
 
-    /**
-     * @Route("/karte", name="menu", methods={"GET"})
-     */
+    #[Route('/karte', name: 'menu', methods: ['GET'])]
     public function menu(): Response
     {
         return $this->render('menu/index.html.twig', []);
@@ -36,10 +32,9 @@ class MenuController extends AbstractController
     /**
      * Get the Hirsch to Go menu.
      *
-     * @Route("/api/get-menu", name="api_menu", methods={"GET"})
-     *
      * @return JsonResponse
      */
+    #[Route('/api/get-menu', name: 'api_menu', methods: ['GET'])]
     public function getMenu(HirschRepository $hirschRepository): JsonResponse
     {
         $criteria = new Criteria();
@@ -52,10 +47,9 @@ class MenuController extends AbstractController
 
     /**
      * Get a list of all menu items this week.
-     *
-     * @Route("/api/get-tagesessen", name="tagesessen", methods={"GET"})
-     * @Route("/api/get-tagesessen-karte", name="tagesessenkarte", methods={"GET"})
      */
+    #[Route('/api/get-tagesessen', name: 'tagesessen', methods: ['GET'])]
+    #[Route('/api/get-tagesessen-karte', name: 'tagesessenkarte', methods: ['GET'])]
     public function getTagesessen(Request $request): JsonResponse|RedirectResponse
     {
         $file = '';

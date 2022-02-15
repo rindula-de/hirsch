@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HolidayController extends AbstractController
 {
-    /**
-     * @Route("/holidays", name="holidays", methods={"GET"})
-     */
+    #[Route('/holidays', name: 'holidays', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine): Response
     {
         $holidays = $doctrine->getRepository(Holidays::class)->findAll();
@@ -28,9 +26,8 @@ class HolidayController extends AbstractController
 
     /**
      * Get all holidays.
-     *
-     * @Route("/api/holidays", name="holidays_api", methods={"GET"})
      */
+    #[Route('/api/holidays', name: 'holidays_api', methods: ['GET'])]
     public function holidays(ManagerRegistry $doctrine): JsonResponse
     {
         $holidays = $doctrine
@@ -40,9 +37,7 @@ class HolidayController extends AbstractController
         return $this->json($holidays, 200);
     }
 
-    /**
-     * @Route("/holidays/edit/{id}", name="holidays_edit", methods={"GET", "POST"})
-     */
+    #[Route('/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]
     public function edit(Holidays $holiday, Request $request): Response
     {
         $form = $this->createForm(HolidayType::class, $holiday);
@@ -61,9 +56,7 @@ class HolidayController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/holidays/add", name="holidays_add", methods={"GET", "POST"})
-     */
+    #[Route('/holidays/add', name: 'holidays_add', methods: ['GET', 'POST'])]
     public function add(Request $request): Response
     {
         $holiday = new Holidays();
