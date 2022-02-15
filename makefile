@@ -29,11 +29,12 @@ install: install_deps install_db  ## Install the project
 
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
 
+
+install_db: vendor .env.local.php migrations ## Install the database
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
 replace: config/packages/security.yaml
 	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
-
-install_db: vendor .env.local.php ## Install the database
-	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 vendor vendor/autoload.php: composer.json composer.lock
 	$(COMPOSER) validate
@@ -70,12 +71,20 @@ $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
 tests: export APP_ENV=test
-tests: ## Run the tests
+tests:
+	$(EXEC_PHP) vendor/bin/phpstan
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
-	$(SYMFONY) doctrine:fixtures:load --env=test --no-interaction
-	$(EXEC_PHP) bin/phpunit $@
+	$(EXEC_PHP) bin/phpunit
+
+clover.xml: tests
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html coverage --coverage-clover clover.xml
+	$(EXEC_PHP) ./bin/coverage-checker clover.xml 10
+
+infection_test: export APP_ENV=test
+infection_test: clover.xml
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --coverage-clover clover.xml
 
 clean: ## Clean up the project
 	rm -rf vendor
@@ -85,4 +94,4 @@ clean: ## Clean up the project
 	rm -rf .env.local.php
 	rm -rf public/build
 
-.PHONY: tests install msg help clean install_deps install_db build replace
+.PHONY: tests install msg help clean install_deps install_db build replace infection_test

@@ -96,6 +96,11 @@ textarea {
         color: #cc1f1a;
         border-color: #ef5753;
     }
+    &.warning {
+        background: #fbf5b9;
+        color: #8f6d0b;
+        border-color: #d9b966;
+    }
 }
 
 .displayName {

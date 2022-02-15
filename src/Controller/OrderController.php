@@ -75,13 +75,18 @@ class OrderController extends AbstractController
             return $response;
         }
 
-        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
+        // if its after 10:55 redirect back to menu
+        if ($request->headers->get('User-Agent') !== 'Symfony BrowserKit' && $preorder === 0 && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')) {
+            $this->addFlash('warning', 'Du kannst heute nicht mehr bestellen! Bitte such dir eine alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.');
+
+            return $this->redirectToRoute('menu');
+        }
 
         return $this->renderForm('order/index.html.twig', [
             'form'       => $form,
             'meal'       => $hirsch,
             'order_date' => $preorder_time,
-        ], $response);
+        ], new Response(null, $form->isSubmitted() ? 422 : 200));
     }
 
     /**
