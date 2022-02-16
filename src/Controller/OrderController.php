@@ -102,7 +102,7 @@ class OrderController extends AbstractController
         if (
             $request->headers->get('User-Agent') !== 'Symfony BrowserKit'
             && $preorder === 0
-            && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')
+            && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
             $this->addFlash(
                 'warning',
