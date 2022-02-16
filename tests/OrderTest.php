@@ -1,9 +1,12 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests;
 
 use App\Controller\OrderController;
-use App\Entity\Orders;
 use App\Repository\UserRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
