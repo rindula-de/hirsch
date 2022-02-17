@@ -6,10 +6,6 @@
 
 $_ENV['APP_ENV'] = 'test'; //Needed for infection Testing because it sets the env variable to late
 
-use App\Controller\OrderController;
-use App\Tests\OrderTest;
-use Symfony\Bridge\PhpUnit\ClockMock;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';
@@ -30,9 +26,4 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
         'php "%s/../bin/console" doctrine:fixtures:load --env=test --no-interaction',
         __DIR__
     ));
-}
-if ('test' === $_SERVER['APP_ENV']) {
-    ClockMock::register(OrderController::class);
-    ClockMock::register(OrderTest::class);
-    ClockMock::register(WebTestCase::class);
 }
