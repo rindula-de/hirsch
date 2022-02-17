@@ -28,6 +28,11 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+            <directory>src/Entity</directory>
+            <directory>src/Repository</directory>
+        </exclude>
     </coverage>
 
     <listeners>

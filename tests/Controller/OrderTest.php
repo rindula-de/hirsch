@@ -4,7 +4,7 @@
  * (c) Sven Nolting, 2022
  */
 
-namespace App\Tests;
+namespace App\Tests\Controller;
 
 use App\Controller\OrderController;
 use App\Repository\UserRepository;
