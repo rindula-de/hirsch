@@ -7,9 +7,11 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Holidays;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -22,9 +24,9 @@ class ModalControllerTest extends WebTestCase
     {
         parent::setUp();
         $this->client = static::createClient();
-        $this->entityManager = $this->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->getContainer()->get("doctrine")->getManager();
+        $this->entityManager = $entityManager;
         $this->entityManager->beginTransaction();
     }
 
@@ -32,7 +34,7 @@ class ModalControllerTest extends WebTestCase
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function testInHolidays()
+    public function testInHolidays():void
     {
         $holiday = new Holidays();
         $holiday->setStart(new \DateTime('-1 day'));
@@ -49,7 +51,7 @@ class ModalControllerTest extends WebTestCase
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function testNotInHolidays()
+    public function testNotInHolidays():void
     {
         $holiday = new Holidays();
         $holiday->setStart(new \DateTime('+1 day'));
