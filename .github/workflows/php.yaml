@@ -70,6 +70,6 @@ jobs:
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run Unittests
-        run: composer run-script test
+        run: bin/phpunit
         env:
           APP_ENV: test
