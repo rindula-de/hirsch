@@ -20,6 +20,9 @@
             "config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
+    "dflydev/dot-access-data": {
+        "version": "v3.0.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -148,6 +151,12 @@
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
+    "league/commonmark": {
+        "version": "2.2.2"
+    },
+    "league/config": {
+        "version": "v1.1.1"
+    },
     "lorenzo/pinky": {
         "version": "1.0.5"
     },
@@ -169,6 +178,12 @@
             "config/routes/nelmio_api_doc.yaml",
             "config/packages/nelmio_api_doc.yaml"
         ]
+    },
+    "nette/schema": {
+        "version": "v1.2.2"
+    },
+    "nette/utils": {
+        "version": "v3.2.7"
     },
     "nikic/php-parser": {
         "version": "v4.13.0"
@@ -629,9 +644,6 @@
     },
     "symfony/security-csrf": {
         "version": "v5.3.4"
-    },
-    "symfony/security-guard": {
-        "version": "v5.3.7"
     },
     "symfony/security-http": {
         "version": "v5.3.10"
