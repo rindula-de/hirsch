@@ -68,7 +68,7 @@ class ModalController extends AbstractController
     public function changelog(Request $request): Response
     {
         $cookieName = 'changelogVersion';
-        $version = $request->cookies->get($cookieName) ?? 'v2.8.0';
+        $version = $request->cookies->get($cookieName) ?? 'v2.7.2';
         $page = 0;
         $loadNextPage = true;
         $cache = new FilesystemAdapter();
@@ -94,7 +94,7 @@ class ModalController extends AbstractController
         } while ($loadNextPage && $page < 10);
 
         $response = $this->render('modal/changelog.html.twig', compact('changelog'));
-        $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], httpOnly: false));
+        $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], httpOnly: false, expire: time() + (365 * 60 * 60 * 24)));
 
         return $response;
     }
