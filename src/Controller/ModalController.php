@@ -88,7 +88,7 @@ class ModalController extends AbstractController
                 }
 
                 $pattern = '/\@[^\s]*?\s\(\#\d*\)/';
-                $changelog .= '# '.$item['tag_name'].'\r\n\r\n'.preg_replace($pattern, '', $item['body']);
+                $changelog .='# '.$item['tag_name']."\r\n\r\n".preg_replace($pattern,'',$item['body']);
             }
             $page++;
         } while ($loadNextPage && $page < 10);
