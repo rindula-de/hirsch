@@ -94,7 +94,7 @@ class ModalController extends AbstractController
         } while ($loadNextPage && $page < 10);
 
         $response = $this->render('modal/changelog.html.twig', compact('changelog'));
-        $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], httpOnly: false, expire: time() + (365*60*60*24)));
+        $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], httpOnly: false, expire: time() + (365 * 60 * 60 * 24)));
 
         return $response;
     }
