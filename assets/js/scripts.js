@@ -58,6 +58,21 @@ $(document).ready(() => {
     });
 
     $.ajax({
+        url: "/modalChangelog",
+        context: document.body,
+        success: function(result) {
+            if (result) {
+                $("#changelogModalText").html(result.trim());
+                $("#changelogModal").addClass("active");
+            }
+        },
+        error: function(result){
+            $("#changelogModalText").html(result.trim());
+            $("#changelogModal").addClass("active");
+        }
+    });
+
+    $.ajax({
         url: "/modalInformationText",
         context: document.body,
         success: function(result) {
@@ -75,12 +90,12 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
 
         for(let registration of registrations) {
-    
+
                 registration.unregister()
-    
+
         }}).catch(function(err) {
-    
+
             console.log('Service Worker registration failed: ', err);
-    
+
         });
 }
