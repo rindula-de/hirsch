@@ -46,9 +46,9 @@ class ModalControllerTest extends WebTestCase
 
         /** @var Stopwatch $stopwatch */
         $stopwatch = $this->getContainer()->get('debug.stopwatch');
-        $httpCurlClient = new TestCurlHttpClient($this->getContainer(), "https://api.github.com/repos/Rindula/hirsch/");
-        $httpClient = new TraceableHttpClient($httpCurlClient,$stopwatch);
-        $this->getContainer()->set('http_client',$httpClient);
+        $httpCurlClient = new TestCurlHttpClient($this->getContainer(), 'https://api.github.com/repos/Rindula/hirsch/');
+        $httpClient = new TraceableHttpClient($httpCurlClient, $stopwatch);
+        $this->getContainer()->set('http_client', $httpClient);
     }
 
     /**
@@ -90,11 +90,13 @@ class ModalControllerTest extends WebTestCase
      */
     public function testOneNewRelease(): void
     {
-        $content = $this->callReleaseModal("v2.7.0");
-        if(!$content)throw new \Exception("Not Content");
+        $content = $this->callReleaseModal('v2.7.0');
+        if (!$content) {
+            throw new \Exception('Not Content');
+        }
 
-        $this->assertStringContainsString("v2.8.0",$content);
-        $this->assertStringNotContainsString("v2.7.0",$content);
+        $this->assertStringContainsString('v2.8.0', $content);
+        $this->assertStringNotContainsString('v2.7.0', $content);
     }
 
     /**
@@ -102,55 +104,63 @@ class ModalControllerTest extends WebTestCase
      */
     public function testMultipleNewReleases(): void
     {
-        $content = $this->callReleaseModal("v2.6.0");
-        if(!$content)throw new \Exception("Not Content");
+        $content = $this->callReleaseModal('v2.6.0');
+        if (!$content) {
+            throw new \Exception('Not Content');
+        }
 
-        $this->assertStringContainsString("v2.8.0",$content);
-        $this->assertStringContainsString("v2.7.0",$content);
-        $this->assertStringNotContainsString("v2.6.0",$content);
+        $this->assertStringContainsString('v2.8.0', $content);
+        $this->assertStringContainsString('v2.7.0', $content);
+        $this->assertStringNotContainsString('v2.6.0', $content);
     }
 
     /**
      * @throws \Exception
      */
-    public function testNoNewRelease():void
+    public function testNoNewRelease(): void
     {
-        $content = $this->callReleaseModal("v2.8.0");
+        $content = $this->callReleaseModal('v2.8.0');
 
         $this->assertEmpty($content);
     }
 
-
-
     protected function tearDown(): void
     {
-        if($this->entityManager->getConnection()->isTransactionActive())$this->entityManager->rollback();
+        if ($this->entityManager->getConnection()->isTransactionActive()) {
+            $this->entityManager->rollback();
+        }
         parent::tearDown();
     }
 
     /**
      * @param string $version
-     * @return false|string
+     *
      * @throws \Exception
+     *
+     * @return false|string
      */
     private function callReleaseModal(string $version): string|false
     {
-        $_ENV['APP_VERSION'] = "v2.8.0";
+        $_ENV['APP_VERSION'] = 'v2.8.0';
         $this->client->getCookieJar()->set(new Cookie('changelogVersion', $version, httponly: false));
         $this->client->request('GET', '/modalChangelog');
         $this->assertResponseIsSuccessful();
         $cookies = $this->client->getResponse()->headers->getCookies();
         $cookieValue = null;
-        foreach ($cookies as $cookie){
-            if($cookie->getName()=="changelogVersion"){
+        foreach ($cookies as $cookie) {
+            if ($cookie->getName() == 'changelogVersion') {
                 $cookieValue = $cookie->getValue();
                 break;
             }
         }
-        if($cookieValue === null) throw new \LogicException("Cookie not found");
-        $this->assertEquals($_ENV['APP_VERSION'],$cookieValue);
-        $content = file_get_contents(__DIR__ . "/../mockedApiRequestResponse/releases.page=0");
-        if (!$content) throw new \Exception("Error in test");
+        if ($cookieValue === null) {
+            throw new \LogicException('Cookie not found');
+        }
+        $this->assertEquals($_ENV['APP_VERSION'], $cookieValue);
+        $content = file_get_contents(__DIR__.'/../mockedApiRequestResponse/releases.page=0');
+        if (!$content) {
+            throw new \Exception('Error in test');
+        }
 
         return $this->client->getResponse()->getContent();
     }
