@@ -1,0 +1,38 @@
+defaults:
+    route_not_found: Controller route nicht definiert
+
+holidays:
+    titles:
+        overview: Urlaubsübersicht
+        edit: Urlaub bearbeiten
+    new: Neuer Urlaub
+    add: Urlaub Anlegen
+    edit: bearbeiten
+    in_holiday: Der Hirsch hat aktuell Urlaub und ist vom %start% bis zum %end% nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!
+
+menu:
+    titles:
+        overview: Karte
+    to_go: Hirsch to Go
+    lunch: Tagesessen
+
+order:
+    search_alternative: Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.
+    toLate: Die Bestellung ist ab 10:55 nicht mehr möglich.
+    delete:
+        success: Bestellung gelöscht
+    order: Bestellen
+    orders: Bestellungen
+    todays_orders: Heutige Bestellungen
+    order_date: Bestellung für den
+    order_persons: Personen die heute bestellt haben
+    pre_orders: Vorbestellungen
+    loading_orders: Lade Bestellungen...
+
+pay:
+    titles:
+        paypal_add: PayPalMe Hinzufügen
+    pay: Bezahlen
+    paypalierer: Paypalierer
+    tip: Trinkgeld
+    cash_only: Nur Barzahlung

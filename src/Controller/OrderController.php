@@ -9,7 +9,10 @@ use App\Form\OrderType;
 use App\Message\SendOrderOverview;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
+use App\Repository\PayhistoryRepository;
+use App\Repository\PaypalmesRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,11 +26,20 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OrderController extends AbstractController
 {
     #[Route('/order/{preorder}/{slug}', name: 'order', methods: ['GET', 'POST'])]
-    public function index(int $preorder, string $slug, HirschRepository $hirschRepository, Request $request, ManagerRegistry $doctrine, MessageBusInterface $bus): Response
+    public function index(
+        int $preorder,
+        string $slug,
+        HirschRepository $hirschRepository,
+        Request $request,
+        ManagerRegistry $doctrine,
+        MessageBusInterface $bus,
+        TranslatorInterface $translator
+    ): Response
     {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
@@ -60,6 +72,7 @@ class OrderController extends AbstractController
             if ($order instanceof Orders) {
                 $em->persist($order);
                 $em->flush();
+
                 // Set ordererName Cookie
                 $cookie = new Cookie(
                     'ordererName',
@@ -102,7 +115,7 @@ class OrderController extends AbstractController
         ) {
             $this->addFlash(
                 'warning',
-                'Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.'
+                $translator->trans('order.search_alternative')
             );
 
             return $this->redirectToRoute('menu');
@@ -116,18 +129,18 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order-until', name: 'order-until', methods: ['GET'])]
-    public function orderuntil(): Response
+    public function orderuntil(TranslatorInterface $translator): Response
     {
-        return new Response('Bestellungen am selben Tag bis 10:55 möglich', 200);
+        return new Response($translator->trans('order.toLate'), 200);
     }
 
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
-    public function delete(Orders $order, ManagerRegistry $doctrine): Response
+    public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        $entityManager = $doctrine->getManager();
         $entityManager->remove($order);
         $entityManager->flush();
-        $this->addFlash('success', 'Bestellung gelöscht');
+
+        $this->addFlash('success', $translator->trans('order.delete.success'));
 
         return $this->redirectToRoute('orders');
     }
@@ -169,9 +182,8 @@ class OrderController extends AbstractController
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
-    public function orders(Request $request, ManagerRegistry $doctrine): Response
+    public function orders(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $doctrine->getManager();
         $orders = $entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -225,29 +237,35 @@ class OrderController extends AbstractController
     }
 
     #[Route('/zahlen-bitte/', name: 'paynow', methods: ['GET', 'POST'])]
-    public function paynow(Request $request, ManagerRegistry $doctrine): Response
+    public function paynow(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PaypalmesRepository $paypalmesRepository,
+        PayhistoryRepository $payhistoryRepository
+    ): Response
     {
-        $entityManager = $doctrine->getManager();
-
         if ($request->isMethod('POST')) {
             $payhistory = new Payhistory();
             $payhistory->setCreated(new DateTime());
-            $paypalme = $doctrine->getRepository(Paypalmes::class)->findOneBy(['id' => $request->request->get('id')]);
+            $paypalme = $paypalmesRepository->findOneBy(['id' => $request->request->get('id')]);
             $payhistory->setPaypalme($paypalme);
+
             $entityManager->persist($payhistory);
             $entityManager->flush();
+
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp') . '/' . (3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes
-        $paypalMes = $entityManager
-            ->getRepository(Paypalmes::class)
+        $paypalMes = $paypalmesRepository
             ->createQueryBuilder('p')
             ->select('p')
             ->getQuery()
             ->getResult();
-        $active = $entityManager->getRepository(Payhistory::class)->findActivePayer();
+
+        $active = $payhistoryRepository->findActivePayer();
+
         if (is_array($active) && array_key_exists('id', $active)) {
             $active = $active['id'];
         } else {
