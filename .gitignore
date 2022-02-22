@@ -32,7 +32,7 @@ install_db
 
 ###> code coverage ###
 clover.xml
-coverage
+coverage*
 ###< code coverage ###
 
 ###> infection testing ###
