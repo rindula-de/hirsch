@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Controller;
 
 use App\Entity\Orders;
@@ -39,8 +43,7 @@ class OrderController extends AbstractController
         ManagerRegistry $doctrine,
         MessageBusInterface $bus,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
 
@@ -242,8 +245,7 @@ class OrderController extends AbstractController
         EntityManagerInterface $entityManager,
         PaypalmesRepository $paypalmesRepository,
         PayhistoryRepository $payhistoryRepository
-    ): Response
-    {
+    ): Response {
         if ($request->isMethod('POST')) {
             $payhistory = new Payhistory();
             $payhistory->setCreated(new DateTime());
@@ -254,7 +256,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp') . '/' . (3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
         }
 
         // find all PaypalMes

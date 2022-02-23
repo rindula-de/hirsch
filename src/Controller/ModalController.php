@@ -1,10 +1,13 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Controller;
 
 use App\Entity\Holidays;
 use App\Repository\HolidaysRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,8 +47,9 @@ class ModalController extends AbstractController
                     return new Response(
                         $translator->trans('holidays.in_holiday', [
                             '%start%' => $holiday->getStart()->format('d.m.Y'),
-                            '%end%' => $holiday->getEnd()->format('d.m.Y')
-                        ]));
+                            '%end%'   => $holiday->getEnd()->format('d.m.Y'),
+                        ])
+                    );
                 }
             }
         }

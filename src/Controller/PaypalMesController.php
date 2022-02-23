@@ -1,13 +1,15 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Controller;
 
-use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\PaypalmesType;
 use App\Repository\PayhistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

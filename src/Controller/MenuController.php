@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Controller;
 
 use App\Repository\HirschRepository;
@@ -77,13 +81,15 @@ class MenuController extends AbstractController
                 SORTDATE,
                 true,
                 0,
-                'BEFORE "'.(new DateTime('-6 days'))->format('d F Y').'"');
+                'BEFORE "'.(new DateTime('-6 days'))->format('d F Y').'"'
+            );
             $emails = imap_sort(
                 $mbox,
                 SORTDATE,
                 true,
                 0,
-                'SINCE "'.(new DateTime('-6 days'))->format('d F Y').'"');
+                'SINCE "'.(new DateTime('-6 days'))->format('d F Y').'"'
+            );
 
             $displayData = [];
 
@@ -164,48 +170,53 @@ class MenuController extends AbstractController
                                         $text = trim($text ?? '');
 
                                         preg_match(
-                                            '/Montag ' . $regexLunch . ' Dienstag/',
+                                            '/Montag '.$regexLunch.' Dienstag/',
                                             $text,
-                                            $matches);
+                                            $matches
+                                        );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('monday noon this week'))
+                                            'date'    => (new DateTime('monday noon this week')),
                                         ];
 
                                         preg_match(
-                                            '/Dienstag ' . $regexLunch . ' Mittwoch/',
+                                            '/Dienstag '.$regexLunch.' Mittwoch/',
                                             $text,
-                                            $matches);
+                                            $matches
+                                        );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('tuesday noon this week'))
+                                            'date'    => (new DateTime('tuesday noon this week')),
                                         ];
 
                                         preg_match(
-                                            '/Mittwoch ' . $regexLunch . ' Donnerstag/',
+                                            '/Mittwoch '.$regexLunch.' Donnerstag/',
                                             $text,
-                                            $matches);
+                                            $matches
+                                        );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('wednesday noon this week'))
+                                            'date'    => (new DateTime('wednesday noon this week')),
                                         ];
 
                                         preg_match(
-                                            '/Donnerstag ' . $regexLunch . ' Freitag/',
+                                            '/Donnerstag '.$regexLunch.' Freitag/',
                                             $text,
-                                            $matches);
+                                            $matches
+                                        );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('thursday noon this week'))
+                                            'date'    => (new DateTime('thursday noon this week')),
                                         ];
 
                                         preg_match(
-                                            '/Freitag ' . $regexLunch . ' Restaurant/',
+                                            '/Freitag '.$regexLunch.' Restaurant/',
                                             $text,
-                                            $matches);
+                                            $matches
+                                        );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('friday noon this week'))
+                                            'date'    => (new DateTime('friday noon this week')),
                                         ];
 
                                         unlink($filename);
