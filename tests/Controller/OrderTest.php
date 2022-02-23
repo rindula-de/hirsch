@@ -18,7 +18,6 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
  */
 class OrderTest extends WebTestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,6 +36,7 @@ class OrderTest extends WebTestCase
             $this->fail('No user found with username "test"');
         }
         $client->loginUser($user);
+
         return $client;
     }
 
@@ -141,7 +141,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('.paypalmeslistitem.active', 'Sven Nolting');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id'  => '1',
             'tip' => '0',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
@@ -151,7 +151,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id'  => '1',
             'tip' => '0.5',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
@@ -161,7 +161,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id'  => '1',
             'tip' => '-1',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
@@ -171,5 +171,4 @@ class OrderTest extends WebTestCase
     {
         parent::tearDown();
     }
-
 }

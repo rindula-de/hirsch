@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
