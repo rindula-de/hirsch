@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Urlaubsübersicht{% endblock %}
+{% block title %}{{ 'holidays.titles.overview'|trans }}{% endblock %}
 
 {% block body %}
-<h1>Urlaubsübersicht</h1>
-<a href="{{ path('holidays_add') }}">Neuer Urlaub</a><br><br>
-<div>
-{% for holiday in holidays %}
-    <div>{{ holiday.start|format_datetime('short', 'none', locale='de') }} - {{ holiday.end|format_datetime('short', 'none', locale='de') }} <a href="{{path("holidays_edit", {id: holiday.id})}}">Bearbeiten</a></div>
-{% endfor %}
-</div>
+    <h1>{{ 'holidays.titles.overview'|trans }}</h1>
+
+    <a href="{{ path('holidays_add') }}">
+        {{ 'holidays.new'|trans }}
+    </a>
+    <br><br>
+
+    <div>
+        {% for holiday in holidays %}
+            <div>
+                {{ holiday.start|format_datetime('short', 'none', locale='de') }} - {{ holiday.end|format_datetime('short', 'none', locale='de') }}
+                <a href="{{path("holidays_edit", {id: holiday.id})}}">
+                    {{ 'holidays.edit'|trans }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

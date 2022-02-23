@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PaypalMesController!{% endblock %}
+{% block title %}{{ 'pay.titles.paypal_add'|trans }}{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="column-responsive column-80">
-        <div class="paypalmes form content">
-            {{ form(form) }}
+    <div class="row">
+        <div class="column-responsive column-80">
+            <div class="paypalmes form content">
+                {{ form(form) }}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

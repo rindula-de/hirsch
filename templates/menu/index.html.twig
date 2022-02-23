@@ -1,29 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block metas %}
-    <link rel="prefetch" href="/bestellungen/">
+    <link rel="prefetch" href="{{ path('orders') }}">
 {% endblock %}
 
-{% block title %}Karte{% endblock %}
+{% block title %}{{ 'menu.titles.overview'|trans }}{% endblock %}
 
 {% block body %}
-<div data-controller="dailymenu">
-<template data-dailymenu-target="template">
-    <div data-role="card" class='foodcard'>
-        <h2 data-role="title"></h2>
-        <span data-role="gericht"></span>
-        <div data-role="actionbar" class='actionbar'>
-            <a data-role="order" class="btn"></a>
+    <div data-controller="dailymenu">
+        <template data-dailymenu-target="template">
+            <div data-role="card" class='foodcard'>
+                <h2 data-role="title"></h2>
+
+                <span data-role="gericht"></span>
+
+                <div data-role="actionbar" class='actionbar'>
+                    <a data-role="order" class="btn"></a>
+                </div>
+            </div>
+        </template>
+
+        <button class="accordion" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
+
+        <div class="panel loading" id="menu_panel" data-dailymenu-target="menu">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <button class="accordion" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
+
+        <div class="panel loading" id="tagesessen_panel" data-dailymenu-target="dailyfood">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
-</template>
-<button class="accordion" data-controller="accordion">Hirsch to Go</button>
-<div class="panel loading" id="menu_panel" data-dailymenu-target="menu">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-</div>
-<button class="accordion" data-controller="accordion">Tagesessen</button>
-<div class="panel loading" id="tagesessen_panel" data-dailymenu-target="dailyfood">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-</div>
-</div>
 {% endblock %}

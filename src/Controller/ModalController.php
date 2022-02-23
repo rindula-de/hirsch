@@ -7,7 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\Holidays;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\HolidaysRepository;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -25,35 +25,45 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ModalController extends AbstractController
 {
-    private ManagerRegistry $doctrine;
     private SessionInterface $session;
     private HttpClientInterface $client;
 
-    public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack, HttpClientInterface $client)
+    public function __construct(RequestStack $requestStack, HttpClientInterface $client)
     {
-        $this->doctrine = $doctrine;
         $this->session = $requestStack->getSession();
         $this->client = $client;
     }
 
     #[Route('/modalInformationText', name: 'modal', methods: ['GET'])]
-    public function index(): Response
+    public function index(HolidaysRepository $holidaysRepository, TranslatorInterface $translator): Response
     {
         // if the current date is between the start and end date of holidays, the modal will be displayed
         $date = new \DateTime();
+
         // get all holidays
-        $holidays = $this->doctrine->getRepository(Holidays::class)->findAll();
+        $holidays = $holidaysRepository->findAll();
+
         // check if the current date is between the start and end date of holidays
         foreach ($holidays as $holiday) {
             // nullcheck for start and end date
             if ($holiday->getStart() !== null && $holiday->getEnd() !== null) {
-                if ($date >= $holiday->getStart() && $date <= $holiday->getEnd() && $this->session->get('last_showed_holidays', 0) < time() - 60 * 15) {
+                if (
+                    $date >= $holiday->getStart()
+                    && $date <= $holiday->getEnd()
+                    && $this->session->get('last_showed_holidays', 0) < time() - 60 * 15
+                ) {
                     $this->session->set('last_showed_holidays', time());
 
-                    return new Response('Der Hirsch hat aktuell Urlaub und ist vom '.$holiday->getStart()->format('d.m.Y').' bis zum '.$holiday->getEnd()->format('d.m.Y').' nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!');
+                    return new Response(
+                        $translator->trans('holidays.in_holiday', [
+                            '%start%' => $holiday->getStart()->format('d.m.Y'),
+                            '%end%'   => $holiday->getEnd()->format('d.m.Y'),
+                        ])
+                    );
                 }
             }
         }
