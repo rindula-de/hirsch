@@ -64,4 +64,3 @@ DirectoryIndex index.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
-FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php

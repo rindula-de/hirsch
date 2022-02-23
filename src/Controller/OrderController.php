@@ -133,7 +133,7 @@ class OrderController extends AbstractController
     #[Route('/order-until', name: 'order-until', methods: ['GET'])]
     public function orderuntil(TranslatorInterface $translator): Response
     {
-        return new Response($translator->trans('order.toLate'), 200);
+        return new Response($translator->trans('order.until'), 200);
     }
 
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
