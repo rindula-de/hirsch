@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class PwaTest extends WebTestCase
+{
+    public function testManifest(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/manifest.json');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHasHeader('content-type', 'application/manifest+json');
+        $this->assertJson($client->getResponse()->getContent());
+        // get json to variable
+        $json = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('de-DE', $json['lang']);
+        $this->assertEquals('Hirsch Bestellung', $json['short_name']);
+        $this->assertEquals('/karte', $json['start_url']);
+        $this->assertEquals('#ffa303', $json['theme_color']);
+    }
+}

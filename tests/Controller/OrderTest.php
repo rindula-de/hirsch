@@ -11,12 +11,23 @@ use App\Repository\UserRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
  * @group time-sensitive
  */
 class OrderTest extends WebTestCase
 {
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        ClockMock::register(OrderController::class);
+        // clear cache
+        $cache = new FilesystemAdapter();
+        $cache->clear();
+    }
+
     private function loggedInClient(): KernelBrowser
     {
         $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
@@ -26,14 +37,11 @@ class OrderTest extends WebTestCase
             $this->fail('No user found with username "test"');
         }
         $client->loginUser($user);
-
         return $client;
     }
 
     public function testOrderingAuthenticatedTooLate(): void
     {
-        $this->markAsRisky();
-        ClockMock::register(OrderController::class);
         ClockMock::withClockMock(strtotime('12:00'));
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -43,8 +51,6 @@ class OrderTest extends WebTestCase
 
     public function testOrderingAuthenticatedInTime(): void
     {
-        $this->markAsRisky();
-        ClockMock::register(OrderController::class);
         ClockMock::withClockMock(strtotime('08:00'));
         $client = $this->loggedInClient();
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -97,7 +103,7 @@ class OrderTest extends WebTestCase
     {
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/sngerjuioernruioesbnioernb');
-        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects('/karte', 302);
     }
 
     public function testOrderUntil(): void
@@ -115,4 +121,55 @@ class OrderTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Heutige Bestellungen');
     }
+
+    public function testPayNowPage(): void
+    {
+        $client = $this->loggedInClient();
+
+        $crawler = $client->request('GET', '/zahlen-bitte/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Paypalierer');
+        $form = $crawler->selectButton('id')->form();
+        $client->submit($form, [
+            'id' => '1', ]);
+        $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
+
+        $crawler = $client->request('GET', '/zahlen-bitte/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Paypalierer');
+        $this->assertSelectorExists('.paypalmeslistitem.active');
+        $this->assertSelectorTextContains('.paypalmeslistitem.active', 'Sven Nolting');
+        $form = $crawler->selectButton('id')->form();
+        $client->submit($form, [
+            'id' => '1',
+            'tip' => '0',
+        ]);
+        $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
+
+        $crawler = $client->request('GET', '/zahlen-bitte/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Paypalierer');
+        $form = $crawler->selectButton('id')->form();
+        $client->submit($form, [
+            'id' => '1',
+            'tip' => '0.5',
+        ]);
+        $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
+
+        $crawler = $client->request('GET', '/zahlen-bitte/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Paypalierer');
+        $form = $crawler->selectButton('id')->form();
+        $client->submit($form, [
+            'id' => '1',
+            'tip' => '-1',
+        ]);
+        $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
 }

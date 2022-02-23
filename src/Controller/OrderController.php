@@ -78,11 +78,10 @@ class OrderController extends AbstractController
             $cache = new FilesystemAdapter();
             $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
                 // set $time to next noon
-                $time = new DateTime('now');
-                $time->setTime(11, 0, 0);
+                $time = DateTime::createFromFormat('H:i', '11:00');
 
                 // if $time is in past, set $time to next day
-                if ($time < new DateTime('now')) {
+                if ($time < DateTime::createFromFormat('U', time().'')) {
                     return null;
                 }
 
@@ -240,7 +239,7 @@ class OrderController extends AbstractController
             $entityManager->persist($payhistory);
             $entityManager->flush();
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + max(0, $request->request->get('tip'))));
         }
 
         // find all PaypalMes

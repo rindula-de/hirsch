@@ -33,6 +33,8 @@
             <file>src/Kernel.php</file>
             <directory>src/Entity</directory>
             <directory>src/Repository</directory>
+            <directory>src/DataFixtures</directory>
+            <directory>src/Command</directory>
         </exclude>
     </coverage>
 

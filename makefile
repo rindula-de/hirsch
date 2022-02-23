@@ -88,10 +88,10 @@ ifneq (, $(shell which ddev))
 	ddev xdebug on
 endif
 	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml
-	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 50
 ifneq (, $(shell which ddev))
 	ddev xdebug off
 endif
+	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 50
 
 infection_test: export APP_ENV=test
 infection_test: tests_db coverage
