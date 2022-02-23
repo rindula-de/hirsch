@@ -26,6 +26,7 @@ class OrderTest extends WebTestCase
             $this->fail('No user found with username "test"');
         }
         $client->loginUser($user);
+
         return $client;
     }
 
@@ -114,6 +115,4 @@ class OrderTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Heutige Bestellungen');
     }
-
-
 }
