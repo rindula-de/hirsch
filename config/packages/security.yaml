@@ -37,5 +37,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manifest.json, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS, ips: [127.0.0.1, ::1] }
         - { path: ^/, roles: ROLE_USER }

@@ -29,9 +29,12 @@ install: install_deps install_db  ## Install the project
 
 install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
 
+.git/lfs:
+	git lfs install
 
 install_db: vendor .env.local.php migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	touch $@
 
 replace: config/packages/security.yaml
 	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
@@ -55,7 +58,7 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@if [ -n "$(MS_GRAPH_TENANT)" ]; then echo 'MS_GRAPH_TENANT="$(MS_GRAPH_TENANT)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_SECRET)" ]; then echo 'MS_GRAPH_CLIENT_SECRET="$(MS_GRAPH_CLIENT_SECRET)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_ID)" ]; then echo 'MS_GRAPH_CLIENT_ID="$(MS_GRAPH_CLIENT_ID)"' | tee -a .env.local; fi;
-	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
+	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 
 .env.local.php: .env.local vendor
@@ -70,21 +73,29 @@ build public public/build public/build/manifest.json: node_modules/.bin/encore v
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
-tests: export APP_ENV=test
-tests:
-	$(EXEC_PHP) vendor/bin/phpstan
+tests_db:
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
+
+tests: export APP_ENV=test
+tests: .git/lfs tests_db
+	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
-clover.xml: tests
-	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html coverage --coverage-clover clover.xml
-	$(EXEC_PHP) ./bin/coverage-checker clover.xml 10
+coverage coverage-xml coverage-html: tests_db
+ifneq (, $(shell which ddev))
+	ddev xdebug on
+endif
+	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml
+	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 17
+ifneq (, $(shell which ddev))
+	ddev xdebug off
+endif
 
 infection_test: export APP_ENV=test
-infection_test: clover.xml
-	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --coverage-clover clover.xml
+infection_test: tests_db coverage
+	XDEBUG_MODE=coverage $(EXEC_PHP) ./vendor/bin/infection --debug
 
 clean: ## Clean up the project
 	rm -rf vendor
@@ -93,5 +104,6 @@ clean: ## Clean up the project
 	rm -rf .env.local
 	rm -rf .env.local.php
 	rm -rf public/build
+	rm -rf coverage-html coverage-xml clover.xml
 
-.PHONY: tests install msg help clean install_deps install_db build replace infection_test
+.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage

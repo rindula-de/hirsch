@@ -112,9 +112,8 @@ class OrderController extends AbstractController
 
         // if its after 10:55 redirect back to menu
         if (
-            $request->headers->get('User-Agent') !== 'Symfony BrowserKit'
-            && $preorder === 0
-            && DateTime::createFromFormat('U', \time().'') > DateTime::createFromFormat('U', '10:55')
+            $preorder === 0
+            && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
             $this->addFlash(
                 'warning',
