@@ -1,5 +1,11 @@
 defaults:
     route_not_found: Controller route nicht definiert
+    date:
+        choose_date: Datum wählen
+        placeholder: Datum auswählen
+
+page:
+    title: Hirschbestellung
 
 holidays:
     titles:
@@ -15,18 +21,21 @@ menu:
         overview: Karte
     to_go: Hirsch to Go
     lunch: Tagesessen
+    overview: Übersicht
 
 order:
     search_alternative: Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.
     toLate: Die Bestellung ist ab 10:55 nicht mehr möglich.
     delete:
         success: Bestellung gelöscht
-    order: Bestellen
+    order: Bestellung
+    ordering: Bestellen
     orders: Bestellungen
     todays_orders: Heutige Bestellungen
     order_date: Bestellung für den
     order_persons: Personen die heute bestellt haben
     pre_orders: Vorbestellungen
+    pre_order: Vorbestellen
     loading_orders: Lade Bestellungen...
 
 pay:
