@@ -22,13 +22,14 @@ jobs:
         with:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
       - name: Set Timezone
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
       - uses: shivammathur/setup-php@2.17.0
         with:
-          php-version: 8
+          php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - uses: actions/setup-node@v2.5.1
@@ -104,7 +105,12 @@ jobs:
       - build_hetzner
     if: ${{ failure() }}
     steps:
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           delete_release: true # default: false
-          tag_name: ${GITHUB_REF##*/} # tag name to delete
+          tag_name: ${{ steps.vars.outputs.tag }} # tag name to delete

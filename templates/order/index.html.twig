@@ -4,12 +4,14 @@
     <link rel="prefetch" href="{{ path('paynow') }}">
 {% endblock %}
 
-{% block title %}Bestellen{% endblock %}
+{% block title %}{{ 'order.ordering'|trans }}{% endblock %}
 
 {% block body %}
     <h2>{{meal.name}}</h2>
-    <small>Bestellung für den {{order_date|format_datetime('long', 'none', locale='de')}}</small>
+    <small>{{ 'order.order_date'|trans }} {{order_date|format_datetime('long', 'none', locale='de')}}</small>
+
     {{form(form)}}
+
     <datalist id="wishlist">
         <option value="+ Pommes"></option>
         <option value="+ Senf"></option>

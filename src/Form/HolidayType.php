@@ -18,12 +18,14 @@ class HolidayType extends AbstractType
     {
         $builder
             ->add('start', null, [
-                'row_attr' => ['class' => 'input date'],
-                'label'    => 'Start',
+                'row_attr'  => ['class' => 'input date'],
+                'label'     => 'Start',
+                'widget'    => 'single_text',
             ])
             ->add('end', null, [
-                'row_attr' => ['class' => 'input date'],
-                'label'    => 'Ende',
+                'row_attr'  => ['class' => 'input date'],
+                'label'     => 'Ende',
+                'widget'    => 'single_text',
             ])
             ->add('submit', SubmitType::class);
     }
