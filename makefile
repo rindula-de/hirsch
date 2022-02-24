@@ -95,7 +95,7 @@ endif
 
 infection_test: export APP_ENV=test
 infection_test: tests_db coverage
-	XDEBUG_MODE=coverage $(EXEC_PHP) ./vendor/bin/infection --debug
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered
 
 clean: ## Clean up the project
 	rm -rf vendor
