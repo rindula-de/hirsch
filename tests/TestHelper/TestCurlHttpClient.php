@@ -32,7 +32,6 @@ class TestCurlHttpClient implements HttpClientInterface
     /**
      * @param array<string,mixed> $options
      *
-     * @throws TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {

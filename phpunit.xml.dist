@@ -33,6 +33,7 @@
             <file>src/Kernel.php</file>
             <directory>src/Entity</directory>
             <directory>src/Repository</directory>
+            <directory>src/Message</directory>
         </exclude>
     </coverage>
 

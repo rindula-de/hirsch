@@ -38,7 +38,7 @@ class HolidayController extends AbstractController
             ->getRepository(Holidays::class)
             ->findAll();
 
-        return $this->json($holidays, 200);
+        return $this->json($holidays);
     }
 
     #[Route('/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]
@@ -46,7 +46,7 @@ class HolidayController extends AbstractController
     {
         $form = $this->createForm(HolidayType::class, $holiday);
         $form->handleRequest($request);
-        dump($holiday);
+
         // save holiday
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
