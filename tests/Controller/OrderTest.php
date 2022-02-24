@@ -111,7 +111,7 @@ class OrderTest extends WebTestCase
         $client = $this->loggedInClient();
         $client->request('GET', '/order-until');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('', 'Bestellungen am selben Tag bis 10:55 möglich');
+        $this->assertSelectorTextContains('', 'Die Bestellung ist ab 10:55 nicht mehr möglich.');
     }
 
     public function testOrdersOverview(): void
