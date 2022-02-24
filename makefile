@@ -83,7 +83,7 @@ tests: .git/lfs tests_db
 	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
-coverage coverage-xml coverage-html: tests_db
+coverage.xml coverage-xml coverage-html: tests_db
 ifneq (, $(shell which ddev))
 	ddev xdebug on
 endif
@@ -91,10 +91,12 @@ endif
 ifneq (, $(shell which ddev))
 	ddev xdebug off
 endif
+
+coverage_check: tests_db coverage.xml
 	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 50
 
 infection_test: export APP_ENV=test
-infection_test: tests_db coverage
+infection_test: tests_db coverage.xml
 ifneq (, $(shell which ddev))
 	$(error "Infection test is not supported on ddev")
 endif
@@ -109,4 +111,4 @@ clean: ## Clean up the project
 	rm -rf public/build
 	rm -rf coverage-html coverage-xml clover.xml
 
-.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage
+.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage_check
