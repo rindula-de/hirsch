@@ -38,7 +38,7 @@ class HolidayController extends AbstractController
             ->getRepository(Holidays::class)
             ->findAll();
 
-        return $this->json($holidays, 200);
+        return $this->json($holidays);
     }
 
     #[Route('/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]

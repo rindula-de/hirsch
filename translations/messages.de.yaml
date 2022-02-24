@@ -13,7 +13,7 @@ holidays:
         edit: Urlaub bearbeiten
     new: Neuer Urlaub
     add: Urlaub Anlegen
-    edit: bearbeiten
+    edit: Bearbeiten
     in_holiday: Der Hirsch hat aktuell Urlaub und ist vom %start% bis zum %end% nicht verfügbar. Bestellungen können danach wieder aufgenommen werden!
 
 menu:
