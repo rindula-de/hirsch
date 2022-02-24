@@ -51,7 +51,7 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' | tee -a .env.local
 	@if [ -n "$(EMAILPASS)" ]; then echo 'MailAccess_password="$(EMAILPASS)"' | tee -a .env.local; echo 'EMAILPASS="$(EMAILPASS)"' | tee -a .env.local; fi;
 	@echo 'EMAILUSER="essen@hochwarth-e.com"' | tee -a .env.local
-	@echo 'MAILER_DSN=smtp://sslout.df.eu:465' | tee -a .env.local
+	@echo 'MAILER_DSN=smtp://essen%40hochwarth-e.com:$(EMAILPASS)@smtprelaypool.ispgateway.de:587' | tee -a .env.local
 	@if [ -n "$(VERSION)" ]; then echo 'APP_VERSION="$(VERSION)"' | tee -a .env.local; fi;
 	@if [ -n "$(HT_USER)" ]; then echo 'HT_USERNAME="$(HT_USER)"' | tee -a .env.local; fi;
 	@if [ -n "$(HT_PASS)" ]; then echo 'HT_PASSWORD="$(HT_PASS)"' | tee -a .env.local; fi;
