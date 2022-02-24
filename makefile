@@ -58,7 +58,7 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@if [ -n "$(MS_GRAPH_TENANT)" ]; then echo 'MS_GRAPH_TENANT="$(MS_GRAPH_TENANT)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_SECRET)" ]; then echo 'MS_GRAPH_CLIENT_SECRET="$(MS_GRAPH_CLIENT_SECRET)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_ID)" ]; then echo 'MS_GRAPH_CLIENT_ID="$(MS_GRAPH_CLIENT_ID)"' | tee -a .env.local; fi;
-	@if [ -z "$(WT_PROFILE_ID)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
+	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 
 .env.local.php: .env.local vendor

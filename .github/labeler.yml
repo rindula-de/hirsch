@@ -27,3 +27,6 @@ chore:
   - makefile
   - .htaccess
   - public/.htaccess
+
+translations:
+  - translations/**/*

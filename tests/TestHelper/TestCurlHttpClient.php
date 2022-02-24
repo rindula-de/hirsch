@@ -8,7 +8,6 @@ namespace App\Tests\TestHelper;
 
 use Infection\FileSystem\Locator\FileNotFound;
 use Psr\Container\ContainerInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
@@ -31,8 +30,6 @@ class TestCurlHttpClient implements HttpClientInterface
 
     /**
      * @param array<string,mixed> $options
-     *
-     * @throws TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {

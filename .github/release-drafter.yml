@@ -12,6 +12,8 @@ categories:
       - 'fix'
       - 'bugfix'
       - 'bug'
+  - title: '📚 Translations'
+    label: 'translations'
   - title: '🧰 Maintenance'
     labels: 
       - 'chore'
