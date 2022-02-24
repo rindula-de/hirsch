@@ -53,6 +53,39 @@ jobs:
       - name: Dependencies
         run: make install_deps
       - run: make coverage
+  infection:
+    name: PHP Infection Test
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.6.4
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
+      - uses: shivammathur/setup-php@2.17.0
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Replace variables
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+      - name: Dependencies
+        run: make install_deps
+      - run: make infection_test
   test:
     name: Unittest
     runs-on: ubuntu-latest

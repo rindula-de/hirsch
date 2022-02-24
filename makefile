@@ -95,7 +95,10 @@ endif
 
 infection_test: export APP_ENV=test
 infection_test: tests_db coverage
-	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered
+ifneq (, $(shell which ddev))
+	$(error "Infection test is not supported on ddev")
+endif
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --min-msi=100
 
 clean: ## Clean up the project
 	rm -rf vendor
