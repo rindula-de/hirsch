@@ -17,10 +17,11 @@ class HolidayTypeTest extends TypeTestCase
 {
     public function testSubmitValidData(): void
     {
-        $start = new \DateTime('-1 day');
+        $start = new \DateTime('23.02.2022');
+        $end = new \DateTime('24.02.2022');
         $formData = [
-            'start' => $start,
-            'end'   => null,
+            'start' => $start->format("Y-M-d"),
+            'end'   => $end->format("Y-M-d"),
         ];
 
         $model = new Holidays();
@@ -29,6 +30,7 @@ class HolidayTypeTest extends TypeTestCase
 
         $expected = new Holidays();
         $expected->setStart($start);
+        $expected->setEnd($end);
         // ...populate $object properties with the data stored in $formData
 
         // submit the data to the form directly
