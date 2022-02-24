@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Form;
 
 use App\Entity\Hirsch;
@@ -11,12 +15,12 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class HolidayTypeTest extends TypeTestCase
 {
-    public function testSubmitValidData():void
+    public function testSubmitValidData(): void
     {
-        $start = new \DateTime("-1 day");
+        $start = new \DateTime('-1 day');
         $formData = [
             'start' => $start,
-            'end' => null,
+            'end'   => null,
         ];
 
         $model = new Holidays();
@@ -40,13 +44,13 @@ class HolidayTypeTest extends TypeTestCase
         $this->factory->create(HolidayType::class, new Hirsch());
     }
 
-    public function testCustomFormView():void
+    public function testCustomFormView(): void
     {
         $formData = new Holidays();
         // ... prepare the data as you need
-        $start = new \DateTime("-1 day");
+        $start = new \DateTime('-1 day');
         $formData->setStart($start);
-        $formData->setEnd(new \DateTime("+1 day"));
+        $formData->setEnd(new \DateTime('+1 day'));
 
         // The initial data may be used to compute custom view variables
         $view = $this->factory->create(HolidayType::class, $formData)
@@ -54,8 +58,8 @@ class HolidayTypeTest extends TypeTestCase
 
         /** @var FormErrorIterator $errors */
         $errors = $view->vars['errors'];
-        $this->assertTrue($errors->count()==0);
-        $this->assertEquals($start,$view->vars["value"]->getStart());
+        $this->assertTrue($errors->count() == 0);
+        $this->assertEquals($start, $view->vars['value']->getStart());
         $this->assertNotEmpty($view->children['start']->vars['row_attr']);
         $this->assertNotEmpty($view->children['end']->vars['row_attr']);
     }

@@ -1,12 +1,15 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Controller;
 
 use App\Entity\Holidays;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Psr\Cache\InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -33,19 +36,19 @@ class HolidayControllerTest extends WebTestCase
 
     public function testNoHolidays(): void
     {
-        $this->client->request('GET','/holidays');
+        $this->client->request('GET', '/holidays');
         $response = $this->client->getResponse();
         $this->assertResponseIsSuccessful();
         $this->assertNotEmpty($response);
-        $this->assertStringContainsString("Neuer Urlaub",$response);
-        $this->assertStringNotContainsString("Bearbeiten",$response);
+        $this->assertStringContainsString('Neuer Urlaub', $response);
+        $this->assertStringNotContainsString('Bearbeiten', $response);
     }
 
     /**
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function testHolidaysInList():void
+    public function testHolidaysInList(): void
     {
         $holiday = new Holidays();
         $holiday->setStart(new \DateTime('-5 day'));
@@ -53,20 +56,19 @@ class HolidayControllerTest extends WebTestCase
         $this->entityManager->persist($holiday);
         $this->entityManager->flush();
 
-        $this->client->request('GET','/holidays');
+        $this->client->request('GET', '/holidays');
         $response = $this->client->getResponse();
         $this->assertResponseIsSuccessful();
         $this->assertNotEmpty($response);
-        $this->assertStringContainsString("Neuer Urlaub",$response);
-        $this->assertStringContainsString("Bearbeiten",$response);
-
+        $this->assertStringContainsString('Neuer Urlaub', $response);
+        $this->assertStringContainsString('Bearbeiten', $response);
     }
 
-    public function testApiReturnEmptyResponse():void
+    public function testApiReturnEmptyResponse(): void
     {
-        $this->client->request('GET','/api/holidays');
+        $this->client->request('GET', '/api/holidays');
         $this->assertResponseIsSuccessful();
-        $this->assertEquals("[]",$this->client->getResponse()->getContent());
+        $this->assertEquals('[]', $this->client->getResponse()->getContent());
     }
 
     /**
@@ -74,7 +76,7 @@ class HolidayControllerTest extends WebTestCase
      * @throws ORMException
      * @throws \Exception
      */
-    public function testApiReturnValidResponse():void
+    public function testApiReturnValidResponse(): void
     {
         $holiday = new Holidays();
         $start = new \DateTime('-5 day');
@@ -83,18 +85,20 @@ class HolidayControllerTest extends WebTestCase
         $this->entityManager->persist($holiday);
         $this->entityManager->flush();
 
-        $this->client->request('GET','/api/holidays');
+        $this->client->request('GET', '/api/holidays');
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse()->getContent();
         $this->assertNotEmpty($response);
-        if(!is_string($response))throw new \Exception("Empty response");
+        if (!is_string($response)) {
+            throw new \Exception('Empty response');
+        }
         $this->assertJson($response);
         $jsonResponse = json_decode($response);
-        if(!is_array($jsonResponse))throw new \Exception("Not a valid json array in response");
-        $this->assertEquals($start->format("Y-m-d\TH:i:sP"),$jsonResponse[0]->start);
+        if (!is_array($jsonResponse)) {
+            throw new \Exception('Not a valid json array in response');
+        }
+        $this->assertEquals($start->format("Y-m-d\TH:i:sP"), $jsonResponse[0]->start);
     }
-
-
 
     protected function tearDown(): void
     {
@@ -103,5 +107,4 @@ class HolidayControllerTest extends WebTestCase
         }
         parent::tearDown();
     }
-
 }

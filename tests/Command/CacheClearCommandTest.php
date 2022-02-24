@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -9,11 +13,10 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CacheClearCommandTest extends KernelTestCase
 {
-
     /**
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function testCacheCleared():void
+    public function testCacheCleared(): void
     {
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -21,10 +24,10 @@ class CacheClearCommandTest extends KernelTestCase
         $command = $application->find('app:cache:clear');
 
         $cache = new FilesystemAdapter();
-        $cache->get("test",function(){
+        $cache->get('test', function () {
             return true;
         });
-        $this->assertTrue($cache->getItem("test")->get());
+        $this->assertTrue($cache->getItem('test')->get());
 
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
@@ -34,6 +37,6 @@ class CacheClearCommandTest extends KernelTestCase
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('Cache cleared!', $output);
 
-        $this->assertNull($cache->getItem("test")->get());
+        $this->assertNull($cache->getItem('test')->get());
     }
 }
