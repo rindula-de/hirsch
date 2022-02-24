@@ -20,8 +20,8 @@ class HolidayTypeTest extends TypeTestCase
         $start = new \DateTime('23.02.2022');
         $end = new \DateTime('24.02.2022');
         $formData = [
-            'start' => $start->format("Y-M-d"),
-            'end'   => $end->format("Y-M-d"),
+            'start' => $start->format('Y-M-d'),
+            'end'   => $end->format('Y-M-d'),
         ];
 
         $model = new Holidays();
