@@ -96,7 +96,9 @@ class OrderController extends AbstractController
                 if ($time < DateTime::createFromFormat('U', time().'')) {
                     return null;
                 }
-                if(!$time)throw new \Exception("Error on converting datetime");
+                if (!$time) {
+                    throw new \Exception('Error on converting datetime');
+                }
                 // $time to seconds
                 $time = $time->getTimestamp() - time();
 

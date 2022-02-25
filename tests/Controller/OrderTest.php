@@ -183,10 +183,10 @@ class OrderTest extends WebTestCase
 
         /** @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $testOrderUser = "Testuser";
+        $testOrderUser = 'Testuser';
 
-        $today = new DateTime("today 9:00");
-        $yesterday = new DateTime("yesterday 9:00");
+        $today = new DateTime('today 9:00');
+        $yesterday = new DateTime('yesterday 9:00');
 
         /** @var Hirsch $tagesessen */
         $tagesessen = $entityManager->getRepository(Hirsch::class)->find(1);
@@ -207,15 +207,14 @@ class OrderTest extends WebTestCase
         $entityManager->persist($yesterdayOrder);
         $entityManager->flush();
 
-        $client->request('GET',"/api/orders/0");
-        $this->verifyOrdersApi($client,2,[0=>$todayOrder]);
+        $client->request('GET', '/api/orders/0');
+        $this->verifyOrdersApi($client, 2, [0=>$todayOrder]);
 
-        $client->request('GET',"/api/orders");
-        $this->verifyOrdersApi($client,1,[0=>$todayOrder]);
+        $client->request('GET', '/api/orders');
+        $this->verifyOrdersApi($client, 1, [0=>$todayOrder]);
 
-        $client->request('GET',"/api/orders/1");
-        $this->verifyOrdersApi($client,1,[0=>$todayOrder]);
-
+        $client->request('GET', '/api/orders/1');
+        $this->verifyOrdersApi($client, 1, [0=>$todayOrder]);
     }
 
     protected function tearDown(): void
@@ -224,32 +223,41 @@ class OrderTest extends WebTestCase
     }
 
     /**
-     * @param KernelBrowser $client
-     * @param int $expectedCount
+     * @param KernelBrowser     $client
+     * @param int               $expectedCount
      * @param array<int,Orders> $testOrdersArray
+     *
      * @throws \Exception
      */
-    private function verifyOrdersApi(KernelBrowser $client,int $expectedCount,array $testOrdersArray): void
+    private function verifyOrdersApi(KernelBrowser $client, int $expectedCount, array $testOrdersArray): void
     {
         $this->assertResponseIsSuccessful();
         $response = $client->getResponse()->getContent();
-        if (!$response) throw new \LogicException("Not a valid response");
+        if (!$response) {
+            throw new \LogicException('Not a valid response');
+        }
         $response = json_decode($response);
-        if (!is_array($response)) throw new \LogicException("Not a valid response");
+        if (!is_array($response)) {
+            throw new \LogicException('Not a valid response');
+        }
         $this->assertCount($expectedCount, $response);
-        foreach ($testOrdersArray as $key => $order){
+        foreach ($testOrdersArray as $key => $order) {
             $orderToTest = $response[$key];
             $meal = $order->getHirsch();
-            if($meal===null)throw new \LogicException("Did expect something to eat");
-            $this->assertEquals($order->getId(),$orderToTest->id);
-            $this->assertEquals($order->getCreated(),new DateTime($orderToTest->created->date));
+            if ($meal === null) {
+                throw new \LogicException('Did expect something to eat');
+            }
+            $this->assertEquals($order->getId(), $orderToTest->id);
+            $this->assertEquals($order->getCreated(), new DateTime($orderToTest->created->date));
             $forDate = $order->getForDate();
-            if($forDate === null)throw new \LogicException("Did expect a order for date");
-            $this->assertEquals($forDate->format('Y-m-d'),(new DateTime($orderToTest->forDate->date))->format('Y-m-d'));
-            $this->assertEquals($order->getNote(),$orderToTest->note);
-            $this->assertEquals($order->getOrderedby(),$orderToTest->orderedby);
-            $this->assertEquals($meal->getName(),$orderToTest->ordered);
-            $this->assertEquals($meal->getSlug(),$orderToTest->orderedSlug);
+            if ($forDate === null) {
+                throw new \LogicException('Did expect a order for date');
+            }
+            $this->assertEquals($forDate->format('Y-m-d'), (new DateTime($orderToTest->forDate->date))->format('Y-m-d'));
+            $this->assertEquals($order->getNote(), $orderToTest->note);
+            $this->assertEquals($order->getOrderedby(), $orderToTest->orderedby);
+            $this->assertEquals($meal->getName(), $orderToTest->ordered);
+            $this->assertEquals($meal->getSlug(), $orderToTest->orderedSlug);
         }
     }
 }
