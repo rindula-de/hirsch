@@ -16,26 +16,6 @@ self.addEventListener('activate', function(event) {
         })
     )
 });
-self.addEventListener('fetch', function(event) {
-    if (event.request.method === "GET") {
-        var headers = new Headers(event.request.headers);
-        if (event.request.url.startsWith("https://hirsch.hochwarth-e.com/") || event.request.url.startsWith("/build/")) {
-            headers.set("Authorization", 'Basic {{ credentials.string | raw }}');
-        }
-        var req = new Request(event.request.clone(), { headers });
-        event.respondWith(
-            // fetch first, then cache
-            fetch(req)
-            .catch(function(error) {
-                return caches.match(event.request)
-                    .then(function(r) {
-                        if (r) return r;
-                        return caches.match("{{offline_route|raw}}").then(function(rt) { return rt });
-                    });
-            }));
-    }
-});
-
 self.addEventListener('message', (event) => {
     if (event.data === 'SKIP_WAITING') {
         self.skipWaiting();
