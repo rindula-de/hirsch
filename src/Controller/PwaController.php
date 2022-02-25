@@ -77,4 +77,51 @@ class PwaController extends AbstractController
             'orientation'      => 'portrait',
         ], 200, ['Content-Type' => 'application/manifest+json']);
     }
+    
+    #[Route('/sw.js', methods: ['GET'])]
+    public function serviceWorker(UtilityService $utilityService): Response
+    {
+        $urlsToCache = [
+            $this->generateUrl('menu'),
+            '/favicon.png',
+            $this->generateUrl('offlineinfo'),
+            'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+            'https://cdn.jsdelivr.net/npm/flatpickr',
+            'https://fonts.googleapis.com/icon?family=Material+Icons',
+            'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
+            'https://fonts.googleapis.com/css?family=Raleway:400,700',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCAIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCkIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCIIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyCMIT5lu.woff2',
+            'https://fonts.gstatic.com/s/raleway/v22/1Ptug8zYS_SKggPNyC0ITw.woff2',
+        ];
+        // read /public/build/manifest.json and parse it
+        $manifest_json = file_get_contents(__DIR__.'/../../public/build/manifest.json');
+        if ($manifest_json) {
+            $manifest = json_decode($manifest_json, true);
+            if (!is_array($manifest)) {
+                $manifest = [];
+            }
+        } else {
+            $manifest = [];
+        }
+        // merge $manifest and $urlsToCache
+        $urlsToCache = array_merge(array_values($manifest), $urlsToCache);
+        $response = new Response(
+            null,
+            200,
+            ['Content-Type' => 'application/javascript']
+        );
+        return $this->render('serviceworker.js', [
+            'version'       => ($_ENV['APP_VERSION'] !== 'development' ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+            'urlsToCache'   => json_encode($urlsToCache),
+            'offline_route' => $this->generateUrl('offlineinfo'),
+            'credentials'   => [
+                'username' => $_ENV['HT_USERNAME'] ?? '',
+                'password' => $_ENV['HT_PASSWORD'] ?? '',
+                'string'   => base64_encode(($_ENV['HT_USERNAME'] ?? '').':'.($_ENV['HT_PASSWORD'] ?? '')),
+            ],
+        ], $response);
+    }
 }
