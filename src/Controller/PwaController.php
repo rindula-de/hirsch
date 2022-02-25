@@ -77,7 +77,7 @@ class PwaController extends AbstractController
             'orientation'      => 'portrait',
         ], 200, ['Content-Type' => 'application/manifest+json']);
     }
-    
+
     #[Route('/sw.js', methods: ['GET'])]
     public function serviceWorker(UtilityService $utilityService): Response
     {
@@ -113,6 +113,7 @@ class PwaController extends AbstractController
             200,
             ['Content-Type' => 'application/javascript']
         );
+
         return $this->render('serviceworker.js', [
             'version'       => ($_ENV['APP_VERSION'] !== 'development' ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
             'urlsToCache'   => json_encode($urlsToCache),
