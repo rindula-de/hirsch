@@ -24,7 +24,7 @@ class HolidayController extends AbstractController
         $holidays = $doctrine->getRepository(Holidays::class)->findAll();
 
         return $this->render('holiday/index.html.twig', [
-            'holidays'        => $holidays,
+            'holidays' => $holidays,
         ]);
     }
 
@@ -56,7 +56,7 @@ class HolidayController extends AbstractController
 
         return $this->renderForm('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form'    => $form,
+            'form' => $form,
         ]);
     }
 
@@ -76,7 +76,7 @@ class HolidayController extends AbstractController
 
         return $this->renderForm('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form'    => $form,
+            'form' => $form,
         ]);
     }
 }

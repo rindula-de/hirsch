@@ -96,7 +96,7 @@ class MenuController extends AbstractController
             if ($emailsToDelete) {
                 foreach ($emailsToDelete as $emailId) {
                     // Markiert die E-Mails zum löschen
-                    imap_delete($mbox, (explode('.', phpversion())[0] == 8 ? $emailId.'' : $emailId));
+                    imap_delete($mbox, (8 == explode('.', phpversion())[0] ? $emailId.'' : $emailId));
                 }
 
                 // Löscht die markierten Mails endgültig
@@ -112,17 +112,17 @@ class MenuController extends AbstractController
                     $structure = imap_fetchstructure($mbox, $emailId);
 
                     if (isset($structure->parts) && count($structure->parts)) {
-                        for ($i = 0; $i < count($structure->parts); $i++) {
+                        for ($i = 0; $i < count($structure->parts); ++$i) {
                             $attachments[$i] = [
                                 'is_attachment' => false,
-                                'filename'      => '',
-                                'name'          => '',
-                                'attachment'    => '',
+                                'filename' => '',
+                                'name' => '',
+                                'attachment' => '',
                             ];
 
                             if ($structure->parts[$i]->ifdparameters) {
                                 foreach ($structure->parts[$i]->dparameters as $object) {
-                                    if (strtolower($object->attribute) == 'filename') {
+                                    if ('filename' == strtolower($object->attribute)) {
                                         $attachments[$i]['is_attachment'] = true;
                                         $attachments[$i]['filename'] = $object->value;
                                     }
@@ -131,7 +131,7 @@ class MenuController extends AbstractController
 
                             if ($structure->parts[$i]->ifparameters) {
                                 foreach ($structure->parts[$i]->parameters as $object) {
-                                    if (strtolower($object->attribute) == 'name') {
+                                    if ('name' == strtolower($object->attribute)) {
                                         $attachments[$i]['is_attachment'] = true;
                                         $attachments[$i]['name'] = $object->value;
                                     }
@@ -142,9 +142,9 @@ class MenuController extends AbstractController
                                 $attachments[$i]['attachment'] = imap_fetchbody($mbox, $emailId, ($i + 1).'');
 
                                 if (is_string($attachments[$i]['attachment'])) {
-                                    if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
+                                    if (3 == $structure->parts[$i]->encoding) { // 3 = BASE64
                                         $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
-                                    } elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
+                                    } elseif (4 == $structure->parts[$i]->encoding) { // 4 = QUOTED-PRINTABLE
                                         $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
                                     }
                                 }
@@ -152,9 +152,9 @@ class MenuController extends AbstractController
                         }
                     }
 
-                    if (isset($attachments) && count($attachments) != 0) {
+                    if (isset($attachments) && 0 != count($attachments)) {
                         foreach ($attachments as $at) {
-                            if ($at['is_attachment'] == 1) {
+                            if (1 == $at['is_attachment']) {
                                 if (str_contains(strtolower($at['filename']), 'mittagstisch') && is_string($at['attachment'])) {
                                     $filename = tempnam(sys_get_temp_dir(), 'hi_');
 
@@ -176,7 +176,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date'    => (new DateTime('monday noon this week')),
+                                            'date' => (new DateTime('monday noon this week')),
                                         ];
 
                                         preg_match(
@@ -186,7 +186,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date'    => (new DateTime('tuesday noon this week')),
+                                            'date' => (new DateTime('tuesday noon this week')),
                                         ];
 
                                         preg_match(
@@ -196,7 +196,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date'    => (new DateTime('wednesday noon this week')),
+                                            'date' => (new DateTime('wednesday noon this week')),
                                         ];
 
                                         preg_match(
@@ -206,7 +206,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date'    => (new DateTime('thursday noon this week')),
+                                            'date' => (new DateTime('thursday noon this week')),
                                         ];
 
                                         preg_match(
@@ -216,7 +216,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date'    => (new DateTime('friday noon this week')),
+                                            'date' => (new DateTime('friday noon this week')),
                                         ];
 
                                         unlink($filename);
@@ -234,11 +234,11 @@ class MenuController extends AbstractController
             $message = $e->getMessage();
         }
 
-        if ($request->attributes->get('_route') == 'tagesessenkarte') {
+        if ('tagesessenkarte' == $request->attributes->get('_route')) {
             return $this->json(['file' => $file, 'message' => $message]);
         }
 
-        if ($request->attributes->get('_route') == 'tagesessen') {
+        if ('tagesessen' == $request->attributes->get('_route')) {
             return $this->json(['displayData' => $displayData, 'message' => $message]);
         }
 

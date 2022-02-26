@@ -38,7 +38,7 @@ class OrderTest extends WebTestCase
         $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
-        if ($user === null) {
+        if (null === $user) {
             $this->fail('No user found with username "test"');
         }
         $client->loginUser($user);
@@ -61,7 +61,7 @@ class OrderTest extends WebTestCase
         ClockMock::withClockMock(strtotime('10:55:59'));
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
 
         ClockMock::withClockMock(strtotime('10:54'));
@@ -72,7 +72,7 @@ class OrderTest extends WebTestCase
         ClockMock::withClockMock(strtotime('11:00:05'));
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseRedirects('/karte', 302);
         $client->followRedirect();
         $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent() ?: '');
@@ -89,7 +89,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '', ]);
+            'order[note]' => '', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -98,7 +98,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -107,7 +107,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => '',
-            'order[note]'      => '', ]);
+            'order[note]' => '', ]);
         $this->assertResponseStatusCodeSame(422);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -116,7 +116,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => '',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
     }
 
@@ -130,7 +130,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '', ]);
+            'order[note]' => '', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
     }
 
@@ -184,7 +184,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('.paypalmeslistitem.active', 'Sven Nolting');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id'  => '1',
+            'id' => '1',
             'tip' => '0',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
@@ -194,7 +194,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id'  => '1',
+            'id' => '1',
             'tip' => '0.5',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
@@ -204,7 +204,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id'  => '1',
+            'id' => '1',
             'tip' => '-1',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
@@ -271,13 +271,13 @@ class OrderTest extends WebTestCase
         $entityManager->flush();
 
         $client->request('GET', '/api/orders/0');
-        $this->verifyOrdersApi($client, 2, [0=>$todayOrder]);
+        $this->verifyOrdersApi($client, 2, [0 => $todayOrder]);
 
         $client->request('GET', '/api/orders');
-        $this->verifyOrdersApi($client, 1, [0=>$todayOrder]);
+        $this->verifyOrdersApi($client, 1, [0 => $todayOrder]);
 
         $client->request('GET', '/api/orders/1');
-        $this->verifyOrdersApi($client, 1, [0=>$todayOrder]);
+        $this->verifyOrdersApi($client, 1, [0 => $todayOrder]);
     }
 
     protected function tearDown(): void
@@ -286,8 +286,6 @@ class OrderTest extends WebTestCase
     }
 
     /**
-     * @param KernelBrowser     $client
-     * @param int               $expectedCount
      * @param array<int,Orders> $testOrdersArray
      *
      * @throws \Exception
@@ -307,13 +305,13 @@ class OrderTest extends WebTestCase
         foreach ($testOrdersArray as $key => $order) {
             $orderToTest = $response[$key];
             $meal = $order->getHirsch();
-            if ($meal === null) {
+            if (null === $meal) {
                 $this->fail('Did expect something to eat');
             }
             $this->assertEquals($order->getId(), $orderToTest->id);
             $this->assertEquals($order->getCreated(), new DateTime($orderToTest->created->date));
             $forDate = $order->getForDate();
-            if ($forDate === null) {
+            if (null === $forDate) {
                 $this->fail('Did expect a order for date');
             }
             $this->assertEquals($forDate->format('Y-m-d'), (new DateTime($orderToTest->forDate->date))->format('Y-m-d'));
