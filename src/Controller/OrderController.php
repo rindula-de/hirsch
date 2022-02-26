@@ -73,7 +73,7 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
-                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && $preorder === 0) {
+                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
                     $this->addFlash('error', $translator->trans('order.search_alternative'));
 
                     return new RedirectResponse($this->generateUrl('menu'));
