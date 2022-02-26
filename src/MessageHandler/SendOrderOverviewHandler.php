@@ -32,7 +32,6 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
 
     public function __invoke(SendOrderOverview $message): void
     {
-
         // get all orders for today
         /** @var mixed[] */
         $orders = $this->entityManager

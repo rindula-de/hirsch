@@ -133,11 +133,7 @@ class ModalControllerTest extends WebTestCase
     }
 
     /**
-     * @param string $version
-     *
      * @throws \Exception
-     *
-     * @return false|string
      */
     private function callReleaseModal(string $version): string|false
     {
@@ -148,12 +144,12 @@ class ModalControllerTest extends WebTestCase
         $cookies = $this->client->getResponse()->headers->getCookies();
         $cookieValue = null;
         foreach ($cookies as $cookie) {
-            if ($cookie->getName() == 'changelogVersion') {
+            if ('changelogVersion' == $cookie->getName()) {
                 $cookieValue = $cookie->getValue();
                 break;
             }
         }
-        if ($cookieValue === null) {
+        if (null === $cookieValue) {
             throw new \LogicException('Cookie not found');
         }
         $this->assertEquals($_ENV['APP_VERSION'], $cookieValue);
