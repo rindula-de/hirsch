@@ -52,6 +52,31 @@ class OrderTest extends WebTestCase
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseRedirects('/karte', 302);
+        
+
+        ClockMock::withClockMock(strtotime('10:54'));
+        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        $form = $crawler->selectButton('order[submit]')->form();
+        ClockMock::withClockMock(strtotime('10:55:59'));
+        $client->submit($form, [
+            'order[orderedby]' => 'Max Mustermann',
+            'order[note]'      => '+ Pommes', ]);
+        $this->assertResponseRedirects('/zahlen-bitte/', 302);
+
+        ClockMock::withClockMock(strtotime('10:54'));
+        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        $form = $crawler->selectButton('order[submit]')->form();
+        ClockMock::withClockMock(strtotime('11:00:05'));
+        $client->submit($form, [
+            'order[orderedby]' => 'Max Mustermann',
+            'order[note]'      => '+ Pommes', ]);
+        $this->assertResponseRedirects('/karte', 302);
+        $client->followRedirect();
+        $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent()?:"");
         ClockMock::withClockMock(false);
     }
 
@@ -234,24 +259,24 @@ class OrderTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $response = $client->getResponse()->getContent();
         if (!$response) {
-            throw new \LogicException('Not a valid response');
+            $this->fail('Not a valid response');
         }
         $response = json_decode($response);
         if (!is_array($response)) {
-            throw new \LogicException('Not a valid response');
+            $this->fail('Not a valid response');
         }
         $this->assertCount($expectedCount, $response);
         foreach ($testOrdersArray as $key => $order) {
             $orderToTest = $response[$key];
             $meal = $order->getHirsch();
             if ($meal === null) {
-                throw new \LogicException('Did expect something to eat');
+                $this->fail('Did expect something to eat');
             }
             $this->assertEquals($order->getId(), $orderToTest->id);
             $this->assertEquals($order->getCreated(), new DateTime($orderToTest->created->date));
             $forDate = $order->getForDate();
             if ($forDate === null) {
-                throw new \LogicException('Did expect a order for date');
+                $this->fail('Did expect a order for date');
             }
             $this->assertEquals($forDate->format('Y-m-d'), (new DateTime($orderToTest->forDate->date))->format('Y-m-d'));
             $this->assertEquals($order->getNote(), $orderToTest->note);

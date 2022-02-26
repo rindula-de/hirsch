@@ -87,7 +87,7 @@ coverage.xml coverage-xml coverage-html: tests_db
 ifneq (, $(shell which ddev))
 	ddev xdebug on
 endif
-	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml
+	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml || true
 ifneq (, $(shell which ddev))
 	ddev xdebug off
 endif

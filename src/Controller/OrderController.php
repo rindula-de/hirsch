@@ -73,6 +73,10 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
+                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56')) {
+                    $this->addFlash('error', $translator->trans('order.search_alternative'));
+                    return new RedirectResponse($this->generateUrl('menu'));
+                }
                 $em->persist($order);
                 $em->flush();
 
@@ -90,14 +94,12 @@ class OrderController extends AbstractController
             $cache = new FilesystemAdapter();
             $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
                 // set $time to next noon
+                /** @var DateTime */
                 $time = DateTime::createFromFormat('H:i', '11:00');
 
-                // if $time is in past, set $time to next day
+                // if $time is in past, just return
                 if ($time < DateTime::createFromFormat('U', time().'')) {
                     return null;
-                }
-                if (!$time) {
-                    throw new \Exception('Error on converting datetime');
                 }
                 // $time to seconds
                 $time = $time->getTimestamp() - time();
