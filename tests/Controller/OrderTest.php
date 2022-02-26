@@ -118,7 +118,7 @@ class OrderTest extends WebTestCase
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
-        
+
         ClockMock::withClockMock(strtotime('11:10'));
         $crawler = $client->request('GET', '/order/1/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
