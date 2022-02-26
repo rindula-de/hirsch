@@ -20,21 +20,21 @@ class OrderType extends AbstractType
         $builder
             ->add('orderedby', TextType::class, [
                 'row_attr' => ['class' => 'input text required'],
-                'attr'     => ['placeholder' => 'Max Mustermann'],
-                'label'    => 'Dein Name',
+                'attr' => ['placeholder' => 'Max Mustermann'],
+                'label' => 'Dein Name',
             ])
             ->add('note', TextType::class, [
-                'row_attr'   => ['class' => 'input text'],
-                'attr'       => ['placeholder' => 'Keine', 'list' => 'wishlist', 'autofill'=>'off', 'autocomplete'=>'off'],
-                'required'   => false,
-                'label'      => 'Sonderwünsche',
-                'help'       => 'Extrawünsche, wie "extra Pommes" oder "ohne Salat"',
+                'row_attr' => ['class' => 'input text'],
+                'attr' => ['placeholder' => 'Keine', 'list' => 'wishlist', 'autofill' => 'off', 'autocomplete' => 'off'],
+                'required' => false,
+                'label' => 'Sonderwünsche',
+                'help' => 'Extrawünsche, wie "extra Pommes" oder "ohne Salat"',
                 'empty_data' => '',
             ])
             ->add('submit', SubmitType::class, [
                 'row_attr' => ['class' => 'submit'],
-                'attr'     => ['class' => 'btn waves-purple waves-effect'],
-                'label'    => 'Verbindlich bestellen',
+                'attr' => ['class' => 'btn waves-purple waves-effect'],
+                'label' => 'Verbindlich bestellen',
             ]);
     }
 
@@ -42,7 +42,7 @@ class OrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Orders::class,
-            'for_date'   => null,
+            'for_date' => null,
         ]);
     }
 }

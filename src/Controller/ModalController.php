@@ -50,7 +50,7 @@ class ModalController extends AbstractController
         // check if the current date is between the start and end date of holidays
         foreach ($holidays as $holiday) {
             // nullcheck for start and end date
-            if ($holiday->getStart() !== null && $holiday->getEnd() !== null) {
+            if (null !== $holiday->getStart() && null !== $holiday->getEnd()) {
                 if (
                     $date >= $holiday->getStart()
                     && $date <= $holiday->getEnd()
@@ -61,7 +61,7 @@ class ModalController extends AbstractController
                     return new Response(
                         $translator->trans('holidays.in_holiday', [
                             '%start%' => $holiday->getStart()->format('d.m.Y'),
-                            '%end%'   => $holiday->getEnd()->format('d.m.Y'),
+                            '%end%' => $holiday->getEnd()->format('d.m.Y'),
                         ])
                     );
                 }
@@ -100,7 +100,7 @@ class ModalController extends AbstractController
                 $pattern = '/\@[^\s]*?\s\(\#\d*\)/';
                 $changelog .= '# '.$item['tag_name']."\r\n\r\n".preg_replace($pattern, '', $item['body']);
             }
-            $page++;
+            ++$page;
         } while ($loadNextPage && $page < 10);
 
         $response = $this->render('modal/changelog.html.twig', compact('changelog'));
@@ -110,8 +110,6 @@ class ModalController extends AbstractController
     }
 
     /**
-     * @param int $page
-     *
      * @throws TransportExceptionInterface
      *
      * @return array<int,array<string,string|array<string,string|int>|int>>
@@ -121,7 +119,7 @@ class ModalController extends AbstractController
         $githubUrl = 'https://api.github.com/repos/Rindula/hirsch/releases?page=';
         $response = $this->client->request('GET', $githubUrl.$page);
 
-        if ($response->getStatusCode() != Response::HTTP_OK) {
+        if (Response::HTTP_OK != $response->getStatusCode()) {
             throw new NotFoundHttpException('Url not found');
         }
 

@@ -4,7 +4,7 @@
  * (c) Sven Nolting, 2022
  */
 
-$_ENV['APP_ENV'] = 'test'; //Needed for infection Testing because it sets the env variable to late
+$_ENV['APP_ENV'] = 'test'; // Needed for infection Testing because it sets the env variable to late
 
 use Symfony\Component\Dotenv\Dotenv;
 

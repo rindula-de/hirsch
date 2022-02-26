@@ -29,10 +29,10 @@ jobs:
           timezoneLinux: "Europe/Berlin"
       - uses: shivammathur/setup-php@2.17.0
         with:
-          php-version: 8.1
+          php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: '15'
       - name: Make Install

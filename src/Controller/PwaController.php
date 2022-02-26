@@ -7,10 +7,12 @@
 namespace App\Controller;
 
 use App\Message\FetchMsUsers;
+use App\Service\UtilityService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,28 +55,42 @@ class PwaController extends AbstractController
         });
 
         return new JsonResponse([
-            'lang'        => 'de-DE',
-            'name'        => 'Hirsch Bestellsammelseite '.$_ENV['APP_VERSION'],
-            'short_name'  => 'Hirsch Bestellung',
+            'lang' => 'de-DE',
+            'name' => 'Hirsch Bestellsammelseite '.$_ENV['APP_VERSION'],
+            'short_name' => 'Hirsch Bestellung',
             'description' => 'Die Bestellsammelseite für den Hirsch. Aktuelle Version: '.$_ENV['APP_VERSION'],
-            'icons'       => [[
-                'src'     => 'favicon.png',
-                'type'    => 'image/png',
-                'sizes'   => '512x512',
+            'icons' => [[
+                'src' => 'favicon.png',
+                'type' => 'image/png',
+                'sizes' => '512x512',
                 'purpose' => 'any maskable',
             ]],
             'shortcuts' => [
                 [
-                    'name'        => 'Tagesessen bestellen',
-                    'url'         => '/order/0/tagesessen',
+                    'name' => 'Tagesessen bestellen',
+                    'url' => '/order/0/tagesessen',
                     'description' => 'Komme direkt auf die Tagesessenbestellseite',
                 ],
             ],
             'background_color' => '#adadad',
-            'theme_color'      => $themecolor,
-            'start_url'        => $this->generateUrl('menu'),
-            'display'          => 'standalone',
-            'orientation'      => 'portrait',
+            'theme_color' => $themecolor,
+            'start_url' => $this->generateUrl('menu'),
+            'display' => 'standalone',
+            'orientation' => 'portrait',
         ], 200, ['Content-Type' => 'application/manifest+json']);
+    }
+
+    #[Route('/sw.js', methods: ['GET'])]
+    public function serviceWorker(UtilityService $utilityService): Response
+    {
+        $response = new Response(
+            null,
+            200,
+            ['Content-Type' => 'application/javascript']
+        );
+
+        return $this->render('serviceworker.js', [
+            'version' => (version_compare(ltrim($_ENV['APP_VERSION'], " \n\r\t\v\x00v"), '2.0.0', '>=') >= 0 ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+        ], $response);
     }
 }

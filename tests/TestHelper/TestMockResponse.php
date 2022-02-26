@@ -18,7 +18,6 @@ class TestMockResponse extends MockResponse
     /**
      * TestMockResponse constructor.
      *
-     * @param string              $body
      * @param array<string,mixed> $info
      */
     public function __construct(string $body = '', array $info = [])
@@ -41,7 +40,7 @@ class TestMockResponse extends MockResponse
         if (!is_array($content)) {
             throw new \Exception('Can not convert content to array');
         }
-        foreach ($content as $key=>$value) {
+        foreach ($content as $key => $value) {
             $content[$key] = $this->objectToArray($value);
         }
 
@@ -49,14 +48,12 @@ class TestMockResponse extends MockResponse
     }
 
     /**
-     * @param \stdClass $object
-     *
      * @return array<string,mixed>
      */
     private function objectToArray(\stdClass $object): array
     {
         $object = (array) $object;
-        foreach ($object as $key=>$value) {
+        foreach ($object as $key => $value) {
             if ($value instanceof \stdClass) {
                 $object[$key] = $this->objectToArray($value);
             }
