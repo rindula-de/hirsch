@@ -75,6 +75,7 @@ class OrderController extends AbstractController
             if ($order instanceof Orders) {
                 if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56')) {
                     $this->addFlash('error', $translator->trans('order.search_alternative'));
+
                     return new RedirectResponse($this->generateUrl('menu'));
                 }
                 $em->persist($order);
