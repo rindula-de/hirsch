@@ -7,10 +7,12 @@
 namespace App\Controller;
 
 use App\Message\FetchMsUsers;
+use App\Service\UtilityService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,5 +78,19 @@ class PwaController extends AbstractController
             'display'          => 'standalone',
             'orientation'      => 'portrait',
         ], 200, ['Content-Type' => 'application/manifest+json']);
+    }
+
+    #[Route('/sw.js', methods: ['GET'])]
+    public function serviceWorker(UtilityService $utilityService): Response
+    {
+        $response = new Response(
+            null,
+            200,
+            ['Content-Type' => 'application/javascript']
+        );
+
+        return $this->render('serviceworker.js', [
+            'version'       => (version_compare(ltrim($_ENV['APP_VERSION'], " \n\r\t\v\x00v"), '2.0.0', '>=') >= 0 ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+        ], $response);
     }
 }

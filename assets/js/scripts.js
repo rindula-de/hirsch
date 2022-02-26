@@ -87,15 +87,43 @@ $(document).ready(() => {
 
 // check if the browser supports serviceWorker at all
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    // wait for the page to load
+    window.addEventListener('load', async() => {
+        // register the service worker from the file specified
+        const registration = await navigator.serviceWorker.register('/sw.js')
 
-        for(let registration of registrations) {
+        // ensure the case when the updatefound event was missed is also handled
+        // by re-invoking the prompt when there's a waiting Service Worker
+        if (registration.waiting) {
+            registration.waiting.postMessage('SKIP_WAITING')
+        }
 
-                registration.unregister()
+        // detect Service Worker update available and wait for it to become installed
+        registration.addEventListener('updatefound', () => {
+            if (registration.installing) {
+                // wait until the new Service worker is actually installed (ready to take over)
+                registration.installing.addEventListener('statechange', () => {
+                    if (registration.waiting) {
+                        // if there's an existing controller (previous Service Worker), send update message
+                        if (navigator.serviceWorker.controller) {
+                            registration.waiting.postMessage('SKIP_WAITING')
+                        } else {
+                            // otherwise it's the first install, nothing to do
+                            console.log('Service Worker initialized for the first time')
+                        }
+                    }
+                })
+            }
+        })
 
-        }}).catch(function(err) {
+        let refreshing = false;
 
-            console.log('Service Worker registration failed: ', err);
-
-        });
+        // detect controller change and refresh the page
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                window.location.reload(true);
+                refreshing = true
+            }
+        })
+    })
 }
