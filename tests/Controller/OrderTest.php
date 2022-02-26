@@ -118,17 +118,20 @@ class OrderTest extends WebTestCase
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
-        
+    }
+
+    public function testPreordering(): void
+    {
         ClockMock::withClockMock(strtotime('11:10'));
+        $client = $this->loggedInClient();
         $crawler = $client->request('GET', '/order/1/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '+ Pommes', ]);
-        $this->assertResponseRedirects('/zahlen-bitte/', 302);
-        ClockMock::withClockMock(false);
+            'order[note]'      => '', ]);
+        $this->assertResponseRedirects('/zahlen-bitte/', 302);   
     }
 
     public function testOrderingUnauthenticated(): void
@@ -205,6 +208,32 @@ class OrderTest extends WebTestCase
             'tip' => '-1',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
+    }
+
+    public function testOrderDelete(): void
+    {
+        $client = $this->loggedInClient();
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+
+        /** @var Hirsch $tagesessen */
+        $tagesessen = $entityManager->getRepository(Hirsch::class)->find(1);
+
+        $order = new Orders();
+        $order->setCreated(new \DateTime('now'));
+        $order->setForDate(new \DateTime('now'));
+        $order->setHirsch($tagesessen);
+        $order->setOrderedby('Max Mustermann');
+
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        ClockMock::withClockMock(strtotime('10:54'));
+        $client->request('GET', '/orders/delete/'.$order->getId());
+        $this->assertResponseRedirects('/bestellungen/', 302);
+        $client->followRedirect();
+        $this->assertStringContainsString('Bestellung gelöscht', $client->getResponse()->getContent());
     }
 
     /**

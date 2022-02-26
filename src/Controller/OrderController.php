@@ -99,7 +99,7 @@ class OrderController extends AbstractController
                 $time = DateTime::createFromFormat('H:i', '11:00');
 
                 // if $time is in past, just return
-                if ($time < DateTime::createFromFormat('U', time().'')) {
+                if ($time <= DateTime::createFromFormat('U', time().'')) {
                     return null;
                 }
                 // $time to seconds
