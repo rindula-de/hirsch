@@ -233,7 +233,7 @@ class OrderTest extends WebTestCase
         $client->request('GET', '/orders/delete/'.$order->getId());
         $this->assertResponseRedirects('/bestellungen/', 302);
         $client->followRedirect();
-        $this->assertStringContainsString('Bestellung gelöscht', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Bestellung gelöscht', $client->getResponse()->getContent()?:"");
     }
 
     /**
