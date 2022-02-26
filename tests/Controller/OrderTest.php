@@ -38,7 +38,7 @@ class OrderTest extends WebTestCase
         $client = static::createClient([], ['REMOTE_ADDR' => '1.1.1.1']);
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneByUsername('test');
-        if ($user === null) {
+        if (null === $user) {
             $this->fail('No user found with username "test"');
         }
         $client->loginUser($user);
@@ -89,7 +89,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '', ]);
+            'order[note]' => '', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -98,7 +98,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseRedirects('/zahlen-bitte/', 302);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -107,7 +107,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => '',
-            'order[note]'      => '', ]);
+            'order[note]' => '', ]);
         $this->assertResponseStatusCodeSame(422);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -116,7 +116,7 @@ class OrderTest extends WebTestCase
         $form = $crawler->selectButton('order[submit]')->form();
         $client->submit($form, [
             'order[orderedby]' => '',
-            'order[note]'      => '+ Pommes', ]);
+            'order[note]' => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
     }
 

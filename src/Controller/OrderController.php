@@ -47,7 +47,7 @@ class OrderController extends AbstractController
         $order = new Orders();
         $hirsch = $hirschRepository->findOneBy(['slug' => $slug]);
 
-        if ($hirsch === null) {
+        if (null === $hirsch) {
             return $this->redirectToRoute('menu');
         }
 
@@ -116,7 +116,7 @@ class OrderController extends AbstractController
 
         // if its after 10:55 redirect back to menu
         if (
-            $preorder === 0
+            0 === $preorder
             && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
             $this->addFlash(
@@ -128,8 +128,8 @@ class OrderController extends AbstractController
         }
 
         return $this->renderForm('order/index.html.twig', [
-            'form'       => $form,
-            'meal'       => $hirsch,
+            'form' => $form,
+            'meal' => $hirsch,
             'order_date' => $preorder_time,
         ], new Response(null, $form->isSubmitted() ? 422 : 200));
     }
@@ -173,12 +173,12 @@ class OrderController extends AbstractController
         foreach ($orders as $order) {
             if (!$onlyToday || ($order->getForDate() && $order->getForDate()->format('Y-m-d') === (new DateTime())->format('Y-m-d'))) {
                 $data[] = [
-                    'id'          => $order->getId(),
-                    'orderedby'   => $order->getOrderedby(),
-                    'created'     => $order->getCreated(),
-                    'forDate'     => $order->getForDate(),
-                    'note'        => $order->getNote(),
-                    'ordered'     => $order->getHirsch()?->getName(),
+                    'id' => $order->getId(),
+                    'orderedby' => $order->getOrderedby(),
+                    'created' => $order->getCreated(),
+                    'forDate' => $order->getForDate(),
+                    'note' => $order->getNote(),
+                    'ordered' => $order->getHirsch()?->getName(),
                     'orderedSlug' => $order->getHirsch()?->getSlug(),
                 ];
             }
@@ -235,10 +235,10 @@ class OrderController extends AbstractController
             ->getResult();
 
         return $this->render('order/orders.html.twig', [
-            'orders'        => $orders,
-            'preorders'     => $preorders,
+            'orders' => $orders,
+            'preorders' => $preorders,
             'orderNameList' => $orderNameList,
-            'ordererName'   => $request->cookies->get('ordererName'),
+            'ordererName' => $request->cookies->get('ordererName'),
         ]);
     }
 
@@ -279,7 +279,7 @@ class OrderController extends AbstractController
 
         return $this->render('order/paynow.html.twig', [
             'paypalmes' => $paypalMes,
-            'active'    => $active,
+            'active' => $active,
         ]);
     }
 }

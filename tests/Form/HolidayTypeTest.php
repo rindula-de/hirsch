@@ -21,7 +21,7 @@ class HolidayTypeTest extends TypeTestCase
         $end = new \DateTime('24.02.2022');
         $formData = [
             'start' => $start->format('Y-M-d'),
-            'end'   => $end->format('Y-M-d'),
+            'end' => $end->format('Y-M-d'),
         ];
 
         $model = new Holidays();
@@ -60,7 +60,7 @@ class HolidayTypeTest extends TypeTestCase
 
         /** @var FormErrorIterator $errors */
         $errors = $view->vars['errors'];
-        $this->assertTrue($errors->count() == 0);
+        $this->assertTrue(0 == $errors->count());
         $this->assertEquals($start, $view->vars['value']->getStart());
         $this->assertNotEmpty($view->children['start']->vars['row_attr']);
         $this->assertNotEmpty($view->children['end']->vars['row_attr']);
