@@ -52,7 +52,6 @@ class OrderTest extends WebTestCase
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseRedirects('/karte', 302);
-        
 
         ClockMock::withClockMock(strtotime('10:54'));
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -119,6 +118,16 @@ class OrderTest extends WebTestCase
             'order[orderedby]' => '',
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseStatusCodeSame(422);
+        
+        ClockMock::withClockMock(strtotime('11:10'));
+        $crawler = $client->request('GET', '/order/1/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        $form = $crawler->selectButton('order[submit]')->form();
+        $client->submit($form, [
+            'order[orderedby]' => 'Max Mustermann',
+            'order[note]'      => '+ Pommes', ]);
+        $this->assertResponseRedirects('/zahlen-bitte/', 302);
         ClockMock::withClockMock(false);
     }
 
