@@ -18,10 +18,10 @@ class PwaTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseHasHeader('content-type', 'application/manifest+json');
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertJson($client->getResponse()->getContent()?:"");
+        $this->assertJson($client->getResponse()->getContent() ?: '');
         // get json to variable
         /** @var array<string, string> */
-        $json = json_decode($client->getResponse()->getContent()?:"", true);
+        $json = json_decode($client->getResponse()->getContent() ?: '', true);
         $this->assertEquals('de-DE', $json['lang']);
         $this->assertEquals('Hirsch Bestellung', $json['short_name']);
         $this->assertEquals('/karte', $json['start_url']);
