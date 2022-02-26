@@ -131,7 +131,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
             'order[note]'      => '', ]);
-        $this->assertResponseRedirects('/zahlen-bitte/', 302);   
+        $this->assertResponseRedirects('/zahlen-bitte/', 302);
     }
 
     public function testOrderingUnauthenticated(): void
