@@ -75,7 +75,7 @@ class OrderTest extends WebTestCase
             'order[note]'      => '+ Pommes', ]);
         $this->assertResponseRedirects('/karte', 302);
         $client->followRedirect();
-        $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent()?:"");
+        $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent() ?: '');
         ClockMock::withClockMock(false);
     }
 
