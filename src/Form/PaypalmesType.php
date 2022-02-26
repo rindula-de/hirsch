@@ -18,27 +18,27 @@ class PaypalmesType extends AbstractType
     {
         $builder
             ->add('link', null, [
-                'label'    => 'Paypal.me Name',
+                'label' => 'Paypal.me Name',
                 'row_attr' => ['class' => 'input text required'],
-                'help'     => 'Wenn der Link https://paypal.me/rindulalp ist, dann ist der Name rindulalp.',
-                'attr'     => ['placeholder' => 'rindulalp'],
+                'help' => 'Wenn der Link https://paypal.me/rindulalp ist, dann ist der Name rindulalp.',
+                'attr' => ['placeholder' => 'rindulalp'],
             ])
             ->add('name', null, [
-                'label'    => 'Dein Name',
+                'label' => 'Dein Name',
                 'row_attr' => ['class' => 'input text required'],
-                'help'     => 'Der Name, der in der Liste angezeigt wird.',
-                'attr'     => ['placeholder' => 'Max Mustermann'],
+                'help' => 'Der Name, der in der Liste angezeigt wird.',
+                'attr' => ['placeholder' => 'Max Mustermann'],
             ])
             ->add('email', null, [
-                'label'    => 'Deine E-Mail',
+                'label' => 'Deine E-Mail',
                 'row_attr' => ['class' => 'input email'],
-                'help'     => 'Die E-Mail, an die eine Bestellzusammenfassung geschickt wird. Trägst du hier keine E-Mail ein, musst du unter Bestellungen nachschauen, was bestellt wurde.',
-                'attr'     => ['placeholder' => 'example@hochwarth-it.de'],
+                'help' => 'Die E-Mail, an die eine Bestellzusammenfassung geschickt wird. Trägst du hier keine E-Mail ein, musst du unter Bestellungen nachschauen, was bestellt wurde.',
+                'attr' => ['placeholder' => 'example@hochwarth-it.de'],
             ])
             // add submit button
             ->add('submit', SubmitType::class, [
                 'label' => 'Speichern',
-                'attr'  => ['class' => 'btn'],
+                'attr' => ['class' => 'btn'],
             ]);
     }
 

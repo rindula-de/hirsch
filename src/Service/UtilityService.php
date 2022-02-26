@@ -26,7 +26,7 @@ class UtilityService
 
         if ($dir) {
             while (false !== ($file = $dir->read())) {
-                if ($file != '.' and $file != '..') {
+                if ('.' != $file and '..' != $file) {
                     if (is_dir($directory.'/'.$file)) {
                         $files[] = $this->hashDirectory($directory.'/'.$file);
                     } else {
