@@ -19,3 +19,7 @@ self.addEventListener('message', (event) => {
         self.skipWaiting();
     }
 });
+self.addEventListener('fetch', event => {
+    // just do the browsers thing ...
+    return;
+});
