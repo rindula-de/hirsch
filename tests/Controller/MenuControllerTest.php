@@ -1,8 +1,11 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Controller;
 
-use App\Controller\MenuController;
 use App\Entity\Hirsch;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerExceptionInterface;
@@ -29,9 +32,9 @@ class MenuControllerTest extends WebTestCase
         $this->entityManager->beginTransaction();
     }
 
-    public function testApiGetMenu():void
+    public function testApiGetMenu(): void
     {
-        $this->client->request('GET','/api/get-menu');
+        $this->client->request('GET', '/api/get-menu');
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse()->getContent();
         if (!$response) {
@@ -41,31 +44,38 @@ class MenuControllerTest extends WebTestCase
         if (!is_array($response)) {
             $this->fail('Not a valid response');
         }
-        $this->assertGreaterThan(0,count($response));
-        $wurstsalat = array_filter($response,function($value){
+        $this->assertGreaterThan(0, count($response));
+        $wurstsalat = array_filter($response, function ($value) {
             $value = get_object_vars($value);
-            if(!is_array($value))return false;
-            if($value["name"]=="Schweizer Wurstsalat mit Pommes")return true;
+            if (!is_array($value)) {
+                return false;
+            }
+            if ('Schweizer Wurstsalat mit Pommes' == $value['name']) {
+                return true;
+            }
+
             return false;
         });
-        if(!is_array($wurstsalat))$this->fail("Missing wurstsalat");
+        if (!is_array($wurstsalat)) {
+            $this->fail('Missing wurstsalat');
+        }
         $wurstsalat = get_object_vars($wurstsalat[0]);
         $this->assertEquals([
             'id' => 2,
             'slug' => 'Schweizer-Wurstsalat-mit-Pommes',
             'name' => 'Schweizer Wurstsalat mit Pommes',
             'display' => true,
-        ],$wurstsalat);
+        ], $wurstsalat);
     }
 
-    public function testShowNoMenu():void
+    public function testShowNoMenu(): void
     {
         $this->entityManager->createQueryBuilder()
-            ->update(Hirsch::class,"h")
-            ->set("h.display","0")
+            ->update(Hirsch::class, 'h')
+            ->set('h.display', '0')
             ->getQuery()
             ->execute();
-        $this->client->request('GET','/api/get-menu');
+        $this->client->request('GET', '/api/get-menu');
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse()->getContent();
         if (!$response) {
@@ -75,7 +85,7 @@ class MenuControllerTest extends WebTestCase
         if (!is_array($response)) {
             $this->fail('Not a valid response');
         }
-        $this->assertCount(0,$response);
+        $this->assertCount(0, $response);
     }
 
     protected function tearDown(): void
