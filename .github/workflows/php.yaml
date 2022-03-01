@@ -89,7 +89,7 @@ jobs:
         run: make install_deps
       - run: make infection_test
       - uses: actions/upload-artifact@master
-        if: failed()
+        if: ${{ failure() }}
         with:
           name: infection_log
           path: infection.log
