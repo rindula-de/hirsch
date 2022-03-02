@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@2.17.0
+      - uses: shivammathur/setup-php@2.17.1
         with:
           php-version: 8
           tools: composer:v2
@@ -40,7 +40,7 @@ jobs:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
           lfs: true
-      - uses: shivammathur/setup-php@2.17.0
+      - uses: shivammathur/setup-php@2.17.1
         with:
           php-version: 8
           tools: composer:v2
@@ -84,7 +84,7 @@ jobs:
       - uses: actions/setup-node@v3.0.0
         with:
           node-version: '15'
-      - uses: shivammathur/setup-php@2.17.0
+      - uses: shivammathur/setup-php@2.17.1
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
