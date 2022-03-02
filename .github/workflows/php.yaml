@@ -10,7 +10,7 @@ jobs:
     name: PHP Stan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@2.17.0
         with:
           php-version: 8
@@ -35,7 +35,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
@@ -78,7 +78,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
         with:
           lfs: true
       - uses: actions/setup-node@v3.0.0
