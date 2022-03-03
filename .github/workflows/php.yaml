@@ -61,6 +61,7 @@ jobs:
           path: coverage-html
   infection:
     name: PHP Infection Test
+    if: ${{github.event_name == "pull_request"}}
     runs-on: ubuntu-latest
     services:
       mariadb:
