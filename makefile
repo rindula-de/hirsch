@@ -3,14 +3,16 @@ COMPOSER = composer
 YARN = yarn
 GIT = git
 EXEC_PHP = php
-ENV = prod
+ENV = dev
 ifneq (, $(shell which ddev))
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
   YARN = ddev exec yarn
   EXEC_PHP = ddev exec php
-  ENV = dev
+endif
+ifdef CI
+    ENV = prod
 endif
 ifdef APP_ENV
 	ENV = $(APP_ENV)
