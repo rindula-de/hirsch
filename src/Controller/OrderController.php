@@ -119,10 +119,10 @@ class OrderController extends AbstractController
         ) {
             $acivePayer = $payhistoryRepository->findActivePayer();
 
-            if ($acivePayer !== null) {
-                $acivePayer = $paypalmesRepository->find($acivePayer["id"]);
+            if (null !== $acivePayer) {
+                $acivePayer = $paypalmesRepository->find($acivePayer['id']);
 
-                if ($acivePayer !== null) {
+                if (null !== $acivePayer) {
                     $acivePayer = $acivePayer->getName();
                 }
             } else {
