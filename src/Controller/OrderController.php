@@ -255,7 +255,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + $request->request->get('tip')));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + ((float) $request->request->get('tip'))));
         }
 
         // find all PaypalMes
