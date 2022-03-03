@@ -39,8 +39,6 @@ class OrderController extends AbstractController
         int $preorder,
         string $slug,
         HirschRepository $hirschRepository,
-        PayhistoryRepository $payhistoryRepository,
-        PaypalmesRepository $paypalmesRepository,
         Request $request,
         ManagerRegistry $doctrine,
         MessageBusInterface $bus,
@@ -121,21 +119,9 @@ class OrderController extends AbstractController
             0 === $preorder
             && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
-            $acivePayer = $payhistoryRepository->findActivePayer();
-
-            if (null !== $acivePayer) {
-                $acivePayer = $paypalmesRepository->find($acivePayer['id']);
-
-                if (null !== $acivePayer) {
-                    $acivePayer = $acivePayer->getName();
-                }
-            } else {
-                $acivePayer = $translator->trans('order.orderer');
-            }
-
             $this->addFlash(
                 'warning',
-                $translator->trans('order.search_alternative', ['%orderer%' => $acivePayer])
+                $translator->trans('order.search_alternative')
             );
 
             return $this->redirectToRoute('menu');
@@ -273,7 +259,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + ((float) $request->request->get('tip'))));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + max(0, (float) $request->request->get('tip'))));
         }
 
         // find all PaypalMes
