@@ -24,7 +24,7 @@ menu:
     overview: Übersicht
 
 order:
-    search_alternative: Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei dem aktuellen Besteller nach, ob deine Bestellung noch mit aufgenommen werden kann.
+    search_alternative: Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei %orderer% nach, ob deine Bestellung noch mit aufgenommen werden kann.
     until: Die Bestellung ist ab 10:55 nicht mehr möglich.
     delete:
         success: Bestellung gelöscht
@@ -37,6 +37,7 @@ order:
     pre_orders: Vorbestellungen
     pre_order: Vorbestellen
     loading_orders: Lade Bestellungen...
+    orderer: dem zuständigen Besteller
 
 pay:
     titles:
