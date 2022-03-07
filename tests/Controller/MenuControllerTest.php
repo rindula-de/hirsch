@@ -32,6 +32,12 @@ class MenuControllerTest extends WebTestCase
         $this->entityManager->beginTransaction();
     }
 
+    public function testRootPath(): void
+    {
+        $this->client->request('GET', '/');
+        $this->assertResponseRedirects('/karte', 302);
+    }
+
     public function testApiGetMenu(): void
     {
         $this->client->request('GET', '/api/get-menu');
