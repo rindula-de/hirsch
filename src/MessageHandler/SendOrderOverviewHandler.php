@@ -65,9 +65,9 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
 
         // get active payer
         $activePayer = $this->entityManager->getRepository(Payhistory::class)->findActivePayer();
-        /** @var Paypalmes */
+        /** @var Paypalmes|null */
         $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id'] ?? 0);
-        if ($activePayer->getEmail()) {
+        if ($activePayer && $activePayer->getEmail()) {
             // prepare symfony mailer
             $email = (new Email())
                 ->from('essen@hochwarth-e.com')
