@@ -97,8 +97,8 @@ class ModalController extends AbstractController
                     throw new \LogicException('Array definition not up to date');
                 }
 
-                $pattern = '/\@[^\s]*?\s\(\#\d*\)/';
-                $changelog .= '# '.$item['tag_name']."\r\n\r\n".preg_replace($pattern, '', $item['body']);
+                $pattern = '/^- ([[:print:]]+?) \@[^\s]+?\s\(\#(\d*)\)/m';
+                $changelog .= '# '.$item['tag_name']."\r\n\r\n".preg_replace($pattern, "- $1 [[Ansehen]](https://github.com/rindula/hirsch/pull/$2)\r\n", $item['body']);
             }
             ++$page;
         } while ($loadNextPage && $page < 10);
