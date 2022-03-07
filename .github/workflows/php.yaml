@@ -20,6 +20,24 @@ jobs:
         run: make vendor
       - name: PHP Stan Analyse
         run: vendor/bin/phpstan analyse
+  lint:
+    name: Symfony Lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Dependencies
+        run: make install_deps
+        env:
+          APP_ENV: dev
+      - name: Lint Container
+        run: bin/console lint:container
+      - name: Lint Twig
+        run: bin/console lint:twig
   coverage:
     name: PHP Code Coverage
     runs-on: ubuntu-latest
