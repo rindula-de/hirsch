@@ -38,10 +38,9 @@ class PwaController extends AbstractController
         $cache = new FilesystemAdapter();
         $cache->get('msuser_cache', function (ItemInterface $item) use ($bus) {
             // set $time to next noon
-            $time = new DateTime('now');
-            $time->setTime(12, 0, 0);
+            $time = DateTime::createFromFormat('H:i', '12:00');
             // if $time is in past, set $time to next day
-            if ($time < new DateTime('now')) {
+            if ($time < DateTime::createFromFormat('U', time().'')) {
                 $time->modify('+1 day');
             }
             // $time to seconds
