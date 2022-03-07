@@ -102,7 +102,7 @@ infection_test: tests_db coverage.xml
 ifneq (, $(shell which ddev))
 	$(error "Infection test is not supported on ddev")
 endif
-	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --min-msi=100
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --min-msi=98
 
 clean: ## Clean up the project
 	rm -rf vendor
