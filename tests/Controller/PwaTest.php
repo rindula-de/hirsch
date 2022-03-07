@@ -7,6 +7,7 @@
 namespace App\Tests\Controller;
 
 use App\Controller\PwaController;
+use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
