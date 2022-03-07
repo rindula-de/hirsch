@@ -640,16 +640,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.5.6",
+            "version": "2.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "f1423b2a640b6ac545b6e0c02575427a4dc1e9dc"
+                "reference": "1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/f1423b2a640b6ac545b6e0c02575427a4dc1e9dc",
-                "reference": "f1423b2a640b6ac545b6e0c02575427a4dc1e9dc",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d",
+                "reference": "1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d",
                 "shasum": ""
             },
             "require": {
@@ -733,7 +733,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.5.6"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.5.7"
             },
             "funding": [
                 {
@@ -749,7 +749,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-13T20:17:53+00:00"
+            "time": "2022-03-05T10:29:13+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -4056,16 +4056,16 @@
         },
         {
             "name": "symfony/doctrine-bridge",
-            "version": "v6.0.3",
+            "version": "v6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/doctrine-bridge.git",
-                "reference": "d1d9d54717d3125119e09c9c34b337364e47960e"
+                "reference": "2c77039f1fcbaae9722d3c02c8e3e0bdc5592e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/d1d9d54717d3125119e09c9c34b337364e47960e",
-                "reference": "d1d9d54717d3125119e09c9c34b337364e47960e",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/2c77039f1fcbaae9722d3c02c8e3e0bdc5592e8b",
+                "reference": "2c77039f1fcbaae9722d3c02c8e3e0bdc5592e8b",
                 "shasum": ""
             },
             "require": {
@@ -4151,7 +4151,7 @@
             "description": "Provides integration for Doctrine with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/doctrine-bridge/tree/v6.0.3"
+                "source": "https://github.com/symfony/doctrine-bridge/tree/v6.0.6"
             },
             "funding": [
                 {
@@ -4167,7 +4167,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-27T10:11:24+00:00"
+            "time": "2022-03-02T13:18:22+00:00"
         },
         {
             "name": "symfony/doctrine-messenger",
@@ -6093,7 +6093,7 @@
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
@@ -6154,7 +6154,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -6348,7 +6348,7 @@
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
@@ -6412,7 +6412,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.25.0"
             },
             "funding": [
                 {
