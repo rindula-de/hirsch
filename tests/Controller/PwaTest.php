@@ -6,12 +6,24 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\PwaController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class PwaTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        ClockMock::register(PwaController::class);
+        // clear cache
+        $cache = new FilesystemAdapter();
+        $cache->clear();
+    }
+
     public function testManifest(): void
     {
+        ClockMock::withClockMock(strtotime('12:10'));
         $client = static::createClient();
         $client->request('GET', '/manifest.json');
 
@@ -73,6 +85,7 @@ class PwaTest extends WebTestCase
             // restore file
             file_put_contents(__DIR__.'/../../assets/styles/app.scss', $content);
         }
+        ClockMock::withClockMock(false);
     }
 
     public function testServiceWorker(): void
