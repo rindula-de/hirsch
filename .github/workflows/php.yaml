@@ -75,6 +75,7 @@ jobs:
       - name: Create Coverage Badge
         if: ${{github.event_name == 'release'}}
         uses: schneegans/dynamic-badges-action@v1.1.0
+        continue-on-error: true
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: ${{ secrets.GIST_ID }}
