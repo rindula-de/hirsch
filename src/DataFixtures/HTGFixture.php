@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\DataFixtures;
 
 use App\Entity\Hirsch;
@@ -18,7 +22,7 @@ class HTGFixture extends Fixture
 
         $manager->persist($htg);
 
-        ////////////////////////
+        // //////////////////////
 
         $htg = new Hirsch();
 
@@ -28,7 +32,7 @@ class HTGFixture extends Fixture
 
         $manager->persist($htg);
 
-        /////////////////////////
+        // ///////////////////////
 
         $manager->flush();
     }

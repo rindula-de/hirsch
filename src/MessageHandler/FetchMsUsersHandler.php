@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\MessageHandler;
 
 use App\Entity\MsUser;
@@ -22,14 +26,14 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
         // Login to the Microsoft API
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL            => 'https://login.microsoftonline.com/'.$_ENV['MS_GRAPH_TENANT'].'/oauth2/v2.0/token',
+            CURLOPT_URL => 'https://login.microsoftonline.com/'.$_ENV['MS_GRAPH_TENANT'].'/oauth2/v2.0/token',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => http_build_query([
-                'grant_type'    => 'client_credentials',
-                'client_id'     => $_ENV['MS_GRAPH_CLIENT_ID'],
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query([
+                'grant_type' => 'client_credentials',
+                'client_id' => $_ENV['MS_GRAPH_CLIENT_ID'],
                 'client_secret' => $_ENV['MS_GRAPH_CLIENT_SECRET'],
-                'scope'         => 'https://graph.microsoft.com/.default',
+                'scope' => 'https://graph.microsoft.com/.default',
             ]),
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/x-www-form-urlencoded',
@@ -46,14 +50,14 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
                 // Use curl to make the request
                 $curl = curl_init();
                 curl_setopt_array($curl, [
-                    CURLOPT_URL            => 'https://graph.microsoft.com/v1.0/users',
+                    CURLOPT_URL => 'https://graph.microsoft.com/v1.0/users',
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING       => '',
-                    CURLOPT_MAXREDIRS      => 10,
-                    CURLOPT_TIMEOUT        => 30,
-                    CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST  => 'GET',
-                    CURLOPT_HTTPHEADER     => [
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => [
                         'Authorization: '.$token['token_type'].' '.$token['access_token'],
                         'Cache-Control: no-cache',
                         'Content-Type: application/json',
@@ -79,8 +83,8 @@ final class FetchMsUsersHandler implements MessageHandlerInterface
                             $entityManager->getConnection()->executeStatement('TRUNCATE TABLE ms_user');
 
                             $data = array_filter($response, function ($user) {
-                                /** @var string[] $user */
-                                return strpos($user['userPrincipalName'], '#EXT#@') === false && !empty($user['mail']) && !empty($user['givenName']) && !empty($user['surname']) && strpos($user['userPrincipalName'], '@hochwarth-it.de') !== false;
+                                /* @var string[] $user */
+                                return false === strpos($user['userPrincipalName'], '#EXT#@') && !empty($user['mail']) && !empty($user['givenName']) && !empty($user['surname']) && false !== strpos($user['userPrincipalName'], '@hochwarth-it.de');
                             });
 
                             foreach ($data as $d) {

@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 

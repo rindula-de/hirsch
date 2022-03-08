@@ -1,9 +1,14 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Controller;
 
 use App\Entity\Holidays;
 use App\Form\HolidayType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,73 +18,65 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HolidayController extends AbstractController
 {
-    /**
-     * @Route("/holidays", name="holidays", methods={"GET"})
-     */
+    #[Route('/holidays', name: 'holidays', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine): Response
     {
         $holidays = $doctrine->getRepository(Holidays::class)->findAll();
 
         return $this->render('holiday/index.html.twig', [
-            'controller_name' => 'HolidayController',
-            'holidays'        => $holidays,
+            'holidays' => $holidays,
         ]);
     }
 
     /**
      * Get all holidays.
-     *
-     * @Route("/api/holidays", name="holidays_api", methods={"GET"})
      */
+    #[Route('/api/holidays', name: 'holidays_api', methods: ['GET'])]
     public function holidays(ManagerRegistry $doctrine): JsonResponse
     {
         $holidays = $doctrine
             ->getRepository(Holidays::class)
             ->findAll();
 
-        return $this->json($holidays, 200);
+        return $this->json($holidays);
     }
 
-    /**
-     * @Route("/holidays/edit/{id}", name="holidays_edit", methods={"GET", "POST"})
-     */
-    public function edit(Holidays $holiday, Request $request): Response
+    #[Route('/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]
+    public function edit(Holidays $holiday, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(HolidayType::class, $holiday);
         $form->handleRequest($request);
-        dump($holiday);
+
         // save holiday
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('holidays');
         }
 
-        return $this->render('holiday/edit.html.twig', [
+        return $this->renderForm('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form'    => $form->createView(),
+            'form' => $form,
         ]);
     }
 
-    /**
-     * @Route("/holidays/add", name="holidays_add", methods={"GET", "POST"})
-     */
-    public function add(Request $request): Response
+    #[Route('/holidays/add', name: 'holidays_add', methods: ['GET', 'POST'])]
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $holiday = new Holidays();
         $form = $this->createForm(HolidayType::class, $holiday);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($holiday);
             $entityManager->flush();
 
             return $this->redirectToRoute('holidays');
         }
 
-        return $this->render('holiday/edit.html.twig', [
+        return $this->renderForm('holiday/edit.html.twig', [
             'holiday' => $holiday,
-            'form'    => $form->createView(),
+            'form' => $form,
         ]);
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\MessageHandler;
 
 use App\Entity\Orders;
@@ -28,7 +32,6 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
 
     public function __invoke(SendOrderOverview $message): void
     {
-
         // get all orders for today
         /** @var mixed[] */
         $orders = $this->entityManager
@@ -62,9 +65,9 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
 
         // get active payer
         $activePayer = $this->entityManager->getRepository(Payhistory::class)->findActivePayer();
-        /** @var Paypalmes */
+        /** @var Paypalmes|null */
         $activePayer = $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id'] ?? 0);
-        if ($activePayer->getEmail()) {
+        if ($activePayer && $activePayer->getEmail()) {
             // prepare symfony mailer
             $email = (new Email())
                 ->from('essen@hochwarth-e.com')

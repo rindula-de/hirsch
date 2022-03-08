@@ -58,6 +58,21 @@ $(document).ready(() => {
     });
 
     $.ajax({
+        url: "/modalChangelog",
+        context: document.body,
+        success: function(result) {
+            if (result) {
+                $("#changelogModalText").html(result.trim());
+                $("#changelogModal").addClass("active");
+            }
+        },
+        error: function(result){
+            $("#changelogModalText").html(result.trim());
+            $("#changelogModal").addClass("active");
+        }
+    });
+
+    $.ajax({
         url: "/modalInformationText",
         context: document.body,
         success: function(result) {
@@ -72,15 +87,33 @@ $(document).ready(() => {
 
 // check if the browser supports serviceWorker at all
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    // wait for the page to load
+    window.addEventListener('load', async() => {
+        // register the service worker from the file specified
+        const registration = await navigator.serviceWorker.register('/sw.js')
 
-        for(let registration of registrations) {
-    
-                registration.unregister()
-    
-        }}).catch(function(err) {
-    
-            console.log('Service Worker registration failed: ', err);
-    
-        });
+        // ensure the case when the updatefound event was missed is also handled
+        // by re-invoking the prompt when there's a waiting Service Worker
+        if (registration.waiting) {
+            registration.waiting.postMessage('SKIP_WAITING')
+        }
+
+        // detect Service Worker update available and wait for it to become installed
+        registration.addEventListener('updatefound', () => {
+            if (registration.installing) {
+                // wait until the new Service worker is actually installed (ready to take over)
+                registration.installing.addEventListener('statechange', () => {
+                    if (registration.waiting) {
+                        // if there's an existing controller (previous Service Worker), send update message
+                        if (navigator.serviceWorker.controller) {
+                            registration.waiting.postMessage('SKIP_WAITING')
+                        } else {
+                            // otherwise it's the first install, nothing to do
+                            console.log('Service Worker initialized for the first time')
+                        }
+                    }
+                })
+            }
+        })
+    })
 }

@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HolidayController!{% endblock %}
+{% block title %}{{ 'holidays.add'|trans }}{% endblock %}
 
 {% block body %}
-<h1>Urlaub anlegen</h1>
-{{form(form)}}
+    <h1>{{ 'holidays.add'|trans }}</h1>
+    {{form(form)}}
 {% endblock %}

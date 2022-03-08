@@ -1,6 +1,11 @@
 <?php
 
-$_ENV['APP_ENV'] = 'test'; //Needed for infection Testing because it sets the env variable to late
+/*
+ * (c) Sven Nolting, 2022
+ */
+
+$_ENV['APP_ENV'] = 'test'; // Needed for infection Testing because it sets the env variable to late
+
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';

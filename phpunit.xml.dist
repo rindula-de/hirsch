@@ -16,6 +16,7 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
@@ -28,6 +29,12 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+            <directory>src/Entity</directory>
+            <directory>src/Repository</directory>
+            <directory>src/Message</directory>
+        </exclude>
     </coverage>
 
     <listeners>

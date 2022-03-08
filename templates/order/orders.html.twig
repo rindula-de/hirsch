@@ -3,28 +3,62 @@
     <meta name="turbo-cache-control" content="no-preview">
 {% endblock %}
 
-{% block title %}Bestellungen{% endblock %}
+{% block title %}{{ 'order.orders'|trans }}{% endblock %}
 
 {% block body %}
-    <h2>Heutige Bestellungen</h2>
+    <h2>{{ 'order.todays_orders'|trans }}</h2>
+
     <label>
-        <textarea class="orderarea" rows="1" readonly="" onclick="this.focus();this.select()" id="orders" data-controller="orders">Lade Bestellungen...</textarea>
+        <textarea
+            class="orderarea"
+            rows="1"
+            readonly=""
+            onclick="this.focus();this.select()"
+            id="orders"
+            data-controller="orders">
+            {{ 'order.loading_orders'|trans }}
+        </textarea>
     </label>
-    <button class="accordion" data-controller="accordion">Personen die heute bestellt haben ({{ orderNameList | length }})</button>
+
+    <button class="accordion" data-controller="accordion">
+        {{ 'order.order_persons'|trans }} ({{ orderNameList | length }})
+    </button>
+
     <div class="panel">
         {% for order in orderNameList %}
         <div class="displayName">
-            <span><span class="material-icons" style="cursor: pointer;" data-name="{{order.orderedby}}" data-ordered="{{order.name}}" data-special="{{order.note}}" data-controller="orderdisplay">restaurant</span>{{ order.orderedby }}{% if order.orderedby == ordererName %}<a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn">delete_forever</a>{% endif %}</span>
+            <span>
+                <span
+                    class="material-icons"
+                    style="cursor: pointer;"
+                    data-name="{{order.orderedby}}"
+                    data-ordered="{{order.name}}"
+                    data-special="{{order.note}}"
+                    data-controller="orderdisplay">
+                    restaurant
+                </span>
+
+                {{ order.orderedby }}
+
+                {% if order.orderedby == ordererName %}
+                    <a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn">
+                        delete_forever
+                    </a>
+                {% endif %}
+            </span>
         </div>
         {% endfor %}
     </div>
 
     {% if preorders | length > 0 %}
-    <button class="accordion" data-controller="accordion">Vorbestellungen ({{ preorders | length }})</button>
-    <div class="panel">
-        {% for order in preorders %}
-            <h2>{{ order.for_date|format_datetime('long', 'none', locale='de') }}</h2>{{ order.cnt }}x {{ order.name }}
-        {% endfor %}
-    </div>
+        <button class="accordion" data-controller="accordion">
+            {{ 'order.pre_orders'|trans }} ({{ preorders | length }})
+        </button>
+
+        <div class="panel">
+            {% for order in preorders %}
+                <h2>{{ order.for_date|format_datetime('long', 'none', locale='de') }}</h2>{{ order.cnt }}x {{ order.name }}
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
