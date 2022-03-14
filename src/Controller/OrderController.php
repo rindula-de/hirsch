@@ -92,25 +92,6 @@ class OrderController extends AbstractController
                 $response->headers->setCookie($cookie);
             }
 
-            $cache = new FilesystemAdapter();
-            $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
-                // set $time to next noon
-                /** @var DateTime */
-                $time = DateTime::createFromFormat('H:i', '11:00');
-
-                // if $time is in past, just return
-                if ($time <= DateTime::createFromFormat('U', time().'')) {
-                    return null;
-                }
-                // $time to seconds
-                $time = $time->getTimestamp() - time();
-
-                $item->expiresAfter(3600 + 43200 + $time);
-                $bus->dispatch(new SendOrderOverview(), [new DelayStamp($time * 1000)]);
-
-                return null;
-            });
-
             return $response;
         }
 

@@ -1,24 +1,29 @@
 <?php
 
-/*
- * (c) Sven Nolting, 2022
- */
 
-namespace App\MessageHandler;
+namespace App\Command;
+
 
 use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
-use App\Message\SendOrderOverview;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Email;
 
-final class SendOrderOverviewHandler implements MessageHandlerInterface
+#[AsCommand(
+    name: 'order:send:mail',
+    description: 'Send daily order Mail',
+)]
+class SendOrderOverview extends Command
 {
+
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
     private KernelInterface $kernel;
@@ -28,9 +33,10 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
         $this->kernel = $kernel;
+        parent::__construct();
     }
 
-    public function __invoke(SendOrderOverview $message): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // get all orders for today
         /** @var mixed[] */
@@ -78,5 +84,6 @@ final class SendOrderOverviewHandler implements MessageHandlerInterface
 
             $this->mailer->send($email);
         }
+        return self::SUCCESS;
     }
 }
