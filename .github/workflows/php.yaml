@@ -16,6 +16,14 @@ jobs:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
       - name: Dependencies
         run: make vendor
       - name: PHP Stan Analyse
@@ -30,6 +38,14 @@ jobs:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
       - name: Dependencies
         run: make install_deps
         env:
@@ -69,6 +85,14 @@ jobs:
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
           echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
       - name: Dependencies
         run: make install_deps
       - run: make coverage_check
@@ -172,6 +196,14 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
       - run: make install
         name: Install dependencies
         env:
