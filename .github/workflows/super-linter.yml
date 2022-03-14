@@ -20,7 +20,24 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
-
+      - uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - uses: actions/setup-node@v3.0.0
+        with:
+          node-version: '15'
+      - name: Dependencies
+        run: make install_deps
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
