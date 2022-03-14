@@ -63,7 +63,7 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 .env.test.local:
-    echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
+    @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
 .env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
@@ -77,7 +77,7 @@ build public public/build public/build/manifest.json: node_modules/.bin/encore v
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
-tests_db:
+tests_db: .env.test.local
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
