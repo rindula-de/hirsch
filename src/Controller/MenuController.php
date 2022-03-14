@@ -152,7 +152,7 @@ class MenuController extends AbstractController
                         }
                     }
 
-                    if (isset($attachments) && 0 != count($attachments)) {
+                    if (isset($attachments)) {
                         foreach ($attachments as $at) {
                             if (1 == $at['is_attachment']) {
                                 if (str_contains(strtolower($at['filename']), 'mittagstisch') && is_string($at['attachment'])) {

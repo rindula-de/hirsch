@@ -111,6 +111,19 @@ jobs:
           echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
       - name: Dependencies
         run: make install_deps
+      - run: make coverage
+        id: coverage
+      - name: Create Coverage Badge
+        if: ${{github.event_name == 'release'}}
+        uses: schneegans/dynamic-badges-action@v1.1.0
+        continue-on-error: true
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: hirsch.json
+          label: Coverage
+          message: ${{ steps.coverage.outputs.coverage }}%
+          color: blue
       - run: make infection_test
       - uses: actions/upload-artifact@master
         if: ${{ failure() }}
