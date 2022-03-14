@@ -57,6 +57,12 @@ class SendOrderOverview extends Command
             ->getQuery()
             ->getResult();
 
+        // if there are no orders for today, exit
+        if (count($orders) === 0) {
+            $output->writeln('No orders for today');
+            return Command::SUCCESS;
+        }
+
         // make a textual summary of the orders
         $text = "Heutige Bestellungen:\n\n";
         $path = $this->kernel->getProjectDir().'/public/favicon.png';
@@ -67,7 +73,7 @@ class SendOrderOverview extends Command
         /** @var mixed[] $order */
         foreach ($orders as $order) {
             $text .= $order['cnt'].'x '.$order['name'].(!empty($order['note']) ? "\nSonderwunsch:".$order['note'] : '')."\n\n";
-            $html .= '<li>'.$order['cnt'].'x '.$order['name'].(!empty($order['note']) ? '<li>Sonderwunsch: '.$order['note'].'</li>' : '').'</li>';
+            $html .= '<li>'.$order['cnt'].'x '.$order['name'].(!empty($order['note']) ? ' - '.$order['note'] : '').'</li>';
         }
 
         // get active payer
@@ -84,8 +90,9 @@ class SendOrderOverview extends Command
                 ->html($html);
 
             $this->mailer->send($email);
+            $output->writeln('Mail sent to '.$activePayer->getEmail());
         }
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 }
