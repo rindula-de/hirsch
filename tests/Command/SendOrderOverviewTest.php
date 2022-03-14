@@ -1,8 +1,11 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Command;
 
-use App\Command\SendOrderOverview;
 use App\Entity\Hirsch;
 use App\Entity\Orders;
 use App\Entity\Payhistory;
@@ -17,7 +20,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class SendOrderOverviewTest extends KernelTestCase
 {
-
     private EntityManager $entityManager;
 
     protected function setUp(): void
@@ -45,7 +47,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate((new DateTime()))
-            ->setOrderedby("Test")
+            ->setOrderedby('Test')
             ->setHirsch($hirsch);
 
         $payHistory = new Payhistory();
@@ -93,7 +95,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate((new DateTime()))
-            ->setOrderedby("Test")
+            ->setOrderedby('Test')
             ->setHirsch($hirsch);
 
         $this->entityManager->persist($order);
