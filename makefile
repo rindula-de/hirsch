@@ -62,6 +62,8 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@if [ -n "$(MS_GRAPH_CLIENT_ID)" ]; then echo 'MS_GRAPH_CLIENT_ID="$(MS_GRAPH_CLIENT_ID)"' | tee -a .env.local; fi;
 	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
+.env.test.local:
+    echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
 .env.local.php: .env.local vendor
 	$(COMPOSER) dump-env $(ENV) --no-interaction
