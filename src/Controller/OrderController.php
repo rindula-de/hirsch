@@ -10,7 +10,6 @@ use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\OrderType;
-use App\Message\SendOrderOverview;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use App\Repository\PayhistoryRepository;
@@ -20,16 +19,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OrderController extends AbstractController

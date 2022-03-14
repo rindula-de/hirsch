@@ -1,8 +1,10 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
 
 namespace App\Command;
-
 
 use App\Entity\Orders;
 use App\Entity\Payhistory;
@@ -23,7 +25,6 @@ use Symfony\Component\Mime\Email;
 )]
 class SendOrderOverview extends Command
 {
-
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
     private KernelInterface $kernel;
@@ -84,6 +85,7 @@ class SendOrderOverview extends Command
 
             $this->mailer->send($email);
         }
+
         return self::SUCCESS;
     }
 }
