@@ -34,6 +34,7 @@
             <directory>src/Entity</directory>
             <directory>src/Repository</directory>
             <directory>src/Message</directory>
+            <directory>src/DataFixtures</directory>
         </exclude>
     </coverage>
 

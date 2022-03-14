@@ -46,6 +46,14 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Dependencies
         run: make install_deps
         env:
@@ -84,6 +92,7 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
@@ -92,21 +101,62 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Dependencies
         run: make install_deps
-      - run: make coverage
-        id: coverage
-      - name: Create Coverage Badge
-        if: ${{github.event_name == 'release'}}
-        uses: schneegans/dynamic-badges-action@v1.1.0
-        continue-on-error: true
+      - run: make coverage_check
+      - uses: actions/upload-artifact@master
+        if: ${{ always() }}
         with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ secrets.GIST_ID }}
-          filename: hirsch.json
-          label: Coverage
-          message: ${{ steps.coverage.outputs.coverage }}%
-          color: blue
+          name: coverage
+          path: coverage-html
+  infection:
+    name: PHP Infection Test
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.6.4
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
+      - uses: shivammathur/setup-php@2.17.0
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Replace variables
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+      - name: Dependencies
+        run: make install_deps
+      - run: make infection_test
+      - uses: actions/upload-artifact@master
+        if: ${{ failure() }}
+        with:
+          name: infection_log
+          path: infection.log
   test:
     name: Unittest
     runs-on: ubuntu-latest
@@ -157,6 +207,14 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - run: make install
         name: Install dependencies
         env:
