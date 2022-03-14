@@ -29,12 +29,12 @@ msg: ## Run symfony message consumer
 
 install: install_deps install_db  ## Install the project
 
-install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
+install_deps: vendor .env.local public/build/manifest.json ## Install and build all dependencies
 
 .git/lfs:
 	git lfs install
 
-install_db: vendor .env.local.php migrations ## Install the database
+install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 	touch $@
 
@@ -64,9 +64,6 @@ vendor vendor/autoload.php: composer.json composer.lock
 
 .env.test.local:
     @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
-
-.env.local.php: .env.local vendor
-	$(COMPOSER) dump-env $(ENV) --no-interaction
 
 node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
@@ -111,7 +108,6 @@ clean: ## Clean up the project
 	rm -rf var
 	rm -rf node_modules
 	rm -rf .env.local
-	rm -rf .env.local.php
 	rm -rf public/build
 	rm -rf coverage-html coverage-xml clover.xml
 
