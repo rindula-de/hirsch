@@ -69,6 +69,14 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
+    - name: Cache yarn packages
+      id: yarn-cache
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
 
     - run: make build
 
