@@ -58,8 +58,9 @@ class SendOrderOverview extends Command
             ->getResult();
 
         // if there are no orders for today, exit
-        if (count($orders) === 0) {
+        if (0 === count($orders)) {
             $output->writeln('No orders for today');
+
             return Command::SUCCESS;
         }
 
