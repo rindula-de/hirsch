@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 namespace App\Tests\Form;
 
 use App\Entity\Hirsch;
@@ -13,13 +17,13 @@ class PaypalmesTypeTest extends TypeTestCase
 {
     public function testSubmitValidData(): void
     {
-        $link = "test123";
-        $name = "test";
-        $email = "test@test.de";
+        $link = 'test123';
+        $name = 'test';
+        $email = 'test@test.de';
         $formData = [
             'link' => $link,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
         ];
 
         $model = new Paypalmes();
@@ -51,9 +55,9 @@ class PaypalmesTypeTest extends TypeTestCase
     {
         $formData = new Paypalmes();
         // ... prepare the data as you need
-        $link = "test123";
-        $name = "test";
-        $email = "test@test.de";
+        $link = 'test123';
+        $name = 'test';
+        $email = 'test@test.de';
         $formData->setLink($link);
         $formData->setName($name);
         $formData->setEmail($email);
@@ -70,15 +74,14 @@ class PaypalmesTypeTest extends TypeTestCase
         $this->assertNotEmpty($view->children['name']->vars['row_attr']);
         $this->assertNotEmpty($view->children['email']->vars['row_attr']);
 
-        $this->assertEquals("Paypal.me Name",$view->children['link']->vars['label']);
-        $this->assertEquals("Dein Name",$view->children['name']->vars['label']);
-        $this->assertEquals("Deine E-Mail",$view->children['email']->vars['label']);
-        $this->assertEquals("Speichern",$view->children['submit']->vars['label']);
+        $this->assertEquals('Paypal.me Name', $view->children['link']->vars['label']);
+        $this->assertEquals('Dein Name', $view->children['name']->vars['label']);
+        $this->assertEquals('Deine E-Mail', $view->children['email']->vars['label']);
+        $this->assertEquals('Speichern', $view->children['submit']->vars['label']);
 
         $this->assertNotEmpty($view->children['link']->vars['attr']);
         $this->assertNotEmpty($view->children['email']->vars['attr']);
         $this->assertNotEmpty($view->children['name']->vars['attr']);
         $this->assertNotEmpty($view->children['submit']->vars['attr']);
-
     }
 }
