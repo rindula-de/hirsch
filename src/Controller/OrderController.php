@@ -122,6 +122,7 @@ class OrderController extends AbstractController
     {
         if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00') && 0 === $preorder) {
             $this->addFlash('error', $translator->trans('order.delete.failedLate'));
+
             return $this->redirectToRoute('menu');
         }
         $entityManager->remove($order);
