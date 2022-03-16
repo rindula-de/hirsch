@@ -120,6 +120,10 @@ class OrderController extends AbstractController
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
+        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00') && 0 === $preorder) {
+            $this->addFlash('error', $translator->trans('order.delete.failedLate'));
+            return $this->redirectToRoute('menu');
+        }
         $entityManager->remove($order);
         $entityManager->flush();
 
