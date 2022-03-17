@@ -69,7 +69,7 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
-                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56')) {
+                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
                     $this->addFlash('error', $translator->trans('order.search_alternative'));
 
                     return new RedirectResponse($this->generateUrl('menu'));
@@ -120,7 +120,7 @@ class OrderController extends AbstractController
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00') && 0 === $preorder) {
+        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00')) {
             $this->addFlash('error', $translator->trans('order.delete.failedLate'));
 
             return $this->redirectToRoute('menu');
