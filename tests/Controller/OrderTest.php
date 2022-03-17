@@ -331,7 +331,6 @@ class OrderTest extends WebTestCase
     }
 
     /**
-     * @return Orders
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -351,6 +350,7 @@ class OrderTest extends WebTestCase
 
         $entityManager->persist($order);
         $entityManager->flush();
+
         return $order;
     }
 }
