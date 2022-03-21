@@ -1,0 +1,5 @@
+paypal:
+    email:
+        invalid: "Keine korrekte Email-Adresse"
+    link:
+        invalid: "Link nicht korrekt. Bitte denk dran https zu benutzen"

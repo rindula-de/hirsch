@@ -7,6 +7,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paypalmes.
@@ -29,6 +30,7 @@ class Paypalmes
      * @var string
      *
      * @ORM\Column(name="link", type="string", length=100, nullable=false)
+     * @Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message="paypal.link.invalid")
      */
     private $link;
 
@@ -43,6 +45,7 @@ class Paypalmes
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @Assert\Email(message = "paypal.email.invalid")
      */
     private $email = 'NULL';
 
