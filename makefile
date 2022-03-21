@@ -29,12 +29,12 @@ msg: ## Run symfony message consumer
 
 install: install_deps install_db  ## Install the project
 
-install_deps: vendor .env.local.php public/build/manifest.json ## Install and build all dependencies
+install_deps: vendor .env.local public/build/manifest.json ## Install and build all dependencies
 
 .git/lfs:
 	git lfs install
 
-install_db: vendor .env.local.php migrations ## Install the database
+install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 	touch $@
 
@@ -62,9 +62,8 @@ vendor vendor/autoload.php: composer.json composer.lock
 	@if [ -n "$(MS_GRAPH_CLIENT_ID)" ]; then echo 'MS_GRAPH_CLIENT_ID="$(MS_GRAPH_CLIENT_ID)"' | tee -a .env.local; fi;
 	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php80-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
-
-.env.local.php: .env.local vendor
-	$(COMPOSER) dump-env $(ENV) --no-interaction
+.env.test.local:
+    @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
 node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
@@ -75,7 +74,7 @@ build public public/build public/build/manifest.json: node_modules/.bin/encore v
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
-tests_db:
+tests_db: .env.test.local
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
@@ -85,27 +84,31 @@ tests: .git/lfs tests_db
 	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
-coverage coverage-xml coverage-html: tests_db
+coverage.xml coverage-xml coverage-html: tests_db
 ifneq (, $(shell which ddev))
 	ddev xdebug on
 endif
-	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml
-	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 17
+	$(EXEC_PHP) -d xdebug.mode=coverage ./bin/phpunit --coverage-html coverage-html --coverage-xml coverage-xml --coverage-clover coverage.xml || true
 ifneq (, $(shell which ddev))
 	ddev xdebug off
 endif
 
+coverage_check: tests_db coverage.xml
+	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 60
+
 infection_test: export APP_ENV=test
-infection_test: tests_db coverage
-	XDEBUG_MODE=coverage $(EXEC_PHP) ./vendor/bin/infection --debug
+infection_test: tests_db coverage.xml
+ifneq (, $(shell which ddev))
+	$(error "Infection test is not supported on ddev")
+endif
+	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --min-msi=98
 
 clean: ## Clean up the project
 	rm -rf vendor
 	rm -rf var
 	rm -rf node_modules
 	rm -rf .env.local
-	rm -rf .env.local.php
 	rm -rf public/build
 	rm -rf coverage-html coverage-xml clover.xml
 
-.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage
+.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage_check

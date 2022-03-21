@@ -10,7 +10,6 @@ use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Form\OrderType;
-use App\Message\SendOrderOverview;
 use App\Repository\HirschRepository;
 use App\Repository\OrdersRepository;
 use App\Repository\PayhistoryRepository;
@@ -20,16 +19,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OrderController extends AbstractController
@@ -39,8 +35,6 @@ class OrderController extends AbstractController
         int $preorder,
         string $slug,
         HirschRepository $hirschRepository,
-        PayhistoryRepository $payhistoryRepository,
-        PaypalmesRepository $paypalmesRepository,
         Request $request,
         ManagerRegistry $doctrine,
         MessageBusInterface $bus,
@@ -75,6 +69,11 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
+                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
+                    $this->addFlash('error', $translator->trans('order.search_alternative'));
+
+                    return new RedirectResponse($this->generateUrl('menu'));
+                }
                 $em->persist($order);
                 $em->flush();
 
@@ -89,26 +88,6 @@ class OrderController extends AbstractController
                 $response->headers->setCookie($cookie);
             }
 
-            $cache = new FilesystemAdapter();
-            $cache->get('order_mail_cache', function (ItemInterface $item) use ($bus) {
-                // set $time to next noon
-                $time = new DateTime('now');
-                $time->setTime(11, 0, 0);
-
-                // if $time is in past, set $time to next day
-                if ($time < new DateTime('now')) {
-                    return null;
-                }
-
-                // $time to seconds
-                $time = $time->getTimestamp() - time();
-
-                $item->expiresAfter(3600 + 43200 + $time);
-                $bus->dispatch(new SendOrderOverview(), [new DelayStamp($time * 1000)]);
-
-                return null;
-            });
-
             return $response;
         }
 
@@ -117,21 +96,9 @@ class OrderController extends AbstractController
             0 === $preorder
             && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
-            $acivePayer = $payhistoryRepository->findActivePayer();
-
-            if (null !== $acivePayer) {
-                $acivePayer = $paypalmesRepository->find($acivePayer['id']);
-
-                if (null !== $acivePayer) {
-                    $acivePayer = $acivePayer->getName();
-                }
-            } else {
-                $acivePayer = $translator->trans('order.orderer');
-            }
-
             $this->addFlash(
                 'warning',
-                $translator->trans('order.search_alternative', ['%orderer%' => $acivePayer])
+                $translator->trans('order.search_alternative')
             );
 
             return $this->redirectToRoute('menu');
@@ -153,6 +120,11 @@ class OrderController extends AbstractController
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
+        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00')) {
+            $this->addFlash('error', $translator->trans('order.delete.failedLate'));
+
+            return $this->redirectToRoute('menu');
+        }
         $entityManager->remove($order);
         $entityManager->flush();
 
@@ -269,7 +241,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + ((float) $request->request->get('tip'))));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + max(0, (float) $request->request->get('tip'))));
         }
 
         // find all PaypalMes
