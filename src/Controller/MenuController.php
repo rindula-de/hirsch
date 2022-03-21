@@ -59,7 +59,7 @@ class MenuController extends AbstractController
     {
         $file = '';
         $message = '';
-        $regexLunch = '([\w\s\-\,öäüÄÜÖß!@#$%^&*)(\'`„“]+?)( (\d+,\d{2}) Euro?)?';
+        $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`„“]+?)( (\d+,\d{2}) Euro?)?';
 
         try {
             $server = $_ENV['MailAccess_host'];
