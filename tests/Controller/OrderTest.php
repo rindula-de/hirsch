@@ -210,30 +210,38 @@ class OrderTest extends WebTestCase
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function testOrderDelete(): void
     {
         $client = $this->loggedInClient();
 
-        /** @var EntityManager $entityManager */
-        $entityManager = $this->getContainer()->get('doctrine')->getManager();
-
-        /** @var Hirsch $tagesessen */
-        $tagesessen = $entityManager->getRepository(Hirsch::class)->find(1);
-
-        $order = new Orders();
-        $order->setCreated(new \DateTime('now'));
-        $order->setForDate(new \DateTime('now'));
-        $order->setHirsch($tagesessen);
-        $order->setOrderedby('Max Mustermann');
-
-        $entityManager->persist($order);
-        $entityManager->flush();
+        $order = $this->createHirschOrder();
 
         ClockMock::withClockMock(strtotime('10:54'));
         $client->request('GET', '/orders/delete/'.$order->getId());
         $this->assertResponseRedirects('/bestellungen/', 302);
         $client->followRedirect();
         $this->assertStringContainsString('Bestellung gelöscht', $client->getResponse()->getContent() ?: '');
+    }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function testOrderDeleteAfterOrderMailSend(): void
+    {
+        $client = $this->loggedInClient();
+        $order = $this->createHirschOrder();
+
+        ClockMock::withClockMock(strtotime('11:01'));
+        $client->request('GET', '/orders/delete/'.$order->getId());
+        $this->assertResponseRedirects('/karte', 302);
+        $client->followRedirect();
+        $this->assertStringContainsString('Der Besteller ist bereits informiert. Die Bestellung kann nicht mehr gelöscht werden!',
+            $client->getResponse()->getContent() ?: '');
     }
 
     /**
@@ -320,5 +328,29 @@ class OrderTest extends WebTestCase
             $this->assertEquals($meal->getName(), $orderToTest->ordered);
             $this->assertEquals($meal->getSlug(), $orderToTest->orderedSlug);
         }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    private function createHirschOrder(): Orders
+    {
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+
+        /** @var Hirsch $tagesessen */
+        $tagesessen = $entityManager->getRepository(Hirsch::class)->find(1);
+
+        $order = new Orders();
+        $order->setCreated(new \DateTime('now'));
+        $order->setForDate(new \DateTime('now'));
+        $order->setHirsch($tagesessen);
+        $order->setOrderedby('Max Mustermann');
+
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        return $order;
     }
 }
