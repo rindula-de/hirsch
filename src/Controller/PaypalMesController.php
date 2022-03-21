@@ -34,8 +34,8 @@ class PaypalMesController extends AbstractController
             return $this->redirectToRoute('paynow');
         }
 
-        return $this->render('paypal_mes/add.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('paypal_mes/add.html.twig', [
+            'form' => $form,
         ]);
     }
 
@@ -56,8 +56,8 @@ class PaypalMesController extends AbstractController
             return $this->redirectToRoute('paynow');
         }
 
-        return $this->render('paypal_mes/add.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('paypal_mes/add.html.twig', [
+            'form' => $form,
         ]);
     }
 

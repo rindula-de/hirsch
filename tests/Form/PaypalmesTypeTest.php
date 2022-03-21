@@ -9,12 +9,22 @@ namespace App\Tests\Form;
 use App\Entity\Hirsch;
 use App\Entity\Paypalmes;
 use App\Form\PaypalmesType;
+use App\Tests\Traits\FormValidationTrait;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\FormErrorIterator;
+use Symfony\Component\Form\Test\Traits\ValidatorExtensionTrait;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\Validator\ConstraintValidatorFactory;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\ValidatorBuilder;
 
 class PaypalmesTypeTest extends TypeTestCase
 {
+    use FormValidationTrait;
+
     public function testSubmitValidData(): void
     {
         $link = 'test123';
@@ -84,4 +94,31 @@ class PaypalmesTypeTest extends TypeTestCase
         $this->assertNotEmpty($view->children['name']->vars['attr']);
         $this->assertNotEmpty($view->children['submit']->vars['attr']);
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function testNoValidLink():void
+    {
+        $model = new Paypalmes();
+        $violations = $this->getFormViolations($model, PaypalmesType::class,["link"=>'test',"name"=>"Test"]);
+        $this->assertCount(1,$violations);
+        /** @var ConstraintViolation $violation */
+        $violation = $violations[0];
+        $this->assertEquals("paypal.link.invalid",$violation->getMessage());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testNoValidEmail():void
+    {
+        $model = new Paypalmes();
+        $violations = $this->getFormViolations($model, PaypalmesType::class, ["link"=>'https://paypal.me/rindulalp',"name"=>"Test","email"=>"test"]);
+        $this->assertCount(1,$violations);
+        /** @var ConstraintViolation $violation */
+        $violation = $violations[0];
+        $this->assertEquals("paypal.email.invalid",$violation->getMessage());
+    }
+
 }
