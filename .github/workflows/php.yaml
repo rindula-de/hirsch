@@ -10,18 +10,153 @@ jobs:
     name: PHP Stan
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Dependencies
+        run: make vendor
+      - name: PHP Stan Analyse
+        run: vendor/bin/phpstan analyse
+  lint:
+    name: Symfony Lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Dependencies
+        run: make install_deps
+        env:
+          APP_ENV: dev
+      - name: Lint Container
+        run: bin/console lint:container
+      - name: Lint Twig
+        run: bin/console lint:twig
+  coverage:
+    name: PHP Code Coverage
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.6.4
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
+      - uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 8
+          tools: composer:v2
+          extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+      - name: Replace variables
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Dependencies
+        run: make install_deps
+      - run: make coverage_check
+      - uses: actions/upload-artifact@master
+        if: ${{ always() }}
+        with:
+          name: coverage
+          path: coverage-html
+  infection:
+    name: PHP Infection Test
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.6.4
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_DATABASE: db_test
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
       - uses: shivammathur/setup-php@2.17.0
         with:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - name: Dependencies
+      - name: Replace variables
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
-          composer install
-      - name: PHP Stan Analyse
-        run: vendor/bin/phpstan analyse
-
+          echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+      - name: Dependencies
+        run: make install_deps
+      - run: make infection_test
+      - uses: actions/upload-artifact@master
+        if: ${{ failure() }}
+        with:
+          name: infection_log
+          path: infection.log
   test:
     name: Unittest
     runs-on: ubuntu-latest
@@ -47,11 +182,13 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: '15'
-      - uses: shivammathur/setup-php@2.17.0
+      - uses: shivammathur/setup-php@2.17.1
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
@@ -62,6 +199,22 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - run: make install
         name: Install dependencies
         env:
@@ -70,6 +223,6 @@ jobs:
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run Unittests
-        run: composer run-script test
+        run: bin/phpunit
         env:
           APP_ENV: test

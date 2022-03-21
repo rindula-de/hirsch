@@ -1,0 +1,6 @@
+imports:
+    - { resource: ../../services.yaml }
+services:
+    http_client:
+        public: true
+        synthetic: true

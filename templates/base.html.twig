@@ -1,69 +1,93 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta http-equiv="expires" content="0"/>
-    <meta name="theme-color" content="#ffa303"/>
-    {% block metas %}{% endblock %}
-    <link rel="manifest" href="/manifest.json">
-    <link href="/favicon.png" type="image/png" rel="icon">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <title>
-      {% block title %}?{% endblock %}
-      | Hirschbestellung
-    </title>
-    {% block stylesheets %}
-      {{ encore_entry_link_tags('app') }}
-    {% endblock %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <meta http-equiv="expires" content="0"/>
+        <meta name="theme-color" content="#ffa303"/>
 
-    {% block javascripts %}
-      {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-  </head>
-  <body>
-    {% include "navigation.html.twig" %}
-    <main class="main">
-      <div class="content">
-        {% for label, messages in app.flashes %}
-          {% for message in messages %}
-            <div class="message {{label}}">
-              {{ message }}
+        {% block metas %}{% endblock %}
+
+        <link rel="manifest" href="/manifest.json">
+        <link href="/favicon.png" type="image/png" rel="icon">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+        <title>
+          {% block title %}?{% endblock %}
+          | {{ 'page.title'|trans }}
+        </title>
+
+        {% block stylesheets %}
+          {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+          {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% include "navigation.html.twig" %}
+            <main class="main">
+                <div class="content">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="message {{label}}">
+                              {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
+                </div>
+
+                <span id="order-until" data-controller="orderuntil"></span>
+            </main>
+
+            <ul class='custom-menu'></ul>
+
+        <div id="preorderModal" class="modal" data-controller="modal">
+            <div class="modal-content">
+                <span class="close material-icons" data-modal-target="close">close</span>
+                <h2>{{ 'order.pre_order'|trans }}</h2>
+
+                <input
+                    readonly="readonly"
+                    type="text"
+                    class="datepicker flatpickr flatpickr-input"
+                    placeholder="{{ 'defaults.date.placeholder'|trans }}">
+                <br>
+                <br>
+                <a href="#" id="preorderLink" class="btn">
+                    {{ 'defaults.date.choose_date'|trans }}
+                </a>
+
+                <span style="display: none" id="preorderSlug"></span>
             </div>
-          {% endfor %}
-        {% endfor %}
-        {% block body %}{% endblock %}
+        </div>
+
+        <div id="informationModal" class="modal" data-controller="modal">
+            <div class="modal-content">
+                <span class="close material-icons" data-modal-target="close">close</span>
+                <p id="informationModalText">Lorem Schwippsum</p>
+            </div>
+        </div>
+        
+        <div id="changelogModal" class="modal" data-controller="modal">
+          <div class="modal-content">
+              <span class="close material-icons" data-modal-target="close">close</span>
+              <p id="changelogModalText">Changelog</p>
+          </div>
       </div>
-      <span id="order-until" data-controller="orderuntil"></span>
-    </main>
-    <ul class='custom-menu'>
-    </ul>
-    <div id="preorderModal" class="modal" data-controller="modal">
-      <div class="modal-content">
-        <span class="close material-icons" data-modal-target="close">close</span>
-        <h2>Vorbestellen</h2>
-        <input readonly="readonly" type="text" class="datepicker flatpickr flatpickr-input" placeholder="Datum auswählen">
-        <br>
-        <br>
-        <a href="#" id="preorderLink" class="btn">Datum wählen</a>
-        <span style="display: none" id="preorderSlug"></span>
-      </div>
-    </div>
-    <div id="informationModal" class="modal" data-controller="modal">
-      <div class="modal-content">
-        <span class="close material-icons" data-modal-target="close">close</span>
-        <p id="informationModalText">Lorem Schwippsum</p>
-      </div>
-    </div>
-    <div id="orderedModal" class="modal" data-controller="modal">
-      <div class="modal-content">
-        <span class="close material-icons" data-modal-target="close">close</span>
-        <h2 id="orderedModalTitle">Bestellung</h2>
-        <p id="orderedModalText">Bestellung</p>
-      </div>
-    </div>
-  </body>
+
+        <div id="orderedModal" class="modal" data-controller="modal">
+            <div class="modal-content">
+                <span class="close material-icons" data-modal-target="close">close</span>
+                <h2 id="orderedModalTitle">{{ 'order.order'|trans }}</h2>
+                <p id="orderedModalText">{{ 'order.order'|trans }}</p>
+            </div>
+        </div>
+    </body>
 </html>

@@ -18,22 +18,39 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
+          lfs: true
       - name: Set Timezone
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.17.0
+      - uses: shivammathur/setup-php@2.17.1
         with:
           php-version: 8
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: '15'
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Cache yarn packages
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Make Install
         env:
           DBPASS: ${{ secrets.DBPASS }}
@@ -77,10 +94,10 @@ jobs:
         run: rm artifact.tar
       - run: sudo apt-get install -y sshpass rsync
         name: 📦 Installing upload dependencies
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".ddev" --exclude ".github" -e "ssh -o StrictHostKeyChecking=no -p 222" -rltzvOP --del --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".gitmodules" --exclude ".gitattributes" --exclude ".ddev" --exclude "composer.*" --exclude "docker*" --exclude "infection.json.dist" --exclude ".ddev" --exclude ".editorconfig" -e "ssh -o StrictHostKeyChecking=no -p 222" -avh --delete --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
         name: 👨‍💻 Uploading files
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php80 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php80 bin/console --no-interaction cache:clear"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php80 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php80 bin/console --no-interaction cache:clear && /usr/bin/php80 bin/console app:cache:clear"
         id: preperations
         name: 👨‍💻 Preparing system
 
@@ -104,7 +121,12 @@ jobs:
       - build_hetzner
     if: ${{ failure() }}
     steps:
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           delete_release: true # default: false
-          tag_name: ${GITHUB_REF##*/} # tag name to delete
+          tag_name: ${{ steps.vars.outputs.tag }} # tag name to delete
