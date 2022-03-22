@@ -18,7 +18,7 @@ jobs:
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -40,7 +40,7 @@ jobs:
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -48,7 +48,7 @@ jobs:
             ${{ runner.os }}-php-
       - name: Cache yarn packages
         id: yarn-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -95,7 +95,7 @@ jobs:
           echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -103,7 +103,7 @@ jobs:
             ${{ runner.os }}-php-
       - name: Cache yarn packages
         id: yarn-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -201,7 +201,7 @@ jobs:
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -209,7 +209,7 @@ jobs:
             ${{ runner.os }}-php-
       - name: Cache yarn packages
         id: yarn-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}

@@ -37,7 +37,7 @@ jobs:
           node-version: '15'
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-php-
       - name: Cache yarn packages
         id: yarn-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
