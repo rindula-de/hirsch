@@ -35,6 +35,8 @@ class OrderController extends AbstractController
         int $preorder,
         string $slug,
         HirschRepository $hirschRepository,
+        PayhistoryRepository $payhistoryRepository,
+        PaypalmesRepository $paypalmesRepository,
         Request $request,
         ManagerRegistry $doctrine,
         MessageBusInterface $bus,
@@ -70,7 +72,19 @@ class OrderController extends AbstractController
 
             if ($order instanceof Orders) {
                 if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
-                    $this->addFlash('error', $translator->trans('order.search_alternative'));
+                    $acivePayer = $payhistoryRepository->findActivePayer();
+
+                    if (null !== $acivePayer) {
+                        $acivePayer = $paypalmesRepository->find($acivePayer['id']);
+
+                        if (null !== $acivePayer) {
+                            $acivePayer = $acivePayer->getName();
+                        }
+                    } else {
+                        $acivePayer = $translator->trans('order.orderer');
+                    }
+
+                    $this->addFlash('error', $translator->trans('order.search_alternative', ['%orderer%' => $acivePayer]));
 
                     return new RedirectResponse($this->generateUrl('menu'));
                 }
@@ -96,9 +110,21 @@ class OrderController extends AbstractController
             0 === $preorder
             && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
+            $acivePayer = $payhistoryRepository->findActivePayer();
+
+            if (null !== $acivePayer) {
+                $acivePayer = $paypalmesRepository->find($acivePayer['id']);
+
+                if (null !== $acivePayer) {
+                    $acivePayer = $acivePayer->getName();
+                }
+            } else {
+                $acivePayer = $translator->trans('order.orderer');
+            }
+
             $this->addFlash(
                 'warning',
-                $translator->trans('order.search_alternative')
+                $translator->trans('order.search_alternative', ['%orderer%' => $acivePayer])
             );
 
             return $this->redirectToRoute('menu');
