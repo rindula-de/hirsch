@@ -110,4 +110,9 @@ class Paypalmes
 
         return $this;
     }
+
+    public function getBarOnly(): bool
+    {
+        return $this->bar !== null && $this->bar >= new DateTime();
+    }
 }

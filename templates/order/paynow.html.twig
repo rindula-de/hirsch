@@ -37,7 +37,7 @@
                     </button>
                 </div>
 
-                {% if date(paypalme.bar) >= date() %}
+                {% if paypalme.barOnly %}
                     <span class="label red">
                         {{ 'pay.cash_only'|trans }}
                     </span>
