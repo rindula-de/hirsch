@@ -113,6 +113,6 @@ class Paypalmes
 
     public function getBarOnly(): bool
     {
-        return $this->bar !== null && $this->bar >= new DateTime();
+        return null !== $this->bar && $this->bar >= new DateTime();
     }
 }
