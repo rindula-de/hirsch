@@ -96,7 +96,6 @@ class OrderTest extends WebTestCase
         $entityManager->getRepository(Payhistory::class)->add($ph);
 
         ClockMock::withClockMock(strtotime('12:00'));
-        $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseRedirects('/karte', 302);
 
