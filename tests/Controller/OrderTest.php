@@ -9,6 +9,7 @@ namespace App\Tests\Controller;
 use App\Controller\OrderController;
 use App\Entity\Hirsch;
 use App\Entity\Orders;
+use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
 use App\Repository\UserRepository;
 use DateTime;
@@ -84,7 +85,7 @@ class OrderTest extends WebTestCase
         /** @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
 
-        /** @var Hirsch $tagesessen */
+        /** @var Paypalmes $paypalme */
         $paypalme = $entityManager->getRepository(Paypalmes::class)->find(1);
 
         $ph = new Payhistory();
