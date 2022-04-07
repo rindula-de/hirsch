@@ -8,18 +8,20 @@ updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: Europe/Berlin
       time: "04:00"
+      day: "sunday"
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: Europe/Berlin
       time: "04:00"
+      day: "sunday"
     assignees:
       - "Rindula"
     open-pull-requests-limit: 100
@@ -27,16 +29,18 @@ updates:
     directory: "/"
     open-pull-requests-limit: 100
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: Europe/Berlin
       time: "04:00"
+      day: "sunday"
     assignees:
       - "Rindula"
   - package-ecosystem: gitsubmodule
     directory: /
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: Europe/Berlin
       time: "04:00"
+      day: "sunday"
     assignees:
       - "Rindula"
