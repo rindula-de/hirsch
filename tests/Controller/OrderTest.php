@@ -80,7 +80,7 @@ class OrderTest extends WebTestCase
         $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent() ?: '');
 
         // Test with active payer
-        
+
         /** @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
 
@@ -93,7 +93,7 @@ class OrderTest extends WebTestCase
         $ph->setPaypalme($paypalme);
 
         $entityManager->getRepository(Payhistory::class)->add($ph);
-        
+
         ClockMock::withClockMock(strtotime('12:00'));
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
