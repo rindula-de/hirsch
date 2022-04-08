@@ -25,3 +25,4 @@ jobs:
         stale-pr-message: 'This Pullrequest is being marked as stale as there is no recent activity.'
         stale-issue-label: 'stale'
         stale-pr-label: 'stale'
+        exempt-issue-labels: bug,question
