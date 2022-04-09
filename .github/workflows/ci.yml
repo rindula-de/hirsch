@@ -34,7 +34,7 @@ jobs:
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - uses: actions/setup-node@v3.1.0
         with:
-          node-version: '15'
+          node-version: '16'
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
