@@ -33,7 +33,7 @@ install_deps: vendor .env.local public/build/manifest.json ## Install and build 
 
 .git/lfs:
 	git lfs install
-    @touch .git/lfs
+	@touch .git/lfs
 
 install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
@@ -44,7 +44,7 @@ replace: config/packages/security.yaml
 vendor: composer.json composer.lock
 	$(COMPOSER) validate
 	$(COMPOSER) install --prefer-dist --no-interaction
-    @touch vendor
+	@touch vendor
 
 .env.local:
 	@echo 'APP_ENV=$(ENV)' | tee .env.local
@@ -68,7 +68,7 @@ vendor: composer.json composer.lock
 
 node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
-    @touch node_modules
+	@touch node_modules
 
 build public public/build public/build/manifest.json: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js assets
 	$(YARN) build
