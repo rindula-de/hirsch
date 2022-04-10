@@ -33,17 +33,18 @@ install_deps: vendor .env.local public/build/manifest.json ## Install and build 
 
 .git/lfs:
 	git lfs install
+    @touch .git/lfs
 
 install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
-	touch $@
 
 replace: config/packages/security.yaml
 	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
 
-vendor vendor/autoload.php: composer.json composer.lock
+vendor: composer.json composer.lock
 	$(COMPOSER) validate
 	$(COMPOSER) install --prefer-dist --no-interaction
+    @touch vendor
 
 .env.local:
 	@echo 'APP_ENV=$(ENV)' | tee .env.local
@@ -67,20 +68,23 @@ vendor vendor/autoload.php: composer.json composer.lock
 
 node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
+    @touch node_modules
 
 build public public/build public/build/manifest.json: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js assets
 	$(YARN) build
+	@touch public/build
+	@touch public
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
-tests_db: .env.test.local
+tests_db: .env.test.local vendor
 	$(SYMFONY) doctrine:database:drop --env=test --force || true
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
 
 tests: export APP_ENV=test
-tests: .git/lfs tests_db
+tests: .git/lfs tests_db vendor
 	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
