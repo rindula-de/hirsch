@@ -27,13 +27,17 @@ help: ## Outputs this help screen
 msg: ## Run symfony message consumer
 	$(SYMFONY) messenger:consume async -vv --time-limit=3600
 
-install: install_deps install_db  ## Install the project
+install: install_deps install_db .git/hooks/post-merge  ## Install the project
 
 install_deps: vendor .env.local public/build/manifest.json ## Install and build all dependencies
 
 .git/lfs:
 	git lfs install
 	@touch .git/lfs
+
+.git/hooks/post-merge:
+	@echo "#!/bin/sh" > $@
+	@echo "make install" >> $@
 
 install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
