@@ -27,7 +27,7 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.18.0
+      - uses: shivammathur/setup-php@2.18.1
         with:
           php-version: 8.1
           tools: composer:v2
@@ -85,7 +85,7 @@ jobs:
       name: hetzner
       url: https://hirsch.hochwarth-e.com/
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: deploy_hetzner
       - name: Unpack Files
