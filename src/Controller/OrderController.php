@@ -281,10 +281,8 @@ class OrderController extends AbstractController
             if (null !== $activePayer) {
                 $activePayer = $activePayer->getName();
             }
-        } else {
-            $activePayer = $translator->trans('order.orderer');
         }
 
-        return $activePayer;
+        return $activePayer ?? $translator->trans('order.orderer');
     }
 }
