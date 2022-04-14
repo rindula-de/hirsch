@@ -35,6 +35,8 @@ class OrderController extends AbstractController
         int $preorder,
         string $slug,
         HirschRepository $hirschRepository,
+        PayhistoryRepository $payhistoryRepository,
+        PaypalmesRepository $paypalmesRepository,
         Request $request,
         ManagerRegistry $doctrine,
         MessageBusInterface $bus,
@@ -70,7 +72,9 @@ class OrderController extends AbstractController
 
             if ($order instanceof Orders) {
                 if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
-                    $this->addFlash('error', $translator->trans('order.search_alternative'));
+                    $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
+
+                    $this->addFlash('error', $translator->trans('order.search_alternative', ['%orderer%' => $activePayer]));
 
                     return new RedirectResponse($this->generateUrl('menu'));
                 }
@@ -96,9 +100,11 @@ class OrderController extends AbstractController
             0 === $preorder
             && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
         ) {
+            $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
+
             $this->addFlash(
                 'warning',
-                $translator->trans('order.search_alternative')
+                $translator->trans('order.search_alternative', ['%orderer%' => $activePayer])
             );
 
             return $this->redirectToRoute('menu');
@@ -263,5 +269,20 @@ class OrderController extends AbstractController
             'paypalmes' => $paypalMes,
             'active' => $active,
         ]);
+    }
+
+    private function getActivePayer(PaypalMesRepository $paypalmesRepository, PayhistoryRepository $payhistoryRepository, TranslatorInterface $translator): string
+    {
+        $activePayer = $payhistoryRepository->findActivePayer();
+
+        if (null !== $activePayer) {
+            $activePayer = $paypalmesRepository->find($activePayer['id']);
+
+            if (null !== $activePayer) {
+                $activePayer = $activePayer->getName();
+            }
+        }
+
+        return $activePayer ?? $translator->trans('order.orderer');
     }
 }

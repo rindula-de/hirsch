@@ -9,6 +9,8 @@ namespace App\Tests\Controller;
 use App\Controller\OrderController;
 use App\Entity\Hirsch;
 use App\Entity\Orders;
+use App\Entity\Payhistory;
+use App\Entity\Paypalmes;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -48,6 +50,7 @@ class OrderTest extends WebTestCase
 
     public function testOrderingAuthenticatedTooLate(): void
     {
+        // Test with no active payer
         ClockMock::withClockMock(strtotime('12:00'));
         $client = $this->loggedInClient();
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
@@ -76,6 +79,50 @@ class OrderTest extends WebTestCase
         $this->assertResponseRedirects('/karte', 302);
         $client->followRedirect();
         $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent() ?: '');
+
+        // Test with active payer
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+
+        /** @var Paypalmes $paypalme */
+        $paypalme = $entityManager->getRepository(Paypalmes::class)->find(1);
+
+        $ph = new Payhistory();
+
+        $ph->setCreated(new DateTime());
+        $ph->setPaypalme($paypalme);
+
+        $entityManager->getRepository(Payhistory::class)->add($ph);
+
+        ClockMock::withClockMock(strtotime('12:00'));
+        $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseRedirects('/karte', 302);
+
+        ClockMock::withClockMock(strtotime('10:54'));
+        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        $form = $crawler->selectButton('order[submit]')->form();
+        ClockMock::withClockMock(strtotime('10:55:59'));
+        $client->submit($form, [
+            'order[orderedby]' => 'Max Mustermann',
+            'order[note]' => '+ Pommes', ]);
+        $this->assertResponseRedirects('/zahlen-bitte/', 302);
+
+        ClockMock::withClockMock(strtotime('10:54'));
+        $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        $form = $crawler->selectButton('order[submit]')->form();
+        ClockMock::withClockMock(strtotime('11:00:05'));
+        $client->submit($form, [
+            'order[orderedby]' => 'Max Mustermann',
+            'order[note]' => '+ Pommes', ]);
+        $this->assertResponseRedirects('/karte', 302);
+        $client->followRedirect();
+        $this->assertStringContainsString('Bitte such dir eine Alternative', $client->getResponse()->getContent() ?: '');
+
         ClockMock::withClockMock(false);
     }
 
