@@ -18,16 +18,19 @@ $(document).ready(() => {
         // If the menu element is clicked
         $(".custom-menu li").click(function() {
 
+            var id_regex = new RegExp('^[0-9]+$');
             // This is the triggered action name
             switch ($(this).attr("data-action")) {
                 case "edit-paypalme":
-                    window.location.href = "/paypal/edit/" + $(this).attr("data-id");
+                    var id = $(this).attr("data-id");
+                    if (id_regex.test(id)) window.location.href = "/paypal/edit/" + id;
                     break;
                 case "copy":
                     navigator.clipboard.writeText($(this).attr("data-text"));
                     break;
                 case "deactivate-paypalme":
-                    window.location.href = "/paypal/remove-active/" + $(this).attr("data-id");
+                    var id = $(this).attr("data-id");
+                    if (id_regex.test(id)) window.location.href = "/paypal/edit/" + id;
                     break;
             }
 
