@@ -24,3 +24,39 @@ body {
 body.turbo-loading, body.turbo-loaded {
     opacity: .2;
 }
+
+@keyframes fade-out {
+    from {opacity: 100%;}
+    to {opacity: 20%;}
+  }
+
+#showChangelog {
+    position: fixed;
+    cursor: pointer;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background-color: $accentcolor;
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    // fade out animation after 2 seconds
+    animation-name: fade-out;
+    animation-duration: 3s;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+    @include shadow;
+    &:hover {
+        background-color: darken($accentcolor, 10%);
+        animation-fill-mode: backwards;
+    }
+    i.material-icons {
+        vertical-align: middle;
+    }
+}
+
+// hide on mobile
+@media only screen and (max-width: 600px) {
+    #showChangelog {
+        display: none;
+    }
+}

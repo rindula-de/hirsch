@@ -18,10 +18,11 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/stale@v4
+    - uses: actions/stale@v5
       with:
         repo-token: ${{ github.token }}
         stale-issue-message: 'This issue is being marked as stale as there is no recent activity.'
         stale-pr-message: 'This Pullrequest is being marked as stale as there is no recent activity.'
         stale-issue-label: 'stale'
         stale-pr-label: 'stale'
+        exempt-issue-labels: bug,question

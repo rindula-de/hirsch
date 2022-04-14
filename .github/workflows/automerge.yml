@@ -1,17 +1,17 @@
-name: auto-merge
+name: Dependabot auto-merge
+on: pull_request
 
-on:
-  pull_request_target:
-    types: [labeled]
+permissions:
+  pull-requests: write
+  contents: write
 
 jobs:
-  enable-auto-merge:
+  dependabot:
     runs-on: ubuntu-latest
-
-    # Specifically check that dependabot (or another trusted party) created this pull-request, and that it has been labelled correctly.
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dependencies')
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-    - uses: alexwilson/enable-github-automerge-action@main
-      with:
-        github-token: "${{ secrets.mytoken }}"
-        merge-method: "REBASE"
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
