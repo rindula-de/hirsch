@@ -65,7 +65,7 @@
     },
     "require-dev": {
         "ext-simplexml": "*",
-        "dama/doctrine-test-bundle": "^6.7",
+        "dama/doctrine-test-bundle": "^7.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "infection/infection": "^0.26.4",
         "phpstan/extension-installer": "^1.1",
