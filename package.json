@@ -21,7 +21,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "flatpickr": "^4.6.11",
+        "flatpickr": "^4.6.13",
         "jquery": "^3.6.0",
         "offline-plugin": "^5.0.7"
     }
