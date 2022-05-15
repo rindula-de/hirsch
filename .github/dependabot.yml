@@ -14,7 +14,7 @@ updates:
       day: "sunday"
     assignees:
       - "Rindula"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 1
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
@@ -24,10 +24,10 @@ updates:
       day: "sunday"
     assignees:
       - "Rindula"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 1
   - package-ecosystem: "github-actions"
     directory: "/"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 1
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
