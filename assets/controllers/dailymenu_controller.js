@@ -74,6 +74,7 @@ export default class extends Controller {
                         }
                         date.setHours(0, 0, 0, 0);
                         let holidayDate = resultElement['gericht'].toLowerCase().includes("ruhetag");
+                        holidayDate = holidayDate || resultElement['gericht'].toLowerCase().includes("Kein Mittagstisch");
                         if (!holidayDate) {
                             for (let j = 0; j < holidays.length; j++) {
                                 let start = new Date(holidays[j]['start']);
