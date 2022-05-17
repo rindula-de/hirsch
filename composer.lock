@@ -2415,16 +2415,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.8.2",
+            "version": "v4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "1885d25cd95810b376b670e7f5f23a33c0dda068"
+                "reference": "da02f3ad339437b939a6d309e9c98b62afe53c6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1885d25cd95810b376b670e7f5f23a33c0dda068",
-                "reference": "1885d25cd95810b376b670e7f5f23a33c0dda068",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/da02f3ad339437b939a6d309e9c98b62afe53c6c",
+                "reference": "da02f3ad339437b939a6d309e9c98b62afe53c6c",
                 "shasum": ""
             },
             "require": {
@@ -2450,7 +2450,7 @@
                 "symfony/framework-bundle": "4.2.7"
             },
             "require-dev": {
-                "api-platform/core": "^2.4",
+                "api-platform/core": "^2.6.8",
                 "composer/package-versions-deprecated": "1.11.99.1",
                 "friendsofsymfony/rest-bundle": "^2.8|^3.0",
                 "jms/serializer": "^1.14|^3.0",
@@ -2520,9 +2520,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.8.2"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.9.0"
             },
-            "time": "2022-01-10T16:10:58+00:00"
+            "time": "2022-04-30T18:28:05+00:00"
         },
         {
             "name": "nette/schema",
@@ -9363,16 +9363,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.2.14",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "975c598084a1f8e7acccaa68aed12c803cebbd6a"
+                "reference": "1653b53eb3973a9a6dac87ef8f2676801b14469f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/975c598084a1f8e7acccaa68aed12c803cebbd6a",
-                "reference": "975c598084a1f8e7acccaa68aed12c803cebbd6a",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/1653b53eb3973a9a6dac87ef8f2676801b14469f",
+                "reference": "1653b53eb3973a9a6dac87ef8f2676801b14469f",
                 "shasum": ""
             },
             "require": {
@@ -9386,7 +9386,9 @@
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
                 "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
-                "phpunit/phpunit": ">=8"
+                "phpstan/phpstan": "^1.6",
+                "phpunit/phpunit": ">=8",
+                "vimeo/psalm": "^4.23"
             },
             "bin": [
                 "bin/openapi"
@@ -9432,9 +9434,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.2.14"
+                "source": "https://github.com/zircote/swagger-php/tree/4.4.2"
             },
-            "time": "2022-04-01T08:53:53+00:00"
+            "time": "2022-05-13T23:51:07+00:00"
         }
     ],
     "packages-dev": [
