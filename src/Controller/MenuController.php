@@ -14,7 +14,6 @@ use Smalot\PdfParser\Parser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,8 +47,9 @@ class MenuController extends AbstractController
 
         $htg = $hirschRepository->matching($criteria)->toArray();
         if ('menuTurbo' == $request->attributes->get('_route')) {
-            return $this->render("menu/htg.html.twig", ['htg' => $htg]);
+            return $this->render('menu/htg.html.twig', ['htg' => $htg]);
         }
+
         return $this->json($htg);
     }
 
@@ -246,6 +246,7 @@ class MenuController extends AbstractController
             return $this->json(['displayData' => $displayData, 'message' => $message]);
         }
         $displayData = array_slice($displayData, date('N') - 1);
-        return $this->render("menu/menu.html.twig", ['file' => $file, 'menus' => $displayData]);
+
+        return $this->render('menu/menu.html.twig', ['file' => $file, 'menus' => $displayData]);
     }
 }
