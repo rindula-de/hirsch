@@ -9,6 +9,8 @@
 import './styles/app.scss';
 import 'flatpickr';
 import "./js/scripts";
+import "fomantic-ui-css/semantic.min.css";
+import "fomantic-ui-css/semantic";
 
 // start the Stimulus application
 import './bootstrap';

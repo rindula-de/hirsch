@@ -1,0 +1,13 @@
+<turbo-frame id="dailyFood">
+{% for i,menu in menus %}
+    <div data-role="card" class='foodcard'>
+        <h2 data-role="title">Tagesessen für den {{menu.date|format_datetime('short', 'none', locale='de')}}</h2>
+
+        <span data-role="gericht">{{menu.gericht}}</span>
+
+        <div data-role="actionbar" class='actionbar'>
+            <a data-role="order" class="btn" href="{{path("order", {preorder: i, slug: 'tagesessen'})}}">{% if i > 0 %}Vorbestellen{% else %}Bestellen{% endif %}</a>
+        </div>
+    </div>
+{% endfor %}
+</turbo-frame>

@@ -30,8 +30,7 @@
     </head>
     <body>
         {% include "navigation.html.twig" %}
-            <main class="main">
-                <div class="content">
+            <main class="ui container">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
                             <div class="message {{label}}">
@@ -41,7 +40,6 @@
                     {% endfor %}
 
                     {% block body %}{% endblock %}
-                </div>
 
                 <span id="order-until" data-controller="orderuntil"></span>
                 <div id="showChangelog"><i class="material-icons">history</i>Changelog anzeigen</div>
@@ -49,7 +47,7 @@
 
             <ul class='custom-menu'></ul>
 
-        <div id="preorderModal" class="modal" data-controller="modal">
+        <div id="preorderModal" class="ui modal" data-controller="modal">
             <div class="modal-content">
                 <span class="close material-icons" data-modal-target="close">close</span>
                 <h2>{{ 'order.pre_order'|trans }}</h2>
@@ -69,21 +67,21 @@
             </div>
         </div>
 
-        <div id="informationModal" class="modal" data-controller="modal">
+        <div id="informationModal" class="ui modal" data-controller="modal">
             <div class="modal-content">
                 <span class="close material-icons" data-modal-target="close">close</span>
                 <p id="informationModalText">Lorem Schwippsum</p>
             </div>
         </div>
         
-        <div id="changelogModal" class="modal" data-controller="modal">
-          <div class="modal-content">
+        <div id="changelogModal" class="ui modal" data-controller="modal">
+          <div class="content">
               <span class="close material-icons" data-modal-target="close">close</span>
               <p id="changelogModalText">Changelog</p>
           </div>
       </div>
 
-        <div id="orderedModal" class="modal" data-controller="modal">
+        <div id="orderedModal" class="ui modal" data-controller="modal">
             <div class="modal-content">
                 <span class="close material-icons" data-modal-target="close">close</span>
                 <h2 id="orderedModalTitle">{{ 'order.order'|trans }}</h2>

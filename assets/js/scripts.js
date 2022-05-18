@@ -61,23 +61,20 @@ $(document).ready(() => {
     });
 
     $('#showChangelog').click(() => {
-        if ($('#changelogModal').hasClass('active')) {
-            $('#changelogModal').removeClass('active');
-        }
-        $(this).hide();
         let me = this;
+        me.hide();
         $.ajax({
             url: "/modalChangelog",
             context: document.body,
             success: function(result) {
                 if (result) {
                     $("#changelogModalText").html(result.trim());
-                    $("#changelogModal").addClass("active");
+                    $('#changelogModal').modal("show");
                 }
             },
             error: function(result){
                 $("#changelogModalText").html(result.trim());
-                $("#changelogModal").addClass("active");
+                $('#changelogModal').modal("show");
             },
             complete: function() {
                 $(me).show();

@@ -39,23 +39,27 @@ class MenuController extends AbstractController
      *
      * @return JsonResponse
      */
+    #[Route('/menu', name: 'menuTurbo', methods: ['GET'])]
     #[Route('/api/get-menu', name: 'api_menu', methods: ['GET'])]
-    public function getMenu(HirschRepository $hirschRepository): JsonResponse
+    public function getMenu(Request $request, HirschRepository $hirschRepository): Response
     {
         $criteria = new Criteria();
         $criteria->where(Criteria::expr()->eq('display', true))->andWhere(Criteria::expr()->neq('slug', 'tagesessen'));
 
         $htg = $hirschRepository->matching($criteria)->toArray();
-
+        if ('menuTurbo' == $request->attributes->get('_route')) {
+            return $this->render("menu/htg.html.twig", ['htg' => $htg]);
+        }
         return $this->json($htg);
     }
 
     /**
      * Get a list of all menu items this week.
      */
+    #[Route('/tagesessen', name: 'tagesessenTurbo', methods: ['GET'])]
     #[Route('/api/get-tagesessen', name: 'tagesessen', methods: ['GET'])]
     #[Route('/api/get-tagesessen-karte', name: 'tagesessenkarte', methods: ['GET'])]
-    public function getTagesessen(Request $request, TranslatorInterface $translator): JsonResponse|RedirectResponse
+    public function getTagesessen(Request $request, TranslatorInterface $translator): Response
     {
         $file = '';
         $message = '';
@@ -241,7 +245,7 @@ class MenuController extends AbstractController
         if ('tagesessen' == $request->attributes->get('_route')) {
             return $this->json(['displayData' => $displayData, 'message' => $message]);
         }
-
-        return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
+        $displayData = array_slice($displayData, date('N') - 1);
+        return $this->render("menu/menu.html.twig", ['file' => $file, 'menus' => $displayData]);
     }
 }

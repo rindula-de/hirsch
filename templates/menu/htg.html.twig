@@ -1,0 +1,13 @@
+<turbo-frame id="menu">
+{% for menu in htg %}
+    <div class='foodcard'>
+        <h2>{{menu.name}}</h2>
+
+        {# <span data-role="gericht">{{menu.name}}</span> #}
+
+        <div class='actionbar'>
+            <a class="btn" href="{{path("order", {preorder: 0, slug: menu.slug})}}">Bestellen</a>
+        </div>
+    </div>
+{% endfor %}
+</turbo-frame>

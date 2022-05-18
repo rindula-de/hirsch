@@ -7,39 +7,36 @@
 {% block title %}{{ 'menu.titles.overview'|trans }}{% endblock %}
 
 {% block body %}
-    <div data-controller="dailymenu">
-        <template data-dailymenu-target="template">
-            <div data-role="card" class='foodcard'>
-                <h2 data-role="title"></h2>
+    <div class="ui accordion" data-controller="accordion">
+        <div class="title"><i class="dropdown icon"></i>{{ 'menu.to_go'|trans }}</div>
 
-                <span data-role="gericht"></span>
-
-                <div data-role="actionbar" class='actionbar'>
-                    <a data-role="order" class="btn"></a>
+        <div class="content">
+            <turbo-frame id="menu" src="{{path("menuTurbo")}}" target="_top">
+                <div class="loading">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
                 </div>
-            </div>
-        </template>
-
-        <button class="accordion" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
-
-        <div class="panel loading" id="menu_panel" data-dailymenu-target="menu">
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+            </turbo-frame>
         </div>
+    </div>
 
-        <button class="accordion" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
+        <button class="accordion">{{ 'menu.lunch'|trans }}</button>
 
-        <div class="panel loading" id="tagesessen_panel" data-dailymenu-target="dailyfood">
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div class="panel">
+            <turbo-frame id="dailyFood" src="{{path("tagesessenTurbo")}}" target="_top">
+                <div class="loading">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </turbo-frame>
         </div>
     </div>
 {% endblock %}
