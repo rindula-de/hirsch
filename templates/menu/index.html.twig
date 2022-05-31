@@ -7,7 +7,7 @@
 {% block title %}{{ 'menu.titles.overview'|trans }}{% endblock %}
 
 {% block body %}
-    <div data-controller="dailymenu">
+    <div>
         <template data-dailymenu-target="template">
             <div data-role="card" class='foodcard'>
                 <h2 data-role="title"></h2>
@@ -22,24 +22,32 @@
 
         <button class="accordion" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
 
-        <div class="panel loading" id="menu_panel" data-dailymenu-target="menu">
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div class="panel" id="menu_panel">
+            <turbo-frame id="menu" src="{{path('api_menu')}}" target="_top">
+                <div class="loading">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </turbo-frame>
         </div>
 
         <button class="accordion" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
 
-        <div class="panel loading" id="tagesessen_panel" data-dailymenu-target="dailyfood">
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div class="panel" id="tagesessen_panel">
+            <turbo-frame id="dailymenu" src="{{path('tagesessen')}}" target="_top">
+                <div class="loading">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </turbo-frame>
         </div>
     </div>
 {% endblock %}
