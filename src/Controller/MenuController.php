@@ -14,7 +14,6 @@ use Smalot\PdfParser\Parser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,8 +48,11 @@ class MenuController extends AbstractController
 
         $frameId = $request->headers->get('Turbo-Frame');
 
-        if ($frameId === null) return $this->json($htg);
+        if (null === $frameId) {
+            return $this->json($htg);
+        }
         dump($htg);
+
         return $this->render('menu/htgframe.html.twig', compact('htg'));
     }
 
@@ -240,7 +242,7 @@ class MenuController extends AbstractController
 
         $frameId = $request->headers->get('Turbo-Frame');
 
-        if ($frameId === null) {
+        if (null === $frameId) {
             if ('tagesessenkarte' == $request->attributes->get('_route')) {
                 return $this->json(['file' => $file, 'message' => $message]);
             }
@@ -252,15 +254,16 @@ class MenuController extends AbstractController
             return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
         } else {
             dump($frameId);
-            if ($frameId === "dailymenu") {
-                $displayData = array_filter($displayData, function($d) {
+            if ('dailymenu' === $frameId) {
+                $displayData = array_filter($displayData, function ($d) {
                     return $d['date'] >= new DateTime();
                 });
-                return $this->render('menu/frame.html.twig',[
+
+                return $this->render('menu/frame.html.twig', [
                     'dailyfood' => $displayData,
                 ]);
             }
-                    
+
             return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
         }
     }
