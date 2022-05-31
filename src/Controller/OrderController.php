@@ -68,7 +68,7 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
-                if (DateTime::createFromFormat('U', time() . '') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
+                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
                     $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
 
                     $this->addFlash('error', $translator->trans('order.search_alternative', ['%orderer%' => $activePayer]));
@@ -93,7 +93,7 @@ class OrderController extends AbstractController
         }
 
         // if its after 10:55 redirect back to menu
-        if (0 === $preorder && DateTime::createFromFormat('U', time() . '') > DateTime::createFromFormat('H:i', '10:55')) {
+        if (0 === $preorder && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')) {
             $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
 
             $this->addFlash(
@@ -120,7 +120,7 @@ class OrderController extends AbstractController
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        if (DateTime::createFromFormat('U', time() . '') >= DateTime::createFromFormat('H:i', '11:00')) {
+        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00')) {
             $this->addFlash('error', $translator->trans('order.delete.failedLate'));
 
             return $this->redirectToRoute('menu');
@@ -167,26 +167,31 @@ class OrderController extends AbstractController
         }
 
         $frameId = $request->headers->get('Turbo-Frame');
-        if ($frameId === null)
-        return new JsonResponse($data);
+        if (null === $frameId) {
+            return new JsonResponse($data);
+        }
         $orders = [];
         foreach ($data as $d) {
-            $orders[$d['ordered']][$d['note']] = ($orders[$d['ordered']][$d['note']]??0)+1;
+            $orders[$d['ordered']][$d['note']] = ($orders[$d['ordered']][$d['note']] ?? 0) + 1;
         }
         $rows = 1;
         foreach ($orders as $order => $notes) {
             foreach ($notes as $note) {
-                $rows++;
-                $rows++;
-                
-                if (!empty($note)) $rows++;
+                ++$rows;
+                ++$rows;
+
+                if (!empty($note)) {
+                    ++$rows;
+                }
             }
         }
-        
-        if ($frameId == 'orders_area') return $this->render('order/orders_textarea.html.twig',[
+
+        if ('orders_area' == $frameId) {
+            return $this->render('order/orders_textarea.html.twig', [
             'orders' => $orders,
-            'rows' => $rows
+            'rows' => $rows,
         ]);
+        }
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
@@ -245,7 +250,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp') . '/' . (3.5 + max(0, (float) $request->request->get('tip'))));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + max(0, (float) $request->request->get('tip'))));
         }
 
         // find all PaypalMes
