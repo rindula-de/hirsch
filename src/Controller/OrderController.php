@@ -55,14 +55,11 @@ class OrderController extends AbstractController
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate($preorder_time)
+            ->setOrderedby($_COOKIE['ordererName'])
             ->setHirsch($hirsch);
-        $form = $this->createForm(
-            OrderType::class,
-            $order,
-            [
+        $form = $this->createForm(OrderType::class, $order, [
                 'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y'),
-            ]
-        );
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -71,7 +68,7 @@ class OrderController extends AbstractController
             $response = new RedirectResponse($this->generateUrl('paynow'));
 
             if ($order instanceof Orders) {
-                if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
+                if (DateTime::createFromFormat('U', time() . '') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
                     $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
 
                     $this->addFlash('error', $translator->trans('order.search_alternative', ['%orderer%' => $activePayer]));
@@ -96,10 +93,7 @@ class OrderController extends AbstractController
         }
 
         // if its after 10:55 redirect back to menu
-        if (
-            0 === $preorder
-            && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
-        ) {
+        if (0 === $preorder && DateTime::createFromFormat('U', time() . '') > DateTime::createFromFormat('H:i', '10:55')) {
             $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
 
             $this->addFlash(
@@ -126,7 +120,7 @@ class OrderController extends AbstractController
     #[Route('/orders/delete/{id}', name: 'order_delete', methods: ['GET', 'DELETE'])]
     public function delete(Orders $order, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        if (DateTime::createFromFormat('U', time().'') >= DateTime::createFromFormat('H:i', '11:00')) {
+        if (DateTime::createFromFormat('U', time() . '') >= DateTime::createFromFormat('H:i', '11:00')) {
             $this->addFlash('error', $translator->trans('order.delete.failedLate'));
 
             return $this->redirectToRoute('menu');
@@ -154,7 +148,7 @@ class OrderController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
-    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response
     {
         $orders = $ordersRepository->findAll();
         $data = [];
@@ -172,27 +166,32 @@ class OrderController extends AbstractController
             }
         }
 
+        $frameId = $request->headers->get('Turbo-Frame');
+        if ($frameId === null)
         return new JsonResponse($data);
+        $orders = [];
+        foreach ($data as $d) {
+            $orders[$d['ordered']][$d['note']] = ($orders[$d['ordered']][$d['note']]??0)+1;
+        }
+        $rows = 1;
+        foreach ($orders as $order => $notes) {
+            foreach ($notes as $note) {
+                $rows++;
+                $rows++;
+                
+                if (!empty($note)) $rows++;
+            }
+        }
+        
+        if ($frameId == 'orders_area') return $this->render('order/orders_textarea.html.twig',[
+            'orders' => $orders,
+            'rows' => $rows
+        ]);
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
     public function orders(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $orders = $entityManager
-            ->getRepository(Orders::class)
-            ->createQueryBuilder('o')
-            ->select('o.for_date')
-            ->addSelect('o.note')
-            ->addSelect('count(o.id) as cnt')
-            ->addSelect('count(o.orderedby) as personen')
-            ->innerJoin('o.hirsch', 'h')
-            ->addSelect('h.name')
-            ->where('o.for_date = :date')
-            ->groupBy('h.name')
-            ->addGroupBy('o.note')
-            ->setParameter('date', strftime('%Y-%m-%d'))
-            ->getQuery()
-            ->getResult();
         $preorders = $entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -223,7 +222,6 @@ class OrderController extends AbstractController
             ->getResult();
 
         return $this->render('order/orders.html.twig', [
-            'orders' => $orders,
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
             'ordererName' => $request->cookies->get('ordererName'),
@@ -247,7 +245,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
 
             // redirect to paypalme.link
-            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp').'/'.(3.5 + max(0, (float) $request->request->get('tip'))));
+            return $this->redirect(($paypalme?->getLink() ?? 'https://paypal.me/rindulalp') . '/' . (3.5 + max(0, (float) $request->request->get('tip'))));
         }
 
         // find all PaypalMes

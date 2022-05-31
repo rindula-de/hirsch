@@ -51,7 +51,6 @@ class MenuController extends AbstractController
         if (null === $frameId) {
             return $this->json($htg);
         }
-        dump($htg);
 
         return $this->render('menu/htgframe.html.twig', compact('htg'));
     }

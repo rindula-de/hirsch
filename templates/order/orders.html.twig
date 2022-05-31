@@ -9,15 +9,9 @@
     <h2>{{ 'order.todays_orders'|trans }}</h2>
 
     <label>
-        <textarea
-            class="orderarea"
-            rows="1"
-            readonly=""
-            onclick="this.focus();this.select()"
-            id="orders"
-            data-controller="orders">
-            {{ 'order.loading_orders'|trans }}
-        </textarea>
+        <turbo-frame id="orders_area" src="{{path('api_orders')}}">
+            <textarea class="orderarea" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
+        </turbo-frame>
     </label>
 
     <button class="accordion" data-controller="accordion">
