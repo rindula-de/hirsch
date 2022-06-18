@@ -8,7 +8,7 @@ on:
 jobs:
   stan:
     name: PHP Stan
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@2.19.0
@@ -16,6 +16,8 @@ jobs:
           php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+        env:
+          runner: self-hosted
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -30,7 +32,7 @@ jobs:
         run: vendor/bin/phpstan analyse
   lint:
     name: Symfony Lints
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@2.19.0
@@ -38,6 +40,8 @@ jobs:
           php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+        env:
+          runner: self-hosted
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -64,7 +68,7 @@ jobs:
         run: bin/console lint:twig
   coverage:
     name: PHP Code Coverage
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     services:
       mariadb:
         image: mariadb:10.6.4
@@ -87,6 +91,8 @@ jobs:
           php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+        env:
+          runner: self-hosted
       - name: Replace variables
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
@@ -120,7 +126,7 @@ jobs:
   infection:
     name: PHP Infection Test
     if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     services:
       mariadb:
         image: mariadb:10.6.4
@@ -143,6 +149,8 @@ jobs:
           php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+        env:
+          runner: self-hosted
       - name: Replace variables
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
@@ -159,7 +167,7 @@ jobs:
           path: infection.log
   test:
     name: Unittest
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
@@ -193,6 +201,8 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
+        env:
+          runner: self-hosted
 
       - name: Replace variables
         env:
