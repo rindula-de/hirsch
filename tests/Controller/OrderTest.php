@@ -155,7 +155,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]' => '', ]);
-        $this->assertResponseStatusCodeSame(422);
+        $this->assertResponseStatusCodeSame(500);
 
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
         $this->assertResponseIsSuccessful();
@@ -164,7 +164,7 @@ class OrderTest extends WebTestCase
         $client->submit($form, [
             'order[orderedby]' => '',
             'order[note]' => '+ Pommes', ]);
-        $this->assertResponseStatusCodeSame(422);
+        $this->assertResponseStatusCodeSame(500);
     }
 
     public function testPreordering(): void

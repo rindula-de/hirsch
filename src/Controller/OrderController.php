@@ -55,8 +55,10 @@ class OrderController extends AbstractController
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate($preorder_time)
-            ->setOrderedby($_COOKIE['ordererName'])
             ->setHirsch($hirsch);
+        if ($request->cookies->get('ordererName') && $order->getOrderedby() === null) {
+            $order->setOrderedby($request->cookies->get('ordererName', ''));
+        }
         $form = $this->createForm(OrderType::class, $order, [
                 'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y'),
         ]);
