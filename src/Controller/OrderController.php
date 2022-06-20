@@ -145,7 +145,7 @@ class OrderController extends AbstractController
      *     @OA\Schema(type="integer")
      * )
      *
-     * @return JsonResponse
+     * @return Response
      */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
     public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response
@@ -177,10 +177,11 @@ class OrderController extends AbstractController
         $rows = 1;
         foreach ($orders as $order => $notes) {
             foreach ($notes as $note) {
+                /** @var string $note */
                 ++$rows;
                 ++$rows;
 
-                if (!empty($note)) {
+                if (strlen($note) > 0) {
                     ++$rows;
                 }
             }
@@ -188,10 +189,11 @@ class OrderController extends AbstractController
 
         if ('orders_area' == $frameId) {
             return $this->render('order/orders_textarea.html.twig', [
-            'orders' => $orders,
-            'rows' => $rows,
-        ]);
+                'orders' => $orders,
+                'rows' => $rows,
+            ]);
         }
+        return new Response(null, Response::HTTP_BAD_REQUEST);
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]

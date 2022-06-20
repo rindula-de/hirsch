@@ -36,7 +36,7 @@ class MenuController extends AbstractController
     /**
      * Get the Hirsch to Go menu.
      *
-     * @return JsonResponse
+     * @return Response
      */
     #[Route('/api/get-menu', name: 'api_menu', methods: ['GET'])]
     public function getMenu(Request $request, HirschRepository $hirschRepository): Response
