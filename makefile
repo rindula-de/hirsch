@@ -35,7 +35,7 @@ all: vendor .env.local public/build .git/hooks/post-merge ## Install and build a
 	git lfs install
 	@touch .git/lfs
 
-.git/hooks/post-merge: githooks/post-merge
+.git/hooks/post-merge: githooks/post-merge .git/lfs
 	cp githooks/post-merge .git/hooks/post-merge
 
 install_db: vendor .env.local migrations ## Install the database
