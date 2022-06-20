@@ -99,7 +99,7 @@ ifneq (, $(shell which ddev))
 endif
 
 coverage_check: tests_db coverage.xml
-	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 60
+	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 55
 
 infection_test: export APP_ENV=test
 infection_test: tests_db coverage.xml
