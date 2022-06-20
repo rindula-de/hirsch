@@ -56,7 +56,7 @@ class OrderController extends AbstractController
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate($preorder_time)
             ->setHirsch($hirsch);
-        if ($request->cookies->get('ordererName') && $order->getOrderedby() === null) {
+        if ($request->cookies->get('ordererName') && null === $order->getOrderedby()) {
             $order->setOrderedby($request->cookies->get('ordererName', ''));
         }
         $form = $this->createForm(OrderType::class, $order, [
@@ -179,7 +179,7 @@ class OrderController extends AbstractController
         $rows = 1;
         foreach ($orders as $order => $notes) {
             foreach ($notes as $note) {
-                /** @var string $note */
+                /* @var string $note */
                 ++$rows;
                 ++$rows;
 
@@ -195,6 +195,7 @@ class OrderController extends AbstractController
                 'rows' => $rows,
             ]);
         }
+
         return new Response(null, Response::HTTP_BAD_REQUEST);
     }
 
