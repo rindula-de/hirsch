@@ -27,12 +27,12 @@ jobs:
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.19.1
+      - uses: shivammathur/setup-php@2.21.0
         with:
           php-version: 8.1
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v3.3.0
+      - uses: actions/setup-node@v3.4.1
         with:
           node-version: '16'
       - name: Cache Composer packages
