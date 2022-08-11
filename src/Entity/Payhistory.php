@@ -79,7 +79,7 @@ class Payhistory
     }
 
     /**
-     * Get the value of clickedBy
+     * Get the value of clickedBy.
      */
     public function getClickedBy(): ?string
     {
@@ -87,7 +87,7 @@ class Payhistory
     }
 
     /**
-     * Set the value of clickedBy
+     * Set the value of clickedBy.
      */
     public function setClickedBy(string $clickedBy): self
     {
