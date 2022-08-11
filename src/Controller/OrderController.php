@@ -242,6 +242,7 @@ class OrderController extends AbstractController
             $payhistory->setCreated(new DateTime());
             $paypalme = $paypalmesRepository->findOneBy(['id' => $request->request->get('id')]);
             $payhistory->setPaypalme($paypalme);
+            $payhistory->setClickedBy($request->cookies->get('ordererName')??'');
 
             $entityManager->persist($payhistory);
             $entityManager->flush();
