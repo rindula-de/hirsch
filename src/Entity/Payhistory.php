@@ -42,6 +42,13 @@ class Payhistory
      */
     private $paypalme;
 
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="clicked_by", type="string", length=255, nullable=true)
+     */
+    private $clickedBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +74,24 @@ class Payhistory
     public function setPaypalme(?Paypalmes $paypalme): self
     {
         $this->paypalme = $paypalme;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of clickedBy.
+     */
+    public function getClickedBy(): ?string
+    {
+        return $this->clickedBy;
+    }
+
+    /**
+     * Set the value of clickedBy.
+     */
+    public function setClickedBy(string $clickedBy): self
+    {
+        $this->clickedBy = $clickedBy;
 
         return $this;
     }
