@@ -43,7 +43,7 @@ class Payhistory
     private $paypalme;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="clicked_by", type="string", length=255, nullable=true)
      */
