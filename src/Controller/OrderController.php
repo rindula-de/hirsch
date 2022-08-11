@@ -181,7 +181,6 @@ class OrderController extends AbstractController
             foreach ($notes as $note) {
                 /* @var string $note */
                 ++$rows;
-                ++$rows;
 
                 if (strlen($note) > 0) {
                     ++$rows;

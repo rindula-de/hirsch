@@ -3,6 +3,5 @@
 {% for menu, notes in orders %}{% for note, amount in notes %}{{amount}}x {{menu}}
 {% if note %}Sonderwunsch: {{note}}{% endif %}
 
-
 {% endfor %}{% else %}--- Keine Bestellugen ---{% endfor %}</textarea>
 </turbo-frame>
