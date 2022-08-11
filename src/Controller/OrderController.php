@@ -178,7 +178,7 @@ class OrderController extends AbstractController
         }
         $rows = 1;
         foreach ($orders as $order => $notes) {
-            foreach ($notes as $note) {
+            foreach ($notes as $note => $amount) {
                 /* @var string $note */
                 ++$rows;
 
