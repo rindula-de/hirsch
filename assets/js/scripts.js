@@ -30,7 +30,7 @@ $(document).ready(() => {
                     break;
                 case "deactivate-paypalme":
                     var id = $(this).attr("data-id");
-                    if (id_regex.test(id)) window.location.href = "/paypal/edit/" + id;
+                    if (id_regex.test(id)) window.location.href = "/paypal/remove-active/" + id;
                     break;
             }
 
