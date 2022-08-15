@@ -13,8 +13,6 @@ use Exception;
 use Smalot\PdfParser\Parser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,17 +35,23 @@ class MenuController extends AbstractController
     /**
      * Get the Hirsch to Go menu.
      *
-     * @return JsonResponse
+     * @return Response
      */
     #[Route('/api/get-menu', name: 'api_menu', methods: ['GET'])]
-    public function getMenu(HirschRepository $hirschRepository): JsonResponse
+    public function getMenu(Request $request, HirschRepository $hirschRepository): Response
     {
         $criteria = new Criteria();
         $criteria->where(Criteria::expr()->eq('display', true))->andWhere(Criteria::expr()->neq('slug', 'tagesessen'));
 
         $htg = $hirschRepository->matching($criteria)->toArray();
 
-        return $this->json($htg);
+        $frameId = $request->headers->get('Turbo-Frame');
+
+        if (null === $frameId) {
+            return $this->json($htg);
+        }
+
+        return $this->render('menu/htgframe.html.twig', compact('htg'));
     }
 
     /**
@@ -55,7 +59,7 @@ class MenuController extends AbstractController
      */
     #[Route('/api/get-tagesessen', name: 'tagesessen', methods: ['GET'])]
     #[Route('/api/get-tagesessen-karte', name: 'tagesessenkarte', methods: ['GET'])]
-    public function getTagesessen(Request $request, TranslatorInterface $translator): JsonResponse|RedirectResponse
+    public function getTagesessen(Request $request, TranslatorInterface $translator, HirschRepository $hirschRepository): Response
     {
         $file = '';
         $message = '';
@@ -176,7 +180,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('monday noon this week')),
+                                            'date' => (new DateTime('monday 2pm this week')),
                                         ];
 
                                         preg_match(
@@ -186,7 +190,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('tuesday noon this week')),
+                                            'date' => (new DateTime('tuesday 2pm this week')),
                                         ];
 
                                         preg_match(
@@ -196,7 +200,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('wednesday noon this week')),
+                                            'date' => (new DateTime('wednesday 2pm this week')),
                                         ];
 
                                         preg_match(
@@ -206,7 +210,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('thursday noon this week')),
+                                            'date' => (new DateTime('thursday 2pm this week')),
                                         ];
 
                                         preg_match(
@@ -216,7 +220,7 @@ class MenuController extends AbstractController
                                         );
                                         $displayData[] = [
                                             'gericht' => trim($matches[1]),
-                                            'date' => (new DateTime('friday noon this week')),
+                                            'date' => (new DateTime('friday 2pm this week')),
                                         ];
 
                                         unlink($filename);
@@ -234,14 +238,31 @@ class MenuController extends AbstractController
             $message = $e->getMessage();
         }
 
-        if ('tagesessenkarte' == $request->attributes->get('_route')) {
-            return $this->json(['file' => $file, 'message' => $message]);
-        }
+        $frameId = $request->headers->get('Turbo-Frame');
 
-        if ('tagesessen' == $request->attributes->get('_route')) {
-            return $this->json(['displayData' => $displayData, 'message' => $message]);
-        }
+        if (null === $frameId) {
+            if ('tagesessenkarte' == $request->attributes->get('_route')) {
+                return $this->json(['file' => $file, 'message' => $message]);
+            }
 
-        return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
+            if ('tagesessen' == $request->attributes->get('_route')) {
+                return $this->json(['displayData' => $displayData, 'message' => $message]);
+            }
+
+            return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
+        } else {
+            dump($frameId);
+            if ('dailymenu' === $frameId) {
+                $displayData = array_filter($displayData, function ($d) {
+                    return $d['date'] >= new DateTime();
+                });
+
+                return $this->render('menu/frame.html.twig', [
+                    'dailyfood' => $displayData,
+                ]);
+            }
+
+            return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
+        }
     }
 }

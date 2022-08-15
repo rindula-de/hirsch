@@ -1,0 +1,14 @@
+<turbo-frame id="dailymenu">
+    {% for menu in dailyfood %}
+    <div class='foodcard'>
+        <h2>Tagesessen für den {{menu.date|format_date()}}</h2>
+
+        <span>{{menu.gericht}}</span>
+
+
+        <div class='actionbar'>
+            <a class="btn" href="{{path('order', {'preorder': loop.index0, 'slug': 'tagesessen'})}}">{% if date(menu.date) <= date('3pm') %}{{'order.ordering'|trans}}{% else %}{{'order.pre_order'|trans}}{% endif %}</a>
+        </div>
+    </div>
+    {% endfor %}
+</turbo-frame>

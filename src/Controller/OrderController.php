@@ -56,13 +56,12 @@ class OrderController extends AbstractController
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate($preorder_time)
             ->setHirsch($hirsch);
-        $form = $this->createForm(
-            OrderType::class,
-            $order,
-            [
+        if ($request->cookies->get('ordererName') && null === $order->getOrderedby()) {
+            $order->setOrderedby($request->cookies->get('ordererName', ''));
+        }
+        $form = $this->createForm(OrderType::class, $order, [
                 'for_date' => $order->getForDate()?->format('d.m.Y') ?? (new \DateTime('now'))->format('d.m.Y'),
-            ]
-        );
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,10 +95,7 @@ class OrderController extends AbstractController
         }
 
         // if its after 10:55 redirect back to menu
-        if (
-            0 === $preorder
-            && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')
-        ) {
+        if (0 === $preorder && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')) {
             $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
 
             $this->addFlash(
@@ -151,10 +147,10 @@ class OrderController extends AbstractController
      *     @OA\Schema(type="integer")
      * )
      *
-     * @return JsonResponse
+     * @return Response
      */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
-    public function api_orders(OrdersRepository $ordersRepository, bool $onlyToday = true): JsonResponse
+    public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response
     {
         $orders = $ordersRepository->findAll();
         $data = [];
@@ -172,27 +168,39 @@ class OrderController extends AbstractController
             }
         }
 
-        return new JsonResponse($data);
+        $frameId = $request->headers->get('Turbo-Frame');
+        if (null === $frameId) {
+            return new JsonResponse($data);
+        }
+        $orders = [];
+        foreach ($data as $d) {
+            $orders[$d['ordered']][$d['note']] = ($orders[$d['ordered']][$d['note']] ?? 0) + 1;
+        }
+        $rows = 1;
+        foreach ($orders as $order => $notes) {
+            foreach ($notes as $note => $amount) {
+                /* @var string $note */
+                ++$rows;
+
+                if (strlen($note) > 0) {
+                    ++$rows;
+                }
+            }
+        }
+
+        if ('orders_area' == $frameId) {
+            return $this->render('order/orders_textarea.html.twig', [
+                'orders' => $orders,
+                'rows' => $rows,
+            ]);
+        }
+
+        return new Response(null, Response::HTTP_BAD_REQUEST);
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
     public function orders(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $orders = $entityManager
-            ->getRepository(Orders::class)
-            ->createQueryBuilder('o')
-            ->select('o.for_date')
-            ->addSelect('o.note')
-            ->addSelect('count(o.id) as cnt')
-            ->addSelect('count(o.orderedby) as personen')
-            ->innerJoin('o.hirsch', 'h')
-            ->addSelect('h.name')
-            ->where('o.for_date = :date')
-            ->groupBy('h.name')
-            ->addGroupBy('o.note')
-            ->setParameter('date', strftime('%Y-%m-%d'))
-            ->getQuery()
-            ->getResult();
         $preorders = $entityManager
             ->getRepository(Orders::class)
             ->createQueryBuilder('o')
@@ -223,7 +231,6 @@ class OrderController extends AbstractController
             ->getResult();
 
         return $this->render('order/orders.html.twig', [
-            'orders' => $orders,
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
             'ordererName' => $request->cookies->get('ordererName'),

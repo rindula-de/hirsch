@@ -19,7 +19,6 @@ ifdef APP_ENV
 endif
 SYMFONY = $(EXEC_PHP) bin/console
 ARTIFACT_NAME = artifact.tar
-MAKEFLAGS := --jobs=$(shell nproc)
 
 help: ## Outputs this help screen
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
@@ -27,17 +26,16 @@ help: ## Outputs this help screen
 msg: ## Run symfony message consumer
 	$(SYMFONY) messenger:consume async -vv --time-limit=3600
 
-install: install_deps install_db .git/hooks/post-merge  ## Install the project
+install: all install_db  ## Install the project
 
-install_deps: vendor .env.local public/build/manifest.json ## Install and build all dependencies
+all: vendor .env.local public/build .git/hooks/post-merge ## Install and build all dependencies
 
 .git/lfs:
 	git lfs install
 	@touch .git/lfs
 
-.git/hooks/post-merge:
-	@echo "#!/bin/sh" > $@
-	@echo "make install" >> $@
+.git/hooks/post-merge: githooks/post-merge .git/lfs
+	cp githooks/post-merge .git/hooks/post-merge
 
 install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
@@ -74,10 +72,9 @@ node_modules node_modules/.bin/encore: vendor
 	$(YARN) install --force
 	@touch node_modules
 
-build public public/build public/build/manifest.json: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js assets
+public/build: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js assets
 	$(YARN) build
 	@touch public/build
-	@touch public
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
@@ -102,7 +99,7 @@ ifneq (, $(shell which ddev))
 endif
 
 coverage_check: tests_db coverage.xml
-	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 60
+	$(EXEC_PHP) ./bin/coverage-checker coverage.xml 55
 
 infection_test: export APP_ENV=test
 infection_test: tests_db coverage.xml
@@ -119,4 +116,4 @@ clean: ## Clean up the project
 	rm -rf public/build
 	rm -rf coverage-html coverage-xml clover.xml
 
-.PHONY: tests install msg help clean install_deps build replace infection_test tests_db coverage_check
+.PHONY: tests install msg help clean all replace infection_test tests_db coverage_check
