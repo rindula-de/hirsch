@@ -20,9 +20,9 @@
             </div>
         </template>
 
-        <button class="accordion" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
+        <button class="accordion body-medium on-primary-container primary-container-text" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
 
-        <div class="panel" id="menu_panel">
+        <div class="panel on-primary-container-text" id="menu_panel">
             <turbo-frame id="menu" src="{{path('api_menu')}}" target="_top">
                 <div class="loading">
                     <div class="lds-ellipsis">
@@ -35,9 +35,9 @@
             </turbo-frame>
         </div>
 
-        <button class="accordion" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
+        <button class="accordion body-medium on-primary-container primary-container-text" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
 
-        <div class="panel" id="tagesessen_panel">
+        <div class="panel on-primary-container-text" id="tagesessen_panel">
             <turbo-frame id="dailymenu" src="{{path('tagesessen')}}" target="_top">
                 <div class="loading">
                     <div class="lds-ellipsis">

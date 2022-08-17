@@ -16,8 +16,12 @@
         list-style-type: none;
         transition: all .3s ease;
         user-select: none;
-        &:hover {
+        &:hover:not(.disabled) {
             background-color: #DEF;
+        }
+        &.disabled {
+            color: #CCC;
+            cursor: not-allowed;
         }
     }
 }

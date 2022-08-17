@@ -1,13 +1,14 @@
 <turbo-frame id="dailymenu">
     {% for menu in dailyfood %}
-    <div class='foodcard'>
+    <div class='foodcard title-medium secondary-container on-secondary-container-text'>
         <h2>Tagesessen für den {{menu.date|format_date()}}</h2>
 
         <span>{{menu.gericht}}</span>
 
 
         <div class='actionbar'>
-            <a class="btn" href="{{path('order', {'preorder': loop.index0, 'slug': 'tagesessen'})}}">{% if date(menu.date) <= date('3pm') %}{{'order.ordering'|trans}}{% else %}{{'order.pre_order'|trans}}{% endif %}</a>
+            <a class="btn body-medium on-secondary-container secondary-container-text" href="{{path('order', {'preorder': loop.index0, 'slug': 'tagesessen'})}}">{% if date(menu.date) <= date('3pm') %}{{'order.ordering'|trans}}{% else %}{{'order.pre_order'|trans}}{% endif %}</a>
+            <a class="btn body-medium on-secondary-container secondary-container-text" href="https://www.google.com/search?q={{menu.gericht | url_encode}}&tbm=isch" target="menu"><i class="material-icons">camera</i></a>
         </div>
     </div>
     {% endfor %}

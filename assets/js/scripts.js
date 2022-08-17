@@ -13,6 +13,9 @@ $(document).ready(() => {
             }
         } else if ($(event.target).hasClass('orderarea')) {
             $(".custom-menu").html('<li data-text="' + event.target.value + '" data-action="copy">Kopieren</li>');
+        } else {
+            // show grayed out info
+            $(".custom-menu").html('<li class="disabled">Keine Aktionen verfügbar</li>');
         }
 
         // If the menu element is clicked

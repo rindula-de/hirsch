@@ -16,7 +16,7 @@
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: $accentcolor;
+    background: var(--md-sys-color-on-primary-container);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 

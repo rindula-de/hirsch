@@ -68,7 +68,7 @@ vendor: composer.json composer.lock
 .env.test.local:
     @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
-node_modules node_modules/.bin/encore: vendor
+node_modules node_modules/.bin/encore &: vendor
 	$(YARN) install --force
 	@touch node_modules
 
@@ -89,7 +89,7 @@ tests: .git/lfs tests_db vendor
 	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
-coverage.xml coverage-xml coverage-html: tests_db
+coverage.xml coverage-xml coverage-html &: tests_db
 ifneq (, $(shell which ddev))
 	ddev xdebug on
 endif

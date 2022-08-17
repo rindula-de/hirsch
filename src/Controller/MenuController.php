@@ -63,7 +63,6 @@ class MenuController extends AbstractController
     {
         $file = '';
         $message = '';
-        $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“]+?)( (\d+,\d{2}) Euro?)?';
 
         try {
             $server = $_ENV['MailAccess_host'];
@@ -112,6 +111,7 @@ class MenuController extends AbstractController
             }
 
             if ($emails) {
+                $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“]+?)( (\d+,\d{2}) Euro?)';
                 foreach ($emails as $emailId) {
                     $structure = imap_fetchstructure($mbox, $emailId);
 
@@ -174,7 +174,7 @@ class MenuController extends AbstractController
                                         $text = trim($text ?? '');
 
                                         preg_match(
-                                            '/Montag '.$regexLunch.' Dienstag/',
+                                            '/Montag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -184,7 +184,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Dienstag '.$regexLunch.' Mittwoch/',
+                                            '/Dienstag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -194,7 +194,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Mittwoch '.$regexLunch.' Donnerstag/',
+                                            '/Mittwoch '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -204,7 +204,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Donnerstag '.$regexLunch.' Freitag/',
+                                            '/Donnerstag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -214,7 +214,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Freitag '.$regexLunch.' Restaurant/',
+                                            '/Freitag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -251,11 +251,12 @@ class MenuController extends AbstractController
 
             return $this->json(['message' => $translator->trans('defaults.route_not_found')]);
         } else {
-            dump($frameId);
             if ('dailymenu' === $frameId) {
-                $displayData = array_filter($displayData, function ($d) {
-                    return $d['date'] >= new DateTime();
-                });
+                if (is_array($displayData)) {
+                    $displayData = array_filter($displayData, function ($d) {
+                        return $d['date'] >= new DateTime();
+                    });
+                }
 
                 return $this->render('menu/frame.html.twig', [
                     'dailyfood' => $displayData,

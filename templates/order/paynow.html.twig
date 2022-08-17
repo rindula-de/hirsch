@@ -3,11 +3,11 @@
 {% block title %}{{ 'pay.pay'|trans }}{% endblock %}
 
 {% block body %}
-    <h2>{{  'pay.paypalierer'|trans }}</h2>
+    <h2 class="title-large on-secondary-container-text">{{  'pay.paypalierer'|trans }}</h2>
 
     <form method="POST" data-turbo="false">
         <div class="range-slider" data-controller="tipslider">
-            <h4>{{ 'pay.tip'|trans }}:</h4>
+            <h4 class="title-medium on-secondary-container-text">{{ 'pay.tip'|trans }}:</h4>
 
             <input
                 max="5"
@@ -19,7 +19,7 @@
                 value="0.5"
                 data-tipslider-target="input">
 
-            <span class="range-slider__value" data-tipslider-target="display"></span>
+            <span class="range-slider__value label-large" data-tipslider-target="display"></span>
         </div>
 
         {% for paypalme in paypalmes %}
@@ -30,7 +30,7 @@
                         name="id"
                         type="submit"
                         formtarget="_blank"
-                        class="paypalmebutton"
+                        class="paypalmebutton on-tertiary-text body-medium"
                         onclick="setTimeout(() => Turbo.visit('.'), 5000)"
                     >
                         {{paypalme.name}}
@@ -46,7 +46,7 @@
         {% endfor %}
     </form>
 
-    <p>
-        Wenn du auch in der Liste stehen willst, kannst du dich <a href="{{path("paypal_add")}}">hier</a> eintragen.
+    <p class="body-small on-secondary-container-text">
+        Wenn du auch in der Liste stehen willst, kannst du dich <a href="{{path("paypal_add")}}" class="tertiary-text">hier</a> eintragen.
     </p>
 {% endblock %}
