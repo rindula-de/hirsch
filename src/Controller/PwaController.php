@@ -23,15 +23,6 @@ class PwaController extends AbstractController
     #[Route('/manifest.json', methods: ['GET'])]
     public function manifest(MessageBusInterface $bus): JsonResponse
     {
-        // read /assets/styles/app.scss and use regex to extract the CSS
-        $css = file_get_contents(__DIR__.'/../../assets/styles/material_design/tokens.css');
-        if ($css) {
-            preg_match('/--md-source: (#[\da-fA-F]{3,6})/', $css, $matches);
-            $themecolor = $matches[1] ?: '#3f51b5';
-        } else {
-            $themecolor = '#3f51b5';
-        }
-
         $cache = new FilesystemAdapter();
         $cache->get('msuser_cache', function (ItemInterface $item) use ($bus) {
             // set $time to next noon
@@ -69,7 +60,7 @@ class PwaController extends AbstractController
                 ],
             ],
             'background_color' => '#adadad',
-            'theme_color' => $themecolor,
+            'theme_color' => '#ffa303',
             'start_url' => $this->generateUrl('menu'),
             'display' => 'standalone',
             'orientation' => 'portrait',
