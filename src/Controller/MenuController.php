@@ -254,7 +254,7 @@ class MenuController extends AbstractController
             if ('dailymenu' === $frameId) {
                 if (is_array($displayData)) {
                     $displayData = array_filter($displayData, function ($d) {
-                        return $d['date'] >= new DateTime("today");
+                        return $d['date'] >= new DateTime('today');
                     });
                 }
 
