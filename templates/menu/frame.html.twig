@@ -1,15 +1,17 @@
 <turbo-frame id="dailymenu">
     {% for menu in dailyfood %}
-    <div class='foodcard title-medium on-surface-variant-text surface-variant'>
-        <h2>Tagesessen für den {{menu.date|format_date()}}</h2>
+        {% if menu.date >= date() %}
+            <div class='foodcard title-medium on-surface-variant-text surface-variant'>
+                <h2>Tagesessen für den {{menu.date|format_date()}}</h2>
 
-        <span>{{menu.gericht}}</span>
+                <span>{{menu.gericht}}</span>
 
 
-        <div class='actionbar'>
-            <a class="btn body-medium primary on-primary-text" href="{{path('order', {'preorder': loop.index0, 'slug': 'tagesessen'})}}">{% if date(menu.date) <= date('3pm') %}{{'order.ordering'|trans}}{% else %}{{'order.pre_order'|trans}}{% endif %}</a>
-            <a class="btn body-medium secondary on-secondary-text" href="https://www.google.com/search?q={{menu.gericht | url_encode}}&tbm=isch" target="menu"><i class="material-icons">camera</i></a>
-        </div>
-    </div>
+                <div class='actionbar'>
+                    <a class="btn body-medium primary on-primary-text" href="{{path('order', {'preorder': loop.index0, 'slug': 'tagesessen'})}}">{% if date(menu.date) <= date('3pm') %}{{'order.ordering'|trans}}{% else %}{{'order.pre_order'|trans}}{% endif %}</a>
+                    <a class="btn body-medium secondary on-secondary-text" href="https://www.google.com/search?q={{menu.gericht | url_encode}}&tbm=isch" target="menu"><i class="material-icons">camera</i></a>
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
 </turbo-frame>
