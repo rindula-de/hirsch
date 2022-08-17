@@ -6,24 +6,24 @@
 {% block title %}{{ 'order.orders'|trans }}{% endblock %}
 
 {% block body %}
-    <h2>{{ 'order.todays_orders'|trans }}</h2>
+    <h2 class="display-small on-secondary-container-text">{{ 'order.todays_orders'|trans }}</h2>
 
     <label>
         <turbo-frame id="orders_area" src="{{path('api_orders')}}">
-            <textarea class="orderarea" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
+            <textarea class="orderarea on-secondary-text" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
         </turbo-frame>
     </label>
 
-    <button class="accordion" data-controller="accordion">
+    <button class="accordion on-primary-container primary-container-text" data-controller="accordion">
         {{ 'order.order_persons'|trans }} ({{ orderNameList | length }})
     </button>
 
-    <div class="panel">
+    <div class="panel on-secondary-container-text">
         {% for order in orderNameList %}
-        <div class="displayName">
+        <div class="displayName body-medium">
             <span>
                 <span
-                    class="material-icons"
+                    class="material-icons tertiary-text"
                     style="cursor: pointer;"
                     data-name="{{order.orderedby}}"
                     data-ordered="{{order.name}}"
@@ -35,7 +35,7 @@
                 {{ order.orderedby }}
 
                 {% if order.orderedby == ordererName %}
-                    <a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn">
+                    <a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn tertiary-text">
                         delete_forever
                     </a>
                 {% endif %}

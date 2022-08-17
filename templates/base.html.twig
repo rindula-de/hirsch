@@ -28,10 +28,10 @@
           {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="background">
         {% include "navigation.html.twig" %}
             <main class="main">
-                <div class="content">
+                <div class="content primary-container">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
                             <div class="message {{label}}">
@@ -43,8 +43,8 @@
                     {% block body %}{% endblock %}
                 </div>
 
-                <span id="order-until" data-controller="orderuntil"></span>
-                <div id="showChangelog"><i class="material-icons">history</i>Changelog anzeigen</div>
+                <span id="order-until" class="label-large tertiary-text on-tertiary" data-controller="orderuntil"></span>
+                {# <div id="showChangelog" class="body-medium"><i class="material-icons">history</i>Changelog anzeigen</div> #}
             </main>
 
             <ul class='custom-menu'></ul>
@@ -86,8 +86,8 @@
         <div id="orderedModal" class="modal" data-controller="modal">
             <div class="modal-content">
                 <span class="close material-icons" data-modal-target="close">close</span>
-                <h2 id="orderedModalTitle">{{ 'order.order'|trans }}</h2>
-                <p id="orderedModalText">{{ 'order.order'|trans }}</p>
+                <h2 id="orderedModalTitle" class="display-small">{{ 'order.order'|trans }}</h2>
+                <p id="orderedModalText" class="body-large">{{ 'order.order'|trans }}</p>
             </div>
         </div>
     </body>

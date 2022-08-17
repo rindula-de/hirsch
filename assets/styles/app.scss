@@ -12,9 +12,10 @@ $accentcolor: #ffa303;
 @import "loader";
 @import "contextmenu";
 @import "material-icons";
+@import "material_design/theme.css";
 
 .turbo-progress-bar {
-    background-color: darken($accentcolor, 10%);
+    background-color: var(--md-sys-color-error);
     @include shadow;
 }
 
@@ -36,7 +37,7 @@ body.turbo-loading, body.turbo-loaded {
     bottom: 20px;
     right: 20px;
     z-index: 99999;
-    background-color: $accentcolor;
+    background-color: var(--md-sys-color-primary);
     padding: 10px;
     border-radius: 0 0 5px 5px;
     // fade out animation after 2 seconds
@@ -45,13 +46,6 @@ body.turbo-loading, body.turbo-loaded {
     animation-delay: 2s;
     animation-fill-mode: forwards;
     @include shadow;
-    &:hover {
-        background-color: darken($accentcolor, 10%);
-        animation-fill-mode: backwards;
-    }
-    i.material-icons {
-        vertical-align: middle;
-    }
 }
 
 // hide on mobile
