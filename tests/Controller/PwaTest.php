@@ -52,10 +52,10 @@ class PwaTest extends WebTestCase
         $this->assertArrayHasKey('lang', $json);
 
         // Second request if app.scss is wrong formatted
-        $content = file_get_contents(__DIR__.'/../../assets/styles/app.scss');
+        $content = file_get_contents(__DIR__.'/../../assets/styles/material_design/theme.css');
 
         try { // clear file
-            file_put_contents(__DIR__.'/../../assets/styles/app.scss', '');
+            file_put_contents(__DIR__.'/../../assets/styles/material_design/theme.css', '');
             $client->request('GET', '/manifest.json');
 
             $this->assertResponseIsSuccessful();
@@ -84,7 +84,7 @@ class PwaTest extends WebTestCase
             throw $e;
         } finally {
             // restore file
-            file_put_contents(__DIR__.'/../../assets/styles/app.scss', $content);
+            file_put_contents(__DIR__.'/../../assets/styles/material_design/theme.css', $content);
         }
         ClockMock::withClockMock(false);
     }
