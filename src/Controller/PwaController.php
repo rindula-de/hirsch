@@ -24,13 +24,10 @@ class PwaController extends AbstractController
     public function manifest(MessageBusInterface $bus): JsonResponse
     {
         // read /assets/styles/app.scss and use regex to extract the CSS
-        $css = file_get_contents(__DIR__.'/../../assets/styles/app.scss');
+        $css = file_get_contents(__DIR__.'/../../assets/styles/material_design/tokens.css');
         if ($css) {
-            $css = preg_replace('/\s+/', '', $css);
-            $css = preg_replace('/\/\/.*/', '', $css ?? '');
-            $css = preg_replace('/\/\*[^\*]*\*\//', '', $css ?? '');
-            $css = preg_replace('/@import.*;/', '', $css ?? '');
-            $themecolor = explode(':', explode(';', $css ?? ':')[0])[1];
+            preg_match('/--md-source: (#[\da-fA-F]{3,6})/', $css, $matches);
+            $themecolor = $matches[1] ?: '#3f51b5';
         } else {
             $themecolor = '#3f51b5';
         }
