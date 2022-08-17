@@ -32,7 +32,7 @@ main {
 
 .info {
     font-size: 24px;
-    background-color: rgba(255, 0, 0, 0.3);
+    // background-color: rgba(255, 0, 0, 0.3);
     padding: 10px;
 }
 
@@ -55,7 +55,7 @@ textarea {
     transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
     resize: vertical;
     &:focus {
-        border-bottom: 1px solid $accentcolor;
+        border-bottom: 1px solid var(--md-sys-color-primary);
     }
 }
 
@@ -141,7 +141,7 @@ textarea {
     }
     .modal-content {
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.8);
+        // background-color: rgba(255, 255, 255, 0.8);
         margin: 15% auto;
         /* 15% from the top and centered */
         padding: 20px;
@@ -151,30 +151,30 @@ textarea {
         @include shadow
     }
     .close {
-        color: #000000;
+        // color: #000000;
         float: right;
         font-size: 28px;
         font-weight: bold;
         &:hover,
         &:focus {
-            color: #ff4400;
+            // color: #ff4400;
             text-decoration: none;
             cursor: pointer;
         }
     }
     .btn {
         padding: 10px;
-        background-color: rgba(0, 0, 0, 0.25);
+        // background-color: rgba(0, 0, 0, 0.25);
         margin-top: 10px;
         transition: background-color .1s linear;
         border-radius: 6px;
         cursor: pointer;
         text-decoration: none;
-        color: black;
+        // color: black;
         &:hover {
             cursor: not-allowed;
             &[href] {
-                background-color: darken($accentcolor, 10%);
+                // background-color: var(--md-sys-color-primary);
                 cursor: pointer;
             }
         }

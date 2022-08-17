@@ -3,11 +3,11 @@
 {% block title %}{{ 'pay.pay'|trans }}{% endblock %}
 
 {% block body %}
-    <h2 class="title-large on-secondary-container-text">{{  'pay.paypalierer'|trans }}</h2>
+    <h2 class="title-large on-surface-text">{{  'pay.paypalierer'|trans }}</h2>
 
     <form method="POST" data-turbo="false">
         <div class="range-slider" data-controller="tipslider">
-            <h4 class="title-medium on-secondary-container-text">{{ 'pay.tip'|trans }}:</h4>
+            <h4 class="title-medium on-surface-text">{{ 'pay.tip'|trans }}:</h4>
 
             <input
                 max="5"
@@ -30,7 +30,7 @@
                         name="id"
                         type="submit"
                         formtarget="_blank"
-                        class="paypalmebutton on-tertiary-text body-medium"
+                        class="paypalmebutton body-medium"
                         onclick="setTimeout(() => Turbo.visit('.'), 5000)"
                     >
                         {{paypalme.name}}

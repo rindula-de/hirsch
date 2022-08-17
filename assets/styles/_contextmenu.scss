@@ -3,11 +3,11 @@
     z-index: 1000;
     position: absolute;
     overflow: hidden;
-    border: 1px solid #CCC;
+    border: 1px solid var(--md-sys-color-outline);
     white-space: nowrap;
     font-family: sans-serif;
-    background: #FFF;
-    color: #333;
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
     border-radius: 5px;
     padding: 0;
     li {
@@ -20,7 +20,7 @@
             background-color: #DEF;
         }
         &.disabled {
-            color: #CCC;
+            color: var(--md-sys-color-surface-inverse);
             cursor: not-allowed;
         }
     }

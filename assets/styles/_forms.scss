@@ -6,7 +6,7 @@
         margin: 0;
         li {
             // error item
-            color: red;
+            // color: red;
             font-size: 0.8em;
             &:before {
                 // error icon
@@ -40,7 +40,7 @@
             -webkit-transition: border .3s, -webkit-box-shadow .3s;
             transition: border .3s, -webkit-box-shadow .3s;
             &:focus {
-                border-bottom: 1px solid $accentcolor;
+                border-bottom: 1px solid var(--md-sys-color-primary);
             }
         }
     }
@@ -54,27 +54,26 @@
         label {
             &::after {
                 content: ' *';
-                color: red;
+                // color: red;
             }
         }
     }
     &.error,
     .error-message {
-        color: orangered;
+        color: var(--md-sys-color-error);
     }
 }
 
 .submit {
     button {
         padding: 10px;
-        background-color: $accentcolor;
+        // background-color: var(--md-sys-color-primary);
         margin-top: 10px;
         transition: background-color .1s linear;
         border-radius: 6px;
         border: none;
         width: auto;
         &:hover {
-            background-color: darken($accentcolor, 10%);
             border: none;
         }
     }
@@ -84,6 +83,7 @@
     font-size: 12px;
     color: #9e9e9e;
     margin-top: 5px;
+    font-family: Roboto, sans-serif;
     &::before {
         content: '?';
         color: #000000;

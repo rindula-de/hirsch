@@ -7,44 +7,32 @@
 {% block title %}{{ 'menu.titles.overview'|trans }}{% endblock %}
 
 {% block body %}
-    <div>
-        <template data-dailymenu-target="template">
-            <div data-role="card" class='foodcard'>
-                <h2 data-role="title"></h2>
+    <div class="accordion-list">
+        <button class="accordion body-medium" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
 
-                <span data-role="gericht"></span>
-
-                <div data-role="actionbar" class='actionbar'>
-                    <a data-role="order" class="btn"></a>
-                </div>
-            </div>
-        </template>
-
-        <button class="accordion body-medium on-primary-container primary-container-text" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
-
-        <div class="panel on-primary-container-text" id="menu_panel">
+        <div class="panel" id="menu_panel">
             <turbo-frame id="menu" src="{{path('api_menu')}}" target="_top">
                 <div class="loading">
                     <div class="lds-ellipsis">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
                     </div>
                 </div>
             </turbo-frame>
         </div>
 
-        <button class="accordion body-medium on-primary-container primary-container-text" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
+        <button class="accordion body-medium" data-controller="accordion">{{ 'menu.lunch'|trans }}</button>
 
-        <div class="panel on-primary-container-text" id="tagesessen_panel">
+        <div class="panel" id="tagesessen_panel">
             <turbo-frame id="dailymenu" src="{{path('tagesessen')}}" target="_top">
                 <div class="loading">
                     <div class="lds-ellipsis">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
+                        <div class="tertiary"></div>
                     </div>
                 </div>
             </turbo-frame>

@@ -21,24 +21,24 @@ class PaypalmesType extends AbstractType
                 'label' => 'Paypal.me Name',
                 'row_attr' => ['class' => 'input text required'],
                 'help' => 'Wenn der Link https://paypal.me/rindulalp ist, dann ist der Name rindulalp.',
-                'attr' => ['placeholder' => 'rindulalp'],
+                'attr' => ['placeholder' => 'rindulalp', 'class' => 'on-surface-text'],
             ])
             ->add('name', null, [
                 'label' => 'Dein Name',
                 'row_attr' => ['class' => 'input text required'],
                 'help' => 'Der Name, der in der Liste angezeigt wird.',
-                'attr' => ['placeholder' => 'Max Mustermann'],
+                'attr' => ['placeholder' => 'Max Mustermann', 'class' => 'on-surface-text'],
             ])
             ->add('email', null, [
                 'label' => 'Deine E-Mail',
                 'row_attr' => ['class' => 'input email'],
                 'help' => 'Die E-Mail, an die eine Bestellzusammenfassung geschickt wird. Trägst du hier keine E-Mail ein, musst du unter Bestellungen nachschauen, was bestellt wurde.',
-                'attr' => ['placeholder' => 'example@hochwarth-it.de'],
+                'attr' => ['placeholder' => 'example@hochwarth-it.de', 'class' => 'on-surface-text'],
             ])
             // add submit button
             ->add('submit', SubmitType::class, [
                 'label' => 'Speichern',
-                'attr' => ['class' => 'btn'],
+                'attr' => ['class' => 'btn primary on-primary-text'],
             ]);
     }
 

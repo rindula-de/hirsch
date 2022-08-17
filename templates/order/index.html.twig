@@ -7,9 +7,10 @@
 {% block title %}{{ 'order.ordering'|trans }}{% endblock %}
 
 {% block body %}
-    <h2>{{meal.name}}</h2>
-    <small>{{ 'order.order_date'|trans }} {{order_date|format_datetime('long', 'none', locale='de')}}</small>
-
+    <h2 class="title-large on-primary-container-text">{{meal.name}}</h2>
+    <small class="label-small on-primary-container-text">{{ 'order.order_date'|trans }} {{order_date|format_datetime('long', 'none', locale='de')}}</small>
+    <br>
+    <br>
     {{form(form)}}
 
     <datalist id="wishlist">
