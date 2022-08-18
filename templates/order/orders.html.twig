@@ -6,24 +6,24 @@
 {% block title %}{{ 'order.orders'|trans }}{% endblock %}
 
 {% block body %}
-    <h2 class="display-small on-secondary-container-text">{{ 'order.todays_orders'|trans }}</h2>
+    <h2 class="display-small on-surface-text">{{ 'order.todays_orders'|trans }}</h2>
 
     <label>
         <turbo-frame id="orders_area" src="{{path('api_orders')}}">
-            <textarea class="orderarea on-secondary-text" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
+            <textarea class="orderarea on-surface-text" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
         </turbo-frame>
     </label>
 
-    <button class="accordion on-primary-container primary-container-text" data-controller="accordion">
+    <button class="accordion" data-controller="accordion">
         {{ 'order.order_persons'|trans }} ({{ orderNameList | length }})
     </button>
 
-    <div class="panel on-secondary-container-text">
+    <div class="panel">
         {% for order in orderNameList %}
-        <div class="displayName body-medium">
+        <div class="displayName body-medium on-surface-text">
             <span>
                 <span
-                    class="material-icons tertiary-text"
+                    class="material-icons primary-text"
                     style="cursor: pointer;"
                     data-name="{{order.orderedby}}"
                     data-ordered="{{order.name}}"
@@ -35,7 +35,7 @@
                 {{ order.orderedby }}
 
                 {% if order.orderedby == ordererName %}
-                    <a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn tertiary-text">
+                    <a href="{{path("order_delete", {id: order.id})}}" class="material-icons btn secondary-text">
                         delete_forever
                     </a>
                 {% endif %}
@@ -49,7 +49,7 @@
             {{ 'order.pre_orders'|trans }} ({{ preorders | length }})
         </button>
 
-        <div class="panel">
+        <div class="panel body-medium on-surface-text">
             {% for order in preorders %}
                 <h2>{{ order.for_date|format_datetime('long', 'none', locale='de') }}</h2>{{ order.cnt }}x {{ order.name }}
             {% endfor %}

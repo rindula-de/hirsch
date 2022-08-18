@@ -1,10 +1,10 @@
 <turbo-frame id="menu">
     {% for menu in htg %}
-    <div class='foodcard title-medium secondary-container on-secondary-container-text'>
+    <div class='foodcard title-medium on-surface-variant-text surface-variant'>
         <h2>{{menu.name}}</h2>
 
         <div class='actionbar'>
-            <a class="btn body-medium on-secondary-container secondary-container-text" href="{{path('order', {'preorder': 0, 'slug': menu.slug})}}">Bestellen</a>
+            <a class="btn body-medium primary on-primary-text" href="{{path('order', {'preorder': 0, 'slug': menu.slug})}}">Bestellen</a>
         </div>
     </div>
     {% endfor %}

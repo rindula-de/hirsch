@@ -19,21 +19,21 @@ class OrderType extends AbstractType
     {
         $builder
             ->add('orderedby', TextType::class, [
-                'row_attr' => ['class' => 'input text required'],
-                'attr' => ['placeholder' => 'Max Mustermann'],
+                'row_attr' => ['class' => 'input text required label-large on-surface-text'],
+                'attr' => ['placeholder' => 'Max Mustermann', 'class' => 'on-surface-text'],
                 'label' => 'Dein Name',
             ])
             ->add('note', TextType::class, [
-                'row_attr' => ['class' => 'input text'],
-                'attr' => ['placeholder' => 'Keine', 'list' => 'wishlist', 'autofill' => 'off', 'autocomplete' => 'off'],
+                'row_attr' => ['class' => 'input text label-large on-surface-text'],
+                'attr' => ['placeholder' => 'Keine', 'list' => 'wishlist', 'autofill' => 'off', 'autocomplete' => 'off', 'class' => 'on-surface-text'],
                 'required' => false,
                 'label' => 'Sonderwünsche',
                 'help' => 'Extrawünsche, wie "extra Pommes" oder "ohne Salat"',
                 'empty_data' => '',
             ])
             ->add('submit', SubmitType::class, [
-                'row_attr' => ['class' => 'submit'],
-                'attr' => ['class' => 'btn waves-purple waves-effect'],
+                'row_attr' => ['class' => 'submit label-large on-surface-text'],
+                'attr' => ['class' => 'btn primary on-primary-text body-medium'],
                 'label' => 'Verbindlich bestellen',
             ]);
     }

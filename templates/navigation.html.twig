@@ -1,12 +1,12 @@
-<nav id="navbar" class="navbar on-background label-medium" data-controller="navicon">
-  <a href="{{ path("menu") }}" class="{% if app.request.attributes.get('_route') == 'menu' %}primary on-primary-text{% else %}background-text{% endif %}">
+<nav id="navbar" class="navbar surface-variant label-medium" data-controller="navicon">
+  <a href="{{ path("menu") }}" class="{% if app.request.attributes.get('_route') == 'menu' %}primary on-primary-text{% else %}on-surface-variant-text{% endif %}">
       {{ 'menu.overview'|trans }}
   </a>
-  <a href="{{ path("orders") }}" class="{% if app.request.attributes.get('_route') == 'orders' %}primary on-primary-text{% else %}background-text{% endif %}">
+  <a href="{{ path("orders") }}" class="{% if app.request.attributes.get('_route') == 'orders' %}primary on-primary-text{% else %}on-surface-variant-text{% endif %}">
       {{ 'order.orders'|trans }}
   </a>
-  <a href="{{ path("paynow") }}" class="{% if app.request.attributes.get('_route') == 'paynow' %}primary on-primary-text{% else %}background-text{% endif %}">
+  <a href="{{ path("paynow") }}" class="{% if app.request.attributes.get('_route') == 'paynow' %}primary on-primary-text{% else %}on-surface-variant-text{% endif %}">
       {{ 'pay.pay'|trans }}
   </a>
-  <a href="javascript:void(0);" class="icon background-text" id="navicon" data-navicon-target="icon"></a>
+  <a href="javascript:void(0);" class="icon on-surface-variant-text" id="navicon" data-navicon-target="icon"></a>
 </nav>
