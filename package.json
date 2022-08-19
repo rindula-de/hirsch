@@ -7,7 +7,7 @@
         "@symfony/webpack-encore": "^3.0.0",
         "core-js": "^3.24.1",
         "regenerator-runtime": "^0.13.2",
-        "sass": "^1.53.0",
+        "sass": "^1.54.4",
         "sass-loader": "^13.0.2",
         "stimulus": "^3.0.1",
         "webpack-notifier": "^1.15.0"
