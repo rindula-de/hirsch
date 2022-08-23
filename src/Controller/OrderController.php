@@ -71,7 +71,7 @@ class OrderController extends AbstractController
 
             if ($order instanceof Orders) {
                 if (DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:56') && 0 === $preorder) {
-                    $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
+                    $activePayer = $this->getActivePayer($paypalmesRepository, $payhistoryRepository, $translator);
 
                     $this->addFlash('error', $translator->trans('order.search_alternative', ['%orderer%' => $activePayer]));
 
@@ -96,7 +96,7 @@ class OrderController extends AbstractController
 
         // if its after 10:55 redirect back to menu
         if (0 === $preorder && DateTime::createFromFormat('U', time().'') > DateTime::createFromFormat('H:i', '10:55')) {
-            $activePayer = $this->getActivepayer($paypalmesRepository, $payhistoryRepository, $translator);
+            $activePayer = $this->getActivePayer($paypalmesRepository, $payhistoryRepository, $translator);
 
             $this->addFlash(
                 'warning',
