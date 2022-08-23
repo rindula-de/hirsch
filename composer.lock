@@ -4755,16 +4755,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.2.0",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "f15c99ec98b5b31ae862035c51741294708211f2"
+                "reference": "0763da1bdcce1d48c06778d48249905c26d34a72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/f15c99ec98b5b31ae862035c51741294708211f2",
-                "reference": "f15c99ec98b5b31ae862035c51741294708211f2",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/0763da1bdcce1d48c06778d48249905c26d34a72",
+                "reference": "0763da1bdcce1d48c06778d48249905c26d34a72",
                 "shasum": ""
             },
             "require": {
@@ -4800,7 +4800,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.2.0"
+                "source": "https://github.com/symfony/flex/tree/v2.2.3"
             },
             "funding": [
                 {
@@ -4816,7 +4816,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-03T08:42:12+00:00"
+            "time": "2022-08-07T09:39:47+00:00"
         },
         {
             "name": "symfony/form",
@@ -8209,16 +8209,16 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.1.1",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "bcae8333979670999e6ab0919964504c900066fd"
+                "reference": "0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/bcae8333979670999e6ab0919964504c900066fd",
-                "reference": "bcae8333979670999e6ab0919964504c900066fd",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17",
+                "reference": "0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17",
                 "shasum": ""
             },
             "require": {
@@ -8234,6 +8234,7 @@
                 "doctrine/orm": "^2.8 | 3.0",
                 "phpstan/phpstan": "^0.12",
                 "symfony/debug-bundle": "^5.2|^6.0",
+                "symfony/expression-language": "^5.4|^6.0",
                 "symfony/form": "^5.2|^6.0",
                 "symfony/framework-bundle": "^5.2|^6.0",
                 "symfony/mercure-bundle": "^0.3",
@@ -8286,7 +8287,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.1.1"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.3.0"
             },
             "funding": [
                 {
@@ -8302,7 +8303,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-16T00:41:03+00:00"
+            "time": "2022-07-08T14:57:18+00:00"
         },
         {
             "name": "symfony/validator",
