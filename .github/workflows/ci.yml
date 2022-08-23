@@ -17,7 +17,9 @@ jobs:
     steps:
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: |
+          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+          echo '# Build status' >> $GITHUB_STEP_SUMMARY
       - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
@@ -72,6 +74,11 @@ jobs:
           name: deploy_hetzner
           path: artifact.tar
           retention-days: 1
+      - run: |
+          echo 'Successfully built the Project; ready for deployment! :rocket:' >> $GITHUB_STEP_SUMMARY
+      - run: |
+          echo 'Error building the Project! :boom:' >> $GITHUB_STEP_SUMMARY
+        if: failure()
   deploy_hetzner:
     name: Deploy (Hetzner)
     runs-on: ubuntu-latest
@@ -100,6 +107,8 @@ jobs:
       - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php80 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php80 bin/console --no-interaction cache:clear && /usr/bin/php80 bin/console app:cache:clear"
         id: preperations
         name: 👨‍💻 Preparing system
+      - run: echo "# Deployment finished at $(date +'%d.%m.%Y %H:%M:S')" >> $GITHUB_STEP_SUMMARY
+      
 
   cleanup_artifacts:
     name: Delete artifact
