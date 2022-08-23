@@ -28,6 +28,12 @@ jobs:
         run: make vendor
       - name: PHP Stan Analyse
         run: vendor/bin/phpstan analyse
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: PHP Stan Analyse Check
+          conclusion: ${{ job.status }}
   lint:
     name: Symfony Lints
     runs-on: ubuntu-latest
@@ -62,6 +68,12 @@ jobs:
         run: bin/console lint:container
       - name: Lint Twig
         run: bin/console lint:twig
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Symfony LINT Status
+          conclusion: ${{ job.status }}
   coverage:
     name: PHP Code Coverage
     runs-on: ubuntu-latest
@@ -117,6 +129,12 @@ jobs:
         with:
           name: coverage
           path: coverage-html
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Code Coverage Check
+          conclusion: ${{ job.status }}
   infection:
     name: PHP Infection Test
     if: ${{ github.event_name == 'pull_request' }}
@@ -157,6 +175,12 @@ jobs:
         with:
           name: infection_log
           path: infection.log
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Infection Test Check
+          conclusion: ${{ job.status }}
   test:
     name: Unittest
     runs-on: ubuntu-latest
@@ -226,3 +250,9 @@ jobs:
         run: bin/phpunit
         env:
           APP_ENV: test
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Unittest Check
+          conclusion: ${{ job.status }}
