@@ -8005,16 +8005,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v6.0.8",
+            "version": "v6.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "c0dc7766aaa59b9191930f722532454e5df4d203"
+                "reference": "498f452a0d5b22499e4545146eba56e8b993600e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/c0dc7766aaa59b9191930f722532454e5df4d203",
-                "reference": "c0dc7766aaa59b9191930f722532454e5df4d203",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/498f452a0d5b22499e4545146eba56e8b993600e",
+                "reference": "498f452a0d5b22499e4545146eba56e8b993600e",
                 "shasum": ""
             },
             "require": {
@@ -8105,7 +8105,7 @@
             "description": "Provides integration for Twig with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/twig-bridge/tree/v6.0.8"
+                "source": "https://github.com/symfony/twig-bridge/tree/v6.0.11"
             },
             "funding": [
                 {
@@ -8121,7 +8121,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T16:11:42+00:00"
+            "time": "2022-07-20T13:45:53+00:00"
         },
         {
             "name": "symfony/twig-bundle",
@@ -13170,16 +13170,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v6.0.8",
+            "version": "v6.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "72c103c3aa0aad379bcd1c78b0ab8793496f668a"
+                "reference": "1a574f838dd56c5e1bdc37cc52e8798a363c2397"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/72c103c3aa0aad379bcd1c78b0ab8793496f668a",
-                "reference": "72c103c3aa0aad379bcd1c78b0ab8793496f668a",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/1a574f838dd56c5e1bdc37cc52e8798a363c2397",
+                "reference": "1a574f838dd56c5e1bdc37cc52e8798a363c2397",
                 "shasum": ""
             },
             "require": {
@@ -13229,7 +13229,7 @@
             "description": "Provides a development tool that gives detailed information about the execution of any request",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/web-profiler-bundle/tree/v6.0.8"
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v6.0.10"
             },
             "funding": [
                 {
@@ -13245,7 +13245,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-22T08:18:02+00:00"
+            "time": "2022-06-06T19:12:54+00:00"
         },
         {
             "name": "thecodingmachine/safe",
