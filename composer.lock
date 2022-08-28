@@ -4196,16 +4196,16 @@
         },
         {
             "name": "symfony/doctrine-messenger",
-            "version": "v6.0.11",
+            "version": "v6.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/doctrine-messenger.git",
-                "reference": "af0ca968a6f019550b9261b06336f7dab40d1089"
+                "reference": "d1ee96c9b765da63a0f422b17a038dba974176ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-messenger/zipball/af0ca968a6f019550b9261b06336f7dab40d1089",
-                "reference": "af0ca968a6f019550b9261b06336f7dab40d1089",
+                "url": "https://api.github.com/repos/symfony/doctrine-messenger/zipball/d1ee96c9b765da63a0f422b17a038dba974176ec",
+                "reference": "d1ee96c9b765da63a0f422b17a038dba974176ec",
                 "shasum": ""
             },
             "require": {
@@ -4248,7 +4248,7 @@
             "description": "Symfony Doctrine Messenger Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/doctrine-messenger/tree/v6.0.11"
+                "source": "https://github.com/symfony/doctrine-messenger/tree/v6.0.12"
             },
             "funding": [
                 {
@@ -4264,7 +4264,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-28T13:39:17+00:00"
+            "time": "2022-08-12T13:08:57+00:00"
         },
         {
             "name": "symfony/dotenv",
@@ -8313,16 +8313,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v6.0.11",
+            "version": "v6.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "afe702b7827bdbddfc0750e023fcc4770a2814f1"
+                "reference": "0987eb0c390d5686768ea2bb388c81494ea4508f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/afe702b7827bdbddfc0750e023fcc4770a2814f1",
-                "reference": "afe702b7827bdbddfc0750e023fcc4770a2814f1",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/0987eb0c390d5686768ea2bb388c81494ea4508f",
+                "reference": "0987eb0c390d5686768ea2bb388c81494ea4508f",
                 "shasum": ""
             },
             "require": {
@@ -8401,7 +8401,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v6.0.11"
+                "source": "https://github.com/symfony/validator/tree/v6.0.12"
             },
             "funding": [
                 {
@@ -8417,7 +8417,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T13:45:53+00:00"
+            "time": "2022-08-12T13:08:57+00:00"
         },
         {
             "name": "symfony/var-dumper",
