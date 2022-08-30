@@ -152,6 +152,13 @@ textarea {
 
         background-color: var(--md-sys-color-surface);
         color: var(--md-sys-color-on-surface);
+        
+        font-family: var(--md-sys-typescale-body-medium-font-family-name);
+        font-style: var(--md-sys-typescale-body-medium-font-family-style);
+        letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+        line-height: var(--md-sys-typescale-body-medium-height);
+        text-transform: var(--md-sys-typescale-body-medium-text-transform);
+        text-decoration: var(--md-sys-typescale-body-medium-text-decoration);
     }
     .close {
         // color: #000000;
