@@ -13,5 +13,16 @@
                 </div>
             </div>
         {% endif %}
+    {% else %}
+        <div class='foodcard title-medium on-surface-variant-text surface-variant'>
+                <h2>Info</h2>
+
+                <span>Aktuell gibt es keine weiteren Informationen zur Wochenkarte</span>
+
+
+                <div class='actionbar'>
+                    <a class="btn body-medium primary on-primary-text" href="{{path('order', {'preorder': 0, 'slug': 'tagesessen'})}}">{{'order.ordering'|trans}}</a>
+                </div>
+            </div>
     {% endfor %}
 </turbo-frame>
