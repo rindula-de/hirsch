@@ -1,6 +1,7 @@
 SHELL = /bin/bash
 COMPOSER = composer
 YARN = yarn
+NPX = npx
 GIT = git
 EXEC_PHP = php
 ENV = dev
@@ -8,8 +9,9 @@ ifneq (, $(shell which ddev))
   # If we are in a ddev project, we need to use the ddev-composer
   # command to install dependencies.
   COMPOSER = ddev composer
-  YARN = ddev exec yarn
-  EXEC_PHP = ddev exec php
+  YARN = ddev yarn
+  EXEC_PHP = ddev php
+  NPX = ddev exec npx
 endif
 ifdef CI
     ENV = prod
@@ -72,7 +74,8 @@ node_modules node_modules/.bin/encore &: vendor
 	$(YARN) install --force
 	@touch node_modules
 
-public/build: node_modules/.bin/encore vendor assets/app.js assets/styles/app.scss assets/js/scripts.js assets
+public/build: assets $(shell find assets -name '*') webpack.config.js node_modules
+	$(NPX) -y browserslist@latest --update-db
 	$(YARN) build
 	@touch public/build
 
@@ -109,11 +112,6 @@ endif
 	$(EXEC_PHP) -d xdebug.mode=coverage ./vendor/bin/infection --only-covered --min-msi=98
 
 clean: ## Clean up the project
-	rm -rf vendor
-	rm -rf var
-	rm -rf node_modules
-	rm -rf .env.local
-	rm -rf public/build
-	rm -rf coverage-html coverage-xml clover.xml
+	git clean -fdx
 
 .PHONY: tests install msg help clean all replace infection_test tests_db coverage_check
