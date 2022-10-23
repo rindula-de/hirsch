@@ -10088,16 +10088,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.26.15",
+            "version": "0.26.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "cac814fab9ec3ee60bfe55f070942306c61c8eb9"
+                "reference": "d646aafe530ba21b8479694cd151570c93c72312"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/cac814fab9ec3ee60bfe55f070942306c61c8eb9",
-                "reference": "cac814fab9ec3ee60bfe55f070942306c61c8eb9",
+                "url": "https://api.github.com/repos/infection/infection/zipball/d646aafe530ba21b8479694cd151570c93c72312",
+                "reference": "d646aafe530ba21b8479694cd151570c93c72312",
                 "shasum": ""
             },
             "require": {
@@ -10198,7 +10198,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.26.15"
+                "source": "https://github.com/infection/infection/tree/0.26.16"
             },
             "funding": [
                 {
@@ -10210,7 +10210,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-09-15T21:26:54+00:00"
+            "time": "2022-10-22T10:07:33+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -13293,16 +13293,16 @@
         },
         {
             "name": "thecodingmachine/safe",
-            "version": "v2.3.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/safe.git",
-                "reference": "dc8df8f5047e7d3021a3f41f492dc99f8b3dc475"
+                "reference": "e788f3d09dcd36f806350aedb77eac348fafadd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/dc8df8f5047e7d3021a3f41f492dc99f8b3dc475",
-                "reference": "dc8df8f5047e7d3021a3f41f492dc99f8b3dc475",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/e788f3d09dcd36f806350aedb77eac348fafadd3",
+                "reference": "e788f3d09dcd36f806350aedb77eac348fafadd3",
                 "shasum": ""
             },
             "require": {
@@ -13326,6 +13326,7 @@
                     "deprecated/array.php",
                     "deprecated/datetime.php",
                     "deprecated/libevent.php",
+                    "deprecated/misc.php",
                     "deprecated/password.php",
                     "deprecated/mssql.php",
                     "deprecated/stats.php",
@@ -13425,9 +13426,9 @@
             "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
             "support": {
                 "issues": "https://github.com/thecodingmachine/safe/issues",
-                "source": "https://github.com/thecodingmachine/safe/tree/v2.3.0"
+                "source": "https://github.com/thecodingmachine/safe/tree/v2.4.0"
             },
-            "time": "2022-09-13T15:49:48+00:00"
+            "time": "2022-10-07T14:02:17+00:00"
         },
         {
             "name": "theseer/tokenizer",
