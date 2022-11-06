@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@hotwired/stimulus": "^3.1.0",
+        "@hotwired/stimulus": "^3.1.1",
         "@hotwired/turbo": "^7.2.4",
         "@symfony/stimulus-bridge": "^3.2.1",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
