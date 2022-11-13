@@ -6637,16 +6637,16 @@
         },
         {
             "name": "symfony/polyfill-php81",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php81.git",
-                "reference": "13f6d1271c663dc5ae9fb843a8f16521db7687a1"
+                "reference": "707403074c8ea6e2edaf8794b0157a0bfa52157a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/13f6d1271c663dc5ae9fb843a8f16521db7687a1",
-                "reference": "13f6d1271c663dc5ae9fb843a8f16521db7687a1",
+                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/707403074c8ea6e2edaf8794b0157a0bfa52157a",
+                "reference": "707403074c8ea6e2edaf8794b0157a0bfa52157a",
                 "shasum": ""
             },
             "require": {
@@ -6655,7 +6655,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -6696,7 +6696,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php81/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-php81/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -6712,7 +6712,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/process",
@@ -8230,16 +8230,16 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17"
+                "reference": "3476bf0030937824137ad0aa1c9797d7c6085882"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17",
-                "reference": "0ac0bbc70b86aa4883c7eb8ac17bc6e3a774dc17",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/3476bf0030937824137ad0aa1c9797d7c6085882",
+                "reference": "3476bf0030937824137ad0aa1c9797d7c6085882",
                 "shasum": ""
             },
             "require": {
@@ -8308,7 +8308,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.4.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.5.0"
             },
             "funding": [
                 {
@@ -8324,7 +8324,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-08T14:57:18+00:00"
+            "time": "2022-09-08T14:28:44+00:00"
         },
         {
             "name": "symfony/validator",
