@@ -29,7 +29,7 @@ try {
     }
 
     $coverage = round(($checkedElements / $totalElements) * 100,2);
-    if (isset($_ENV['CI'])) echo "::set-output name=coverage::".$coverage.PHP_EOL;
+    if (isset($_ENV['CI'])) $_ENV['GITHUB_OUTPUT'] .= "coverage=".$coverage.PHP_EOL;
     if ($coverage < $percentage) {
         if (isset($_ENV['CI'])) echo "::error::";
         echo 'Code coverage is ' . $coverage . '%, which is below the accepted ' . $percentage . '%' . PHP_EOL;

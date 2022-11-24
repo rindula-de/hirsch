@@ -18,7 +18,7 @@ jobs:
       - name: Get the version
         id: get_version
         run: |
-          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+          echo VERSION=${GITHUB_REF/refs\/tags\//} >> $GITHUB_OUTPUT
           echo '# Build status' >> $GITHUB_STEP_SUMMARY
       - uses: actions/checkout@v3
         with:
@@ -132,7 +132,7 @@ jobs:
     steps:
       - name: Set output
         id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        run: echo tag=${GITHUB_REF#refs/*/} >> $GITHUB_OUTPUT
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
