@@ -31,6 +31,7 @@ class AdminController extends AbstractController
 
         $cache->get('menu_disabled', function (ItemInterface $item) {
             $item->expiresAt(new \DateTime('tomorrow midnight'));
+
             return true;
         });
 

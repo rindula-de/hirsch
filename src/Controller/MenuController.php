@@ -34,6 +34,7 @@ class MenuController extends AbstractController
         $cache = new FilesystemAdapter();
         $menuDisabled = $cache->get('menu_disabled', function (ItemInterface $item) {
             $item->expiresAfter(0);
+
             return false;
         });
 
@@ -60,11 +61,12 @@ class MenuController extends AbstractController
         $cache = new FilesystemAdapter();
         $menuDisabled = $cache->get('menu_disabled', function (ItemInterface $item) {
             $item->expiresAfter(0);
+
             return false;
         });
 
         if (null === $frameId) {
-            return $this->json($menuDisabled?[]:$htg);
+            return $this->json($menuDisabled ? [] : $htg);
         }
 
         return $this->render('menu/htgframe.html.twig', [
