@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HolidayController extends AbstractController
 {
-    #[Route('/holidays', name: 'holidays', methods: ['GET'])]
+    #[Route('/admin/holidays', name: 'holidays', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine): Response
     {
         $holidays = $doctrine->getRepository(Holidays::class)->findAll();
@@ -41,7 +41,7 @@ class HolidayController extends AbstractController
         return $this->json($holidays);
     }
 
-    #[Route('/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/holidays/edit/{id}', name: 'holidays_edit', methods: ['GET', 'POST'])]
     public function edit(Holidays $holiday, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(HolidayType::class, $holiday);
@@ -60,7 +60,7 @@ class HolidayController extends AbstractController
         ]);
     }
 
-    #[Route('/holidays/add', name: 'holidays_add', methods: ['GET', 'POST'])]
+    #[Route('/admin/holidays/add', name: 'holidays_add', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $holiday = new Holidays();
@@ -74,7 +74,7 @@ class HolidayController extends AbstractController
             return $this->redirectToRoute('holidays');
         }
 
-        return $this->renderForm('holiday/edit.html.twig', [
+        return $this->renderForm('holiday/add.html.twig', [
             'holiday' => $holiday,
             'form' => $form,
         ]);

@@ -23,6 +23,9 @@
         text-decoration: none;
         font-size: 17px;
         z-index: 1;
+        &.right {
+            float: right;
+        }
         &.active {
             // background-color: $accentcolor;
             // color: white;
@@ -52,7 +55,7 @@
 @media screen and (max-width: 740px) {
     #navbar {
         a:not(:first-child) {
-            visibility: hidden;
+            display: none;
         }
         span {
             display: none;
@@ -70,11 +73,11 @@
         }
         &.responsive {
             @include shadow;
-            height: 9rem;
+            height: 12rem;
             a,
             span {
                 float: none;
-                visibility: visible;
+                display: block;
                 text-align: left;
                 // &.active {
                 //     animation: navLoad .2s forwards;

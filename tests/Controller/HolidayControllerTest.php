@@ -7,6 +7,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Holidays;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -36,9 +37,12 @@ class HolidayControllerTest extends WebTestCase
 
     public function testNoHolidays(): void
     {
-        $this->client->request('GET', '/holidays');
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->client->loginUser($userRepository->findOneBy(['username' => 'test']));
+
+        $this->client->request('GET', '/admin/holidays');
         $response = $this->client->getResponse();
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertNotEmpty($response);
         $this->assertStringContainsString('Neuer Urlaub', $response);
         $this->assertStringNotContainsString('Bearbeiten', $response);
@@ -56,9 +60,12 @@ class HolidayControllerTest extends WebTestCase
         $this->entityManager->persist($holiday);
         $this->entityManager->flush();
 
-        $this->client->request('GET', '/holidays');
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->client->loginUser($userRepository->findOneBy(['username' => 'test']));
+
+        $this->client->request('GET', '/admin/holidays');
         $response = $this->client->getResponse();
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertNotEmpty($response);
         $this->assertStringContainsString('Neuer Urlaub', $response);
         $this->assertStringContainsString('Bearbeiten', $response);
@@ -67,7 +74,7 @@ class HolidayControllerTest extends WebTestCase
     public function testApiReturnEmptyResponse(): void
     {
         $this->client->request('GET', '/api/holidays');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertEquals('[]', $this->client->getResponse()->getContent());
     }
 
@@ -86,7 +93,7 @@ class HolidayControllerTest extends WebTestCase
         $this->entityManager->flush();
 
         $this->client->request('GET', '/api/holidays');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $response = $this->client->getResponse()->getContent();
         $this->assertNotEmpty($response);
         if (!is_string($response)) {

@@ -12,10 +12,12 @@ use Doctrine\Common\Collections\Criteria;
 use Exception;
 use Smalot\PdfParser\Parser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MenuController extends AbstractController
@@ -29,7 +31,16 @@ class MenuController extends AbstractController
     #[Route('/karte', name: 'menu', methods: ['GET'])]
     public function menu(): Response
     {
-        return $this->render('menu/index.html.twig', []);
+        $cache = new FilesystemAdapter();
+        $menuDisabled = $cache->get('menu_disabled', function (ItemInterface $item) {
+            $item->expiresAfter(0);
+
+            return false;
+        });
+
+        return $this->render('menu/index.html.twig', [
+            'menu_disabled' => $menuDisabled,
+        ]);
     }
 
     /**
@@ -47,11 +58,21 @@ class MenuController extends AbstractController
 
         $frameId = $request->headers->get('Turbo-Frame');
 
+        $cache = new FilesystemAdapter();
+        $menuDisabled = $cache->get('menu_disabled', function (ItemInterface $item) {
+            $item->expiresAfter(0);
+
+            return false;
+        });
+
         if (null === $frameId) {
-            return $this->json($htg);
+            return $this->json($menuDisabled ? [] : $htg);
         }
 
-        return $this->render('menu/htgframe.html.twig', compact('htg'));
+        return $this->render('menu/htgframe.html.twig', [
+            'htg' => $htg,
+            'menu_disabled' => $menuDisabled,
+        ]);
     }
 
     /**

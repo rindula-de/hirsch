@@ -12,6 +12,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class MenuControllerTest extends WebTestCase
 {
@@ -40,6 +41,9 @@ class MenuControllerTest extends WebTestCase
 
     public function testApiGetMenu(): void
     {
+        $cache = new FilesystemAdapter();
+        $cache->delete('menu_disabled');
+
         $this->client->request('GET', '/api/get-menu');
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse()->getContent();

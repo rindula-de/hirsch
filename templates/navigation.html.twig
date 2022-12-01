@@ -8,5 +8,8 @@
   <a href="{{ path("paynow") }}" class="{% if app.request.attributes.get('_route') == 'paynow' %}primary on-primary-text{% else %}on-surface-variant-text{% endif %}">
       {{ 'pay.pay'|trans }}
   </a>
+  <a href="{{ path("app_admin_index") }}" class="right {% if app.request.attributes.get('_route') == 'app_admin_index' %}primary on-primary-text{% else %}on-surface-variant-text{% endif %}">
+      {{ 'menu.admin'|trans }}
+  </a>
   <a href="javascript:void(0);" class="icon on-surface-variant-text" id="navicon" data-navicon-target="icon"></a>
 </nav>
