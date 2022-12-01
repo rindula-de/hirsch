@@ -64,7 +64,7 @@ class ModalControllerTest extends WebTestCase
         $this->entityManager->flush();
 
         $this->client->request('GET', '/modalInformationText');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertNotEmpty($this->client->getResponse()->getContent());
     }
 
@@ -81,7 +81,7 @@ class ModalControllerTest extends WebTestCase
         $this->entityManager->flush();
 
         $this->client->request('GET', '/modalInformationText');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->assertEmpty($this->client->getResponse()->getContent());
     }
 
@@ -140,7 +140,7 @@ class ModalControllerTest extends WebTestCase
         $_ENV['APP_VERSION'] = 'v2.8.0';
         $this->client->getCookieJar()->set(new Cookie('changelogVersion', $version, httponly: false));
         $this->client->request('GET', '/modalChangelog');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $cookies = $this->client->getResponse()->headers->getCookies();
         $cookieValue = null;
         foreach ($cookies as $cookie) {

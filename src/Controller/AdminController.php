@@ -23,7 +23,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/holidays', name: 'app_admin_disable_menu')]
+    #[Route('/disableMenu', name: 'app_admin_disable_menu')]
     public function disableMenu(): Response
     {
         $cache = new FilesystemAdapter();
