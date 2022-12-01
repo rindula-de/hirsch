@@ -20,6 +20,7 @@ menu:
     titles:
         overview: Karte
     to_go: Hirsch to Go
+    to_go_disabled: Hirsch to Go / HEUTE NICHT VERFÜGBAR
     lunch: Tagesessen
     overview: Übersicht
     admin: Verwaltung
@@ -48,3 +49,12 @@ pay:
     paypalierer: Paypalierer
     tip: Trinkgeld
     cash_only: Nur Barzahlung
+
+admin:
+    notification:
+        menu_disabled: Die Standardkarte wurde für heute deaktiviert.
+
+icons:
+    link: link
+    limited_action: pending_actions
+    action: settings

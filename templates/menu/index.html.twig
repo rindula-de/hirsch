@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="accordion-list">
-        <button class="accordion body-medium" data-controller="accordion">{{ 'menu.to_go'|trans }}</button>
+        <button class="accordion body-medium" data-controller="accordion">{% if menu_disabled %}{{ 'menu.to_go_disabled'|trans }}{% else %}{{ 'menu.to_go'|trans }}{% endif %}</button>
 
         <div class="panel" id="menu_panel">
             <turbo-frame id="menu" src="{{path('api_menu')}}" target="_top">

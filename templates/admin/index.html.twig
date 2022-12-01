@@ -5,6 +5,7 @@
 {% block body %}
     <h1 class="title-large on-surface-text">Verwaltung</h1>
     <ul style="list-style: none">
-        <li><a class="body-medium on-surface-text" href="{{ path('holidays') }}"><i class="material-icons">link</i> Urlaube verwalten</a></li>
+        <li><a class="body-medium on-surface-text" href="{{ path('holidays') }}"><i class="material-icons">{{ "icons.link"|trans }}</i> Urlaube verwalten</a></li>
+        <li><a title="Sperrt die normale Karte bis um Mitternacht" class="body-medium on-surface-text" href="{{ path('app_admin_disable_menu') }}"><i class="material-icons">{{ "icons.limited_action"|trans }}</i> Normales Menü sperren (Nur Tagesessen verfügbar)</a></li>
     </ul>
 {% endblock %}

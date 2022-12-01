@@ -1,4 +1,7 @@
 <turbo-frame id="menu">
+    {% if menu_disabled %}
+        <h1 class="title-large on-background-text">Heute nicht verfügbar</h1>
+    {% else %}
     {% for menu in htg %}
     <div class='foodcard title-medium on-surface-variant-text surface-variant'>
         <h2>{{menu.name}}</h2>
@@ -8,4 +11,5 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
 </turbo-frame>
