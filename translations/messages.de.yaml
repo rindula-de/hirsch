@@ -22,6 +22,7 @@ menu:
     to_go: Hirsch to Go
     lunch: Tagesessen
     overview: Übersicht
+    admin: Verwaltung
 
 order:
     search_alternative: Du kannst heute nicht mehr bestellen! Bitte such dir eine Alternative, oder frage bei %orderer% nach, ob deine Bestellung noch mit aufgenommen werden kann.
