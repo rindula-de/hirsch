@@ -249,6 +249,7 @@ class MenuController extends AbstractController
                                 }
                             }
                         }
+                        break;
                     }
                 }
             }
