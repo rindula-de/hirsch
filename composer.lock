@@ -8234,16 +8234,16 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.5.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "3476bf0030937824137ad0aa1c9797d7c6085882"
+                "reference": "0e16016aeb0e0b837649812b5d6de2f3a662931c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/3476bf0030937824137ad0aa1c9797d7c6085882",
-                "reference": "3476bf0030937824137ad0aa1c9797d7c6085882",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/0e16016aeb0e0b837649812b5d6de2f3a662931c",
+                "reference": "0e16016aeb0e0b837649812b5d6de2f3a662931c",
                 "shasum": ""
             },
             "require": {
@@ -8281,11 +8281,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\UX\\Turbo\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Symfony\\UX\\Turbo\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -8312,7 +8309,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.5.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.6.1"
             },
             "funding": [
                 {
@@ -8328,7 +8325,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-08T14:28:44+00:00"
+            "time": "2022-12-02T14:42:01+00:00"
         },
         {
             "name": "symfony/validator",
@@ -8686,16 +8683,16 @@
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "v1.16.0",
+            "version": "v1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "bb399930c0299866258b616a74a27b50b94c5d45"
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/bb399930c0299866258b616a74a27b50b94c5d45",
-                "reference": "bb399930c0299866258b616a74a27b50b94c5d45",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1862d71e483769b40278548a30e756ce13ef9d4c",
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c",
                 "shasum": ""
             },
             "require": {
@@ -8739,7 +8736,7 @@
             "description": "Integration with your Symfony app & Webpack Encore!",
             "support": {
                 "issues": "https://github.com/symfony/webpack-encore-bundle/issues",
-                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.16.0"
+                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.16.1"
             },
             "funding": [
                 {
@@ -8755,7 +8752,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-18T15:21:06+00:00"
+            "time": "2023-01-18T19:37:55+00:00"
         },
         {
             "name": "symfony/yaml",
