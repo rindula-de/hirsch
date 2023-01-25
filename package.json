@@ -5,9 +5,9 @@
         "@symfony/stimulus-bridge": "^3.2.1",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
         "@symfony/webpack-encore": "^3.1.0",
-        "core-js": "^3.26.1",
+        "core-js": "^3.27.2",
         "regenerator-runtime": "^0.13.11",
-        "sass": "^1.56.1",
+        "sass": "^1.57.1",
         "sass-loader": "^13.2.0",
         "stimulus": "^3.2.1",
         "webpack-notifier": "^1.15.0"
@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
-        "jquery": "^3.6.1",
+        "jquery": "^3.6.3",
         "offline-plugin": "^5.0.7"
     }
 }

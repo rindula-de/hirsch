@@ -13,7 +13,7 @@
 
     <div>
         {% for holiday in holidays %}
-            <div>
+            <div class="body-medium on-surface-text">
                 {{ holiday.start|format_datetime('short', 'none', locale='de') }} - {{ holiday.end|format_datetime('short', 'none', locale='de') }}
                 <a href="{{path("holidays_edit", {id: holiday.id})}}">
                     {{ 'holidays.edit'|trans }}
