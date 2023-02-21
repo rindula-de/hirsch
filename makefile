@@ -75,7 +75,9 @@ node_modules node_modules/.bin/encore &: vendor
 	@touch node_modules
 
 public/build: assets $(shell find assets -name '*') webpack.config.js node_modules
+ifeq ($(CI), true)
 	$(NPX) -y browserslist@latest --update-db
+endif
 	$(YARN) build
 	@touch public/build
 
