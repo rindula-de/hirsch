@@ -128,7 +128,7 @@ class MenuController extends AbstractController
                 imap_close($mbox);
 
                 // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-                return $this->redirect('tagesessen');
+                return $this->redirectToRoute('tagesessen');
             }
 
             if ($emails) {
