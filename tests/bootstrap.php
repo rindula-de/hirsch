@@ -1,7 +1,7 @@
 <?php
 
 /*
- * (c) Sven Nolting, 2022
+ * (c) Sven Nolting, 2023
  */
 
 $_ENV['APP_ENV'] = 'test'; // Needed for infection Testing because it sets the env variable to late

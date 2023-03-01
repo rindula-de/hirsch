@@ -1,7 +1,7 @@
 <?php
 
 /*
- * (c) Sven Nolting, 2022
+ * (c) Sven Nolting, 2023
  */
 
 // SYMFONY_DECRYPTION_SECRET=7z2caZILHCbcj3CnZCfi6239P6v5jO0F0GeKeRLAz2RkvNarwYX/3OSImm7vE0t/bvpWTxxZvdZzEQOVfNEqEA==
