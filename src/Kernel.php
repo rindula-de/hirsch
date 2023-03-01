@@ -1,7 +1,7 @@
 <?php
 
 /*
- * (c) Sven Nolting, 2022
+ * (c) Sven Nolting, 2023
  */
 
 namespace App;

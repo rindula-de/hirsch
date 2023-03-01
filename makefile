@@ -42,9 +42,6 @@ all: vendor .env.local public/build .git/hooks/post-merge ## Install and build a
 install_db: vendor .env.local migrations ## Install the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
-replace: config/packages/security.yaml
-	sed -i 's/127.0.0.1, ::1/$(NOPASSWDIPS)/g' config/packages/security.yaml
-
 vendor: composer.json composer.lock
 	$(COMPOSER) validate
 	$(COMPOSER) install --prefer-dist --no-interaction
@@ -56,12 +53,8 @@ vendor: composer.json composer.lock
 	@if [ -n "$(SALT)" ]; then echo 'APP_SECRET="$(SALT)"' | tee -a .env.local; fi;
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' | tee -a .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' | tee -a .env.local
-	@if [ -n "$(EMAILPASS)" ]; then echo 'MailAccess_password="$(EMAILPASS)"' | tee -a .env.local; echo 'EMAILPASS="$(EMAILPASS)"' | tee -a .env.local; fi;
 	@echo 'EMAILUSER="essen@hochwarth-e.com"' | tee -a .env.local
-	@echo 'MAILER_DSN=smtp://essen%40hochwarth-e.com:$(EMAILPASS)@sslout.df.eu:587' | tee -a .env.local
 	@if [ -n "$(VERSION)" ]; then echo 'APP_VERSION="$(VERSION)"' | tee -a .env.local; fi;
-	@if [ -n "$(HT_USER)" ]; then echo 'HT_USERNAME="$(HT_USER)"' | tee -a .env.local; fi;
-	@if [ -n "$(HT_PASS)" ]; then echo 'HT_PASSWORD="$(HT_PASS)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_TENANT)" ]; then echo 'MS_GRAPH_TENANT="$(MS_GRAPH_TENANT)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_SECRET)" ]; then echo 'MS_GRAPH_CLIENT_SECRET="$(MS_GRAPH_CLIENT_SECRET)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_ID)" ]; then echo 'MS_GRAPH_CLIENT_ID="$(MS_GRAPH_CLIENT_ID)"' | tee -a .env.local; fi;
@@ -116,4 +109,4 @@ endif
 clean: ## Clean up the project
 	git clean -fdx
 
-.PHONY: tests install msg help clean all replace infection_test tests_db coverage_check
+.PHONY: tests install msg help clean all infection_test tests_db coverage_check
