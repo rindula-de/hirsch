@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2022
+ */
+
 return [
     'HT_PASS' => null,
     'HT_USER' => null,
