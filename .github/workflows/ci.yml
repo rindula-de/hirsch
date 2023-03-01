@@ -53,17 +53,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Write secrets
+        run: printf "${{ secrets.PRIVATE_DECRYPT_KEY }}" > config/secrets/prod/prod.decrypt.private.php
       - name: Make Install
         env:
           DBPASS: ${{ secrets.DBPASS }}
           SALT: ${{ secrets.SALT }}
           EMAILPASS: ${{ secrets.EMAILPASS }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
-          HT_USER: ${{ secrets.HT_USER }}
-          HT_PASS: ${{ secrets.HT_PASS }}
-          MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
-          MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
-          MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
           NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
         run: make all
       - run: make artifact.tar
