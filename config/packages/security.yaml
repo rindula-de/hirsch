@@ -38,7 +38,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/manifest.json, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/, roles: PUBLIC_ACCESS, ips: [127.0.0.1, ::1] }
+        - { path: ^/, roles: PUBLIC_ACCESS, ips: '%env(NOPASSWDIPS)%' }
         - { path: ^/, roles: ROLE_USER }
 
 when@test:

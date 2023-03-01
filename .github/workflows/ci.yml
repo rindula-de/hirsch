@@ -64,10 +64,8 @@ jobs:
           MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
           MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
           MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
-        run: make all
-      - run: make replace
-        env:
           NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
+        run: make all
       - run: make artifact.tar
       - uses: actions/upload-artifact@master
         with:
@@ -108,7 +106,7 @@ jobs:
         id: preperations
         name: 👨‍💻 Preparing system
       - run: echo "Deployment finished at $(date +'%d.%m.%Y %H:%M:%S %Z')" >> $GITHUB_STEP_SUMMARY
-      
+
 
   cleanup_artifacts:
     name: Delete artifact
