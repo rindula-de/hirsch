@@ -61,7 +61,6 @@ jobs:
           SALT: ${{ secrets.SALT }}
           EMAILPASS: ${{ secrets.EMAILPASS }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
-          NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
         run: make all
       - run: make artifact.tar
       - uses: actions/upload-artifact@master

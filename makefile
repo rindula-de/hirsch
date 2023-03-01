@@ -54,7 +54,6 @@ vendor: composer.json composer.lock
 	@echo 'MailAccess_host="{sslin.df.eu/imap/ssl}INBOX"' | tee -a .env.local
 	@echo 'MailAccess_username="essen@hochwarth-e.com"' | tee -a .env.local
 	@echo 'EMAILUSER="essen@hochwarth-e.com"' | tee -a .env.local
-	@echo 'NOPASSWDIPS=$(NOPASSWDIPS)' | tee -a .env.local
 	@if [ -n "$(VERSION)" ]; then echo 'APP_VERSION="$(VERSION)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_TENANT)" ]; then echo 'MS_GRAPH_TENANT="$(MS_GRAPH_TENANT)"' | tee -a .env.local; fi;
 	@if [ -n "$(MS_GRAPH_CLIENT_SECRET)" ]; then echo 'MS_GRAPH_CLIENT_SECRET="$(MS_GRAPH_CLIENT_SECRET)"' | tee -a .env.local; fi;
