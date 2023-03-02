@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2023
+ */
+
 return [
     'APP_SECRET' => null,
     'HT_PASS' => null,
