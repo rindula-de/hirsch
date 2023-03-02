@@ -54,7 +54,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Write secrets
-        run: printf "${{ toJSON(secrets.PRIVATE_DECRYPT_KEY) }}" > config/secrets/prod/prod.decrypt.private.php
+        run: echo $KEY > config/secrets/prod/prod.decrypt.private.php
+        env:
+          KEY: |
+            ${{ secrets.PRIVATE_DECRYPT_KEY }}
       - name: Make Install
         env:
           DBPASS: ${{ secrets.DBPASS }}
