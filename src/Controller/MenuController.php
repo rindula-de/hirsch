@@ -1,7 +1,7 @@
 <?php
 
 /*
- * (c) Sven Nolting, 2022
+ * (c) Sven Nolting, 2023
  */
 
 namespace App\Controller;
@@ -86,9 +86,9 @@ class MenuController extends AbstractController
         $message = '';
 
         try {
-            $server = $_ENV['MailAccess_host'];
-            $adresse = $_ENV['MailAccess_username'];
-            $password = $_ENV['MailAccess_password'];
+            $server = $_ENV['MAIL_ACCESS_HOST'];
+            $adresse = $_ENV['MAIL_ACCESS_USERNAME'];
+            $password = $_ENV['MAIL_ACCESS_PASSWORD'];
             $mbox = @imap_open($server, $adresse, $password);
 
             if (!$mbox) {
@@ -128,7 +128,7 @@ class MenuController extends AbstractController
                 imap_close($mbox);
 
                 // Die Mailbox muss nochmal neu initialisiert werden, da die IDs anders sind ... Also ... RELOAD!
-                return $this->redirect('tagesessen');
+                return $this->redirectToRoute('tagesessen');
             }
 
             if ($emails) {

@@ -29,7 +29,7 @@ jobs:
         uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.23.0
+      - uses: shivammathur/setup-php@2.24.0
         with:
           php-version: 8.1
           tools: composer:v2
@@ -59,15 +59,7 @@ jobs:
           SALT: ${{ secrets.SALT }}
           EMAILPASS: ${{ secrets.EMAILPASS }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
-          HT_USER: ${{ secrets.HT_USER }}
-          HT_PASS: ${{ secrets.HT_PASS }}
-          MS_GRAPH_TENANT: ${{ secrets.MS_GRAPH_TENANT }}
-          MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
-          MS_GRAPH_CLIENT_ID: ${{ secrets.MS_GRAPH_CLIENT_ID }}
         run: make all
-      - run: make replace
-        env:
-          NOPASSWDIPS: ${{secrets.NOPASSWDIPS}}
       - run: make artifact.tar
       - uses: actions/upload-artifact@master
         with:
@@ -101,14 +93,14 @@ jobs:
         run: rm artifact.tar
       - run: sudo apt-get install -y sshpass rsync
         name: 📦 Installing upload dependencies
-      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".gitmodules" --exclude ".gitattributes" --exclude ".ddev" --exclude "composer.*" --exclude "docker*" --exclude "infection.json.dist" --exclude ".ddev" --exclude ".editorconfig" -e "ssh -o StrictHostKeyChecking=no -p 222" -avh --delete --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
+      - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".gitmodules" --exclude ".gitattributes" --exclude ".ddev" --exclude "docker*" --exclude "infection.json.dist" --exclude "config/secrets/prod/prod.decrypt.private.php" --exclude ".editorconfig" -e "ssh -o StrictHostKeyChecking=no -p 222" -avh --delete --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
         name: 👨‍💻 Uploading files
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php81 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php81 bin/console --no-interaction cache:clear && /usr/bin/php81 bin/console app:cache:clear"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php81 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php81 bin/console --no-interaction cache:clear && /usr/bin/php81 bin/console --no-interaction cache:warmup && APP_RUNTIME_ENV=prod /usr/bin/php81 bin/console secrets:decrypt-to-local --force"
         id: preperations
         name: 👨‍💻 Preparing system
       - run: echo "Deployment finished at $(date +'%d.%m.%Y %H:%M:%S %Z')" >> $GITHUB_STEP_SUMMARY
-      
+
 
   cleanup_artifacts:
     name: Delete artifact

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * (c) Sven Nolting, 2022
+ * (c) Sven Nolting, 2023
  */
 
 use App\Kernel;
