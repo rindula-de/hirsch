@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "@hotwired/turbo": "^7.0.1",
+        "@hotwired/turbo": "^7.3.0",
         "@symfony/stimulus-bridge": "^3.2.1",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "core-js": "^3.28.0",
