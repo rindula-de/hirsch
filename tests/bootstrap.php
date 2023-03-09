@@ -19,7 +19,7 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
         __DIR__
     ));
     passthru(sprintf(
-        'php "%s/../bin/console" doctrine:schema:update --env=test --force --no-interaction',
+        'php "%s/../bin/console" doctrine:schema:update --env=test --force --no-interaction --complete',
         __DIR__
     ));
     passthru(sprintf(
