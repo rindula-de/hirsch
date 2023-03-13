@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="spin-the-wheel" {{ stimulus_controller('spin_the_wheel') }} data-spin-the-wheel-participants-value="{{ participants|json_encode }}">
+</div>
+
+{% endblock %}
