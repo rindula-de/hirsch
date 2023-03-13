@@ -138,16 +138,13 @@ class OrderController extends AbstractController
     /**
      * Get a list of all orders today.
      *
-     * @param OrdersRepository $ordersRepository
-     * @param bool             $onlyToday
      * @OA\Parameter(
      *     name="onlyToday",
      *     in="path",
      *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *
      *     @OA\Schema(type="integer")
      * )
-     *
-     * @return Response
      */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
     public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response

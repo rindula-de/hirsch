@@ -45,8 +45,6 @@ class MenuController extends AbstractController
 
     /**
      * Get the Hirsch to Go menu.
-     *
-     * @return Response
      */
     #[Route('/api/get-menu', name: 'api_menu', methods: ['GET'])]
     public function getMenu(Request $request, HirschRepository $hirschRepository): Response
@@ -120,7 +118,7 @@ class MenuController extends AbstractController
             if ($emailsToDelete) {
                 foreach ($emailsToDelete as $emailId) {
                     // Markiert die E-Mails zum löschen
-                    imap_delete($mbox, (8 == explode('.', phpversion())[0] ? $emailId.'' : $emailId));
+                    imap_delete($mbox, 8 == explode('.', phpversion())[0] ? $emailId.'' : $emailId);
                 }
 
                 // Löscht die markierten Mails endgültig

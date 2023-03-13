@@ -46,7 +46,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $order = new Orders();
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
-            ->setForDate((new DateTime()))
+            ->setForDate(new DateTime())
             ->setOrderedby('Test')
             ->setHirsch($hirsch);
 
@@ -94,7 +94,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $order = new Orders();
         $order->setCreated((new DateTime())
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
-            ->setForDate((new DateTime()))
+            ->setForDate(new DateTime())
             ->setOrderedby('Test')
             ->setHirsch($hirsch);
 

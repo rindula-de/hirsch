@@ -43,9 +43,9 @@ class PwaController extends AbstractController
 
         return new JsonResponse([
             'lang' => 'de-DE',
-            'name' => "Hirsch Bestellsammelseite",
+            'name' => 'Hirsch Bestellsammelseite',
             'short_name' => 'Hirsch Bestellung',
-            'description' => sprintf("Die Bestellsammelseite für den Hirsch. Aktuelle Version: %s", $_ENV['APP_VERSION']),
+            'description' => sprintf('Die Bestellsammelseite für den Hirsch. Aktuelle Version: %s', $_ENV['APP_VERSION']),
             'icons' => [[
                 'src' => 'favicon.png',
                 'type' => 'image/png',
