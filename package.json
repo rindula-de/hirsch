@@ -12,7 +12,7 @@
         "@babel/core": "^7.21.0",
         "@babel/preset-env": "^7.20.2",
         "@symfony/webpack-encore": "^4.0.0",
-        "webpack": "^5.74.0",
+        "webpack": "^5.76.1",
         "webpack-cli": "^5.0.1",
         "webpack-notifier": "^1.15.0"
     },
