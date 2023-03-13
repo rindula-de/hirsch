@@ -43,9 +43,9 @@ class PwaController extends AbstractController
 
         return new JsonResponse([
             'lang' => 'de-DE',
-            'name' => 'Hirsch Bestellsammelseite '.$_ENV['APP_VERSION'],
+            'name' => 'Hirsch Bestellsammelseite',
             'short_name' => 'Hirsch Bestellung',
-            'description' => 'Die Bestellsammelseite für den Hirsch. Aktuelle Version: '.$_ENV['APP_VERSION'],
+            'description' => sprintf('Die Bestellsammelseite für den Hirsch. Aktuelle Version: %s', $_ENV['APP_VERSION']),
             'icons' => [[
                 'src' => 'favicon.png',
                 'type' => 'image/png',
@@ -63,7 +63,10 @@ class PwaController extends AbstractController
             'theme_color' => '#ffa303',
             'start_url' => $this->generateUrl('menu'),
             'display' => 'standalone',
+            'version' => $_ENV['APP_VERSION'] ?? '99.99.99',
+            'version_name' => $_ENV['APP_VERSION'] ?? 'Development',
             'orientation' => 'portrait',
+            'manifest_version' => 3,
         ], 200, ['Content-Type' => 'application/manifest+json']);
     }
 

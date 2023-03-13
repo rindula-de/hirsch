@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Hirsch.
  *
  * @ORM\Table(name="hirsch", uniqueConstraints={@ORM\UniqueConstraint(name="slug", columns={"slug"})})
+ *
  * @ORM\Entity(repositoryClass="App\Repository\HirschRepository")
  */
 class Hirsch
@@ -20,7 +21,9 @@ class Hirsch
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;

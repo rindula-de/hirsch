@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Holidays.
  *
  * @ORM\Table(name="holidays")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\HolidaysRepository")
  */
 class Holidays
@@ -20,7 +21,9 @@ class Holidays
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
