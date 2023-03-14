@@ -35,7 +35,7 @@ class DrawController extends AbstractController
     }
 
     #[Route('/api/spin-the-wheel', name: 'api_spinthewheel', methods: ['POST'])]
-    public function setSpinTheWheelWinner(Request $request)
+    public function setSpinTheWheelWinner(Request $request): Response
     {
         $winner = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR)['winner'] ?? null;
         $cache = new FilesystemAdapter();
@@ -44,5 +44,7 @@ class DrawController extends AbstractController
 
             return $winner;
         });
+
+        return new Response();
     }
 }
