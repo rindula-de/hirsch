@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Repository\OrdersRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class DrawController extends AbstractController
 {
@@ -24,5 +27,17 @@ class DrawController extends AbstractController
         return $this->render('draw/index.html.twig', [
             'participants' => $participants,
         ]);
+    }
+
+    #[Route('/api/spin-the-wheel', name: 'api_spinthewheel', methods: ['POST'])]
+    public function setSpinTheWheelWinner(Request $request)
+    {
+        $winner = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR)['winner'] ?? null;
+        $cache = new FilesystemAdapter();
+        $cache->get('spinthewheel', function (ItemInterface $item) use ($winner) {
+            $item->expiresAt(new DateTime('tomorrow 3am'));
+
+            return $winner;
+        });
     }
 }

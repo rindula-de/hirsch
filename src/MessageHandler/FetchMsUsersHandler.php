@@ -10,9 +10,11 @@ use App\Entity\MsUser;
 use App\Message\FetchMsUsers;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class FetchMsUsersHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class FetchMsUsersHandler
 {
     private ManagerRegistry $doctrine;
 

@@ -1,7 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-<div class="spin-the-wheel" {{ stimulus_controller('spin_the_wheel') }} data-spin-the-wheel-participants-value="{{ participants|json_encode }}">
+<turbo-frame id="generalModalFrame">
+<div class="spin-the-wheel" {{ stimulus_controller('spin_the_wheel') }} data-spin-the-wheel-participants-value="{{ participants|json_encode }}" {{ stimulus_action('spin_the_wheel', 'spin', 'click') }}>
 </div>
-
-{% endblock %}
+</turbo-frame>
