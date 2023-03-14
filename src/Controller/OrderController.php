@@ -197,7 +197,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
-    public function orders(Request $request, EntityManagerInterface $entityManager): Response
+    public function orders(Request $request, EntityManagerInterface $entityManager, PayhistoryRepository $payhistoryRepository): Response
     {
         $preorders = $entityManager
             ->getRepository(Orders::class)
@@ -228,6 +228,9 @@ class OrderController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $drawn = null;
+
+        $activePayer = $payhistoryRepository->findActivePayer();
         $cache = new FilesystemAdapter();
         $drawn = $cache->getItem('spinthewheel')->get();
 
@@ -236,6 +239,7 @@ class OrderController extends AbstractController
             'orderNameList' => $orderNameList,
             'ordererName' => $request->cookies->get('ordererName'),
             'drawn' => $drawn,
+            'activePayer' => $activePayer,
         ]);
     }
 
