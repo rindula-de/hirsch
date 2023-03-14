@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2023
+ */
+
 namespace App\Controller;
 
 use App\Repository\OrdersRepository;
@@ -24,6 +28,7 @@ class DrawController extends AbstractController
         $participants = array_map(function ($participant) {
             return $participant->getOrderedBy();
         }, $participants);
+
         return $this->render('draw/index.html.twig', [
             'participants' => $participants,
         ]);
