@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -196,7 +197,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
-    public function orders(Request $request, EntityManagerInterface $entityManager): Response
+    public function orders(Request $request, EntityManagerInterface $entityManager, PayhistoryRepository $payhistoryRepository): Response
     {
         $preorders = $entityManager
             ->getRepository(Orders::class)
@@ -227,10 +228,18 @@ class OrderController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $drawn = null;
+
+        $activePayer = $payhistoryRepository->findActivePayer();
+        $cache = new FilesystemAdapter();
+        $drawn = $cache->getItem('spinthewheel')->get();
+
         return $this->render('order/orders.html.twig', [
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
             'ordererName' => $request->cookies->get('ordererName'),
+            'drawn' => $drawn,
+            'activePayer' => $activePayer,
         ]);
     }
 
