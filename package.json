@@ -9,7 +9,7 @@
         "sass": "^1.60.0",
         "sass-loader": "^13.2.2",
         "stimulus": "^3.2.1",
-        "@babel/core": "^7.21.3",
+        "@babel/core": "^7.21.4",
         "@babel/preset-env": "^7.21.4",
         "@symfony/webpack-encore": "^4.0.0",
         "webpack": "^5.78.0",
