@@ -1,0 +1,3 @@
+paths-ignore:
+    - vendor
+    - node_modules

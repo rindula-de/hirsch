@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Paypalmes.
  *
  * @ORM\Table(name="paypalmes")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\PaypalmesRepository")
  */
 class Paypalmes
@@ -21,7 +22,9 @@ class Paypalmes
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -30,6 +33,7 @@ class Paypalmes
      * @var string
      *
      * @ORM\Column(name="link", type="string", length=100, nullable=false)
+     *
      * @Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message="paypal.link.invalid")
      */
     private $link;
@@ -45,6 +49,7 @@ class Paypalmes
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true, options={"default"="NULL"})
+     *
      * @Assert\Email(message = "paypal.email.invalid")
      */
     private $email = 'NULL';

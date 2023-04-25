@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -138,16 +139,13 @@ class OrderController extends AbstractController
     /**
      * Get a list of all orders today.
      *
-     * @param OrdersRepository $ordersRepository
-     * @param bool             $onlyToday
      * @OA\Parameter(
      *     name="onlyToday",
      *     in="path",
      *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
+     *
      *     @OA\Schema(type="integer")
      * )
-     *
-     * @return Response
      */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
     public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response
@@ -199,7 +197,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/bestellungen/', name: 'orders', methods: ['GET'])]
-    public function orders(Request $request, EntityManagerInterface $entityManager): Response
+    public function orders(Request $request, EntityManagerInterface $entityManager, PayhistoryRepository $payhistoryRepository): Response
     {
         $preorders = $entityManager
             ->getRepository(Orders::class)
@@ -230,10 +228,18 @@ class OrderController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $drawn = null;
+
+        $activePayer = $payhistoryRepository->findActivePayer();
+        $cache = new FilesystemAdapter();
+        $drawn = $cache->getItem('spinthewheel')->get();
+
         return $this->render('order/orders.html.twig', [
             'preorders' => $preorders,
             'orderNameList' => $orderNameList,
             'ordererName' => $request->cookies->get('ordererName'),
+            'drawn' => $drawn,
+            'activePayer' => $activePayer,
         ]);
     }
 

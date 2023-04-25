@@ -15,15 +15,15 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
 } elseif (method_exists(Dotenv::class, 'bootEnv')) {
     (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
     passthru(sprintf(
-        'php "%s/../bin/console" doctrine:schema:drop --env=test --force --no-interaction',
+        'php "%s/../bin/console" doctrine:schema:drop --env=test --force --no-interaction 2>&1',
         __DIR__
     ));
     passthru(sprintf(
-        'php "%s/../bin/console" doctrine:schema:update --env=test --force --no-interaction',
+        'php "%s/../bin/console" doctrine:schema:update --env=test --force --no-interaction --complete 2>&1',
         __DIR__
     ));
     passthru(sprintf(
-        'php "%s/../bin/console" doctrine:fixtures:load --env=test --no-interaction',
+        'php "%s/../bin/console" doctrine:fixtures:load --env=test --no-interaction 2>&1',
         __DIR__
     ));
 }

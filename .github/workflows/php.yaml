@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@2.24.0
+      - uses: shivammathur/setup-php@2.25.1
         with:
           php-version: 8.1
           tools: composer:v2
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@2.24.0
+      - uses: shivammathur/setup-php@2.25.1
         with:
           php-version: 8.1
           tools: composer:v2
@@ -83,7 +83,7 @@ jobs:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
           lfs: true
-      - uses: shivammathur/setup-php@2.24.0
+      - uses: shivammathur/setup-php@2.25.1
         with:
           php-version: 8.1
           tools: composer:v2
@@ -139,7 +139,7 @@ jobs:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
           lfs: true
-      - uses: shivammathur/setup-php@2.24.0
+      - uses: shivammathur/setup-php@2.25.1
         with:
           php-version: 8.1
           tools: composer:v2
@@ -164,13 +164,13 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        php: [8, 8.1]
+        php: [8.1]
         experimental: [false]
-        # include:
+        include:
           # includes a new variable of npm with a value of 6
           # for the matrix leg matching the os and version
-          # - php: 8.2
-          #   experimental: true
+           - php: 8.2
+             experimental: true
     services:
       mariadb:
         image: mariadb:10.6.4
@@ -189,7 +189,7 @@ jobs:
       - uses: actions/setup-node@v3.6.0
         with:
           node-version: '15'
-      - uses: shivammathur/setup-php@2.24.0
+      - uses: shivammathur/setup-php@2.25.1
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2

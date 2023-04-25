@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Orders.
  *
  * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"hirsch_id"})})
+ *
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
 class Orders
@@ -21,7 +22,9 @@ class Orders
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -51,6 +54,7 @@ class Orders
      * @var string
      *
      * @Assert\NotBlank(message="Bitte gib einen Namen ein.")
+     *
      * @ORM\Column(name="orderedby", type="string", length=255, nullable=false)
      */
     private $orderedby;
@@ -59,6 +63,7 @@ class Orders
      * @var Hirsch
      *
      * @ORM\ManyToOne(targetEntity=Hirsch::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $hirsch;
