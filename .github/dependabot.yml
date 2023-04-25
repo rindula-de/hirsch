@@ -7,6 +7,9 @@ version: 2
 updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: "all"
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
