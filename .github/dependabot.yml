@@ -13,7 +13,7 @@ updates:
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
-      time: "04:00"
+      time: "09:00"
       day: "sunday"
     assignees:
       - "Rindula"
@@ -22,7 +22,7 @@ updates:
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
-      time: "04:00"
+      time: "03:00"
       day: "sunday"
     assignees:
       - "Rindula"
