@@ -1,5 +1,5 @@
 <turbo-frame id="generalModalFrame">
-{% if "now"|date("H")|int == 11 %}
+{% if "now"|date("H")|float == 11 %}
     <div class="spin-the-wheel" {{ stimulus_controller('spin_the_wheel') }} data-spin-the-wheel-participants-value="{{ participants|json_encode }}" {{ stimulus_action('spin_the_wheel', 'spin', 'click') }}>
     </div>
 {% else %}
