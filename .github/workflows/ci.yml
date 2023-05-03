@@ -61,10 +61,11 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: make all
       - run: make artifact.tar
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         with:
           name: deploy_hetzner
           path: artifact.tar
+          if-no-files-found: warn
           retention-days: 1
       - run: |
           echo 'Successfully built the Project; ready for deployment! :rocket:' >> $GITHUB_STEP_SUMMARY
