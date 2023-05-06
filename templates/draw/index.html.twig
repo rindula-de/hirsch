@@ -1,12 +1,12 @@
 <turbo-frame id="generalModalFrame">
-{# {% if "now"|date("H") == 11 %} #}
+{% if "now"|date("H") == 11 %}
     {% if participants|length > 1 %}
         <div class="spin-the-wheel" {{ stimulus_controller('spin_the_wheel') }} data-spin-the-wheel-participants-value="{{ participants|json_encode }}" {{ stimulus_action('spin_the_wheel', 'spin', 'click') }}>
         </div>
     {% else %}
         <h2>Es sind nicht genügend Teilnehmer vorhanden!</h2>
     {% endif %}
-{# {% else %} #}
+{% else %}
     {# <h2>Das Auslosen ist erst ab 11 Uhr möglich!</h2> #}
-{# {% endif %} #}
+{% endif %}
 </turbo-frame>
