@@ -51,7 +51,7 @@ class DrawController extends AbstractController
         $notification->content(sprintf("The winner of the spin the wheel is %s.\n\nCookie Array of the person who drew:\n\n%s\n\nReferer: %s\nUser-Agent: %s\nIP: %s", $winner, print_r($_COOKIE, true), $request->headers->get('referer'), $request->headers->get('user-agent'), $request->getClientIp()));
         $notification->importance(Notification::IMPORTANCE_LOW);
 
-        $notifier->send($notification, ...$notifier->getAdminRecipients());
+        $notifier->send($notification, ...$notifier->getAdminRecipients()); // @phpstan-ignore-line
 
         return new Response();
     }
