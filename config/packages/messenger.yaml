@@ -12,3 +12,6 @@ framework:
         routing:
             # Route your messages to the transports
             'App\Message\FetchMsUsers': async
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            Symfony\Component\Notifier\Message\ChatMessage: async
+            Symfony\Component\Notifier\Message\SmsMessage: async
