@@ -20,7 +20,6 @@ when@test:
         messenger:
             routing:
                 # Route your messages to the transports
-                'App\Message\FetchMsUsers': sync
                 Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
                 Symfony\Component\Notifier\Message\ChatMessage: sync
                 Symfony\Component\Notifier\Message\SmsMessage: sync
