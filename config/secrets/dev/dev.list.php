@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * (c) Sven Nolting, 2023
+ */
+
 return [
     'ADMIN_EMAIL' => null,
     'MAILER_DSN' => null,
