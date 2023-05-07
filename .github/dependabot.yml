@@ -7,6 +7,7 @@ version: 2
 updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
+    open-pull-requests-limit: 100
     allow:
       # Allow both direct and indirect updates for all packages
       - dependency-type: "all"
@@ -19,6 +20,7 @@ updates:
       - "Rindula"
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
+    open-pull-requests-limit: 10
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
@@ -31,16 +33,7 @@ updates:
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
-      time: "04:00"
-      day: "sunday"
-    assignees:
-      - "Rindula"
-  - package-ecosystem: gitsubmodule
-    directory: /
-    schedule:
-      interval: "weekly"
-      timezone: Europe/Berlin
-      time: "04:00"
+      time: "01:00"
       day: "sunday"
     assignees:
       - "Rindula"
