@@ -78,7 +78,7 @@ class PaypalmesTypeTest extends TypeTestCase
         $this->assertNotEmpty($view->children['name']->vars['row_attr']);
         $this->assertNotEmpty($view->children['email']->vars['row_attr']);
 
-        $this->assertEquals('Paypal.me Name', $view->children['link']->vars['label']);
+        $this->assertEquals('Paypal.me Link', $view->children['link']->vars['label']);
         $this->assertEquals('Dein Name', $view->children['name']->vars['label']);
         $this->assertEquals('Deine E-Mail', $view->children['email']->vars['label']);
         $this->assertEquals('Speichern', $view->children['submit']->vars['label']);
