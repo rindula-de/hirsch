@@ -8259,7 +8259,7 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.8.0",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
@@ -8334,7 +8334,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.8.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.8.1"
             },
             "funding": [
                 {
