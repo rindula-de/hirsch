@@ -16,8 +16,6 @@ updates:
       timezone: Europe/Berlin
       time: "09:00"
       day: "sunday"
-    assignees:
-      - "Rindula"
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     open-pull-requests-limit: 10
@@ -26,8 +24,6 @@ updates:
       timezone: Europe/Berlin
       time: "03:00"
       day: "sunday"
-    assignees:
-      - "Rindula"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -35,5 +31,3 @@ updates:
       timezone: Europe/Berlin
       time: "01:00"
       day: "sunday"
-    assignees:
-      - "Rindula"
