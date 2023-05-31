@@ -53,7 +53,7 @@ class SendOrderOverview extends Command
             ->where('o.for_date = :date')
             ->groupBy('h.name')
             ->addGroupBy('o.note')
-            ->setParameter('date', strftime('%Y-%m-%d'))
+            ->setParameter('date', date('Y-m-d'))
             ->getQuery()
             ->getResult();
 
