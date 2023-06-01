@@ -128,5 +128,6 @@ jobs:
         run: echo tag=${GITHUB_REF#refs/*/} >> $GITHUB_OUTPUT
       - uses: dev-drprasad/delete-tag-and-release@v1.0.1
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_release: true # default: false
           tag_name: ${{ steps.vars.outputs.tag }} # tag name to delete
