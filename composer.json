@@ -24,7 +24,7 @@
         "sensio/framework-extra-bundle": "^6.2",
         "smalot/pdfparser": "^2.0",
         "symfony/apache-pack": "^1.0",
-        "symfony/asset": "6.2.*",
+        "symfony/asset": "6.3.*",
         "symfony/cache": "6.2.*",
         "symfony/console": "6.3.*",
         "symfony/doctrine-messenger": "6.3.*",
