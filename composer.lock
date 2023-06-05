@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d269ddc029a402fb850cfba1bcfbc774",
+    "content-hash": "a6b7bdbb81f6013987a66dc5d55e9c40",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -7546,16 +7546,16 @@
         },
         {
             "name": "symfony/security-csrf",
-            "version": "v6.2.7",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-csrf.git",
-                "reference": "6cce7efdce68e0670d2f19acebc21dcd0798e333"
+                "reference": "1f505c9060bde692eb37718c78a91d95d9abeeec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/6cce7efdce68e0670d2f19acebc21dcd0798e333",
-                "reference": "6cce7efdce68e0670d2f19acebc21dcd0798e333",
+                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/1f505c9060bde692eb37718c78a91d95d9abeeec",
+                "reference": "1f505c9060bde692eb37718c78a91d95d9abeeec",
                 "shasum": ""
             },
             "require": {
@@ -7567,9 +7567,6 @@
             },
             "require-dev": {
                 "symfony/http-foundation": "^5.4|^6.0"
-            },
-            "suggest": {
-                "symfony/http-foundation": "For using the class SessionTokenStorage."
             },
             "type": "library",
             "autoload": {
@@ -7597,7 +7594,7 @@
             "description": "Symfony Security Component - CSRF Library",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-csrf/tree/v6.2.7"
+                "source": "https://github.com/symfony/security-csrf/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -7613,7 +7610,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-16T09:57:23+00:00"
+            "time": "2023-04-21T14:41:17+00:00"
         },
         {
             "name": "symfony/security-http",
