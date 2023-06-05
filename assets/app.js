@@ -9,6 +9,7 @@
 import './styles/app.scss';
 import 'flatpickr';
 import "./js/scripts";
+import "./turbo/turbo-helper";
 
 // start the Stimulus application
 import './bootstrap';
