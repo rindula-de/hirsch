@@ -37,7 +37,7 @@
         "symfony/http-foundation": "6.2.*",
         "symfony/intl": "6.2.*",
         "symfony/mailer": "6.3.*",
-        "symfony/messenger": "6.2.*",
+        "symfony/messenger": "6.3.*",
         "symfony/mime": "6.2.*",
         "symfony/monolog-bundle": "^3.7",
         "symfony/notifier": "6.3.*",
