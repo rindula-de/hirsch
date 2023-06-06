@@ -91,8 +91,7 @@ class OrderController extends AbstractController
                 // create response with cookie
                 $response->headers->setCookie($cookie);
 
-                $this->addFlash("raw", sprintf("<script>window.order_id = '%s'</script>", $order->getId()));
-
+                $this->addFlash('raw', sprintf("<script>window.order_id = '%s'</script>", $order->getId()));
             }
 
             return $response;
@@ -110,7 +109,7 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('menu');
         }
 
-        $this->addFlash("raw", sprintf("<script>window.gericht = '%s'</script>", $hirsch->getName()));
+        $this->addFlash('raw', sprintf("<script>window.gericht = '%s'</script>", $hirsch->getName()));
 
         return $this->renderForm('order/index.html.twig', [
             'form' => $form,
