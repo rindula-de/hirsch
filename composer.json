@@ -82,7 +82,7 @@
         "symfony/maker-bundle": "^1.34",
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "6.2.*",
-        "symfony/web-profiler-bundle": "6.2.*"
+        "symfony/web-profiler-bundle": "6.3.*"
     },
     "config": {
         "optimize-autoloader": true,

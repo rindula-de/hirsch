@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc456f374205120d3e5ca9a02070b9ea",
+    "content-hash": "d84626934217f632244be22adcf2b698",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -13627,23 +13627,23 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v6.2.11",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "1338ad6486f7ce22401a1c0d799ccb5f499b7f8f"
+                "reference": "bab614e12218a95a924685a1fbf662bd7ca2d746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/1338ad6486f7ce22401a1c0d799ccb5f499b7f8f",
-                "reference": "1338ad6486f7ce22401a1c0d799ccb5f499b7f8f",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/bab614e12218a95a924685a1fbf662bd7ca2d746",
+                "reference": "bab614e12218a95a924685a1fbf662bd7ca2d746",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "symfony/config": "^5.4|^6.0",
                 "symfony/framework-bundle": "^5.4|^6.0",
-                "symfony/http-kernel": "^6.1",
+                "symfony/http-kernel": "^6.3",
                 "symfony/routing": "^5.4|^6.0",
                 "symfony/twig-bundle": "^5.4|^6.0",
                 "twig/twig": "^2.13|^3.0.4"
@@ -13684,8 +13684,11 @@
             ],
             "description": "Provides a development tool that gives detailed information about the execution of any request",
             "homepage": "https://symfony.com",
+            "keywords": [
+                "dev"
+            ],
             "support": {
-                "source": "https://github.com/symfony/web-profiler-bundle/tree/v6.2.11"
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -13701,7 +13704,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-05T15:52:57+00:00"
+            "time": "2023-05-22T17:08:58+00:00"
         },
         {
             "name": "thecodingmachine/safe",
