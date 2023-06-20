@@ -5,6 +5,7 @@
  */
 
 return [
+    'ADMIN_EMAIL' => null,
     'APP_SECRET' => null,
     'HT_PASS' => null,
     'HT_USER' => null,

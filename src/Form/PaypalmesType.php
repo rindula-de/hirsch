@@ -18,10 +18,10 @@ class PaypalmesType extends AbstractType
     {
         $builder
             ->add('link', null, [
-                'label' => 'Paypal.me Name',
+                'label' => 'Paypal.me Link',
                 'row_attr' => ['class' => 'input text required'],
-                'help' => 'Wenn der Link https://paypal.me/rindulalp ist, dann ist der Name rindulalp.',
-                'attr' => ['placeholder' => 'rindulalp', 'class' => 'on-surface-text'],
+                'help' => 'Trage hier deinen paypal.me Link ein, ohne Slash am Ende',
+                'attr' => ['placeholder' => 'https://paypal.me/rindulalp', 'class' => 'on-surface-text'],
             ])
             ->add('name', null, [
                 'label' => 'Dein Name',

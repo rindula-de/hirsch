@@ -26,10 +26,10 @@ jobs:
           ssh-key: '${{ secrets.SSHKEY }}'
           lfs: true
       - name: Set Timezone
-        uses: szenius/set-timezone@v1.1
+        uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.25.1
+      - uses: shivammathur/setup-php@2.25.4
         with:
           php-version: 8.1
           tools: composer:v2
@@ -61,10 +61,11 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: make all
       - run: make artifact.tar
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         with:
           name: deploy_hetzner
           path: artifact.tar
+          if-no-files-found: warn
           retention-days: 1
       - run: |
           echo 'Successfully built the Project; ready for deployment! :rocket:' >> $GITHUB_STEP_SUMMARY
@@ -125,9 +126,8 @@ jobs:
       - name: Set output
         id: vars
         run: echo tag=${GITHUB_REF#refs/*/} >> $GITHUB_OUTPUT
-      - uses: dev-drprasad/delete-tag-and-release@v0.2.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: dev-drprasad/delete-tag-and-release@v1.0.1
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_release: true # default: false
           tag_name: ${{ steps.vars.outputs.tag }} # tag name to delete

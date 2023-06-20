@@ -4,16 +4,16 @@
         "@hotwired/turbo": "^7.3.0",
         "@symfony/stimulus-bridge": "^3.2.2",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
-        "core-js": "^3.30.1",
+        "core-js": "^3.30.2",
         "regenerator-runtime": "^0.13.11",
-        "sass": "^1.62.0",
-        "sass-loader": "^13.2.2",
+        "sass": "^1.63.3",
+        "sass-loader": "^13.3.2",
         "stimulus": "^3.2.1",
-        "@babel/core": "^7.21.4",
-        "@babel/preset-env": "^7.21.4",
-        "@symfony/webpack-encore": "^4.0.0",
-        "webpack": "^5.79.0",
-        "webpack-cli": "^5.0.1",
+        "@babel/core": "^7.22.5",
+        "@babel/preset-env": "^7.22.5",
+        "@symfony/webpack-encore": "^4.3.0",
+        "webpack": "^5.86.0",
+        "webpack-cli": "^5.1.4",
         "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
-        "jquery": "^3.6.4",
+        "jquery": "^3.7.0",
         "offline-plugin": "^5.0.7"
     }
 }

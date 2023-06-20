@@ -40,8 +40,8 @@ class PayhistoryRepository extends ServiceEntityRepository
             ->where('p.created BETWEEN :date_start AND :date_end')
             ->groupBy('p.paypalme')
             ->orderBy('cnt', 'DESC')
-            ->setParameter('date_start', strftime('%Y-%m-%d').' 00:00:00')
-            ->setParameter('date_end', strftime('%Y-%m-%d').' 23:59:59')
+            ->setParameter('date_start', date('Y-m-d').' 00:00:00')
+            ->setParameter('date_end', date('Y-m-d').' 23:59:59')
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();

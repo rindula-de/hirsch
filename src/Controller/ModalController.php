@@ -6,7 +6,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Holidays;
 use App\Repository\HolidaysRepository;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

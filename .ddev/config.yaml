@@ -13,9 +13,6 @@ database:
     version: "10.3"
 nfs_mount_enabled: false
 mutagen_enabled: false
-hooks:
-    post-start:
-        - composer: install --no-interaction
 webimage_extra_packages: [php8.1-imap]
 use_dns_when_possible: true
 timezone: Europe/Berlin

@@ -130,7 +130,7 @@ class MenuController extends AbstractController
             }
 
             if ($emails) {
-                $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“]+?)( (\d+,\d{2}) Euro?)?';
+                $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“\/]+?)( (\d+,\d{2}) Euro?)?';
                 foreach ($emails as $emailId) {
                     $structure = imap_fetchstructure($mbox, $emailId);
 
