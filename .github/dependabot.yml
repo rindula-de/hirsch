@@ -13,7 +13,7 @@ updates:
       - dependency-type: "all"
     ignore:
       - dependency-name: "symfony/*"
-        versions: ["version-update:semver-major", "version-update:semver-minor"]
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
