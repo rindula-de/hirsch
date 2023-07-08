@@ -10,7 +10,7 @@
         "sass-loader": "^13.3.2",
         "stimulus": "^3.2.1",
         "@babel/core": "^7.22.8",
-        "@babel/preset-env": "^7.22.5",
+        "@babel/preset-env": "^7.22.7",
         "@symfony/webpack-encore": "^4.3.0",
         "webpack": "^5.88.1",
         "webpack-cli": "^5.1.4",
