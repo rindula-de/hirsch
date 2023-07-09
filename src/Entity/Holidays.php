@@ -13,13 +13,13 @@ class Holidays
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: "date")]
+    #[ORM\Column(type: 'date')]
     private \DateTime $start;
 
-    #[ORM\Column(type: "date")]
+    #[ORM\Column(type: 'date')]
     private \DateTime $end;
 
     public function getId(): ?int

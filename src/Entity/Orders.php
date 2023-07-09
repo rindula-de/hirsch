@@ -20,17 +20,17 @@ class Orders
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id;
 
-    #[ORM\Column(type: "string", length: 1000, nullable: false, options: ["default" => ""])]
+    #[ORM\Column(type: 'string', length: 1000, nullable: false, options: ['default' => ''])]
     private string $note = '';
 
-    #[ORM\Column(type: "date", nullable: false)]
+    #[ORM\Column(type: 'date', nullable: false)]
     private \DateTime $for_date;
 
-    #[ORM\Column(type: "datetime", nullable: false)]
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $created;
 
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    #[Assert\NotBlank(message: "Bitte gib einen Namen ein.")]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Bitte gib einen Namen ein.')]
     private string $orderedby = '';
 
     #[ORM\ManyToOne(targetEntity: Hirsch::class)]

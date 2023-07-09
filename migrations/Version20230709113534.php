@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/*
+ * (c) Sven Nolting, 2023
+ */
+
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;

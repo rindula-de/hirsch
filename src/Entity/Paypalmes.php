@@ -20,18 +20,18 @@ class Paypalmes
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id;
 
-    #[Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message: "paypal.link.invalid")]
-    #[ORM\Column(type: "string", length: 100, nullable: false)]
+    #[Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message: 'paypal.link.invalid')]
+    #[ORM\Column(type: 'string', length: 100, nullable: false)]
     private string $link;
 
-    #[ORM\Column(type: "string", length: 100, nullable: false, options: ["default" => ""])]
+    #[ORM\Column(type: 'string', length: 100, nullable: false, options: ['default' => ''])]
     private string $name = '';
 
-    #[Assert\Email(message: "paypal.email.invalid")]
-    #[ORM\Column(type: "string", length: 255, nullable: true, options: ["default" => "NULL"])]
+    #[Assert\Email(message: 'paypal.email.invalid')]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, options: ['default' => 'NULL'])]
     private string $email = 'NULL';
 
-    #[ORM\Column(type: "date", nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $bar;
 
     public function __construct()

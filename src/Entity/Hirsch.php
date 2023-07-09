@@ -8,23 +8,22 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 #[ORM\Entity(repositoryClass: "App\Repository\HirschRepository")]
-#[ORM\UniqueConstraint(name: "slug", columns: ["slug"])]
+#[ORM\UniqueConstraint(name: 'slug', columns: ['slug'])]
 class Hirsch
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: "string", length: 191)]
+    #[ORM\Column(type: 'string', length: 191)]
     private string $slug;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
-    #[ORM\Column(type: "boolean", options: ["default" => true])]
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $display = true;
 
     public function getId(): ?int

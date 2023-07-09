@@ -19,14 +19,14 @@ class Payhistory
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id;
 
-    #[ORM\Column(type: "datetime", nullable: false)]
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $created;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Paypalmes::class)]
     private Paypalmes $paypalme;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $clickedBy;
 
     public function __construct()

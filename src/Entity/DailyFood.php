@@ -14,13 +14,13 @@ class DailyFood
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
-    #[ORM\Column(type: "date")]
+    #[ORM\Column(type: 'date')]
     private \DateTimeInterface $date;
 
     public function getId(): ?int
