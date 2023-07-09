@@ -14,6 +14,10 @@ updates:
     ignore:
       - dependency-name: "symfony/*"
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    groups:
+      symfony:
+        patterns:
+          - "symfony/*"
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
