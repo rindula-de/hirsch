@@ -9,35 +9,19 @@ namespace App\Entity;
 use App\Repository\DailyFoodRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=DailyFoodRepository::class)
- */
+#[ORM\Entity(repositoryClass: DailyFoodRepository::class)]
 class DailyFood
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $name;
 
-    /**
-     * @var \DateTimeInterface
-     *
-     * @ORM\Column(type="date")
-     */
-    private $date;
+    #[ORM\Column(type: "date")]
+    private \DateTimeInterface $date;
 
     public function getId(): ?int
     {
