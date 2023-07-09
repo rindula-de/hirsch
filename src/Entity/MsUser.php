@@ -13,7 +13,7 @@ class MsUser
 {
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 255)]
-    private $uid;
+    private string $uid;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;

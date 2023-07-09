@@ -29,7 +29,7 @@ class Paypalmes
 
     #[Assert\Email(message: 'paypal.email.invalid')]
     #[ORM\Column(type: 'string', length: 255, nullable: true, options: ['default' => 'NULL'])]
-    private string $email = 'NULL';
+    private ?string $email = 'NULL';
 
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $bar;
