@@ -7,15 +7,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\OrdersRepository")]
 class Orders
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
     #[ORM\Column(type: "string", length: 1000, nullable: false, options: ["default" => ""])]
     private string $note = '';
@@ -28,13 +31,18 @@ class Orders
 
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     #[Assert\NotBlank(message: "Bitte gib einen Namen ein.")]
-    private string $orderedby;
+    private string $orderedby = '';
 
     #[ORM\ManyToOne(targetEntity: Hirsch::class)]
     #[ORM\JoinColumn(nullable: false)]
     private Hirsch $hirsch;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v7();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }

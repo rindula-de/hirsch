@@ -7,15 +7,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\PaypalmesRepository")]
 class Paypalmes
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
     #[Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message: "paypal.link.invalid")]
     #[ORM\Column(type: "string", length: 100, nullable: false)]
@@ -31,7 +34,12 @@ class Paypalmes
     #[ORM\Column(type: "date", nullable: true)]
     private ?\DateTime $bar;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v7();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }

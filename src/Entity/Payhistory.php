@@ -7,14 +7,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: "App\Repository\PayhistoryRepository")]
 class Payhistory
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer", options: ["unsigned" => true])]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
     #[ORM\Column(type: "datetime", nullable: false)]
     private \DateTime $created;
@@ -26,7 +29,12 @@ class Payhistory
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $clickedBy;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v7();
+    }
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
