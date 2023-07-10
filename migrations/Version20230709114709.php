@@ -28,13 +28,6 @@ final class Version20230709114709 extends AbstractMigration
         $this->addSql('SET FOREIGN_KEY_CHECKS=0');
         $this->addSql('ALTER TABLE payhistory CHANGE paypalme_id paypalme_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE paypalmes CHANGE id id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\'');
-
-        $paypalmes = $this->connection->fetchAllAssociative('SELECT * FROM paypalmes');
-        foreach ($paypalmes as $paypalme) {
-            $uuid = Uuid::v7()->toBinary();
-            $this->addSql('UPDATE paypalmes SET id = :newid WHERE id = :id', ['id' => $paypalme['id'], 'newid' => $uuid]);
-            $this->addSql('UPDATE payhistory SET paypalme_id = :newid WHERE paypalme_id = :id', ['id' => $paypalme['id'], 'newid' => $uuid]);
-        }
         $this->addSql('SET FOREIGN_KEY_CHECKS=1');
     }
 
