@@ -60,42 +60,4 @@ class ModalController extends AbstractController
 
         return new Response();
     }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    #[Route('/modalChangelog', name: 'changelog_modal', methods: ['GET'])]
-    public function changelog(Request $request): Response
-    {
-        $cookieName = 'changelogVersion';
-        $version = $request->cookies->get($cookieName) ?? 'v2.7.2';
-        $page = 0;
-        $loadNextPage = true;
-        $cache = new FilesystemAdapter();
-        $changelog = '';
-        do {
-            $githubResponseList = $cache->get('releaseList'.$page, function (ItemInterface $item) use ($page) {
-                return $this->getRequestListForPage($page);
-            });
-
-            foreach ($githubResponseList as $item) {
-                if ($item['tag_name'] == $version) {
-                    $loadNextPage = false;
-                    break;
-                }
-                if (!is_string($item['tag_name']) || !is_string($item['body'])) {
-                    throw new \LogicException('Array definition not up to date');
-                }
-
-                $pattern = '/^- ([[:print:]]+?) \@[^\s]+?\s\(\#(\d*)\)/m';
-                $changelog .= '# '.$item['tag_name']."\r\n\r\n".preg_replace($pattern, "- $1 [[Ansehen]](https://github.com/rindula/hirsch/pull/$2)\r\n", $item['body']);
-            }
-            ++$page;
-        } while ($loadNextPage && $page < 10);
-
-        $response = $this->render('modal/changelog.html.twig', compact('changelog'));
-        $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], expire: time() + (365 * 60 * 60 * 24), httpOnly: false));
-
-        return $response;
-    }
 }
