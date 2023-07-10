@@ -10,7 +10,6 @@ namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
