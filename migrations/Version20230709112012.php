@@ -36,14 +36,12 @@ final class Version20230709112012 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_57125D87FD7D48D0 ON payhistory (paypalme_id)');
         $this->addSql('ALTER TABLE payhistory ADD CONSTRAINT FK_57125D87FD7D48D0 FOREIGN KEY (paypalme_id) REFERENCES paypalmes (id)');
         $this->addSql('ALTER TABLE paypalmes CHANGE link link VARCHAR(100) NOT NULL, CHANGE name name VARCHAR(100) DEFAULT \'\' NOT NULL');
-        $this->addSql('ALTER TABLE messenger_messages CHANGE created_at created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE available_at available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE delivered_at delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE hirsch CHANGE slug slug VARCHAR(191) NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE name name VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`');
-        $this->addSql('ALTER TABLE messenger_messages CHANGE created_at created_at DATETIME NOT NULL, CHANGE available_at available_at DATETIME NOT NULL, CHANGE delivered_at delivered_at DATETIME DEFAULT NULL');
         $this->addSql('ALTER TABLE payhistory DROP FOREIGN KEY FK_57125D87FD7D48D0');
         $this->addSql('ALTER TABLE payhistory CHANGE paypalme_id paypalme_id INT DEFAULT NULL');
         $this->addSql('DROP INDEX idx_57125d87fd7d48d0 ON payhistory');
