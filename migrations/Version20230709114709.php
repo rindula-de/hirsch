@@ -31,8 +31,9 @@ final class Version20230709114709 extends AbstractMigration
 
         $paypalmes = $this->connection->fetchAllAssociative('SELECT * FROM paypalmes');
         foreach ($paypalmes as $paypalme) {
-            $this->addSql('UPDATE paypalmes SET id = :newid WHERE id = :id', ['id' => $paypalme['id'], 'newid' => Uuid::v7()->toBinary()]);
-            $this->addSql('UPDATE payhistory SET paypalme_id = :newid WHERE paypalme_id = :id', ['id' => $paypalme['id'], 'newid' => Uuid::v7()->toBinary()]);
+            $uuid = Uuid::v7()->toBinary();
+            $this->addSql('UPDATE paypalmes SET id = :newid WHERE id = :id', ['id' => $paypalme['id'], 'newid' => $uuid]);
+            $this->addSql('UPDATE payhistory SET paypalme_id = :newid WHERE paypalme_id = :id', ['id' => $paypalme['id'], 'newid' => $uuid]);
         }
         $this->addSql('SET FOREIGN_KEY_CHECKS=1');
     }

@@ -18,7 +18,7 @@ class Paypalmes
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: UuidType::NAME)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?Uuid $id;
+    private Uuid $id;
 
     #[Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message: 'paypal.link.invalid')]
     #[ORM\Column(type: 'string', length: 100, nullable: false)]

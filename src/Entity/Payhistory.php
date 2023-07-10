@@ -17,7 +17,7 @@ class Payhistory
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: UuidType::NAME)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?Uuid $id;
+    private Uuid $id;
 
     #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $created;
