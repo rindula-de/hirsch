@@ -29,12 +29,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ModalController extends AbstractController
 {
     private SessionInterface $session;
-    private HttpClientInterface $client;
 
-    public function __construct(RequestStack $requestStack, HttpClientInterface $client)
+    public function __construct(RequestStack $requestStack)
     {
         $this->session = $requestStack->getSession();
-        $this->client = $client;
     }
 
     #[Route('/modalInformationText', name: 'modal', methods: ['GET'])]
@@ -106,31 +104,5 @@ class ModalController extends AbstractController
         $response->headers->setCookie(new Cookie($cookieName, $_ENV['APP_VERSION'], expire: time() + (365 * 60 * 60 * 24), httpOnly: false));
 
         return $response;
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     *
-     * @return array<int,array<string,string|array<string,string|int>|int>>
-     */
-    private function getRequestListForPage(int $page)
-    {
-        $githubUrl = 'https://api.github.com/repos/Rindula/hirsch/releases?page=';
-        $response = $this->client->request('GET', $githubUrl.$page);
-
-        if (Response::HTTP_OK != $response->getStatusCode()) {
-            throw new NotFoundHttpException('Url not found');
-        }
-
-        try {
-            $githubResponseList = $response->toArray();
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|DecodingExceptionInterface|
-        ServerExceptionInterface|TransportExceptionInterface $e) {
-            throw new NotFoundHttpException('Can not convert API response to array', $e);
-        } finally {
-            $response->cancel();
-        }
-
-        return $githubResponseList;
     }
 }
