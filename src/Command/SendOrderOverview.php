@@ -80,7 +80,7 @@ class SendOrderOverview extends Command
         // get active payer
         $activePayer = $this->entityManager->getRepository(Payhistory::class)->findActivePayer();
         /** @var Paypalmes|null $activePayer */
-        $activePayer = $activePayer?$this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id']):null;
+        $activePayer = $activePayer ? $this->entityManager->getRepository(Paypalmes::class)->find($activePayer['id']) : null;
         if ($activePayer && $activePayer->getEmail()) {
             // prepare symfony mailer
             $email = (new Email())
