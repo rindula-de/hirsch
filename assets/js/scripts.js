@@ -21,7 +21,7 @@ $(document).ready(() => {
         // If the menu element is clicked
         $(".custom-menu li").click(function() {
 
-            var id_regex = new RegExp('^[0-9]+$');
+            var id_regex = new RegExp('^\\d{8}-\\d{4}-\\d{4}-\\d{4}-\\d{12}$');
             // This is the triggered action name
             switch ($(this).attr("data-action")) {
                 case "edit-paypalme":

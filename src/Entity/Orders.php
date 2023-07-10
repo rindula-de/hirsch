@@ -7,68 +7,42 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Orders.
- *
- * @ORM\Table(name="orders", indexes={@ORM\Index(name="FK_orders_hirsch", columns={"hirsch_id"})})
- *
- * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
- */
+#[ORM\Entity(repositoryClass: "App\Repository\OrdersRepository")]
 class Orders
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private Uuid $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="note", type="string", length=1000, nullable=false, options={"default"=""})
-     */
-    private $note = '';
+    #[ORM\Column(type: 'string', length: 1000, nullable: false, options: ['default' => ''])]
+    private string $note = '';
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="for_date", type="date", nullable=false)
-     */
-    private $for_date;
+    #[ORM\Column(type: 'date', nullable: false)]
+    private \DateTime $for_date;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
-     */
-    private $created;
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private \DateTime $created;
 
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank(message="Bitte gib einen Namen ein.")
-     *
-     * @ORM\Column(name="orderedby", type="string", length=255, nullable=false)
-     */
-    private $orderedby;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Bitte gib einen Namen ein.')]
+    private string $orderedby = '';
 
-    /**
-     * @var Hirsch
-     *
-     * @ORM\ManyToOne(targetEntity=Hirsch::class)
-     *
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $hirsch;
+    #[ORM\ManyToOne(targetEntity: Hirsch::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Hirsch $hirsch;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v7();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }

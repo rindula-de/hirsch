@@ -6,36 +6,20 @@
 
 namespace App\Entity;
 
-use App\Repository\MsUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=MsUserRepository::class)
- */
+#[ORM\Entity(repositoryClass: "App\Repository\MsUserRepository")]
 class MsUser
 {
-    /**
-     * @var string
-     *
-     * @ORM\Id
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $uid;
+    #[ORM\Id]
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $uid;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $email;
 
     public function getUid(): ?string
     {

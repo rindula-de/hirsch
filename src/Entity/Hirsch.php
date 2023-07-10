@@ -8,46 +8,23 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Hirsch.
- *
- * @ORM\Table(name="hirsch", uniqueConstraints={@ORM\UniqueConstraint(name="slug", columns={"slug"})})
- *
- * @ORM\Entity(repositoryClass="App\Repository\HirschRepository")
- */
+#[ORM\Entity(repositoryClass: "App\Repository\HirschRepository")]
+#[ORM\UniqueConstraint(name: 'slug', columns: ['slug'])]
 class Hirsch
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=191, nullable=false)
-     */
-    private $slug;
+    #[ORM\Column(type: 'string', length: 191)]
+    private string $slug;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $name;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="display", type="boolean", nullable=false, options={"default"="1"})
-     */
-    private $display = true;
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private bool $display = true;
 
     public function getId(): ?int
     {

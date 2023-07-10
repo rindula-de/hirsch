@@ -54,7 +54,7 @@ class HolidayController extends AbstractController
             return $this->redirectToRoute('holidays');
         }
 
-        return $this->renderForm('holiday/edit.html.twig', [
+        return $this->render('holiday/edit.html.twig', [
             'holiday' => $holiday,
             'form' => $form,
         ]);
@@ -74,7 +74,7 @@ class HolidayController extends AbstractController
             return $this->redirectToRoute('holidays');
         }
 
-        return $this->renderForm('holiday/add.html.twig', [
+        return $this->render('holiday/add.html.twig', [
             'holiday' => $holiday,
             'form' => $form,
         ]);

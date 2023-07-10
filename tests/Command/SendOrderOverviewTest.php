@@ -27,7 +27,7 @@ class SendOrderOverviewTest extends KernelTestCase
         parent::setUp();
         self::bootKernel();
         /** @var EntityManager $entityManager */
-        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+        $entityManager = self::getContainer()->get('doctrine')->getManager();
         $this->entityManager = $entityManager;
         $this->entityManager->beginTransaction();
     }
@@ -66,7 +66,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $commandTester->execute([]);
 
         $commandTester->assertCommandIsSuccessful();
-        $this->assertEmailCount(1);
+        self::assertEmailCount(1);
     }
 
     public function testDailyOrderMailSendWithoutOrders(): void
@@ -79,7 +79,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $commandTester->execute([]);
 
         $commandTester->assertCommandIsSuccessful();
-        $this->assertEmailCount(0);
+        self::assertEmailCount(0);
     }
 
     /**
@@ -109,7 +109,7 @@ class SendOrderOverviewTest extends KernelTestCase
         $commandTester->execute([]);
 
         $commandTester->assertCommandIsSuccessful();
-        $this->assertEmailCount(0);
+        self::assertEmailCount(0);
     }
 
     protected function tearDown(): void

@@ -11,6 +11,7 @@ use App\Entity\Hirsch;
 use App\Entity\Orders;
 use App\Entity\Payhistory;
 use App\Entity\Paypalmes;
+use App\Repository\PaypalmesRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -86,7 +87,7 @@ class OrderTest extends WebTestCase
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
 
         /** @var Paypalmes $paypalme */
-        $paypalme = $entityManager->getRepository(Paypalmes::class)->find(1);
+        $paypalme = $entityManager->getRepository(Paypalmes::class)->findOneBy([]);
 
         $ph = new Payhistory();
 
@@ -97,23 +98,23 @@ class OrderTest extends WebTestCase
 
         ClockMock::withClockMock(strtotime('12:00'));
         $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
-        $this->assertResponseRedirects('/karte', 302);
+        self::assertResponseRedirects('/karte', 302);
 
         ClockMock::withClockMock(strtotime('10:54'));
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
         $form = $crawler->selectButton('order[submit]')->form();
         ClockMock::withClockMock(strtotime('10:55:59'));
         $client->submit($form, [
             'order[orderedby]' => 'Max Mustermann',
             'order[note]' => '+ Pommes', ]);
-        $this->assertResponseRedirects('/zahlen-bitte/', 302);
+        self::assertResponseRedirects('/zahlen-bitte/', 302);
 
         ClockMock::withClockMock(strtotime('10:54'));
         $crawler = $client->request('GET', '/order/0/Schweizer-Wurstsalat-mit-Pommes');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('h2', 'Schweizer Wurstsalat mit Pommes');
         $form = $crawler->selectButton('order[submit]')->form();
         ClockMock::withClockMock(strtotime('11:00:05'));
         $client->submit($form, [
@@ -216,12 +217,15 @@ class OrderTest extends WebTestCase
     {
         $client = $this->loggedInClient();
 
+        $payPalMesRepository = static::getContainer()->get(PaypalmesRepository::class);
+        $paypalmeId = $payPalMesRepository->findOneBy([])->getId();
+
         $crawler = $client->request('GET', '/zahlen-bitte/');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1', ]);
+            'id' => $paypalmeId, ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
 
         $crawler = $client->request('GET', '/zahlen-bitte/');
@@ -231,7 +235,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('.paypalmeslistitem.active', 'Sven Nolting');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id' => $paypalmeId,
             'tip' => '0',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);
@@ -241,7 +245,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id' => $paypalmeId,
             'tip' => '0.5',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/4', 302);
@@ -251,7 +255,7 @@ class OrderTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Paypalierer');
         $form = $crawler->selectButton('id')->form();
         $client->submit($form, [
-            'id' => '1',
+            'id' => $paypalmeId,
             'tip' => '-1',
         ]);
         $this->assertResponseRedirects('https://paypal.me/rindulalp/3.5', 302);

@@ -71,6 +71,9 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+    .configureDevServerOptions(options => {
+        options.allowedHosts = 'all';
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

@@ -7,54 +7,34 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * Payhistory.
- *
- * @ORM\Table(name="payhistory", indexes={@ORM\Index(name="paypalme_id", columns={"paypalme_id"})})
- *
- * @ORM\Entity(repositoryClass="App\Repository\PayhistoryRepository")
- */
+#[ORM\Entity(repositoryClass: "App\Repository\PayhistoryRepository")]
 class Payhistory
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private Uuid $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
-     */
-    private $created;
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private \DateTime $created;
 
-    /**
-     * @var Paypalmes|null
-     *
-     * @ORM\ManyToOne(targetEntity="Paypalmes")
-     *
-     * @ORM\JoinColumns({
-     *
-     *   @ORM\JoinColumn(name="paypalme_id", referencedColumnName="id")
-     * })
-     */
-    private $paypalme;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Paypalmes::class)]
+    private Paypalmes $paypalme;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="clicked_by", type="string", length=255, nullable=true)
-     */
-    private $clickedBy;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $clickedBy;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v7();
+    }
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

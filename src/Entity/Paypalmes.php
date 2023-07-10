@@ -7,61 +7,39 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Paypalmes.
- *
- * @ORM\Table(name="paypalmes")
- *
- * @ORM\Entity(repositoryClass="App\Repository\PaypalmesRepository")
- */
+#[ORM\Entity(repositoryClass: "App\Repository\PaypalmesRepository")]
 class Paypalmes
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private Uuid $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link", type="string", length=100, nullable=false)
-     *
-     * @Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message="paypal.link.invalid")
-     */
-    private $link;
+    #[Assert\Regex("/https:\/\/paypal.me\/[\w]*$/", message: 'paypal.link.invalid')]
+    #[ORM\Column(type: 'string', length: 100, nullable: false)]
+    private string $link;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false, options={"default"=""})
-     */
-    private $name = '';
+    #[ORM\Column(type: 'string', length: 100, nullable: false, options: ['default' => ''])]
+    private string $name = '';
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true, options={"default"="NULL"})
-     *
-     * @Assert\Email(message = "paypal.email.invalid")
-     */
-    private $email = 'NULL';
+    #[Assert\Email(message: 'paypal.email.invalid')]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, options: ['default' => 'NULL'])]
+    private ?string $email = 'NULL';
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="bar", type="date", nullable=true)
-     */
-    private $bar;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTime $bar;
 
-    public function getId(): ?int
+    public function __construct(?Uuid $id = null)
+    {
+        $this->id = $id ?? Uuid::v7();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }

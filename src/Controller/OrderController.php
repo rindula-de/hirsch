@@ -56,6 +56,7 @@ class OrderController extends AbstractController
             ->setTimezone(new \DateTimeZone('Europe/Berlin')))
             ->setForDate($preorder_time)
             ->setHirsch($hirsch);
+
         if ($request->cookies->get('ordererName') && null === $order->getOrderedby()) {
             $order->setOrderedby($request->cookies->get('ordererName', ''));
         }
