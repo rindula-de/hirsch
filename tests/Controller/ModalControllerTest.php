@@ -35,19 +35,13 @@ class ModalControllerTest extends WebTestCase
         parent::setUp();
         $this->client = static::createClient();
         /** @var EntityManager $entityManager */
-        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+        $entityManager = self::getContainer()->get('doctrine')->getManager();
         $this->entityManager = $entityManager;
         $this->entityManager->beginTransaction();
 
         // prepare environment
         $cache = new FilesystemAdapter();
         $cache->clear();
-
-        /** @var Stopwatch $stopwatch */
-        $stopwatch = $this->getContainer()->get('debug.stopwatch');
-        $httpCurlClient = new TestCurlHttpClient($this->getContainer(), 'https://api.github.com/repos/Rindula/hirsch/');
-        $httpClient = new TraceableHttpClient($httpCurlClient, $stopwatch);
-        $this->getContainer()->set('http_client', $httpClient);
     }
 
     /**
