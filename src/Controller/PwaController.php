@@ -6,7 +6,6 @@
 
 namespace App\Controller;
 
-use App\Message\FetchMsUsers;
 use App\Service\UtilityService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,25 +22,7 @@ class PwaController extends AbstractController
     #[Route('/manifest.json', methods: ['GET'])]
     public function manifest(MessageBusInterface $bus): JsonResponse
     {
-        $cache = new FilesystemAdapter();
-        $cache->get('msuser_cache', function (ItemInterface $item) use ($bus) {
-            // set $time to next noon
-            /** @var DateTime */
-            $time = DateTime::createFromFormat('H:i', '12:00');
-            // if $time is in past, set $time to next day
-            if ($time < DateTime::createFromFormat('U', time().'')) {
-                $time->modify('+1 day');
-            }
-            // $time to seconds
-            $time = $time->getTimestamp() - time();
-
-            $item->expiresAfter(43200 + $time);
-            $bus->dispatch(new FetchMsUsers(), [new DelayStamp($time * 1000)]);
-
-            return null;
-        });
-
-        return new JsonResponse([
+        return $this->json([
             'lang' => 'de-DE',
             'name' => 'Hirsch Bestellsammelseite',
             'short_name' => 'Hirsch Bestellung',
