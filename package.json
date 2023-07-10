@@ -9,8 +9,11 @@
         "@symfony/webpack-encore": "^4.0.0",
         "core-js": "^3.23.0",
         "regenerator-runtime": "^0.13.9",
+        "sass": "^1.63.6",
+        "sass-loader": "^13.0.0",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
+        "stimulus": "^3.2.1",
         "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
@@ -20,5 +23,10 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "flatpickr": "^4.6.13",
+        "jquery": "^3.7.0",
+        "offline-plugin": "^5.0.7"
     }
 }
