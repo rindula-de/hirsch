@@ -7,7 +7,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Holidays;
-use App\Tests\TestHelper\TestCurlHttpClient;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -17,8 +16,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\HttpClient\TraceableHttpClient;
-use Symfony\Component\Stopwatch\Stopwatch;
 
 class ModalControllerTest extends WebTestCase
 {
