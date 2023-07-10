@@ -34,9 +34,9 @@ class Paypalmes
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $bar;
 
-    public function __construct()
+    public function __construct(?Uuid $id = null)
     {
-        $this->id = Uuid::v7();
+        $this->id = $id ?? Uuid::v7();
     }
 
     public function getId(): Uuid

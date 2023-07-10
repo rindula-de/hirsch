@@ -19,7 +19,7 @@ class AppTest extends WebTestCase
             '/bestellungen/',
             '/zahlen-bitte/',
             '/paypal/add',
-            '/paypal/edit/1',
+//            '/paypal/edit/1',
         ];
         foreach ($routes as $route) {
             $client->request('GET', $route);

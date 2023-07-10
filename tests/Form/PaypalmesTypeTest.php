@@ -34,7 +34,7 @@ class PaypalmesTypeTest extends TypeTestCase
         // $model will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(PaypalmesType::class, $model);
 
-        $expected = new Paypalmes();
+        $expected = new Paypalmes($model->getId());
         $expected->setLink($link);
         $expected->setName($name);
         $expected->setEmail($email);
