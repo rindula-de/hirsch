@@ -29,6 +29,7 @@ class PwaTest extends WebTestCase
         $client->request('GET', '/manifest.json');
 
         $this->assertResponseIsSuccessful();
+        $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHasHeader('content-type', 'application/manifest+json');
         $this->assertIsString($client->getResponse()->getContent());
         $this->assertJson($client->getResponse()->getContent() ?: '');
@@ -43,13 +44,40 @@ class PwaTest extends WebTestCase
         // check if all required keys are set
         $this->assertArrayHasKey('name', $json);
         $this->assertArrayHasKey('short_name', $json);
+        $this->assertArrayHasKey('description', $json);
         $this->assertArrayHasKey('start_url', $json);
         $this->assertArrayHasKey('theme_color', $json);
         $this->assertArrayHasKey('background_color', $json);
         $this->assertArrayHasKey('display', $json);
         $this->assertArrayHasKey('orientation', $json);
         $this->assertArrayHasKey('icons', $json);
+
+        $this->assertCount(1, $json['icons']);
+
+        // check if all icons are set
+        $this->assertArrayHasKey('src', $json['icons'][0]);
+        $this->assertArrayHasKey('type', $json['icons'][0]);
+        $this->assertArrayHasKey('sizes', $json['icons'][0]);
+        $this->assertArrayHasKey('purpose', $json['icons'][0]);
+
+        // check if all shortcuts are set
+        $this->assertArrayHasKey('shortcuts', $json);
+        $this->assertCount(1, $json['shortcuts']);
+        $this->assertArrayHasKey('name', $json['shortcuts'][0]);
+        $this->assertArrayHasKey('url', $json['shortcuts'][0]);
+        $this->assertArrayHasKey('description', $json['shortcuts'][0]);
+
         $this->assertArrayHasKey('lang', $json);
+
+        // check if the version and version_name isset correctly
+        $this->assertArrayHasKey('version', $json);
+        $this->assertEquals('test', $json['version']);
+        $this->assertArrayHasKey('version_name', $json);
+        $this->assertEquals('test', $json['version_name']);
+
+        // check if the manifest version is set correctly
+        $this->assertArrayHasKey('manifest_version', $json);
+        $this->assertEquals(3, $json['manifest_version']);
 
         ClockMock::withClockMock(false);
     }
@@ -60,6 +88,7 @@ class PwaTest extends WebTestCase
         $client->request('GET', '/sw.js');
 
         $this->assertResponseIsSuccessful();
+        $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHasHeader('content-type', 'application/javascript');
         $this->assertIsString($client->getResponse()->getContent());
     }

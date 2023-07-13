@@ -57,7 +57,7 @@ class PwaController extends AbstractController
         );
 
         return $this->render('serviceworker.js', [
-            'version' => (version_compare(ltrim($_ENV['APP_VERSION'], " \n\r\t\v\x00v"), '2.0.0', '>=') >= 0 ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+            'version' => (version_compare($_ENV['APP_VERSION'], '2.0.0', '>=') ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__ . '/../../public')),
         ], $response);
     }
 }
