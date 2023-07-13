@@ -226,13 +226,13 @@ nodejs_version: "16"
 #    http_port: 9998
 #    https_port: 9999
 
-web_extra_daemons:
-- name: "build"
-  command: "/usr/bin/yarn watch"
-  directory: /var/www/html
-- name: "message_queue"
-  command: "/usr/bin/php bin/console messenger:consume async"
-  directory: /var/www/html
+# web_extra_daemons:
+# - name: "build"
+#   command: "/usr/bin/yarn watch"
+#   directory: /var/www/html
+# - name: "message_queue"
+#   command: "/usr/bin/php bin/console messenger:consume async"
+#   directory: /var/www/html
 
 # override_config: false
 # By default, config.*.yaml files are *merged* into the configuration
