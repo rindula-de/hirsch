@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PwaController extends AbstractController
@@ -33,7 +32,7 @@ class PwaController extends AbstractController
                     'type' => 'image/png',
                     'sizes' => '512x512',
                     'purpose' => 'any maskable',
-                ]
+                ],
             ],
             'shortcuts' => [
                 [
@@ -72,11 +71,12 @@ class PwaController extends AbstractController
                 $_ENV['APP_VERSION'],
                 '2.0.0',
                 '>='
-            ) ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__ . '/../../public')),
+            ) ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
         ], $response);
         $response->setEtag(md5($response->getContent()));
         $response->setPublic();
         $response->isNotModified($request);
+
         return $response;
     }
 }
