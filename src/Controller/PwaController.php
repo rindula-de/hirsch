@@ -71,7 +71,7 @@ class PwaController extends AbstractController
                 $_ENV['APP_VERSION'],
                 '2.0.0',
                 '>='
-            ) ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(sprintf("%s/../../public", __DIR__))),
+            ) ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(sprintf('%s/../../public', __DIR__))),
         ], $response);
         $response->setEtag(md5($response->getContent()));
         $response->setPublic();
