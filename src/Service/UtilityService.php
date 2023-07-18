@@ -15,7 +15,7 @@ class UtilityService
      *
      * @return bool|string
      */
-    public function hashDirectory($directory)
+    public function hashDirectory($directory): bool|string
     {
         if (!is_dir($directory)) {
             return false;
@@ -26,7 +26,7 @@ class UtilityService
 
         if ($dir) {
             while (false !== ($file = $dir->read())) {
-                if ('.' != $file and '..' != $file) {
+                if ('.' !== $file and '..' !== $file) {
                     if (is_dir($directory.'/'.$file)) {
                         $files[] = $this->hashDirectory($directory.'/'.$file);
                     } else {
