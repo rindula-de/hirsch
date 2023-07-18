@@ -13,7 +13,7 @@ class UtilityService
      */
     public function hashDirectory(string $directory): bool|string
     {
-        if (!is_dir($directory)) {
+        if (!is_dir($directory) || !is_readable($directory) || str_contains($directory, '..')) {
             return false;
         }
 
@@ -25,7 +25,7 @@ class UtilityService
                 if ('.' !== $file && '..' !== $file) {
                     if (is_dir(sprintf('%s/%s', $directory, $file))) {
                         $files[] = $this->hashDirectory(sprintf('%s/%s', $directory, $file));
-                    } else {
+                    } elseif (is_file(sprintf('%s/%s', $directory, $file))) {
                         $files[] = md5_file(sprintf('%s/%s', $directory, $file));
                     }
                 }
@@ -34,7 +34,7 @@ class UtilityService
             $dir->close();
         }
 
-        if (empty($files)) {
+        if (count($files) === 0) {
             return false;
         }
 
