@@ -12,8 +12,6 @@ class UtilityService
      * Generate an MD5 hash string from the contents of a directory.
      *
      * @param string $directory
-     *
-     * @return bool|string
      */
     public function hashDirectory($directory): bool|string
     {
