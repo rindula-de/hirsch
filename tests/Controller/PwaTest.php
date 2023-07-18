@@ -28,28 +28,63 @@ class PwaTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/manifest.json');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHasHeader('content-type', 'application/manifest+json');
-        $this->assertIsString($client->getResponse()->getContent());
-        $this->assertJson($client->getResponse()->getContent() ?: '');
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(200);
+        self::assertResponseHeaderSame('content-type', 'application/manifest+json');
+        self::assertResponseHeaderSame('cache-control', 'public');
+        self::assertResponseHasHeader('etag');
+        self::assertIsString($client->getResponse()->getContent());
+        self::assertJson($client->getResponse()->getContent() ?: '');
         // get json to variable
-        /** @var array<string, string> */
+        /** @var array<string, mixed> */
         $json = json_decode($client->getResponse()->getContent() ?: '', true);
-        $this->assertEquals('de-DE', $json['lang']);
-        $this->assertEquals('Hirsch Bestellung', $json['short_name']);
-        $this->assertEquals('/karte', $json['start_url']);
-        $this->assertEquals('#ffa303', $json['theme_color']);
+        self::assertEquals('de-DE', $json['lang']);
+        self::assertEquals('Hirsch Bestellung', $json['short_name']);
+        self::assertEquals('/karte', $json['start_url']);
+        self::assertEquals('#ffa303', $json['theme_color']);
 
         // check if all required keys are set
-        $this->assertArrayHasKey('name', $json);
-        $this->assertArrayHasKey('short_name', $json);
-        $this->assertArrayHasKey('start_url', $json);
-        $this->assertArrayHasKey('theme_color', $json);
-        $this->assertArrayHasKey('background_color', $json);
-        $this->assertArrayHasKey('display', $json);
-        $this->assertArrayHasKey('orientation', $json);
-        $this->assertArrayHasKey('icons', $json);
-        $this->assertArrayHasKey('lang', $json);
+        self::assertArrayHasKey('name', $json);
+        self::assertArrayHasKey('short_name', $json);
+        self::assertArrayHasKey('description', $json);
+        self::assertArrayHasKey('start_url', $json);
+        self::assertArrayHasKey('theme_color', $json);
+        self::assertArrayHasKey('background_color', $json);
+        self::assertArrayHasKey('display', $json);
+        self::assertArrayHasKey('orientation', $json);
+        self::assertArrayHasKey('icons', $json);
+
+        self::assertCount(1, $json['icons']);
+
+        // check if all icons are set
+        self::assertArrayHasKey('src', $json['icons'][0]);
+        self::assertArrayHasKey('type', $json['icons'][0]);
+        self::assertArrayHasKey('sizes', $json['icons'][0]);
+        self::assertArrayHasKey('purpose', $json['icons'][0]);
+
+        // check if all shortcuts are set
+        self::assertArrayHasKey('shortcuts', $json);
+        self::assertCount(1, $json['shortcuts']);
+        self::assertArrayHasKey('name', $json['shortcuts'][0]);
+        self::assertArrayHasKey('url', $json['shortcuts'][0]);
+        self::assertArrayHasKey('description', $json['shortcuts'][0]);
+
+        self::assertArrayHasKey('lang', $json);
+
+        // check if the version and version_name isset correctly
+        self::assertArrayHasKey('version', $json);
+        self::assertEquals('test', $json['version']);
+        self::assertArrayHasKey('version_name', $json);
+        self::assertEquals('test', $json['version_name']);
+
+        // check if the manifest version is set correctly
+        self::assertArrayHasKey('manifest_version', $json);
+        self::assertEquals(3, $json['manifest_version']);
+
+        // check if etag works
+        $etag = $client->getResponse()->headers->get('etag');
+        $client->request('GET', '/manifest.json', [], [], ['HTTP_If-None-Match' => $etag]);
+        self::assertResponseStatusCodeSame(304);
 
         ClockMock::withClockMock(false);
     }
@@ -59,8 +94,16 @@ class PwaTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/sw.js');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHasHeader('content-type', 'application/javascript');
-        $this->assertIsString($client->getResponse()->getContent());
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(200);
+        self::assertResponseHeaderSame('content-type', 'application/javascript');
+        self::assertResponseHeaderSame('cache-control', 'public');
+        self::assertResponseHasHeader('etag');
+        self::assertIsString($client->getResponse()->getContent());
+
+        // check if etag works
+        $etag = $client->getResponse()->headers->get('etag');
+        $client->request('GET', '/sw.js', [], [], ['HTTP_If-None-Match' => $etag]);
+        self::assertResponseStatusCodeSame(304);
     }
 }

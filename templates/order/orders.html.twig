@@ -35,10 +35,11 @@
                 <span
                     class="material-icons primary-text"
                     style="cursor: pointer;"
-                    data-name="{{order.orderedby}}"
-                    data-ordered="{{order.name}}"
-                    data-special="{{order.note}}"
-                    data-controller="orderdisplay">
+                    {{ stimulus_controller('orderdisplay', {
+                        name: order.orderedby,
+                        ordered: order.name,
+                        special: order.note
+                    }) }}>
                     restaurant
                 </span>
 

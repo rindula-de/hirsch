@@ -25,7 +25,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
       - name: Dependencies
-        run: make vendor
+        run: make vendor -B
       - name: PHP Stan Analyse
         run: vendor/bin/phpstan analyse
   lint:
@@ -55,7 +55,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
         env:
           APP_ENV: dev
       - name: Lint Container
@@ -110,7 +110,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
       - run: make coverage_check
       - uses: actions/upload-artifact@master
         if: ${{ always() }}
@@ -148,9 +148,24 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
-          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+      -   name: Cache Composer packages
+          id: composer-cache
+          uses: actions/cache@v3
+          with:
+              path: vendor
+              key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+              restore-keys: |
+                  ${{ runner.os }}-php-
+      -   name: Cache yarn packages
+          id: yarn-cache
+          uses: actions/cache@v3
+          with:
+              path: node_modules
+              key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+              restore-keys: |
+                  ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
       - run: make infection_test
       - uses: actions/upload-artifact@master
         if: ${{ failure() }}
@@ -163,12 +178,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        php: [8.1]
+        php: [8.1, 8.2]
         experimental: [false]
         include:
           # includes a new variable of npm with a value of 6
           # for the matrix leg matching the os and version
-           - php: 8.2
+           - php: 8.3
              experimental: true
     services:
       mariadb:
@@ -215,7 +230,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - run: make install
+      - run: make install -B
         name: Install dependencies
         env:
           APP_ENV: test
