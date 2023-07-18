@@ -25,7 +25,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
       - name: Dependencies
-        run: make vendor
+        run: make vendor -B
       - name: PHP Stan Analyse
         run: vendor/bin/phpstan analyse
   lint:
@@ -55,7 +55,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
         env:
           APP_ENV: dev
       - name: Lint Container
@@ -110,7 +110,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
       - run: make coverage_check
       - uses: actions/upload-artifact@master
         if: ${{ always() }}
@@ -165,7 +165,7 @@ jobs:
               restore-keys: |
                   ${{ runner.os }}-yarn-
       - name: Dependencies
-        run: make all
+        run: make all -B
       - run: make infection_test
       - uses: actions/upload-artifact@master
         if: ${{ failure() }}
@@ -230,7 +230,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - run: make install
+      - run: make install -B
         name: Install dependencies
         env:
           APP_ENV: test
