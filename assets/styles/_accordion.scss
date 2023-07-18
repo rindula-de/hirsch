@@ -19,7 +19,7 @@
         font-family: "Material Icons";
         content: "unfold_more_horizontal";
         -webkit-font-feature-settings: "liga";
-        color: #777;
+        color: var(--md-sys-color-on-surface);
         float: right;
         margin-left: 5px;
         width: 1em;
@@ -29,6 +29,7 @@
         font-family: 'Material Icons';
         content: "unfold_less_horizontal";
         -webkit-font-feature-settings: 'liga';
+        color: var(--md-sys-color-on-primary-container);
     }
 }
 
