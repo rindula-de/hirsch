@@ -9,6 +9,7 @@ namespace App\Controller;
 use App\Service\UtilityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,19 +17,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class PwaController extends AbstractController
 {
     #[Route('/manifest.json', methods: ['GET'])]
-    public function manifest(MessageBusInterface $bus): JsonResponse
+    public function manifest(Request $request): JsonResponse
     {
-        return $this->json([
+        $jsonResponse = $this->json([
             'lang' => 'de-DE',
             'name' => 'Hirsch Bestellsammelseite',
             'short_name' => 'Hirsch Bestellung',
-            'description' => sprintf('Die Bestellsammelseite für den Hirsch. Aktuelle Version: %s', $_ENV['APP_VERSION']),
-            'icons' => [[
-                'src' => 'favicon.png',
-                'type' => 'image/png',
-                'sizes' => '512x512',
-                'purpose' => 'any maskable',
-            ]],
+            'description' => sprintf(
+                'Die Bestellsammelseite für den Hirsch. Aktuelle Version: %s',
+                $_ENV['APP_VERSION']
+            ),
+            'icons' => [
+                [
+                    'src' => 'favicon.png',
+                    'type' => 'image/png',
+                    'sizes' => '512x512',
+                    'purpose' => 'any maskable',
+                ]
+            ],
             'shortcuts' => [
                 [
                     'name' => 'Tagesessen bestellen',
@@ -45,10 +51,15 @@ class PwaController extends AbstractController
             'orientation' => 'portrait',
             'manifest_version' => 3,
         ], 200, ['Content-Type' => 'application/manifest+json']);
+        $jsonResponse->setEtag(md5($jsonResponse->getContent()));
+        $jsonResponse->setPublic();
+        $jsonResponse->isNotModified($request);
+
+        return $jsonResponse;
     }
 
     #[Route('/sw.js', methods: ['GET'])]
-    public function serviceWorker(UtilityService $utilityService): Response
+    public function serviceWorker(UtilityService $utilityService, Request $request): Response
     {
         $response = new Response(
             null,
@@ -56,8 +67,16 @@ class PwaController extends AbstractController
             ['Content-Type' => 'application/javascript']
         );
 
-        return $this->render('serviceworker.js', [
-            'version' => (version_compare($_ENV['APP_VERSION'], '2.0.0', '>=') ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__.'/../../public')),
+        $response = $this->render('serviceworker.js', [
+            'version' => (version_compare(
+                $_ENV['APP_VERSION'],
+                '2.0.0',
+                '>='
+            ) ? $_ENV['APP_VERSION'] : $utilityService->hashDirectory(__DIR__ . '/../../public')),
         ], $response);
+        $response->setEtag(md5($response->getContent()));
+        $response->setPublic();
+        $response->isNotModified($request);
+        return $response;
     }
 }
