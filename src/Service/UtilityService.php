@@ -12,8 +12,9 @@ class UtilityService
      * Generate an MD5 hash string from the contents of a directory.
      *
      * @param string $directory
+     * @return bool|string
      */
-    public function hashDirectory($directory): bool|string
+    public function hashDirectory(string $directory): bool|string
     {
         if (!is_dir($directory)) {
             return false;
@@ -24,11 +25,11 @@ class UtilityService
 
         if ($dir) {
             while (false !== ($file = $dir->read())) {
-                if ('.' !== $file and '..' !== $file) {
+                if ('.' !== $file && '..' !== $file) {
                     if (is_dir($directory.'/'.$file)) {
-                        $files[] = $this->hashDirectory($directory.'/'.$file);
+                        $files[] = $this->hashDirectory(sprintf("%s/%s", $directory, $file));
                     } else {
-                        $files[] = md5_file($directory.'/'.$file);
+                        $files[] = md5_file(sprintf("%s/%s", $directory, $file));
                     }
                 }
             }
