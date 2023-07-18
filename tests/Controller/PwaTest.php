@@ -83,7 +83,7 @@ class PwaTest extends WebTestCase
 
         // check if etag works
         $etag = $client->getResponse()->headers->get('etag');
-        $client->request('GET', '/sw.js', [], [], ['HTTP_If-None-Match' => $etag]);
+        $client->request('GET', '/manifest.json', [], [], ['HTTP_If-None-Match' => $etag]);
         self::assertResponseStatusCodeSame(304);
 
         ClockMock::withClockMock(false);
