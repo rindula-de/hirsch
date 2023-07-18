@@ -23,7 +23,7 @@ class UtilityService
         if ($dir) {
             while (false !== ($file = $dir->read())) {
                 if ('.' !== $file && '..' !== $file) {
-                    if (is_dir($directory.'/'.$file)) {
+                    if (is_dir(sprintf("%s/%s", $directory, $file))) {
                         $files[] = $this->hashDirectory(sprintf('%s/%s', $directory, $file));
                     } else {
                         $files[] = md5_file(sprintf('%s/%s', $directory, $file));
@@ -32,6 +32,10 @@ class UtilityService
             }
 
             $dir->close();
+        }
+
+        if (empty($files)) {
+            return false;
         }
 
         return md5(implode('', $files));
