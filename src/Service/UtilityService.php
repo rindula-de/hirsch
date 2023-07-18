@@ -13,7 +13,11 @@ class UtilityService
      */
     public function hashDirectory(string $directory): bool|string
     {
-        if (!is_dir($directory) || !is_readable($directory) || str_contains($directory, '..')) {
+        if (is_file($directory) || !is_dir($directory) || !is_readable($directory) || !str_starts_with(
+                        realpath($directory),
+                        dirname(__DIR__, 2)
+                    )
+        ) {
             return false;
         }
 
