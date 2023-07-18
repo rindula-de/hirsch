@@ -34,7 +34,7 @@ class UtilityService
             $dir->close();
         }
 
-        if (count($files) === 0) {
+        if (0 === count($files)) {
             return false;
         }
 
