@@ -18,6 +18,9 @@ updates:
       symfony:
         patterns:
           - "symfony/*"
+      twig:
+        patterns:
+          - "twig/*"
     schedule:
       interval: "weekly"
       timezone: Europe/Berlin
