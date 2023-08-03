@@ -51,7 +51,7 @@ vendor: composer.json composer.lock
 	@echo 'APP_ENV=$(ENV)' | tee .env.local
 	@if [ -n "$(DBPASS)" ]; then echo 'DATABASE_URL="mysql://hirsch:$(DBPASS)@localhost:3306/hirsch?serverVersion=mariadb-10.6.4"' | tee -a .env.local; fi;
 	@if [ -n "$(VERSION)" ]; then echo 'APP_VERSION="$(VERSION)"' | tee -a .env.local; fi;
-	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
+	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php82-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php82-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 .env.test.local:
     @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;

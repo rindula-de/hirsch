@@ -1,7 +1,7 @@
 name: hirsch
 type: php
 docroot: public
-php_version: "8.1"
+php_version: "8.2"
 webserver_type: apache-fpm
 router_http_port: "80"
 router_https_port: "443"
@@ -13,7 +13,7 @@ database:
     version: "10.3"
 nfs_mount_enabled: false
 mutagen_enabled: false
-webimage_extra_packages: [php8.1-imap]
+webimage_extra_packages: [php8.2-imap]
 use_dns_when_possible: true
 timezone: Europe/Berlin
 composer_version: "2"

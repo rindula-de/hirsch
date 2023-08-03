@@ -31,7 +31,7 @@ jobs:
           timezoneLinux: "Europe/Berlin"
       - uses: shivammathur/setup-php@2.25.5
         with:
-          php-version: 8.1
+          php-version: 8.2
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - uses: actions/setup-node@v3.7.0
@@ -97,7 +97,7 @@ jobs:
       - run: sshpass -p '${{ secrets.PASSWORD }}' rsync --exclude ".git" --exclude ".gitmodules" --exclude ".gitattributes" --exclude ".ddev" --exclude "docker*" --exclude "infection.json.dist" --exclude "config/secrets/prod/prod.decrypt.private.php" --exclude ".editorconfig" -e "ssh -o StrictHostKeyChecking=no -p 222" -avh --delete --force ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/usr/home/${{ secrets.USERNAME }}/public_html/hirsch
         id: upload
         name: 👨‍💻 Uploading files
-      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php81 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php81 bin/console --no-interaction cache:clear && /usr/bin/php81 bin/console --no-interaction cache:warmup && APP_RUNTIME_ENV=prod /usr/bin/php81 bin/console secrets:decrypt-to-local --force"
+      - run: sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p 222 -f "cd /usr/home/${{ secrets.USERNAME }}/public_html/hirsch && /usr/bin/php82 bin/console --no-interaction doctrine:migrations:migrate && /usr/bin/php82 bin/console --no-interaction cache:clear && /usr/bin/php82 bin/console --no-interaction cache:warmup && APP_RUNTIME_ENV=prod /usr/bin/php82 bin/console secrets:decrypt-to-local --force"
         id: preperations
         name: 👨‍💻 Preparing system
       - run: echo "Deployment finished at $(date +'%d.%m.%Y %H:%M:%S %Z')" >> $GITHUB_STEP_SUMMARY
