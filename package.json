@@ -26,6 +26,6 @@
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
-        "jquery": "^3.7.0"
+        "jquery": "^3.7.1"
     }
 }
