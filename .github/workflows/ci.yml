@@ -20,7 +20,7 @@ jobs:
         run: |
           echo VERSION=${GITHUB_REF/refs\/tags\//} >> $GITHUB_OUTPUT
           echo '# Build status' >> $GITHUB_STEP_SUMMARY
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
           ssh-key: '${{ secrets.SSHKEY }}'
