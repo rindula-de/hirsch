@@ -7,7 +7,7 @@
         "@symfony/stimulus-bridge": "^3.2.0",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "@symfony/webpack-encore": "^4.4.0",
-        "core-js": "^3.32.1",
+        "core-js": "^3.32.2",
         "regenerator-runtime": "^0.14.0",
         "sass": "^1.66.1",
         "sass-loader": "^13.0.0",
