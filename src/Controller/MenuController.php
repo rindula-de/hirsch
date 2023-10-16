@@ -130,7 +130,7 @@ class MenuController extends AbstractController
             }
 
             if ($emails) {
-                $regexLunch = '([\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“\/]+?)( (\d+,\d{2}) Euro?)?';
+                $regexLunch = '(\w[\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“\/]+?(?: (\d+,\d{2}))|\-\s?Ruhetag\s?\-)';
                 foreach ($emails as $emailId) {
                     $structure = imap_fetchstructure($mbox, $emailId);
 
@@ -193,7 +193,7 @@ class MenuController extends AbstractController
                                         $text = trim($text ?? '');
 
                                         preg_match(
-                                            '/Montag '.$regexLunch.' Dienstag/',
+                                            '/Montag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -203,7 +203,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Dienstag '.$regexLunch.' Mittwoch/',
+                                            '/Dienstag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -213,7 +213,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Mittwoch '.$regexLunch.' Donnerstag/',
+                                            '/Mittwoch '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -223,7 +223,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Donnerstag '.$regexLunch.' Freitag/',
+                                            '/Donnerstag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
@@ -233,7 +233,7 @@ class MenuController extends AbstractController
                                         ];
 
                                         preg_match(
-                                            '/Freitag '.$regexLunch.' (Restaurant|Betriebsferien)/',
+                                            '/Freitag '.$regexLunch.'/',
                                             $text,
                                             $matches
                                         );
