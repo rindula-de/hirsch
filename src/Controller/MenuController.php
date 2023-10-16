@@ -130,7 +130,7 @@ class MenuController extends AbstractController
             }
 
             if ($emails) {
-                $regexLunch = '(\w[\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“\/]+?(?: (\d+,\d{2}))|\-\s?Ruhetag\s?\-)';
+                $regexLunch = '((\w[\w\s\-\,éèáàíìóòúùÁÀÉÈÍÌÓÒÚÙöäüÄÜÖß!@#$%^&*)(\'`´„“\/]+?)(?: (\d+,\d{2}) Euro)|\-\s?Ruhetag\s?\-)';
                 foreach ($emails as $emailId) {
                     $structure = imap_fetchstructure($mbox, $emailId);
 
@@ -198,7 +198,7 @@ class MenuController extends AbstractController
                                             $matches
                                         );
                                         $displayData[] = [
-                                            'gericht' => trim($matches[1]),
+                                            'gericht' => trim($matches[2]),
                                             'date' => (new DateTime('monday 2pm this week')),
                                         ];
 
@@ -208,7 +208,7 @@ class MenuController extends AbstractController
                                             $matches
                                         );
                                         $displayData[] = [
-                                            'gericht' => trim($matches[1]),
+                                            'gericht' => trim($matches[2]),
                                             'date' => (new DateTime('tuesday 2pm this week')),
                                         ];
 
@@ -218,7 +218,7 @@ class MenuController extends AbstractController
                                             $matches
                                         );
                                         $displayData[] = [
-                                            'gericht' => trim($matches[1]),
+                                            'gericht' => trim($matches[2]),
                                             'date' => (new DateTime('wednesday 2pm this week')),
                                         ];
 
@@ -228,7 +228,7 @@ class MenuController extends AbstractController
                                             $matches
                                         );
                                         $displayData[] = [
-                                            'gericht' => trim($matches[1]),
+                                            'gericht' => trim($matches[2]),
                                             'date' => (new DateTime('thursday 2pm this week')),
                                         ];
 
@@ -238,7 +238,7 @@ class MenuController extends AbstractController
                                             $matches
                                         );
                                         $displayData[] = [
-                                            'gericht' => trim($matches[1]),
+                                            'gericht' => trim($matches[2]),
                                             'date' => (new DateTime('friday 2pm this week')),
                                         ];
 
