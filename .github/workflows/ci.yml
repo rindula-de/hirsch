@@ -34,7 +34,7 @@ jobs:
           php-version: 8.2
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v3.8.1
+      - uses: actions/setup-node@v4.0.0
         with:
           node-version: '18'
       - name: Cache Composer packages
