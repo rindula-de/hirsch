@@ -16,7 +16,6 @@ use App\Repository\PaypalmesRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -140,17 +139,6 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('orders');
     }
 
-    /**
-     * Get a list of all orders today.
-     *
-     * @OA\Parameter(
-     *     name="onlyToday",
-     *     in="path",
-     *     description="Nur Bestellungen für heute anzeigen = 1; Alle Bestellungen anzeigen = 0",
-     *
-     *     @OA\Schema(type="integer")
-     * )
-     */
     #[Route('/api/orders/{onlyToday?1}', name: 'api_orders', methods: ['GET'])]
     public function api_orders(Request $request, OrdersRepository $ordersRepository, bool $onlyToday = true): Response
     {

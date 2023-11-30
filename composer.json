@@ -19,7 +19,6 @@
         "doctrine/orm": "^2.10",
         "guzzlehttp/guzzle": "^7.4",
         "league/commonmark": "^2.2",
-        "nelmio/api-doc-bundle": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.3",
         "smalot/pdfparser": "^2.0",
         "symfony/apache-pack": "^1.0",
