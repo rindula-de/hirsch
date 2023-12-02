@@ -60,6 +60,11 @@ jobs:
           EMAILPASS: ${{ secrets.EMAILPASS }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: make all
+      - name: Add Feature Flags to .env.local
+        env:
+          FEATURE_FLAGS: ${{ vars.FEATURE_FLAGS }}
+        run: |
+          echo FEATURE_FLAGS=${FEATURE_FLAGS} >> .env.local
       - run: make artifact.tar
       - uses: actions/upload-artifact@v3
         with:
