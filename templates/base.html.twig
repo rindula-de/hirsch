@@ -135,5 +135,9 @@
                 </turbo-frame>
             </div>
         </div>
+
+        {% if "SNOWFLAKES" in feature_flags %}
+            {% include "experimental/snow.html.twig" %}
+        {% endif %}
     </body>
 </html>
