@@ -37,7 +37,7 @@ class PwaController extends AbstractController
             'shortcuts' => [
                 [
                     'name' => 'Tagesessen bestellen',
-                    'url' => '/order/0/tagesessen',
+                    'url' => '/order/0/tagesessen?mtm_campaign=AppShortcut',
                     'description' => 'Komme direkt auf die Tagesessenbestellseite',
                 ],
             ],
