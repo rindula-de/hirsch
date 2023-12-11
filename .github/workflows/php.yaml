@@ -46,14 +46,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Cache yarn packages
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Dependencies
         run: make all -B
         env:
@@ -101,14 +93,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Cache yarn packages
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Dependencies
         run: make all -B
       - run: make coverage_check
@@ -156,14 +140,6 @@ jobs:
               key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
               restore-keys: |
                   ${{ runner.os }}-php-
-      -   name: Cache yarn packages
-          id: yarn-cache
-          uses: actions/cache@v3
-          with:
-              path: node_modules
-              key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-              restore-keys: |
-                  ${{ runner.os }}-yarn-
       - name: Dependencies
         run: make all -B
       - run: make infection_test
@@ -200,9 +176,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: actions/setup-node@v4.0.0
-        with:
-          node-version: '18'
       - uses: shivammathur/setup-php@2.28.0
         with:
           php-version: ${{ matrix.php }}
@@ -222,14 +195,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Cache yarn packages
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - run: make install -B
         name: Install dependencies
         env:
