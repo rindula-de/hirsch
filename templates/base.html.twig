@@ -40,11 +40,12 @@
         </title>
 
         {% block stylesheets %}
-          {{ encore_entry_link_tags('app') }}
+            {{ ux_controller_link_tags() }}
+            <link rel="stylesheet" href="{{ preload(asset('styles/app.scss'), {'as': 'stylesheet'}) }}">
         {% endblock %}
 
         {% block javascripts %}
-          {{ encore_entry_script_tags('app') }}
+            {{ importmap() }}
         {% endblock %}
         <!-- Matomo -->
         <script>

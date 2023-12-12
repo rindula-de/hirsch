@@ -6,10 +6,9 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.scss';
-import 'flatpickr';
-import "./js/scripts";
-import "./turbo/turbo-helper";
+// import 'flatpickr';
+import "./js/scripts.js";
+import "./turbo/turbo-helper.js";
 
 // start the Stimulus application
-import './bootstrap';
+import './bootstrap.js';

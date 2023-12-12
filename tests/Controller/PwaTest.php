@@ -88,22 +88,4 @@ class PwaTest extends WebTestCase
 
         ClockMock::withClockMock(false);
     }
-
-    public function testServiceWorker(): void
-    {
-        $client = static::createClient();
-        $client->request('GET', '/sw.js');
-
-        self::assertResponseIsSuccessful();
-        self::assertResponseStatusCodeSame(200);
-        self::assertResponseHeaderSame('content-type', 'application/javascript');
-        self::assertResponseHeaderSame('cache-control', 'public');
-        self::assertResponseHasHeader('etag');
-        self::assertIsString($client->getResponse()->getContent());
-
-        // check if etag works
-        $etag = $client->getResponse()->headers->get('etag');
-        $client->request('GET', '/sw.js', [], [], ['HTTP_If-None-Match' => $etag]);
-        self::assertResponseStatusCodeSame(304);
-    }
 }

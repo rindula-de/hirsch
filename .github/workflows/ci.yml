@@ -34,9 +34,6 @@ jobs:
           php-version: 8.2
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v4.0.0
-        with:
-          node-version: '18'
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -45,14 +42,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Cache yarn packages
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Make Install
         env:
           DBPASS: ${{ secrets.DBPASS }}
