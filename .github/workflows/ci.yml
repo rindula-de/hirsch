@@ -55,7 +55,7 @@ jobs:
         run: |
           echo FEATURE_FLAGS=${FEATURE_FLAGS} >> .env.local
       - run: make artifact.tar
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: deploy_hetzner
           path: artifact.tar
