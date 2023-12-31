@@ -104,7 +104,7 @@ jobs:
     needs:
       - deploy_hetzner
     steps:
-      - uses: geekyeggo/delete-artifact@v2
+      - uses: geekyeggo/delete-artifact@v4
         name: ❌ Remove Artifacts
         with:
           name: deploy_hetzner
