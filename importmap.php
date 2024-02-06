@@ -4,7 +4,7 @@
  * (c) Sven Nolting, 2023
  */
 
-/**
+/*
  * Returns the importmap for this application.
  *
  * - "path" is a path inside the asset mapper system. Use the
