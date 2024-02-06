@@ -29,30 +29,19 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.27.1
+      - uses: shivammathur/setup-php@2.29.0
         with:
           php-version: 8.3
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
-      - uses: actions/setup-node@v4.0.0
-        with:
-          node-version: '18'
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Cache yarn packages
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Make Install
         env:
           DBPASS: ${{ secrets.DBPASS }}
@@ -60,8 +49,13 @@ jobs:
           EMAILPASS: ${{ secrets.EMAILPASS }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: make all
+      - name: Add Feature Flags to .env.local
+        env:
+          FEATURE_FLAGS: ${{ vars.FEATURE_FLAGS }}
+        run: |
+          echo FEATURE_FLAGS=${FEATURE_FLAGS} >> .env.local
       - run: make artifact.tar
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: deploy_hetzner
           path: artifact.tar
@@ -85,7 +79,7 @@ jobs:
       name: hetzner
       url: https://hirsch.hochwarth-e.com/
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: deploy_hetzner
       - name: Unpack Files
@@ -110,7 +104,7 @@ jobs:
     needs:
       - deploy_hetzner
     steps:
-      - uses: geekyeggo/delete-artifact@v2
+      - uses: geekyeggo/delete-artifact@v4
         name: ❌ Remove Artifacts
         with:
           name: deploy_hetzner

@@ -1,32 +1,41 @@
 symfony:
-  - src/**/*
-  - config/**/*
-  - public/**/*
-  - assets/**/*
-  - templates/**/*
+- changed-files:
+  - any-glob-to-any-file: src/**/*
+  - any-glob-to-any-file: config/**/*
+  - any-glob-to-any-file: public/**/*
+  - any-glob-to-any-file: assets/**/*
+  - any-glob-to-any-file: templates/**/*
 
 database:
-  - migrations/**/*.php
+- changed-files:
+  - any-glob-to-any-file: migrations/**/*.php
 
 tests:
-  - tests/**/*
+- changed-files:
+  - any-glob-to-any-file: tests/**/*
   
 github_actions:
-  - .github/workflows/*
+- changed-files:
+  - any-glob-to-any-file: .github/workflows/*
   
 workflow-config:
-  - .github/*.yml
+- changed-files:
+  - any-glob-to-any-file: .github/*.yml
 
 documentation:
-  - README.md
+- changed-files:
+  - any-glob-to-any-file: README.md
   
 executables:
-  - bin/*
+- changed-files:
+  - any-glob-to-any-file: bin/*
 
 chore:
-  - makefile
-  - .htaccess
-  - public/.htaccess
+- changed-files:
+  - any-glob-to-any-file: makefile
+  - any-glob-to-any-file: .htaccess
+  - any-glob-to-any-file: public/.htaccess
 
 translations:
-  - translations/**/*
+- changed-files:
+  - any-glob-to-any-file: translations/**/*

@@ -1,25 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        {% if app.request.server.get("APP_ENV")|lower == "prod" %}
-            <!-- Matomo Tag Manager -->
-            <script>
-            var _mtm = window._mtm = window._mtm || [];
-            _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src='https://matomo.rindula.de/js/container_bRREbpad.js'; s.parentNode.insertBefore(g,s);
-            </script>
-            <!-- End Matomo Tag Manager -->
-        {% elseif app.request.server.get("APP_ENV")|lower == "dev" %}
-            <!-- Matomo Tag Manager -->
-            <script>
-                var _mtm = window._mtm = window._mtm || [];
-                _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.async=true; g.src='https://matomo.rindula.de/js/container_bRREbpad_dev_3618b89fb2cdfeeea1debcd1.js'; s.parentNode.insertBefore(g,s);
-            </script>
-            <!-- End Matomo Tag Manager -->
-        {% endif %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
@@ -40,11 +21,12 @@
         </title>
 
         {% block stylesheets %}
-          {{ encore_entry_link_tags('app') }}
+            {{ ux_controller_link_tags() }}
+            <link rel="stylesheet" href="{{ preload(asset('styles/app.scss'), {'as': 'stylesheet'}) }}">
         {% endblock %}
 
         {% block javascripts %}
-          {{ encore_entry_script_tags('app') }}
+            {{ importmap() }}
         {% endblock %}
         <!-- Matomo -->
         <script>
@@ -135,5 +117,9 @@
                 </turbo-frame>
             </div>
         </div>
+
+        {% if "SNOWFLAKES" in feature_flags %}
+            {% include "experimental/snow.html.twig" %}
+        {% endif %}
     </body>
 </html>

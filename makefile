@@ -30,7 +30,7 @@ msg: ## Run symfony message consumer
 
 install: all install_db  ## Install the project
 
-all: vendor .env.local public/build .git/hooks/post-merge ## Install and build all dependencies
+all: vendor .env.local public/assets .git/hooks/post-merge ## Install and build all dependencies
 
 .git/lfs:
 	git lfs install
@@ -56,16 +56,10 @@ vendor: composer.json composer.lock
 .env.test.local:
     @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
-node_modules node_modules/.bin/encore &: vendor
-	$(YARN) install --force
-	@touch node_modules
-
-public/build: assets $(shell find assets -name '*') webpack.config.js node_modules
-ifeq ($(CI), true)
-	$(NPX) -y browserslist@latest --update-db
-endif
-	$(YARN) build
-	@touch public/build
+public/assets: assets $(shell find assets -name '*') importmap.php vendor 
+	$(SYMFONY) sass:build
+	$(SYMFONY) asset-map:compile
+	@touch public/assets
 
 $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
