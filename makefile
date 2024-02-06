@@ -32,6 +32,7 @@ install: all install_db  ## Install the project
 
 all: vendor .env.local public/assets .git/hooks/post-merge ## Install and build all dependencies
 
+
 .git/lfs:
 	git lfs install
 	@touch .git/lfs
@@ -54,9 +55,10 @@ vendor: composer.json composer.lock
 	@if [ -n "$(CI)" ]; then grep -qxF 'FcgidWrapper "/home/httpd/cgi-bin/php83-fcgi-starter.fcgi" .php' public/.htaccess || echo 'FcgidWrapper "/home/httpd/cgi-bin/php83-fcgi-starter.fcgi" .php' | tee -a public/.htaccess; fi;
 
 .env.test.local:
-    @echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
+	@echo 'MAILER_DSN="null://null"' | tee -a .env.test.local;
 
-public/assets: assets $(shell find assets -name '*') importmap.php vendor 
+public/assets: assets $(shell find assets -name '*') importmap.php vendor
+	$(SYMFONY) importmap:install
 	$(SYMFONY) sass:build
 	$(SYMFONY) asset-map:compile
 	@touch public/assets
@@ -65,12 +67,12 @@ $(ARTIFACT_NAME):
 	tar -cf "$(ARTIFACT_NAME)" .
 
 tests_db: .env.test.local vendor
-	$(SYMFONY) doctrine:database:drop --env=test --force || true
+	$(SYMFONY) doctrine:database:drop --env=test --force --if-exists
 	$(SYMFONY) doctrine:database:create --env=test
 	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
 
 tests: export APP_ENV=test
-tests: .git/lfs tests_db vendor
+tests: .git/lfs tests_db vendor public/assets
 	$(EXEC_PHP) vendor/bin/phpstan
 	$(EXEC_PHP) bin/phpunit
 
