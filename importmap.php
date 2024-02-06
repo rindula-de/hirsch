@@ -18,8 +18,8 @@
 
 return [
     'app' => [
-        'path' => 'app.js',
-        'preload' => true,
+        'path' => './assets/app.js',
+        'entrypoint' => true,
     ],
     'jquery' => [
         'downloaded_to' => 'vendor/jquery.js',
