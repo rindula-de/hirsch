@@ -31,7 +31,7 @@ jobs:
           timezoneLinux: "Europe/Berlin"
       - uses: shivammathur/setup-php@2.29.0
         with:
-          php-version: 8.2
+          php-version: 8.3
           tools: composer:v2
           extensions: intl, mbstring, imap, zip, dom, pdo_mysql
       - name: Cache Composer packages
