@@ -21,7 +21,6 @@
         </title>
 
         {% block stylesheets %}
-            {{ ux_controller_link_tags() }}
             <link rel="stylesheet" href="{{ preload(asset('styles/app.scss'), {'as': 'stylesheet'}) }}">
         {% endblock %}
 

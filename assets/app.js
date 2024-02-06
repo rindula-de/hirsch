@@ -1,3 +1,4 @@
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -11,4 +12,3 @@ import "./js/scripts.js";
 import "./turbo/turbo-helper.js";
 
 // start the Stimulus application
-import './bootstrap.js';
