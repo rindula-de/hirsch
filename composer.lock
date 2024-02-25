@@ -9088,16 +9088,16 @@
         },
         {
             "name": "symfonycasts/sass-bundle",
-            "version": "v0.5.1",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/sass-bundle.git",
-                "reference": "ab60d0208dda1ce1f967a2c528e08b897878f927"
+                "reference": "29eef1b0b91c89f191b94b896f776756656a8ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/sass-bundle/zipball/ab60d0208dda1ce1f967a2c528e08b897878f927",
-                "reference": "ab60d0208dda1ce1f967a2c528e08b897878f927",
+                "url": "https://api.github.com/repos/SymfonyCasts/sass-bundle/zipball/29eef1b0b91c89f191b94b896f776756656a8ab5",
+                "reference": "29eef1b0b91c89f191b94b896f776756656a8ab5",
                 "shasum": ""
             },
             "require": {
@@ -9137,9 +9137,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SymfonyCasts/sass-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/sass-bundle/tree/v0.5.1"
+                "source": "https://github.com/SymfonyCasts/sass-bundle/tree/v0.5.2"
             },
-            "time": "2024-01-18T09:55:10+00:00"
+            "time": "2024-02-20T11:52:20+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
