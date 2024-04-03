@@ -13,7 +13,6 @@
             <textarea class="orderarea on-surface-text" rows="1" readonly="" id="orders">{{ 'order.loading_orders'|trans }}</textarea>
         </turbo-frame>
     </label>
-    {% if activePayer is null %}
     {% if drawn %}
         <h1 class="error-text headline-medium">{{ drawn }} wurde ausgelost das Essen vom Hirsch abzuholen.</h1>
     {% else %}
@@ -22,7 +21,6 @@
         </button>
         <br>
         <br>
-    {% endif %}
     {% endif %}
     <button class="accordion" data-controller="accordion">
         {{ 'order.order_persons'|trans }} ({{ orderNameList | length }})
