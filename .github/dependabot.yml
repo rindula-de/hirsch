@@ -26,14 +26,6 @@ updates:
       timezone: Europe/Berlin
       time: "09:00"
       day: "sunday"
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    open-pull-requests-limit: 10
-    schedule:
-      interval: "weekly"
-      timezone: Europe/Berlin
-      time: "03:00"
-      day: "sunday"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
