@@ -2,6 +2,7 @@ name: PHP Check
 
 on:
   workflow_call:
+  merge_group:
   pull_request:
     branches: [ master ]
 
@@ -103,7 +104,7 @@ jobs:
           path: coverage-html
   infection:
     name: PHP Infection Test
-    if: ${{ github.event_name == 'pull_request' }}
+    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
     runs-on: ubuntu-latest
     services:
       mariadb:
