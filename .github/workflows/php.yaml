@@ -156,11 +156,9 @@ jobs:
       matrix:
         php: [8.3]
         experimental: [false]
-        include:
-          # includes a new variable of npm with a value of 6
-          # for the matrix leg matching the os and version
-           - php: 8.4
-             experimental: true
+        #include:
+        #   - php: 8.4
+        #     experimental: true
     services:
       mariadb:
         image: mariadb:10.6.4
