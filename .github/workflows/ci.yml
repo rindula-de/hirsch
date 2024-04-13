@@ -77,7 +77,7 @@ jobs:
       - name: Set output
         id: vars
         run: echo tag=${GITHUB_REF#refs/*/} >> $GITHUB_OUTPUT
-      - uses: dev-drprasad/delete-tag-and-release@v1.0.1
+      - uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_release: true # default: false
