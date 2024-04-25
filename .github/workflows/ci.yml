@@ -32,7 +32,7 @@ jobs:
         uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Berlin"
-      - uses: shivammathur/setup-php@2.30.2
+      - uses: shivammathur/setup-php@2.30.4
         with:
           php-version: 8.3
           tools: composer:v2
