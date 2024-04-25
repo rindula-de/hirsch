@@ -3,8 +3,6 @@ name: PHP Check
 on:
   workflow_call:
   merge_group:
-  pull_request:
-    branches: [ master ]
 
 jobs:
   stan:
