@@ -95,7 +95,13 @@ jobs:
             ${{ runner.os }}-php-
       - name: Dependencies
         run: make all -B
-      - run: make coverage_check
+      - run: make coverage.xml
+      - name: Check test coverage
+        id: test-coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: "50"
+          filename: "coverage.xml"
       - uses: actions/upload-artifact@master
         if: ${{ always() }}
         with:
