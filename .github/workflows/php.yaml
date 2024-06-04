@@ -84,7 +84,7 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
           echo "DATABASE_URL=mysql://db:db@127.0.0.1:${DB_PORT}/db?serverVersion=mariadb-10.6.4" >> .env.test.local
-          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> .env.test.local
+          echo "APP_VERSION=test" >> .env.test.local
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v4
@@ -109,7 +109,7 @@ jobs:
           path: coverage-html
   infection:
     name: PHP Infection Test
-    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    if: github.event_name == 'merge_group'
     runs-on: ubuntu-latest
     services:
       mariadb:
