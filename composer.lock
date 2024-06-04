@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb9a7ea82ca47476fba5ffb7399609fc",
+    "content-hash": "0359e2d483f5868da414d1420b6e8d3b",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -9107,16 +9107,16 @@
         },
         {
             "name": "symfonycasts/sass-bundle",
-            "version": "v0.6.0",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/sass-bundle.git",
-                "reference": "aa47da8ae43136a21a764eedb1471f2a168359cb"
+                "reference": "d88601c50eff716d9273dffbd736adefdc19e2fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/sass-bundle/zipball/aa47da8ae43136a21a764eedb1471f2a168359cb",
-                "reference": "aa47da8ae43136a21a764eedb1471f2a168359cb",
+                "url": "https://api.github.com/repos/SymfonyCasts/sass-bundle/zipball/d88601c50eff716d9273dffbd736adefdc19e2fc",
+                "reference": "d88601c50eff716d9273dffbd736adefdc19e2fc",
                 "shasum": ""
             },
             "require": {
@@ -9156,9 +9156,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SymfonyCasts/sass-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/sass-bundle/tree/v0.6.0"
+                "source": "https://github.com/SymfonyCasts/sass-bundle/tree/v0.7.0"
             },
-            "time": "2024-02-26T10:09:48+00:00"
+            "time": "2024-05-22T14:59:07+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
