@@ -7,7 +7,7 @@ version: 2
 updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 100
     allow:
       # Allow both direct and indirect updates for all packages
       - dependency-type: "all"
