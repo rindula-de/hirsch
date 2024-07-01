@@ -3,7 +3,7 @@ name: Autorelease
 on:
   schedule:
     - cron: 0 20 * * 0
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   release:
