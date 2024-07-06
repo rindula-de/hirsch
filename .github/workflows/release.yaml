@@ -16,7 +16,7 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_ACTION_KEY }}
       - name: Set Calver Version
-        uses: Nelyx/action-calver@v1.0.0
+        uses: Nelyx/action-calver@v1.1.0
         id: setcalver
         with:
           default_branch: 'refs/heads/master'
