@@ -7,15 +7,19 @@
 namespace App\Entity;
 
 use App\Repository\DailyFoodRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DailyFoodRepository::class)]
 class DailyFood
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: UuidType::NAME)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private Uuid $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
@@ -23,7 +27,10 @@ class DailyFood
     #[ORM\Column(type: 'date')]
     private \DateTimeInterface $date;
 
-    public function getId(): ?int
+    #[ORM\Column(type: Types::TEXT)]
+    private string $file = "";
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -48,6 +55,18 @@ class DailyFood
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getFile(): string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): static
+    {
+        $this->file = $file;
 
         return $this;
     }

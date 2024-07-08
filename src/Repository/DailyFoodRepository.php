@@ -51,4 +51,27 @@ class DailyFoodRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function save(DailyFood $food, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($food);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    /**
+     * @return array{'date': \DateTime, 'gericht': string}
+     */
+    public function getDailyFood(): array
+    {
+        $data = $this->createQueryBuilder('d')
+            ->select('d.date', 'd.name as gericht')
+            ->getQuery()
+            ->getResult();
+        // set time of date to 14:00:00
+        foreach ($data as $key => $value) {
+            $data[$key]['date'] = $value['date']->setTime(14, 0, 0);
+        }
+        return $data;
+    }
 }
