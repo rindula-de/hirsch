@@ -51,7 +51,7 @@ class DailyFoodRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function save(DailyFood $food, bool $flush = true)
+    public function save(DailyFood $food, bool $flush = true): void
     {
         $this->getEntityManager()->persist($food);
         if ($flush) {
@@ -59,7 +59,10 @@ class DailyFoodRepository extends ServiceEntityRepository
         }
     }
 
-    public function getDailyFood()
+    /**
+     * @return array{'date': \DateTime, 'gericht': string}
+     */
+    public function getDailyFood(): array
     {
         $data = $this->createQueryBuilder('d')
             ->select('d.date', 'd.name as gericht')

@@ -28,7 +28,7 @@ class DailyFood
     private \DateTimeInterface $date;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $file = null;
+    private string $file = "";
 
     public function getId(): ?Uuid
     {
@@ -59,7 +59,7 @@ class DailyFood
         return $this;
     }
 
-    public function getFile(): ?string
+    public function getFile(): string
     {
         return $this->file;
     }
