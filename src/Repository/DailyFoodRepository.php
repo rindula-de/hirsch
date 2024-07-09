@@ -66,6 +66,9 @@ class DailyFoodRepository extends ServiceEntityRepository
     {
         $data = $this->createQueryBuilder('d')
             ->select('d.date', 'd.name as gericht')
+            // limit to this week
+            ->andWhere('d.date >= :start')
+            ->setParameter('start', new \DateTime('monday this week'))
             ->getQuery()
             ->getResult();
         // set time of date to 14:00:00
