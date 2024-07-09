@@ -60,7 +60,7 @@ class DailyFoodRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array{'date': \DateTime, 'gericht': string}
+     * @return array{int: array{'date': \DateTime, 'gericht': string}}
      */
     public function getDailyFood(): array
     {
