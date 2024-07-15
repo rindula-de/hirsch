@@ -19,19 +19,11 @@ jobs:
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_ACTION_KEY }}
-      - name: Set Calver Version
-        uses: Nelyx/action-calver@v1.1.0
-        id: setcalver
-        with:
-          default_branch: 'refs/heads/master'
-          format: 'YYYY.M'
-          version_prefix: ''
-      - name: Release
+      - name: Calver Release
+        uses: StephaneBour/actions-calver@master
+        id: calver
         if: ${{ env.LATEST_VERSION != github.sha }}
-        uses: softprops/action-gh-release@v2
         with:
-          token: ${{ steps.app-token.outputs.token }}
-          draft: false
-          prerelease: false
-          tag_name: ${{ steps.setcalver.outputs.package_version }}
-          generate_release_notes: true
+          date_format: "%Y.%V"
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
