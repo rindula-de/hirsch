@@ -178,7 +178,8 @@ final class SyncMenuMessageHandler
                     break;
                 }
                 // delete the mails so the inbox is empty again
-                imap_delete($mbox, $emailId);
+                if ($message->delete)
+                    imap_delete($mbox, $emailId);
             }
         }
 

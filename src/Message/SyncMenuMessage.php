@@ -9,8 +9,8 @@ final class SyncMenuMessage
      * to hold the data for this message class.
      */
 
-    // public function __construct(
-    //     public readonly string $name,
-    // ) {
-    // }
+     public function __construct(
+         public readonly bool $delete = true,
+     ) {
+     }
 }
